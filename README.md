@@ -39,6 +39,13 @@ Currently implemented traits are:
   * Monoid<T> (An alias for Add<T> + Zero<T>)
   * Show
 
+There are many notable traits missing such as Functor, Applicative and Monad.
+These are on the radar but due to the nature of C++ will require me to come
+up with a standard type erasure method and i don't want to jump to a solution
+without doing more research. Expect them soon though.
+
+Also, expect many other unlisted traits soon.
+
 Types
 -----
 
@@ -54,3 +61,8 @@ Currenty Implemented types are:
   * UInt16
   * UInt32
   * UInt64
+  * containers::monoid::Max<T>
+  * containers::monoid::Min<T>
+
+Just basic numerics at the moment and some `Monoid<T>` containers. Many more
+to come soon.
