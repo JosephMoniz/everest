@@ -24,20 +24,20 @@ Traits
 
 Currently implemented traits are:
 
-  * Unwrappable<T>
-  * Eq<T>
-  * Ord<T>
-  * Orderable<T> (should collapse into Ord soon)
-  * Bounded<T>
-  * Add<T> (analogous to SemiGroup)
-  * Subtract<T>
-  * Multiply<T>
-  * Divide<T>
-  * Remainder<T>
-  * Zero<T>
-  * One<T>
-  * Monoid<T> (An alias for Add<T> + Zero<T>)
-  * Show
+  * `Unwrappable<T>`
+  * `Eq<T>`
+  * `Ord<T>`
+  * `Orderable<T>` (should collapse into Ord soon)
+  * `Bounded<T>`
+  * `Add<T>` (analogous to SemiGroup)
+  * `Subtract<T>`
+  * `Multiply<T>`
+  * `Divide<T>`
+  * `Remainder<T>`
+  * `Zero<T>`
+  * `One<T>`
+  * `Monoid<T>` (An alias for Add<T> + Zero<T>)
+  * `Show`
 
 There are many notable traits missing such as Functor, Applicative and Monad.
 These are on the radar but due to the nature of C++ will require me to come
@@ -51,18 +51,18 @@ Types
 
 Currenty Implemented types are:
 
-  * Int
-  * Int8
-  * Int16
-  * Int32
-  * Int64
-  * UInt
-  * UInt8
-  * UInt16
-  * UInt32
-  * UInt64
-  * containers::monoid::Max<T>
-  * containers::monoid::Min<T>
+  * `Int`
+  * `Int8`
+  * `Int16`
+  * `Int32`
+  * `Int64`
+  * `UInt`
+  * `UInt8`
+  * `UInt16`
+  * `UInt32`
+  * `UInt64`
+  * `containers::monoid::Max<T>`
+  * `containers::monoid::Min<T>`
 
 Just basic numerics at the moment and some `Monoid<T>` containers. Many more
 to come soon.
