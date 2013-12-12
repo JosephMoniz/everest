@@ -1,0 +1,54 @@
+Traitorous
+==========
+
+Traitorous is an almost complete divorcement from C++'s standard template
+library. The idea is to explore alternative methods for expressing
+computation in C++ while sneaking in some additional composability through
+the side door. Immutability and other general functional programming
+practices have been important in the design process behind this library
+and will continue to be the moral compass behind it.
+
+Those familiar with Haskell's or Rust's type class hierarchy shouldn't be
+to surprised by some of the `traits` present. The majority of them are
+shamelessy stolen and just ported to C++ as abstract interfaces.
+
+At the time of creation for this library `C++ concepts` (type classes)
+have yet to be formaly standardized and implemented. Once they become
+implemented in major compilers, it may be worth revisiting this
+library leveraging `concepts` as the backbone instead.
+
+Traits
+------
+
+Currently implemented traits are:
+
+  * Unwrappable<T>
+  * Eq<T>
+  * Ord<T>
+  * Orderable<T> (should collapse into Ord soon)
+  * Bounded<T>
+  * Add<T> (analogous to SemiGroup)
+  * Subtract<T>
+  * Multiply<T>
+  * Divide<T>
+  * Remainder<T>
+  * Zero<T>
+  * One<T>
+  * Monoid<T> (An alias for Add<T> + Zero<T>)
+  * Show
+
+Types
+-----
+
+Currenty Implemented types are:
+
+  * Int
+  * Int8
+  * Int16
+  * Int32
+  * Int64
+  * UInt
+  * UInt8
+  * UInt16
+  * UInt32
+  * UInt64
