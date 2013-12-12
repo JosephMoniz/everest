@@ -27,7 +27,6 @@ Currently implemented traits are:
   * `Unwrappable<T>`
   * `Eq<T>`
   * `Ord<T>`
-  * `Orderable<T>` (should collapse into Ord soon)
   * `Bounded<T>`
   * `Add<T>` (analogous to SemiGroup)
   * `Subtract<T>`

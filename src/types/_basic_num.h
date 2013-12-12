@@ -6,7 +6,7 @@
 
 #include "traits/unwrappable.h"
 #include "traits/eq.h"
-#include "traits/orderable.h"
+#include "traits/ord.h"
 #include "traits/bounded.h"
 #include "traits/one.h"
 #include "traits/monoid.h"
@@ -19,7 +19,7 @@
 template <class S, class T>
 class BasicNum : public Unwrappable<T>,
                  public Eq<S>,
-                 public Orderable<S>,
+                 public Ord<S>,
                  public Bounded<S>,
                  public One<S>,
                  public Monoid<S>,
@@ -27,8 +27,7 @@ class BasicNum : public Unwrappable<T>,
                  public Multiply<S>,
                  public Divide<S>,
                  public Remainder<S>,
-                 public Show,
-                 public std::enable_shared_from_this<S>
+                 public Show
 {
 
   T value;
@@ -52,22 +51,6 @@ public:
       return GREATER;
     } else {
       return EQUAL;
-    }
-  }
-
-  virtual std::shared_ptr<S> min(std::shared_ptr<S> other) {
-    switch(this->cmp(other)) {
-      case LESS:    return this->shared_from_this();
-      case EQUAL:   return this->shared_from_this();
-      case GREATER: return other;
-    }
-  }
-
-  virtual std::shared_ptr<S> max(std::shared_ptr<S> other) {
-    switch(this->cmp(other)) {
-      case LESS:    return other;
-      case EQUAL:   return this->shared_from_this();
-      case GREATER: return this->shared_from_this();
     }
   }
 

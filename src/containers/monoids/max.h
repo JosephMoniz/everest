@@ -6,18 +6,17 @@
 
 #include "traits/unwrappable.h"
 #include "traits/eq.h"
-#include "traits/orderable.h"
+#include "traits/ord.h"
 #include "traits/bounded.h"
 #include "traits/monoid.h"
 
 template<class S>
 class Max : public Unwrappable<std::shared_ptr<S>>,
             public Eq<Max<S>>,
-            public Orderable<Max<S>>,
+            public Ord<Max<S>>,
             public Bounded<Max<S>>,
             public Monoid<Max<S>>,
-            public Show,
-            public std::enable_shared_from_this<Max<S>>
+            public Show
 {
 
   std::shared_ptr<S> value;
@@ -38,22 +37,6 @@ public:
 
   virtual Ordering cmp(std::shared_ptr<Max<S>> other) {
     return this->get_value()->cmp(other->get_value());
-  }
-
-  virtual std::shared_ptr<Max<S>> min(std::shared_ptr<Max<S>> other) {
-    switch(this->cmp(other)) {
-      case LESS:    return other;
-      case EQUAL:   return this->shared_from_this();
-      case GREATER: return this->shared_from_this();
-    }
-  }
-
-  virtual std::shared_ptr<Max<S>> max(std::shared_ptr<Max<S>> other) {
-    switch(this->cmp(other)) {
-      case LESS:    return this->shared_from_this();
-      case EQUAL:   return this->shared_from_this();
-      case GREATER: return other;
-    }
   }
 
   virtual std::shared_ptr<Max<S>> add(std::shared_ptr<Max<S>> other) {

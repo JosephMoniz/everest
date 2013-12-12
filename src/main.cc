@@ -2,22 +2,6 @@
 #include <functional>
 #include <limits>
 
-#include "traits/unwrappable.h"
-#include "traits/eq.h"
-#include "traits/orderable.h"
-#include "traits/bounded.h"
-#include "traits/add.h"
-#include "traits/subtract.h"
-#include "traits/multiply.h"
-#include "traits/divide.h"
-#include "traits/remainder.h"
-#include "traits/zero.h"
-#include "traits/one.h"
-#include "traits/monoid.h"
-//#include "functor.h"
-//#include "applicative.h"
-//#include "monad.h"
-
 #include "types/int.h"
 #include "types/int8.h"
 #include "types/int16.h"
