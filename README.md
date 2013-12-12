@@ -17,6 +17,8 @@ have yet to be formaly standardized and implemented. Once they become
 implemented in major compilers, it may be worth revisiting this
 library leveraging `concepts` as the backbone instead.
 
+Currently, this is still a heavy work in progress. Expect much to change.
+
 Traits
 ------
 
