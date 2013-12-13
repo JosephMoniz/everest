@@ -33,6 +33,9 @@ Currently implemented traits are:
   * `Multiply<T>`
   * `Divide<T>`
   * `Remainder<T>`
+  * `Container`
+  * `Map`
+  * `Hashable`
   * `BitAnd<T>`
   * `BitOr<T>`
   * `BitXor<T>`
@@ -67,6 +70,7 @@ Currenty Implemented types are:
   * `UInt64`
   * `containers::monoid::Max<T>`
   * `containers::monoid::Min<T>`
+  * `containers::Option<T>`
 
 Just basic numerics at the moment and some `Monoid<T>` containers. Many more
 to come soon.
