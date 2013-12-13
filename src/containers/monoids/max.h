@@ -10,13 +10,16 @@
 #include "traits/bounded.h"
 #include "traits/monoid.h"
 
+#include "types/any.h"
+
 template<class S>
 class Max : public Unwrappable<std::shared_ptr<S>>,
             public Eq<Max<S>>,
             public Ord<Max<S>>,
             public Bounded<Max<S>>,
             public Monoid<Max<S>>,
-            public Show
+            public Show,
+            public Any
 {
 
   std::shared_ptr<S> value;

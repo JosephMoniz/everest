@@ -33,6 +33,11 @@ Currently implemented traits are:
   * `Multiply<T>`
   * `Divide<T>`
   * `Remainder<T>`
+  * `BitAnd<T>`
+  * `BitOr<T>`
+  * `BitXor<T>`
+  * `ShiftLeft<S>`
+  * `ShiftRight<S>`
   * `Zero<T>`
   * `One<T>`
   * `Monoid<T>` (An alias for Add<T> + Zero<T>)

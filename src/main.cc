@@ -2,6 +2,10 @@
 #include <functional>
 #include <limits>
 
+#include "traits/container.h"
+#include "traits/hashable.h"
+#include "traits/map.h"
+
 #include "types/int.h"
 #include "types/int8.h"
 #include "types/int16.h"
@@ -13,6 +17,7 @@
 #include "types/uint32.h"
 #include "types/uint64.h"
 
+#include "containers/option.h"
 #include "containers/monoids/max.h"
 #include "containers/monoids/min.h"
 
@@ -38,7 +43,6 @@ int main(int argc, char **argv) {
   std::cout << "cmp min: " << a->min(b)->show() << std::endl;
   std::cout << std::endl;
 
-
   auto a1 = std::make_shared<Max<Int>>(3);
   auto b1 = std::make_shared<Max<Int>>(9);
   auto c1 = std::make_shared<Max<Int>>(4);
@@ -58,6 +62,25 @@ int main(int argc, char **argv) {
   std::cout << "Min(3) + Min(9) + Min(2) = "
             << a2->add(b2)->add(c2)->show()
             << std::endl;
+  std::cout << std::endl;
+
+
+  auto some1 = std::make_shared<Some<UInt>>(6);
+  auto some2 = std::make_shared<Some<UInt>>(3);
+  auto some3 = std::make_shared<Some<UInt>>(6);
+  auto none  = std::make_shared<None<UInt>>();
+  
+  std::cout << "== Option" << std::endl;
+  std::cout << "print some: " << some1->show() << std::endl;
+  std::cout << "print none: " << none->show() << std::endl;
+  std::cout << "Some(6) == Some(3): " << some1->equals(some2) << std::endl;
+  std::cout << "Some(6) == Some(6): " << some1->equals(some3) << std::endl;
+  std::cout << "Some(6) == None: " << some1->equals(none) << std::endl;
+  std::cout << "None == Some(6): " << none->equals(some1) << std::endl;
+  std::cout << "Some(6).length(): " << some1->length()->show() << std::endl;
+  std::cout << "None.length(): " << none->length()->show() << std::endl;
+  std::cout << "Some(6).is_empty(): " << some1->is_empty() << std::endl;
+  std::cout << "None.is_empty(): " << none->is_empty() << std::endl;
   std::cout << std::endl;
 
 

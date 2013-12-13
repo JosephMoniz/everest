@@ -1,12 +1,16 @@
 #ifndef TRAITOROUS_TRAITS_FUNCTOR
 #define TRAITOROUS_TRAITS_FUNCTOR 1
 
-template<class T>
+#include <memory>
+
+#include "types/any.h"
+
+template<template<class> class S, class T>
 class Functor {
 public:
 
-  template<class S, class B>
-  virtual S map(std::function<B(T)> fn) = 0;
+  virtual std::shared_ptr<S<Any>>
+  map(std::function<std::shared_ptr<Any>(std::shared_ptr<T>)> fn) = 0;
 
 };
 

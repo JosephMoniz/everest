@@ -10,13 +10,16 @@
 #include "traits/bounded.h"
 #include "traits/monoid.h"
 
+#include "types/any.h"
+
 template<class S>
 class Min : public Unwrappable<std::shared_ptr<S>>,
             public Eq<Min<S>>,
             public Ord<Min<S>>,
             public Bounded<Min<S>>,
             public Monoid<Min<S>>,
-            public Show
+            public Show,
+            public Any
 {
 
   std::shared_ptr<S> value;

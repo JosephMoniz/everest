@@ -14,7 +14,14 @@
 #include "traits/multiply.h"
 #include "traits/divide.h"
 #include "traits/remainder.h"
+#include "traits/bit_and.h"
+#include "traits/bit_or.h"
+#include "traits/bit_xor.h"
+#include "traits/shift_left.h"
+#include "traits/shift_right.h"
 #include "traits/show.h"
+
+#include "types/any.h"
 
 template <class S, class T>
 class BasicNum : public Unwrappable<T>,
@@ -27,7 +34,13 @@ class BasicNum : public Unwrappable<T>,
                  public Multiply<S>,
                  public Divide<S>,
                  public Remainder<S>,
-                 public Show
+                 public BitAnd<S>,
+                 public BitOr<S>,
+                 public BitXor<S>,
+                 public ShiftLeft<S>,
+                 public ShiftRight<S>,
+                 public Show,
+                 public Any
 {
 
   T value;
@@ -80,6 +93,26 @@ public:
 
   virtual std::shared_ptr<S> remainder(std::shared_ptr<S> other) {
     return std::make_shared<S>(this->get_value() % other->get_value());
+  }
+
+  virtual std::shared_ptr<S> bit_and(std::shared_ptr<S> other) {
+    return std::make_shared<S>(this->get_value() & other->get_value());
+  }
+
+  virtual std::shared_ptr<S> bit_or(std::shared_ptr<S> other) {
+    return std::make_shared<S>(this->get_value() | other->get_value());
+  }
+
+  virtual std::shared_ptr<S> bit_xor(std::shared_ptr<S> other) {
+    return std::make_shared<S>(this->get_value() ^ other->get_value());
+  }
+
+  virtual std::shared_ptr<S> shift_left(std::shared_ptr<S> other) {
+    return std::make_shared<S>(this->get_value() << other->get_value());
+  }
+
+  virtual std::shared_ptr<S> shift_right(std::shared_ptr<S> other) {
+    return std::make_shared<S>(this->get_value() >> other->get_value());
   }
 
   virtual std::shared_ptr<S> zero() {
