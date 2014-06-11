@@ -55,8 +55,8 @@ private:
   data_t data;
 
   static inline size_t invalid_type() {
-		return typeid(void).hash_code();
-	}
+    return typeid(void).hash_code();
+  }
 
 public:
 
