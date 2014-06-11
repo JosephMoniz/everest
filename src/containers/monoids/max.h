@@ -2,74 +2,54 @@
 #define TRAITOROUS_CONTAINERS_MONOIDS_MAX 1
 
 #include <string>
-#include <memory>
 
-#include "traits/unwrappable.h"
-#include "traits/eq.h"
 #include "traits/ord.h"
-#include "traits/bounded.h"
+#include "traits/zero.h"
+#include "traits/semigroup.h"
 #include "traits/monoid.h"
+#include "traits/show.h"
 
-#include "types/any.h"
-
-template<class S>
-class Max : public Unwrappable<std::shared_ptr<S>>,
-            public Eq<Max<S>>,
-            public Ord<Max<S>>,
-            public Bounded<Max<S>>,
-            public Monoid<Max<S>>,
-            public Show,
-            public Any
-{
-
-  std::shared_ptr<S> value;
-
+template <class T,
+          class = typename std::enable_if<ord<T>::exists>::type,
+          class = typename std::enable_if<zero_val<T>::exists>::type>
+class max_monoid {
+private:
+  const T _n;
 public:
-
-  Max<S>(std::shared_ptr<S> n) : value(n) { }
-
-  Max<S>(S n) : value(std::make_shared<S>(n)) { }
-
-  virtual std::shared_ptr<S> get_value() {
-    return value;
+  max_monoid(const T& n): _n(n) {}
+  constexpr T value() { return _n; }
+  constexpr max_monoid<T> add(const max_monoid<T>& lhs, const max_monoid<T>& rhs) {
+    return semigroup<max_monoid<T>>::add(lhs, rhs);
   }
+};
 
-  virtual bool equals(std::shared_ptr<Max<S>> other) {
-    return this->get_value()->equals(other->get_value());
+template <class T>
+struct zero_val<max_monoid<T>> {
+  static constexpr T zero() { return zero_val<max_monoid<T>>::zero(); }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct semigroup<max_monoid<T>> {
+  static constexpr max_monoid<T> add(const max_monoid<T>& lhs,
+                                     const max_monoid<T>& rhs)
+  {
+    return ord<T>::max(lhs.value(), rhs.value());
   }
+  static constexpr bool exists = true;
+};
 
-  virtual Ordering cmp(std::shared_ptr<Max<S>> other) {
-    return this->get_value()->cmp(other->get_value());
+template <class T>
+struct monoid<max_monoid<T>> {
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct shows<max_monoid<T>> {
+  static const std::string show(const max_monoid<T>& n) {
+    return std::string("max_monoid(") + shows<T>::show(n.value()) + ")";
   }
-
-  virtual std::shared_ptr<Max<S>> add(std::shared_ptr<Max<S>> other) {
-    return std::make_shared<Max<S>>(this->get_value()->max(other->get_value()));
-  }
-
-  virtual std::shared_ptr<Max<S>> min_value() {
-    return std::make_shared<Max<S>>(this->get_value()->min_value());
-  }
-
-  virtual std::shared_ptr<Max<S>> max_value() {
-    return std::make_shared<Max<S>>(this->get_value()->max_value());
-  }
-
-  virtual std::shared_ptr<Max<S>> operator+(std::shared_ptr<Max<S>> other) {
-    return std::make_shared<Max<S>>(this->get_value()->max(other->get_value()));
-  }
-
-  virtual std::shared_ptr<Max<S>> zero() {
-    return std::make_shared<Max<S>>(this->get_value()->min_value());
-  }
-
-  virtual bool is_zero() {
-    return this->get_value()->equals(this->zero()->get_value());
-  }
-
-  virtual std::string show() {
-    return std::string("Max(") + this->value->show() + ")";
-  }
-
+  static constexpr bool exists = true;
 };
 
 #endif

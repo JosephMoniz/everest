@@ -1,18 +1,23 @@
 #ifndef TRAITOROUS_TRAITS_EQ
 #define TRAITOROUS_TRAITS_EQ 1
 
-#include <memory>
-
-template<class S>
-class Eq {
-public:
-
-  virtual bool equals(std::shared_ptr<S> other) = 0;
-
-  virtual bool operator==(std::shared_ptr<S> other) {
-    return this->equals(other);
-  }
-
+template <class T>
+struct eq {
+  // bool equals()
+  static constexpr bool exists = false;
 };
+
+template <class T>
+struct default_eq {
+  static constexpr bool equals(const T& lhs, const T& rhs) noexcept {
+    return lhs == rhs;
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T, class = typename std::enable_if<eq<T>::exists>::type>
+constexpr bool equals(const T& lhs, const T& rhs) noexcept {
+  return eq<T>::equals(lhs, rhs);
+}
 
 #endif

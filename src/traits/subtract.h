@@ -1,18 +1,23 @@
 #ifndef TRAITOROUS_TRAITS_SUBTRACT
 #define TRAITOROUS_TRAITS_SUBTRACT 1
 
-#include <memory>
-
-template<class S>
-class Subtract {
-public:
-
-  virtual std::shared_ptr<S> subtract(std::shared_ptr<S> other) = 0;
-
-  virtual std::shared_ptr<S> operator-(std::shared_ptr<S> other) {
-    return this->subtract(other);
-  }
-
+template <class T>
+struct subtractable {
+  // T subtract()
+  static constexpr bool exists = false;
 };
+
+template <class T>
+struct default_subtract {
+  static constexpr T subtract(const T& lhs, const T& rhs) noexcept {
+    return lhs - rhs;
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T, class = typename std::enable_if<subtractable<T>::exists>::type>
+constexpr T subtract(const T& lhs, const T& rhs) noexcept {
+  return subtractable<T>::subtract(lhs, rhs);
+}
 
 #endif

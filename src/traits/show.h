@@ -1,13 +1,15 @@
 #ifndef TRAITOROUS_TRAITS_SHOW
 #define TRAITOROUS_TRAITS_SHOW 1
 
-#include <string>
-
-class Show {
-public:
-
-  virtual std::string show() = 0;
-
+template <class T>
+struct shows {
+  // std::string str()
+  static constexpr bool exists = false;
 };
+
+template <class T, class = typename std::enable_if<shows<T>::exists>::type>
+const std::string show(const T& n) noexcept {
+  return shows<T>::show(n);
+}
 
 #endif

@@ -1,4 +1,4 @@
-CC=g++
+CC=g++-4.9
 
 BUILDDIR=build
 SRCDIR=src
@@ -8,7 +8,7 @@ CFLAGS += -Wextra
 CFLAGS += -Werror
 CFLAGS += -Wno-unused-parameter
 CFLAGS += -Wno-return-type
-CFLAGS += --std=c++11
+CFLAGS += --std=c++1y
 
 CFLAGS_FAST = $(CFLAGS) -O3
 CFLAGS_DEBUG = $(CFLAGS) -O0 -g

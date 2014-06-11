@@ -1,18 +1,21 @@
 #ifndef TRAITOROUS_TRAITS_MULTIPLY
 #define TRAITOROUS_TRAITS_MULTIPLY 1
 
-#include <memory>
-
-template<class S>
-class Multiply {
-public:
-
-  virtual std::shared_ptr<S> multiply(std::shared_ptr<S> other) = 0;
-
-  virtual std::shared_ptr<S> operator*(std::shared_ptr<S> other) {
-    return this->multiply(other);
-  }
-
+template <class T>
+struct multipliable {
+  // T multiply()
+  static constexpr bool exists = false;
 };
+
+template <class T>
+struct default_multipliable {
+  T multiply(const T& lhs, const T& rhs) noexcept { return lhs * rhs; }
+  static constexpr bool exists = true;
+};
+
+template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
+constexpr T multiply(const T& lhs, const T& rhs) noexcept {
+  return multipliable<T>::multiply(lhs, rhs);
+}
 
 #endif

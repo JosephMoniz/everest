@@ -1,21 +1,8 @@
 #include <iostream>
 #include <functional>
-#include <limits>
-
-#include "traits/container.h"
-#include "traits/hashable.h"
-#include "traits/map.h"
+#include <string>
 
 #include "types/int.h"
-#include "types/int8.h"
-#include "types/int16.h"
-#include "types/int32.h"
-#include "types/int64.h"
-#include "types/uint.h"
-#include "types/uint8.h"
-#include "types/uint16.h"
-#include "types/uint32.h"
-#include "types/uint64.h"
 
 #include "containers/option.h"
 #include "containers/monoids/max.h"
@@ -23,48 +10,49 @@
 
 int main(int argc, char **argv) {
 
-  auto a = std::make_shared<Int>(6);
-  auto b = std::make_shared<Int>(4);
+  std::cout << "== Basic" << std::endl;
+  std::cout << show(add(zero<int>(), max_value<int>())) << std::endl;
+  std::cout << show(map<option, int, int>(option<int>(42), [](const int& n) { return n * 2; })) << std::endl;
+  std::cout << std::endl;
+
+  int a = 6;
+  int b = 4;
 
   std::cout << "=== Int" << std::endl;
-  std::cout << "a: " << a->show() << std::endl;
-  std::cout << "bounded min: " << a->min_value()->show() << std::endl;
-  std::cout << "bounded max: " << a->max_value()->show() << std::endl;
-  std::cout << "add: " << a->add(b)->show() << std::endl;
-  std::cout << "subtract: " << a->subtract(b)->show() << std::endl;
-  std::cout << "multiply: " << a->multiply(b)->show() << std::endl;
-  std::cout << "divide: " << a->divide(b)->show() << std::endl;
-  std::cout << "remainder: " << a->remainder(b)->show() << std::endl;
-  std::cout << "zero: " << a->zero()->show() << std::endl;
-  std::cout << "one: " << a->one()->show() << std::endl;
-  std::cout << "negate: " << a->negate()->show() << std::endl;
-  std::cout << "monoid: " << a->add(a->zero())->show() << std::endl;
-  std::cout << "cmp max: " << a->max(b)->show() << std::endl;
-  std::cout << "cmp min: " << a->min(b)->show() << std::endl;
+  std::cout << "bounded min: " << min_value<int>() << std::endl;
+  std::cout << "bounded max: " << max_value<int>() << std::endl;
+  std::cout << "add: " << add(a, b) << std::endl;
+  std::cout << "subtract: " << subtract(a, b) << std::endl;
+  //std::cout << "multiply: " << multiply(a, b) << std::endl;
+  //std::cout << "divide: " << divide(a, b) << std::endl;
+  //std::cout << "remainder: " << remainder(a, b) << std::endl;
+  std::cout << "zero: " << zero<int>() << std::endl;
+  std::cout << "one: " << one<int>() << std::endl;
+  //std::cout << "negate: " << negate(a) << std::endl;
+  std::cout << "monoid: " << add(a, zero<int>()) << std::endl;
+  std::cout << "cmp max: " << max(a, b) << std::endl;
+  std::cout << "cmp min: " << min(a, b) << std::endl;
   std::cout << std::endl;
 
-  auto a1 = std::make_shared<Max<Int>>(3);
-  auto b1 = std::make_shared<Max<Int>>(9);
-  auto c1 = std::make_shared<Max<Int>>(4);
+ std::cout << "== Monoid Max" << std::endl;
+ auto a1 = max_monoid<int>(3);
+ auto a2 = max_monoid<int>(9);
+ auto a3 = max_monoid<int>(2);
 
-  std::cout << "=== Max Monoid" << std::endl;
-  std::cout << "Max(3) + Max(9) + Max(2) = "
-            << a1->add(b1)->add(c1)->show()
-            << std::endl;
-  std::cout << std::endl;
+ std::cout << "max_monoid(3) + max_monoid(9) + max_monoid(2) = ";
+ std::cout << show(add(a1, add(a2, a3))) << std::endl;
+ std::cout << std::endl;
 
+ std::cout << "== Monoid min" << std::endl;
+ auto b1 = min_monoid<int>(3);
+ auto b2 = min_monoid<int>(9);
+ auto b3 = min_monoid<int>(2);
 
-  auto a2 = std::make_shared<Min<Int>>(3);
-  auto b2 = std::make_shared<Min<Int>>(9);
-  auto c2 = std::make_shared<Min<Int>>(4);
+ std::cout << "min_monoid(3) + min_monoid(9) + min_monoid(2) = ";
+ std::cout << show(add(b1, add(b2, b3))) << std::endl;
+ std::cout << std::endl;
 
-  std::cout << "=== Min Monoid" << std::endl;
-  std::cout << "Min(3) + Min(9) + Min(2) = "
-            << a2->add(b2)->add(c2)->show()
-            << std::endl;
-  std::cout << std::endl;
-
-
+  /*
   auto some1 = std::make_shared<Some<UInt>>(6);
   auto some2 = std::make_shared<Some<UInt>>(3);
   auto some3 = std::make_shared<Some<UInt>>(6);
@@ -85,5 +73,6 @@ int main(int argc, char **argv) {
 
 
   return 0;
+  */
 
 }

@@ -1,14 +1,15 @@
 #ifndef TRAITOROUS_TRAITS_ONE
 #define TRAITOROUS_TRAITS_ONE 1
 
-#include <memory>
-
-template<class S>
-class One {
-public:
-
-  virtual std::shared_ptr<S> one() = 0;
-
+template <class T>
+struct one_val {
+  // T one()
+  static constexpr bool exists = false;
 };
+
+template <class T, class = typename std::enable_if<one_val<T>::exists>::type>
+constexpr T one() noexcept {
+  return one_val<T>::one();
+}
 
 #endif

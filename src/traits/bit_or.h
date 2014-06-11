@@ -1,18 +1,23 @@
 #ifndef TRAITOROUS_TRAITS_BITOR
 #define TRAITOROUS_TRAITS_BITOR 1
 
-#include <memory>
-
-template<class S>
-class BitOr {
-public:
-
-  virtual std::shared_ptr<S> bit_or(std::shared_ptr<S> other) = 0;
-
-  virtual std::shared_ptr<S> operator|(std::shared_ptr<S> other) {
-    return this->bit_or(other);
-  }
-
+template <class T>
+struct bit_or {
+  // T or()
+  static constexpr bool exists = false;
 };
+
+template <class T>
+struct default_or {
+  static constexpr bool apply(const T& lhs, const T& rhs) noexcept {
+    return lhs | rhs;
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T, class = typename std::enable_if<bit_or<T>::exists>::type>
+constexpr bool b_or(const T& lhs, const T& rhs) noexcept {
+  return bit_or<T>::apply(lhs, rhs);
+}
 
 #endif

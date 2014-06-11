@@ -1,18 +1,21 @@
 #ifndef TRAITOROUS_TRAITS_DIVIDE
 #define TRAITOROUS_TRAITS_DIVIDE 1
 
-#include <memory>
-
-template<class S>
-class Divide {
-public:
-
-  virtual std::shared_ptr<S> divide(std::shared_ptr<S> other) = 0;
-
-  virtual std::shared_ptr<S> operator/(std::shared_ptr<S> other) {
-    return this->divide(other);
-  }
-
+template <class T>
+struct dividable {
+  // T divide()
+  static constexpr bool exists = false;
 };
+
+template <class T>
+struct default_dividable {
+  T divide(const T& lhs, const T& rhs) noexcept { return lhs / rhs; }
+  static constexpr bool exists = true;
+};
+
+template <class T, class = typename std::enable_if<dividable<T>::exists>::type>
+constexpr T divide(const T& lhs, const T& rhs) noexcept {
+  return dividable<T>::divide(lhs, rhs);
+}
 
 #endif

@@ -2,98 +2,53 @@
 #define TRAITOROUS_CONTAINERS_OPTION 1
 
 #include <string>
-#include <memory>
-#include <exception>
-#include <stdexcept>
 
-#include "traits/unwrappable.h"
-#include "traits/eq.h"
-#include "traits/container.h"
-#include "traits/zero.h"
+#include "core/tagged_union.h"
+
+#include "traits/catamorphism.h"
+#include "traits/functor.h"
 #include "traits/show.h"
 
-#include "types/any.h"
+struct none {} none_instance;
 
-template<class S>
-class Option : public Unwrappable<std::shared_ptr<S>>,
-               public Eq<Option<S>>,
-               public Zero<Option<S>>,
-               public Container,
-               public Show,
-               public Any
-{ };
+struct some_ {} some;
 
-template<class S>
-class None : public Option<S> {
-public:
+template <class T>
+using option = tagged_union<T, none>;
 
-  None<S>() { }
-
-  virtual std::shared_ptr<S> get_value() {
-    throw std::runtime_error("Can't call #get_value() on None");
+template <class T>
+struct catamorphism<option<T>> {
+  template <class R>
+  static constexpr R cata(const option<T>& o,
+                          std::function<R()> n,
+                          std::function<R(const T&)> s)
+  {
+    return (o.template is<none>()) ? n() : s(o.template get<T>());
   }
-
-  virtual bool equals(std::shared_ptr<Option<S>> other) {
-    return other->is_empty();
-  }
-
-  virtual std::shared_ptr<Option<S>> zero() {
-    return std::make_shared<None<S>>();
-  }
-
-  virtual std::shared_ptr<UInt> length() {
-    return std::make_shared<UInt>(0);
-  }
-
-  virtual bool is_empty() {
-    return true;
-  }
-
-  virtual std::string show() {
-    return std::string("None");
-  }
-
+  static constexpr bool exists = true;
 };
 
-template<class S>
-class Some : public Option<S> {
-
-  std::shared_ptr<S> value;
-
-public:
-
-  Some<S>(std::shared_ptr<S> n) : value(n) { }
-
-  Some<S>(S n) : value(std::make_shared<S>(n)) { }
-
-  virtual std::shared_ptr<S> get_value() {
-    return value;
+template <class T>
+struct functor<option<T>> {
+  template <class R>
+  static constexpr option<R> map(const option<T>& n, std::function<R(const T&)> f) {
+    return catamorphism<option<T>>::cata<option<R>>(n,
+      []() { auto n = option<R>(); n.template set<none>(none_instance); return n; },
+      [f](const T& n) { return option<R>(f(n)); }
+    );
   }
+  static constexpr bool exists = true;
+};
 
-  virtual bool equals(std::shared_ptr<Option<S>> other) {
-    if (other->is_empty()) {
-      return false;
-    } else {
-      return this->get_value()->equals(other->get_value());
-    }
+template <class T>
+struct shows<option<T>> {
+  static const std::string show(const option<T>& n) {
+    return catamorphism<option<T>>::cata<std::string>(n,
+      []() { return std::string("None"); },
+      [](const T& n) { return std::string("Some(") + shows<T>::show(n) + ")"; }
+    );
   }
-
-  virtual std::shared_ptr<Option<S>> zero() {
-    return std::make_shared<None<S>>();
-  }
-
-  virtual std::shared_ptr<UInt> length() {
-    return std::make_shared<UInt>(1);
-  }
-
-  virtual bool is_empty() {
-    return false;
-  }
-
-  virtual std::string show() {
-    return std::string("Some(") + this->value->show() + ")";
-  }
-
+  static constexpr bool exists = true;
 };
 
 #endif

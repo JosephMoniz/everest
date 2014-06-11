@@ -2,78 +2,51 @@
 #define TRAITOROUS_CONTAINERS_MONOIDS_MIN 1
 
 #include <string>
-#include <memory>
 
-#include "traits/unwrappable.h"
-#include "traits/eq.h"
 #include "traits/ord.h"
-#include "traits/bounded.h"
+#include "traits/zero.h"
+#include "traits/semigroup.h"
 #include "traits/monoid.h"
+#include "traits/show.h"
 
-#include "types/any.h"
-
-template<class S>
-class Min : public Unwrappable<std::shared_ptr<S>>,
-            public Eq<Min<S>>,
-            public Ord<Min<S>>,
-            public Bounded<Min<S>>,
-            public Monoid<Min<S>>,
-            public Show,
-            public Any
-{
-
-  std::shared_ptr<S> value;
-
+template <class T,
+          class = typename std::enable_if<ord<T>::exists>::type,
+          class = typename std::enable_if<zero_val<T>::exists>::type>
+class min_monoid {
+private:
+  const T _n;
 public:
+  min_monoid(const T& n): _n(n) {}
+  constexpr T value() { return _n; }
+};
 
-  Min<S>(std::shared_ptr<S> n) : value(n) { }
+template <class T>
+struct zero_val<min_monoid<T>> {
+  static constexpr T zero() { return zero_val<min_monoid<T>>::zero(); }
+  static constexpr bool exists = true;
+};
 
-  Min<S>(S n) : value(std::make_shared<S>(n)) { }
-
-  virtual std::shared_ptr<S> get_value() {
-    return value;
+template <class T>
+struct semigroup<min_monoid<T>> {
+  static constexpr min_monoid<T> add(const min_monoid<T>& lhs,
+                                     const min_monoid<T>& rhs)
+  {
+    return ord<T>::min(lhs.value(), rhs.value());
   }
+  static constexpr bool exists = true;
+};
 
-  virtual bool equals(std::shared_ptr<Min<S>> other) {
-    return this->get_value()->equals(other->get_value());
+template <class T>
+struct monoid<min_monoid<T>> {
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct shows<min_monoid<T>> {
+  static const std::string show(const min_monoid<T>& n) {
+    return std::string("min_monoid(") + shows<T>::show(n.value()) + ")";
   }
-
-  virtual Ordering cmp(std::shared_ptr<Min<S>> other) {
-    switch(this->get_value()->cmp(other->get_value())) {
-      case LESS:    return GREATER;
-      case EQUAL:   return EQUAL;
-      case GREATER: return LESS;
-    }
-  }
-
-  virtual std::shared_ptr<Min<S>> add(std::shared_ptr<Min<S>> other) {
-    return std::make_shared<Min<S>>(this->get_value()->min(other->get_value()));
-  }
-
-  virtual std::shared_ptr<Min<S>> min_value() {
-    return std::make_shared<Min<S>>(this->get_value()->min_value());
-  }
-
-  virtual std::shared_ptr<Min<S>> max_value() {
-    return std::make_shared<Min<S>>(this->get_value()->max_value());
-  }
-
-  virtual std::shared_ptr<Min<S>> operator+(std::shared_ptr<Min<S>> other) {
-    return std::make_shared<Min<S>>(this->get_value()->max(other->get_value()));
-  }
-
-  virtual std::shared_ptr<Min<S>> zero() {
-    return std::make_shared<Min<S>>(this->get_value()->min_value());
-  }
-
-  virtual bool is_zero() {
-    return this->get_value()->equals(this->zero()->get_value());
-  }
-
-  virtual std::string show() {
-    return std::string("Min(") + this->value->show() + ")";
-  }
-
+  static constexpr bool exists = true;
 };
 
 #endif
