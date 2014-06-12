@@ -49,8 +49,8 @@ struct tagged_union {
 private:
   typedef tagged_union_helper<T, Ts...> helper;
   static const size_t data_size  = meta_max<sizeof(Ts)...>::value;
-	static const size_t data_align = meta_max<alignof(Ts)...>::value;
-	using data_t = typename std::aligned_storage<data_size, data_align>::type;
+  static const size_t data_align = meta_max<alignof(Ts)...>::value;
+  using data_t = typename std::aligned_storage<data_size, data_align>::type;
   size_t type_id;
   data_t data;
 
@@ -97,8 +97,7 @@ public:
   constexpr N get() noexcept { return *reinterpret_cast<const N*>(&data); }
 
   ~tagged_union() noexcept { helper::destruct(type_id, &data); }
-  
+
 };
 
 #endif
-
