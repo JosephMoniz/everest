@@ -19,19 +19,19 @@ struct tagged_union_helper<X, Xs...> {
     }
   }
 
-  inline static void move(size_t old_t, void * old_v, void * new_v) noexcept {
-    if (old_t == typeid(X).hash_code()) {
-      new (new_v) X(std::move(*reinterpret_cast<X*>(old_v)));
+  inline static void move(size_t id, void* val, void* dest) noexcept {
+    if (id == typeid(X).hash_code()) {
+      new (dest) X(std::move(*reinterpret_cast<X*>(val)));
     } else {
-      tagged_union_helper<Xs...>::move(old_t, old_v, new_v);
+      tagged_union_helper<Xs...>::move(id, val, dest);
     }
   }
 
-  inline static void copy(size_t old_t, const void * old_v, void * new_v) noexcept {
-    if (old_t == typeid(X).hash_code()) {
-      new (new_v) X(*reinterpret_cast<const X*>(old_v));
+  inline static void copy(size_t id, const void* val, void* dest) noexcept {
+    if (id == typeid(X).hash_code()) {
+      new (dest) X(*reinterpret_cast<const X*>(val));
     } else {
-      tagged_union_helper<Xs...>::copy(old_t, old_v, new_v);
+      tagged_union_helper<Xs...>::copy(id, val, dest);
     }
   }
 
@@ -40,8 +40,8 @@ struct tagged_union_helper<X, Xs...> {
 template<>
 struct tagged_union_helper<>  {
   inline static void destruct(size_t id, void* data) noexcept {}
-  inline static void move(size_t old_t, void* old_v, void* new_v) noexcept {}
-  inline static void copy(size_t old_t, const void* old_v, void* new_v) noexcept {}
+  inline static void move(size_t id, void* val, void* dest) noexcept {}
+  inline static void copy(size_t id, const void* val, void* dest) noexcept {}
 };
 
 template <class T, class... Ts>
@@ -62,25 +62,25 @@ public:
 
   tagged_union() : type_id(invalid_type()) {}
 
-  tagged_union(const T& old): type_id(typeid(T).hash_code()) {
-    helper::copy(type_id, &old, &data);
+  tagged_union(const T& val): type_id(typeid(T).hash_code()) {
+    helper::copy(type_id, &val, &data);
   }
 
-  tagged_union(size_t id, void* old): type_id(id) {
-    helper::copy(id, old, &data);
+  tagged_union(size_t id, void* val): type_id(id) {
+    helper::copy(id, val, &data);
   }
 
-  tagged_union(const tagged_union<T, Ts...>& old) : type_id(old.type_id) {
-    helper::copy(old.type_id, &old.data, &data);
+  tagged_union(const tagged_union<T, Ts...>& val) : type_id(val.type_id) {
+    helper::copy(val.type_id, &val.data, &data);
   }
 
-  tagged_union(tagged_union<T, Ts...>&& old) : type_id(old.type_id) {
-    helper::move(old.type_id, &old.data, &data);
+  tagged_union(tagged_union<T, Ts...>&& val) : type_id(val.type_id) {
+    helper::move(val.type_id, &val.data, &data);
   }
 
-  tagged_union<T, Ts...>& operator= (tagged_union<T, Ts...> old) noexcept {
-    std::swap(type_id, old.type_id);
-    std::swap(data, old.data);
+  tagged_union<T, Ts...>& operator= (tagged_union<T, Ts...> val) noexcept {
+    std::swap(type_id, val.type_id);
+    std::swap(data, val.data);
     return *this;
   }
 
