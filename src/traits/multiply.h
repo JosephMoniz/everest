@@ -9,7 +9,7 @@ struct multipliable {
 
 template <class T>
 struct default_multipliable {
-  T multiply(const T& lhs, const T& rhs) noexcept { return lhs * rhs; }
+  static T multiply(const T& lhs, const T& rhs) noexcept { return lhs * rhs; }
   static constexpr bool exists = true;
 };
 

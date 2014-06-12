@@ -38,6 +38,9 @@ template <>
 struct dividable<int8_t> : public default_dividable<int8_t> {};
 
 template <>
+struct modulus<int8_t> : public default_modulus<int8_t> {};
+
+template <>
 struct bounded<int8_t> : public default_bounded<int8_t> {};
 
 template <>

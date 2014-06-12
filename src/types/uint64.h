@@ -38,6 +38,9 @@ template <>
 struct dividable<uint64_t> : public default_dividable<uint64_t> {};
 
 template <>
+struct modulus<uint64_t> : public default_modulus<uint64_t> {};
+
+template <>
 struct bounded<uint64_t> : public default_bounded<uint64_t> {};
 
 template <>

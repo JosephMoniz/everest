@@ -39,9 +39,9 @@ struct tagged_union_helper<X, Xs...> {
 
 template<>
 struct tagged_union_helper<>  {
-  inline static void destruct(size_t id, void* data) {}
-  inline static void move(size_t old_t, void* old_v, void* new_v) {}
-  inline static void copy(size_t old_t, const void* old_v, void* new_v) {}
+  inline static void destruct(size_t id, void* data) noexcept {}
+  inline static void move(size_t old_t, void* old_v, void* new_v) noexcept {}
+  inline static void copy(size_t old_t, const void* old_v, void* new_v) noexcept {}
 };
 
 template <class T, class... Ts>
@@ -64,6 +64,10 @@ public:
 
   tagged_union(const T& old): type_id(typeid(T).hash_code()) {
     helper::copy(type_id, &old, &data);
+  }
+
+  tagged_union(size_t id, void* old): type_id(id) {
+    helper::copy(id, old, &data);
   }
 
   tagged_union(const tagged_union<T, Ts...>& old) : type_id(old.type_id) {
@@ -89,13 +93,6 @@ public:
     return (type_id != invalid_type());
   }
 
-  template<class N, class... As>
-  void set(As&&... args) {
-    helper::destruct(type_id, &data);
-    new (&data) N(std::forward<As>(args)...);
-    type_id = typeid(N).hash_code();
-  }
- 
   template<class N>
   constexpr N get() noexcept { return *reinterpret_cast<const N*>(&data); }
 
