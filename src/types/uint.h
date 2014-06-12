@@ -12,6 +12,7 @@
 #include "traits/multiply.h"
 #include "traits/divide.h"
 #include "traits/remainder.h"
+#include "traits/negate.h"
 #include "traits/bit_and.h"
 #include "traits/bit_or.h"
 #include "traits/bit_xor.h"
@@ -39,6 +40,9 @@ struct dividable<unsigned int> : public default_dividable<unsigned int> {};
 
 template <>
 struct modulus<unsigned int> : public default_modulus<unsigned int> {};
+
+template <>
+struct negation<unsigned int> : public default_negation<unsigned int> {};
 
 template <>
 struct bounded<unsigned int> : public default_bounded<unsigned int> {};

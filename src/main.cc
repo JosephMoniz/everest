@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
             << "remainder: " << remainder(a, b) << std::endl
             << "zero: " << zero<int>() << std::endl
             << "one: " << one<int>() << std::endl
-            // << "negate: " << negate(a) << std::endl
+            << "negate: " << negate(a) << std::endl
             << "monoid: " << add(a, zero<int>()) << std::endl
             << "cmp max: " << max(a, b) << std::endl
             << "cmp min: " << min(a, b) << std::endl

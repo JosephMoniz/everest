@@ -1,15 +1,23 @@
 #ifndef TRAITOROUS_TRAITS_NEGATE
 #define TRAITOROUS_TRAITS_NEGATE 1
 
+#include <functional>
+
 template <class T>
-struct negate {
+struct negation {
   // int not()
   static constexpr bool exists = false;
 };
 
-template <class T, class = typename std::enable_if<negate<T>::exists>::type>
+template <class T>
+struct default_negation {
+  static constexpr T negate(const T& n) noexcept { return std::negate<T>()(n); }
+  static constexpr bool exists = true;
+};
+
+template <class T, class = typename std::enable_if<negation<T>::exists>::type>
 constexpr T negate(const T& n) noexcept {
-  return negate<T>::equals(n);
+  return negation<T>::negate(n);
 }
 
 #endif
