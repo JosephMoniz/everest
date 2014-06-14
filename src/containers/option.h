@@ -30,9 +30,9 @@ public:
 
   option(size_t id, void* val): tagged_union<T, none>(id, val) {}
 
-  option(const option<T>& val): tagged_union<T, none>(std::forward(val)) {}
+  option(const option<T>& val): tagged_union<T, none>(val) {}
 
-  option(const option<T>&& val): tagged_union<T, none>(std::move(val)) {}
+  option(const option<T>&& val): tagged_union<T, none>(val) {}
 
   constexpr size_t length() noexcept {
     return container<option<T>>::length(*this);

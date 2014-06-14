@@ -63,21 +63,37 @@ int main(int argc, char **argv) {
             << std::endl;
 
   std::cout << "== Monoid Max" << std::endl;
-  auto a1 = max_monoid<int>(3);
-  auto a2 = max_monoid<int>(9);
-  auto a3 = max_monoid<int>(2);
+  auto a1     = max_monoid<int>(3);
+  auto a2     = max_monoid<int>(9);
+  auto a3     = max_monoid<int>(2);
+  auto max_r1 = a1 + a2 + a3;
+
+  auto ao1    = option<max_monoid<int>>(a1);
+  auto ao2    = make_none<max_monoid<int>>();
+  auto ao3    = option<max_monoid<int>>(a3);
+  auto max_r2 = ao1 + ao2 + ao3;
 
   std::cout << "max_monoid(3) + max_monoid(9) + max_monoid(2) = "
-            << show(a1 + a2 + a3) << std::endl
+            << show(max_r1) << std::endl
+            << "some(max_monoid(3)) + none + some(max_monoid(2)) = "
+            << show(max_r2) << std::endl
             << std::endl;
 
   std::cout << "== Monoid min" << std::endl;
-  auto b1 = min_monoid<int>(3);
-  auto b2 = min_monoid<int>(9);
-  auto b3 = min_monoid<int>(2);
+  auto b1     = min_monoid<int>(3);
+  auto b2     = min_monoid<int>(9);
+  auto b3     = min_monoid<int>(2);
+  auto min_r1 = b1 + b2 + b3;
+
+  auto bo1    = option<min_monoid<int>>(b1);
+  auto bo2    = make_none<min_monoid<int>>();
+  auto bo3    = option<min_monoid<int>>(b3);
+  auto min_r2 = bo1 + bo2 + bo3;
 
   std::cout << "min_monoid(3) + min_monoid(9) + min_monoid(2) = "
-            << show(b1 + b2 + b3) << std::endl
+            << show(min_r1) << std::endl
+            << "some(min_monoid(3)) + none + some(min_monoid(2)) = "
+            << show(min_r2) << std::endl
             << std::endl;
 
   auto some1 = option<int>(6);

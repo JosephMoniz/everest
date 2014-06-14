@@ -3,6 +3,8 @@
 
 #include <functional>
 
+#include "monoid.h"
+
 namespace traitorous {
 
 template <class T>
