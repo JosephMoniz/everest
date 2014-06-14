@@ -24,7 +24,9 @@ template <template <class> class T,
           class M,
           class = typename std::enable_if<foldable<T>::exists>::type,
           class = typename std::enable_if<monoid<M>::exists>::type>
-constexpr M foldMap(std::function<M(const A&)> f, const T<M>& container) noexcept {
+constexpr M foldMap(std::function<M(const A&)> f,
+                    const T<M>& container) noexcept
+{
   return foldable<T>::foldMap(f, container);
 }
 
@@ -32,9 +34,9 @@ template <template <class> class T,
           class A,
           class B,
           class = typename std::enable_if<foldable<T>::exists>::type>
-constexpr B foldr(std::function<B(const A&, const B&)> f,
+constexpr B foldr(std::function<B(const B&, const A&)> f,
                   const B& init,
-                  const T<A>&, container)
+                  const T<A>&, container) noexcept
 {
   return foldable<T>::foldr(f, init, container);
 }
@@ -43,11 +45,11 @@ template <template <class> class T,
           class A,
           class B,
           class = typename std::enable_if<foldable<T>::exists>::type>
-constexpr A foldl(std::function<A(const B&, const A&)> f,
-                  const A& init,
-                  const T<B>&, container)
+constexpr B foldl(std::function<B(const B&, const A&)> f,
+                  const B& init,
+                  const T<A>&, container) noexcept
 {
-  return foldable<T>::foldr(f, init, container);
+  return foldable<T>::foldl(f, init, container);
 }
 
 }

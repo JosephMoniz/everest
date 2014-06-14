@@ -20,6 +20,11 @@ constexpr T divide(const T& lhs, const T& rhs) noexcept {
   return dividable<T>::divide(lhs, rhs);
 }
 
+template <class T, class = typename std::enable_if<dividable<T>::exists>::type>
+constexpr T operator/(const T& lhs, const T& rhs) noexcept {
+  return dividable<T>::divide(lhs, rhs);
+}
+
 }
 
 #endif

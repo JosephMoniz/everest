@@ -51,6 +51,16 @@ constexpr T max(const T& lhs, const T& rhs) noexcept {
   return ord<T>::max(lhs, rhs);
 }
 
+template <class T, class = typename std::enable_if<ord<T>::exists>::type>
+constexpr bool operator<(const T& lhs, const T& rhs) noexcept {
+  return ord<T>::cmp(lhs, rhs) == LESS;
+}
+
+template <class T, class = typename std::enable_if<ord<T>::exists>::type>
+constexpr bool operator>(const T& lhs, const T& rhs) noexcept {
+  return ord<T>::cmp(lhs, rhs) == GREATER;
+}
+
 }
 
 #endif

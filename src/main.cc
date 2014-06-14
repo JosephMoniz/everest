@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
   auto a3 = max_monoid<int>(2);
 
   std::cout << "max_monoid(3) + max_monoid(9) + max_monoid(2) = "
-            << show(add(a1, add(a2, a3))) << std::endl
+            << show(a1 + a2 + a3) << std::endl
             << std::endl;
 
   std::cout << "== Monoid min" << std::endl;
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
   auto b3 = min_monoid<int>(2);
 
   std::cout << "min_monoid(3) + min_monoid(9) + min_monoid(2) = "
-            << show(add(b1, add(b2, b3))) << std::endl
+            << show(b1 + b2 + b3) << std::endl
             << std::endl;
 
   auto some1 = option<int>(6);

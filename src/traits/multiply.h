@@ -20,6 +20,11 @@ constexpr T multiply(const T& lhs, const T& rhs) noexcept {
   return multipliable<T>::multiply(lhs, rhs);
 }
 
+template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
+constexpr T operator*(const T& lhs, const T& rhs) noexcept {
+  return multipliable<T>::multiply(lhs, rhs);
+}
+
 }
 
 #endif
