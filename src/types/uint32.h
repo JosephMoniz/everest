@@ -20,6 +20,8 @@
 #include "traits/shift_right.h"
 #include "traits/show.h"
 
+namespace traitorous {
+
 template <>
 struct zero_val<uint32_t> : public default_zero_val<uint32_t> {};
 
@@ -73,5 +75,7 @@ struct shows<uint32_t> {
   static const std::string show(uint32_t n) noexcept { return std::to_string(n); }
   static constexpr bool exists = true;
 };
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_REMAINDER
 #define TRAITOROUS_TRAITS_REMAINDER 1
 
+namespace traitorous {
+
 template <class T>
 struct modulus {
   // int modulus()
@@ -16,6 +18,8 @@ struct default_modulus {
 template <class T, class = typename std::enable_if<modulus<T>::exists>::type>
 constexpr T remainder(const T& lhs, const T& rhs) noexcept {
   return modulus<T>::modulo(lhs, rhs);
+}
+
 }
 
 #endif

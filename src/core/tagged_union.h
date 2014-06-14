@@ -5,6 +5,8 @@
 
 #include "meta/max.h"
 
+namespace traitorous {
+
 template <class... Xs>
 struct tagged_union_helper {};
 
@@ -99,5 +101,7 @@ public:
   ~tagged_union() noexcept { helper::destruct(type_id, &data); }
 
 };
+
+}
 
 #endif

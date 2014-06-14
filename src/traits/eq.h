@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_EQ
 #define TRAITOROUS_TRAITS_EQ 1
 
+namespace traitorous {
+
 template <class T>
 struct eq {
   // bool equals()
@@ -18,6 +20,8 @@ struct default_eq {
 template <class T, class = typename std::enable_if<eq<T>::exists>::type>
 constexpr bool equals(const T& lhs, const T& rhs) noexcept {
   return eq<T>::equals(lhs, rhs);
+}
+
 }
 
 #endif

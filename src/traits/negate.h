@@ -3,6 +3,8 @@
 
 #include <functional>
 
+namespace traitorous {
+
 template <class T>
 struct negation {
   // int not()
@@ -18,6 +20,8 @@ struct default_negation {
 template <class T, class = typename std::enable_if<negation<T>::exists>::type>
 constexpr T negate(const T& n) noexcept {
   return negation<T>::negate(n);
+}
+
 }
 
 #endif

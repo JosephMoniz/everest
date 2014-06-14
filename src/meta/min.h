@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_META_MIN
 #define TRAITOROUS_META_MIN 1
 
+namespace traitorous {
+
 template <size_t X, size_t... Xs>
 struct meta_min {};
 
@@ -15,5 +17,7 @@ struct meta_min<X, Y, Zs...> {
                                 ? meta_min<X, Zs...>::value
                                 : meta_min<Y, Zs...>::value;
 };
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_SEMIGROUP
 #define TRAITOROUS_TRAITS_SEMIGROUP 1
 
+namespace traitorous {
+
 template <class T>
 struct semigroup {
   // T add()
@@ -18,6 +20,8 @@ struct default_semigroup {
 template <class T, class = typename std::enable_if<semigroup<T>::exists>::type>
 constexpr T add(const T& lhs, const T& rhs) noexcept {
   return semigroup<T>::add(lhs, rhs);
+}
+
 }
 
 #endif

@@ -8,20 +8,55 @@
 #include "traits/catamorphism.h"
 #include "traits/container.h"
 #include "traits/eq.h"
+#include "traits/functor.h"
 #include "traits/hashable.h"
-#include "traits/zero.h"
-#include "traits/semigroup.h"
 #include "traits/monoid.h"
 #include "traits/ord.h"
-#include "traits/functor.h"
+#include "traits/semigroup.h"
 #include "traits/show.h"
+#include "traits/zero.h"
+
+namespace traitorous {
 
 struct none {} none_instance;
 
 struct some_ {} some;
 
 template <class T>
-using option = tagged_union<T, none>;
+class option : public tagged_union<T, none> {
+public:
+
+  option(const T& val): tagged_union<T, none>(val) {}
+
+  option(size_t id, void* val): tagged_union<T, none>(id, val) {}
+
+  option(const option<T>& val): tagged_union<T, none>(std::forward(val)) {}
+
+  option(const option<T>&& val): tagged_union<T, none>(std::move(val)) {}
+
+  constexpr size_t length() noexcept {
+    return container<option<T>>::length(*this);
+  }
+
+  constexpr bool is_empty() noexcept {
+    return container<option<T>>::is_empty(*this);
+  }
+
+  constexpr bool equals(const option<T> rhs) noexcept {
+    return eq<option<T>>::equals(*this, rhs);
+  }
+
+  constexpr option<T> add(const option<T>& lhs,
+                          const option<T>& rhs) noexcept
+  {
+    return semigroup<option<T>>::add(lhs, rhs);
+  }
+
+  constexpr option<T> operator+(const option<T>& rhs) noexcept {
+    return semigroup<option<T>>::add(*this, rhs);
+  }
+
+};
 
 template <class T>
 option<T> make_none() {
@@ -158,8 +193,8 @@ struct ord<option<T>> {
 template <class T>
 struct functor<option<T>> {
   template <class R>
-  static constexpr option<R> map(const option<T>& n,
-                                 std::function<R(const T&)> f) noexcept
+  static constexpr option<R> map(std::function<R(const T&)> f,
+                                 const option<T>& n) noexcept
   {
     return catamorphism<option<T>>::cata<option<R>>(n,
       []() { return make_none<T>(); },
@@ -179,5 +214,7 @@ struct shows<option<T>> {
   }
   static constexpr bool exists = true;
 };
+
+}
 
 #endif

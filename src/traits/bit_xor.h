@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_BITXOR
 #define TRAITOROUS_TRAITS_BITXOR 1
 
+namespace traitorous {
+
 template <class T>
 struct bit_xor {
   // T xor()
@@ -18,6 +20,8 @@ struct default_xor {
 template <class T, class = typename std::enable_if<bit_xor<T>::exists>::type>
 constexpr bool b_xor(const T& lhs, const T& rhs) noexcept {
   return bit_xor<T>::apply(lhs, rhs);
+}
+
 }
 
 #endif

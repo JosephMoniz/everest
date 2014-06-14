@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_DIVIDE
 #define TRAITOROUS_TRAITS_DIVIDE 1
 
+namespace traitorous {
+
 template <class T>
 struct dividable {
   // T divide()
@@ -16,6 +18,8 @@ struct default_dividable {
 template <class T, class = typename std::enable_if<dividable<T>::exists>::type>
 constexpr T divide(const T& lhs, const T& rhs) noexcept {
   return dividable<T>::divide(lhs, rhs);
+}
+
 }
 
 #endif

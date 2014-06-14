@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_ORD
 #define TRAITOROUS_TRAITS_ORD 1
 
+namespace traitorous {
+
 enum Ordering {
   LESS,
   EQUAL,
@@ -47,6 +49,8 @@ constexpr T min(const T& lhs, const T& rhs) noexcept {
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
 constexpr T max(const T& lhs, const T& rhs) noexcept {
   return ord<T>::max(lhs, rhs);
+}
+
 }
 
 #endif

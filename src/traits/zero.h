@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_ZERO
 #define TRAITOROUS_TRAITS_ZERO 1
 
+namespace traitorous {
+
 template <class T>
 struct zero_val {
   // T zero()
@@ -16,6 +18,8 @@ struct default_zero_val {
 template <class T, class = typename std::enable_if<zero_val<T>::exists>::type>
 constexpr T zero() noexcept {
   return zero_val<T>::zero();
+}
+
 }
 
 #endif

@@ -3,6 +3,8 @@
 
 #include <limits>
 
+namespace traitorous {
+
 template <class T>
 struct bounded {
   // T min_value()
@@ -29,6 +31,8 @@ constexpr T min_value() noexcept {
 template <class T, class = typename std::enable_if<bounded<T>::exists>::type>
 constexpr T max_value() noexcept {
   return bounded<T>::max_value();
+}
+
 }
 
 #endif

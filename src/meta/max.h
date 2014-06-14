@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_META_MAX
 #define TRAITOROUS_META_MAX 1
 
+namespace traitorous {
+
 template <size_t X, size_t... Xs>
 struct meta_max {};
 
@@ -15,5 +17,7 @@ struct meta_max<X, Y, Zs...> {
                                 ? meta_max<X, Zs...>::value
                                 : meta_max<Y, Zs...>::value;
 };
+
+}
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef TRAITOROUS_TRAITS_MULTIPLY
 #define TRAITOROUS_TRAITS_MULTIPLY 1
 
+namespace traitorous {
+
 template <class T>
 struct multipliable {
   // T multiply()
@@ -16,6 +18,8 @@ struct default_multipliable {
 template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
 constexpr T multiply(const T& lhs, const T& rhs) noexcept {
   return multipliable<T>::multiply(lhs, rhs);
+}
+
 }
 
 #endif
