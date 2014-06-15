@@ -5,11 +5,17 @@
 
 #include "core/tagged_union.h"
 
+#include "traits/monad_plus.h"
+
+#include "traits/alternative.h"
+#include "traits/applicative.h"
 #include "traits/catamorphism.h"
 #include "traits/container.h"
 #include "traits/eq.h"
+#include "traits/foldable.h"
 #include "traits/functor.h"
 #include "traits/hashable.h"
+#include "traits/monad.h"
 #include "traits/monoid.h"
 #include "traits/ord.h"
 #include "traits/semigroup.h"
@@ -50,10 +56,6 @@ public:
                           const option<T>& rhs) noexcept
   {
     return semigroup<option<T>>::add(lhs, rhs);
-  }
-
-  constexpr option<T> operator+(const option<T>& rhs) noexcept {
-    return semigroup<option<T>>::add(*this, rhs);
   }
 
 };
@@ -197,8 +199,110 @@ struct functor<option<T>> {
                                  const option<T>& n) noexcept
   {
     return catamorphism<option<T>>::cata<option<R>>(n,
-      []() { return make_none<T>(); },
+      []() { return make_none<R>(); },
       [f](const T& n) { return option<R>(f(n)); }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct applicative<option<T>> {
+  template <class B>
+  static constexpr option<B> ap(option<std::function<B(const T&)>> f,
+                                const option<T>& a) noexcept
+  {
+    return catamorphism<option<T>>::cata<option<B>>(f,
+      []() { return make_none<B>(); },
+      [&a](std::function<B(const T&)> fn) {
+        return functor<option<T>>::map(fn, a);
+      }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct alternative<option<T>> {
+  static constexpr option<T>& alt(const option<T>& lhs,
+                                  const option<T>& rhs) noexcept
+  {
+    return catamorphism<option<T>>::cata<const option<T>&>(lhs,
+      [&rhs]() { return rhs; },
+      [&lhs](const T& n) { return lhs; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct foldable<option<T>> {
+  static constexpr T fold(const option<T>& n) noexcept {
+    return catamorphism<option<T>>::cata<T>(n,
+      []() { return zero_val<T>::zero(); },
+      [&n](const T& m) { return m; }
+    );
+  }
+  template <class M>
+  static constexpr M foldMap(std::function<M(const T&)> f,
+                             const option<T>& n) noexcept
+  {
+    return catamorphism<option<T>>::cata<M>(n,
+      []() { return zero_val<T>::zero(); },
+      [&f](const T& m) { return f(m); }
+    );
+  }
+  template <class B>
+  static constexpr B foldr(std::function<B(const B&, const T&)> f,
+                           const B& init,
+                           const option<T>& n) noexcept
+  {
+    return catamorphism<option<T>>::cata<B>(n,
+      [&init]() { return init; },
+      [&f](const T& m) { return m; }
+    );
+  }
+  template <class B>
+  static constexpr B foldl(std::function<B(const B&, const T&)> f,
+                           const B& init,
+                           const option<T>& n) noexcept
+  {
+    return catamorphism<option<T>>::cata<B>(n,
+      [&init]() { return init; },
+      [&f](const T& m) { return m; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct monad<option<T>> {
+  template <class B>
+  static constexpr option<B> flatMap(const option<T>& m,
+                                     std::function<option<B>(const T&)> f) noexcept
+  {
+    return catamorphism<option<T>>::cata<option<B>>(m,
+      [&m]() { return m; },
+      [&f](const T& t) { return f(t); }
+    );
+  }
+  template <class B>
+  static constexpr option<B>& then(const option<T>& m,
+                                   const option<T>& n) noexcept
+  {
+    return n;
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct monad_plus<option<T>> {
+  static constexpr option<T>& mplus(const option<T>& lhs,
+                                  const option<T>& rhs) noexcept
+  {
+    return catamorphism<option<T>>::cata<const option<T>&>(lhs,
+      [&rhs]() { return rhs; },
+      [&lhs](const T& n) { return lhs; }
     );
   }
   static constexpr bool exists = true;

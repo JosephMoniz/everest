@@ -13,7 +13,7 @@ struct monad {
   static constexpr bool exists = false;
 };
 
-template <class <class> M,
+template <template <class> class M,
           class A,
           class B,
           class = typename std::enable_if<functor<M<A>>::exists>::type,
@@ -24,7 +24,7 @@ constexpr M<B> flatMap(const M<A>& m,
   return monad<M<A>>::flatMap(m, f);
 }
 
-template <class <class> M,
+template <template <class> class M,
           class A,
           class B,
           class = typename std::enable_if<functor<M<A>>::exists>::type,

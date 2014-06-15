@@ -21,7 +21,7 @@ template <template <class> class M,
           class = typename std::enable_if<monad<M<A>>::exists>::type,
           class = typename std::enable_if<zero_val<M<A>>::exists>::type>
 constexpr M<A> mplus(const M<A>& a, const M<A>& b) noexcept {
-  return monad_plus<F<A>>::mplus(a, b);
+  return monad_plus<M<A>>::mplus(a, b);
 }
 
 }
