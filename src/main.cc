@@ -11,11 +11,12 @@
 #include "containers/option.h"
 
 using traitorous::add;
+using traitorous::ap;
 using traitorous::divide;
 using traitorous::equals;
+using traitorous::flat_map;
 using traitorous::is_empty;
 using traitorous::length;
-using traitorous::make_none;
 using traitorous::map;
 using traitorous::max;
 using traitorous::max_monoid;
@@ -25,22 +26,24 @@ using traitorous::min_monoid;
 using traitorous::min_value;
 using traitorous::multiply;
 using traitorous::negate;
+using traitorous::none;
 using traitorous::one;
 using traitorous::option;
 using traitorous::remainder;
 using traitorous::show;
+using traitorous::some;
 using traitorous::subtract;
 using traitorous::zero;
 
 
 int main(int argc, char **argv) {
 
-  auto double_lambda = [](const auto& n) { return n * 2; };
+  auto double_f = [](const int& n) { return n * 2; };
 
   std::cout << "== Basic" << std::endl
             << show(add(zero<int>(), max_value<int>())) << std::endl
-            << show(map<option, int, int>(double_lambda, option<int>(42))) << std::endl
-            << show(option<bool>(option<bool>(true))) << std::endl
+            << show(map(double_f, some(42))) << std::endl
+            << show(some(some(true))) << std::endl
             << std::endl;
 
   int a = 6;
@@ -69,7 +72,7 @@ int main(int argc, char **argv) {
   auto max_r1 = a1 + a2 + a3;
 
   auto ao1    = option<max_monoid<int>>(a1);
-  auto ao2    = make_none<max_monoid<int>>();
+  auto ao2    = none<max_monoid<int>>();
   auto ao3    = option<max_monoid<int>>(a3);
   auto max_r2 = ao1 + ao2 + ao3;
 
@@ -86,7 +89,7 @@ int main(int argc, char **argv) {
   auto min_r1 = b1 + b2 + b3;
 
   auto bo1    = option<min_monoid<int>>(b1);
-  auto bo2    = make_none<min_monoid<int>>();
+  auto bo2    = none<min_monoid<int>>();
   auto bo3    = option<min_monoid<int>>(b3);
   auto min_r2 = bo1 + bo2 + bo3;
 
@@ -96,17 +99,35 @@ int main(int argc, char **argv) {
             << show(min_r2) << std::endl
             << std::endl;
 
-  auto some1 = option<int>(6);
-  auto some2 = option<int>(3);
-  auto some3 = option<int>(6);
-  auto none1 = make_none<int>();
+  auto some1     = some(6);
+  auto some2     = some(3);
+  auto some3     = some(6);
+  auto none1     = none<int>();
+  auto double_m = [](const int& n) { return some(n * 2); };
+  auto double_a = some(double_f);
 
   std::cout << "== Option" << std::endl
             << "print some: " << show(some1) << std::endl
             << "print none: " << show(none1) << std::endl
-            << "some(6) == some(3): " << show(equals(some1, some2)) << std::endl
-            << "some(6) == some(6): " << show(equals(some1, some3)) << std::endl
-            << "none == some(6): " << show(equals(none1, some1)) << std::endl
+            << "equals(some(6), some(3)): " << show(equals(some1, some2)) << std::endl
+            << "equals(some(6), some(6)): " << show(equals(some1, some3)) << std::endl
+            << "equals(none, some(6)): " << show(equals(none1, some1)) << std::endl
+            << "some(6) == some(3): " << show(some1 == some2) << std::endl
+            << "some(6) == some(6): " << show(some1 == some3) << std::endl
+            << "none == some(6): " << show(none1 == some1) << std::endl
+            << "alt(some(6), some(3)): " << show(alt(some1, some2)) << std::endl
+            << "alt(some(6), none): " << show(alt(some1, none1)) << std::endl
+            << "alt(none, some(3)): " << show(alt(none1, some2)) << std::endl
+            << "some(6) || some(3): " << show(some1 || some2) << std::endl
+            << "some(6) || none: " << show(some1 || none1) << std::endl
+            << "none || some(3): " << show(none1 || some2) << std::endl
+            << "map(double_f, some(6)): " << show(map(double_f, some1)) << std::endl
+            << "map(double_f, none): " << show(map(double_f, none1)) << std::endl
+            << "some(6).map(double_f): " << show(some1.map(double_f)) << std::endl
+            << "flat_map(double_m, some(6)): " << show(flat_map(double_m, some1)) << std::endl
+            << "flat_map(double_m, none): " << show(flat_map(double_m, none1)) << std::endl
+            << "ap(double_a, some(6)): " << show(ap(double_a, some1)) << std::endl
+            << "double_a.ap(some(6)): " << show(double_a.ap(some1)) << std::endl
             << "length(some(6)): " << length(some1) << std::endl
             << "length(none): " << length(none1) << std::endl
             << "some(6).length(): " << some1.length() << std::endl

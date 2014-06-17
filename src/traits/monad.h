@@ -14,14 +14,23 @@ struct monad {
 };
 
 template <template <class> class M,
+          class Fn,
           class A,
-          class B,
-          class = typename std::enable_if<functor<M<A>>::exists>::type,
-          class = typename std::enable_if<applicative<M<A>>::exists>::type>
-constexpr M<B> flatMap(const M<A>& m,
-                       std::function<M<B>(const A&)> f) noexcept
-{
-  return monad<M<A>>::flatMap(m, f);
+          class Mb = typename std::result_of<Fn(A)>::type,
+          class    = typename std::enable_if<functor<M<A>>::exists>::type,
+          class    = typename std::enable_if<applicative<M<A>>::exists>::type>
+constexpr Mb flat_map(Fn f, const M<A>& m) noexcept {
+  return monad<M<A>>::flat_map(f, m);
+}
+
+template <template <class> class M,
+          class Fn,
+          class A,
+          class Mb = typename std::result_of<Fn(A)>::type,
+          class    = typename std::enable_if<functor<M<A>>::exists>::type,
+          class    = typename std::enable_if<applicative<M<A>>::exists>::type>
+  constexpr Mb operator>>=(const M<A>& m, Fn f) noexcept {
+  return monad<M<A>>::flat_map(f, m);
 }
 
 template <template <class> class M,
@@ -29,7 +38,7 @@ template <template <class> class M,
           class B,
           class = typename std::enable_if<functor<M<A>>::exists>::type,
           class = typename std::enable_if<applicative<M<A>>::exists>::type>
-constexpr M<B> then(const M<A>& a, const M<A>& b) noexcept {
+constexpr M<B> then(const M<A>& a, const M<B>& b) noexcept {
   return monad<M<A>>::then(a, b);
 }
 
