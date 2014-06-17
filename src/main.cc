@@ -151,5 +151,5 @@ int main(int argc, char **argv) {
             << "zero<std::string>(): " << zero<std::string>() << std::endl
             << "add(string1, string2): " << add(string1, string2) << std::endl
             << std::endl;
- 
+
 }

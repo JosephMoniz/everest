@@ -24,7 +24,16 @@
 
 namespace traitorous {
 
+template <class T>
+class option;
+
 struct _none {} none_instance;
+
+template <class T,
+          class N,
+          class S,
+          class R = typename std::result_of<N()>::type>
+static constexpr R cata(const option<T>& o, N n, S s) noexcept;
 
 template <class T>
 class option : public tagged_union<T, _none> {
@@ -38,37 +47,42 @@ public:
 
   option(const option<T>&& val): tagged_union<T, _none>(val) {}
 
-  constexpr size_t length() noexcept {
-    return container<option<T>>::length(*this);
+  constexpr inline size_t length() noexcept {
+    return traitorous::length(*this);
   }
 
-  constexpr bool is_empty() noexcept {
-    return container<option<T>>::is_empty(*this);
+  constexpr inline bool is_empty() noexcept {
+    return traitorous::is_empty(*this);
   }
 
-  constexpr bool equals(const option<T> rhs) noexcept {
-    return eq<option<T>>::equals(*this, rhs);
+  constexpr inline bool equals(const option<T> rhs) noexcept {
+    return traitorous::equals(*this, rhs);
   }
 
-  constexpr option<T> add(const option<T>& lhs,
-                          const option<T>& rhs) noexcept
+  constexpr inline option<T> add(const option<T>& lhs,
+                                 const option<T>& rhs) noexcept
   {
-    return semigroup<option<T>>::add(lhs, rhs);
+    return traitorous::add(lhs, rhs);
   }
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  constexpr option<B> map(F f) {
+  constexpr inline option<B> map(F f) {
     return traitorous::map(f, *this);
   }
 
   template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  constexpr option<B> flat_map(F f) {
+  constexpr inline option<B> flat_map(F f) {
     return traitorous::flat_map(f, *this);
   }
 
   template <class A, class B = typename std::result_of<T(A)>::type>
-  constexpr option<B> ap(const option<A>& a) {
+  constexpr inline option<B> ap(const option<A>& a) {
     return traitorous::ap(*this, a);
+  }
+
+  template <class N, class S, class B = typename std::result_of<N()>::type>
+  constexpr inline B cata(N n, S s) {
+    return traitorous::cata(*this, n, s);
   }
 
 };
@@ -94,13 +108,13 @@ static constexpr R cata(const option<T>& o, N n, S s) noexcept {
 template <class T>
 struct container<option<T>> {
   static constexpr size_t length(const option<T>& o) noexcept {
-    return cata(o,
+    return o.cata(
       [](){ return 0; },
       [](const T& n){ return 1; }
     );
   }
   static constexpr bool is_empty(const option<T>& o) noexcept {
-    return cata(o,
+    return o.cata(
       [](){ return true; },
       [](const T& n){ return false; }
     );
@@ -113,15 +127,15 @@ struct eq<option<T>> {
   static constexpr bool equals(const option<T>& lhs,
                                const option<T>& rhs) noexcept
   {
-    return cata(lhs,
+    return lhs.cata(
       [&](){
-        return cata(rhs,
+        return rhs.cata(
           [](){ return true; },
           [](const T& y){ return false; }
         );
       },
       [&](const T& x){
-        return cata(rhs,
+        return rhs.cata(
           [](){ return false; },
           [&](const T& y){ return eq<T>::equals(x, y); }
         );
@@ -153,10 +167,10 @@ struct semigroup<option<T>> {
   static constexpr option<T> add(const option<T>& lhs,
                                  const option<T>& rhs) noexcept
   {
-    return cata(lhs,
+    return lhs.cata(
       [&rhs]() { return rhs; },
       [&](const T& x) {
-        return cata(rhs,
+        return rhs.cata(
           [&lhs]() { return lhs; },
           [&](const T& y){ return some(semigroup<T>::add(x, y)); }
         );
@@ -177,15 +191,15 @@ struct ord<option<T>> {
   static constexpr Ordering cmp(const option<T>& lhs,
                                 const option<T>& rhs) noexcept
   {
-    return cata(lhs,
+    return lhs.cata(
       [&rhs]() {
-        return cata(rhs,
+        return rhs.cata(
           []() { return EQUAL; },
           [](const T& x) { return LESS; }
         );
       },
       [&rhs](const T& x) {
-        return cata(rhs,
+        return rhs.cata(
           []() { return GREATER; },
           [&x](const T& y) { return ord<T>::cmp(x, y); }
         );
@@ -210,7 +224,7 @@ template <class T>
 struct functor<option<T>> {
   template <class F, class B = typename std::result_of<F(T)>::type>
   static constexpr option<B> map(F f, const option<T>& n) noexcept {
-    return cata(n,
+    return n.cata(
       []() { return none<B>(); },
       [&f](const T& n) { return some(f(n)); }
     );
@@ -232,7 +246,7 @@ struct alternative<option<T>> {
   static constexpr option<T> alt(const option<T>& lhs,
                                  const option<T>& rhs) noexcept
   {
-    return cata(lhs,
+    return lhs.cata(
       [&rhs]() { return rhs; },
       [&lhs](const T& n) { return lhs; }
     );
@@ -243,7 +257,7 @@ struct alternative<option<T>> {
 template <class T>
 struct foldable<option<T>> {
   static constexpr T fold(const option<T>& n) noexcept {
-    return cata(n,
+    return n.cata(
       []() { return zero_val<T>::zero(); },
       [&n](const T& m) { return m; }
     );
@@ -252,7 +266,7 @@ struct foldable<option<T>> {
   static constexpr M foldMap(std::function<M(const T&)> f,
                              const option<T>& n) noexcept
   {
-    return cata(n,
+    return n.cata(
       []() { return zero_val<T>::zero(); },
       [&f](const T& m) { return f(m); }
     );
@@ -262,7 +276,7 @@ struct foldable<option<T>> {
                            const B& init,
                            const option<T>& n) noexcept
   {
-    return cata(n,
+    return n.cata(
       [&init]() { return init; },
       [&f](const T& m) { return m; }
     );
@@ -272,7 +286,7 @@ struct foldable<option<T>> {
                            const B& init,
                            const option<T>& n) noexcept
   {
-    return cata(n,
+    return n.cata(
       [&init]() { return init; },
       [&f](const T& m) { return m; }
     );
@@ -285,7 +299,7 @@ struct monad<option<T>> {
   template <class F,
             class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
   static constexpr option<B> flat_map(F f, const option<T>& m) noexcept {
-    return cata(m,
+    return m.cata(
       [&m]() { return none<B>(); },
       [&f](const T& t) { return f(t); }
     );
@@ -304,7 +318,7 @@ struct monad_plus<option<T>> {
   static constexpr option<T>& mplus(const option<T>& lhs,
                                   const option<T>& rhs) noexcept
   {
-    return cata(lhs,
+    return lhs.cata(
       [&rhs]() { return rhs; },
       [&lhs](const T& n) { return lhs; }
     );
@@ -315,7 +329,7 @@ struct monad_plus<option<T>> {
 template <class T>
 struct shows<option<T>> {
   static const std::string show(const option<T>& n) noexcept {
-    return cata(n,
+    return n.cata(
       []() { return std::string("none"); },
       [](const T& n) { return std::string("some(") + shows<T>::show(n) + ")"; }
     );
