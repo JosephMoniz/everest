@@ -6,20 +6,13 @@
 
 #include "core/tagged_union.h"
 
-// TODO: implement
-#include "traits/containable.h"
-#include "traits/disjoinable.h"
-#include "traits/droppable.h"
-#include "traits/filterable.h"
-#include "traits/intersectable.h"
-#include "traits/takeable.h"
-#include "traits/unwrappable.h"
-
 #include "meta/nth_arg.h"
 #include "traits/alternative.h"
 #include "traits/applicative.h"
+#include "traits/containable.h"
 #include "traits/container.h"
 #include "traits/eq.h"
+#include "traits/filterable.h"
 #include "traits/foldable.h"
 #include "traits/functor.h"
 #include "traits/hashable.h"
@@ -29,6 +22,7 @@
 #include "traits/ord.h"
 #include "traits/semigroup.h"
 #include "traits/show.h"
+#include "traits/unwrappable.h"
 #include "traits/zero.h"
 
 namespace traitorous {
@@ -74,23 +68,39 @@ public:
     return traitorous::add(lhs, rhs);
   }
 
+  constexpr inline bool contains(const T& n) noexcept {
+    return traitorous::contains(*this, n);
+  }
+
+  constexpr inline option<T> filter(std::function<bool(const T&)> p) noexcept {
+    return traitorous::filter(*this, p);
+  }
+
+  constexpr inline T get_or_default(const T& d) noexcept {
+    return traitorous::get_or_default(*this, d);
+  }
+
+  constexpr inline T get_or_else(std::function<T()> d) noexcept {
+    return traitorous::get_or_else(*this, d);
+  }
+
   template <class F, class B = typename std::result_of<F(T)>::type>
-  constexpr inline option<B> map(F f) {
+  constexpr inline option<B> map(F f) noexcept {
     return traitorous::map(f, *this);
   }
 
   template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  constexpr inline option<B> flat_map(F f) {
+  constexpr inline option<B> flat_map(F f) noexcept {
     return traitorous::flat_map(f, *this);
   }
 
   template <class A, class B = typename std::result_of<T(A)>::type>
-  constexpr inline option<B> ap(const option<A>& a) {
+  constexpr inline option<B> ap(const option<A>& a) noexcept {
     return traitorous::ap(*this, a);
   }
 
   template <class N, class S, class B = typename std::result_of<N()>::type>
-  constexpr inline B cata(N n, S s) {
+  constexpr inline B cata(N n, S s) noexcept {
     return traitorous::cata(*this, n, s);
   }
 
@@ -113,6 +123,17 @@ template <class T,
 static constexpr R cata(const option<T>& o, N n, S s) noexcept {
   return (o.template is<_none>()) ? n() : s(o.template get<T>());
 }
+
+template <class T>
+struct containable<option<T>> {
+  static constexpr bool contains(const option<T>& f, const T& n) noexcept {
+    return f.cata(
+      []() { return false; },
+      [&n](const T& m) { return n == m; }
+    );
+  }
+  static constexpr bool exists = true;
+};
 
 template <class T>
 struct container<option<T>> {
@@ -191,6 +212,19 @@ struct semigroup<option<T>> {
 
 template <class T>
 struct monoid<option<T>> {
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct filterable<option<T>> {
+  static constexpr option<T> filter(const option<T>& n,
+                                    std::function<bool(const T&)> p) noexcept
+  {
+    return n.cata(
+      []() { return none<T>(); },
+      [&](const T& m) { return p(m) ? n : none<T>(); }
+    );
+  }
   static constexpr bool exists = true;
 };
 
@@ -330,6 +364,23 @@ struct monad_plus<option<T>> {
     return lhs.cata(
       [&rhs]() { return rhs; },
       [&lhs](const T& n) { return lhs; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct unwrappable<option<T>> {
+  static constexpr T get_or_else(const option<T>& n, std::function<T()> d) noexcept {
+    return n.cata(
+      [&d]() { return d(); },
+      [](const T& m) { return m; }
+    );
+  }
+  static constexpr T get_or_default(const option<T>& n, const T& d) noexcept {
+    return n.cata(
+      [&d]() { return d; },
+      [](const T& m) { return m; }
     );
   }
   static constexpr bool exists = true;

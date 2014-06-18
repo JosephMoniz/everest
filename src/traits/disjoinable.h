@@ -11,7 +11,7 @@ struct disjoinable {
 
 template <class T,
           class = typename std::enable_if<disjoinable<T>::exists>::type>
-constexpr bool disjoin(const T& a, const T& b) noexcept {
+constexpr T disjoin(const T& a, const T& b) noexcept {
   return disjoinable<T>::disjoin(a, b);
 }
 

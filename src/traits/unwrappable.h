@@ -21,7 +21,7 @@ constexpr T get_or_else(const F<T>& f, const T& d) noexcept {
 
 template <template <class> class F,
           class T,
-          class = typename std::enable_if<droppable<F<T>>::exists>::type>
+          class = typename std::enable_if<unwrappable<F<T>>::exists>::type>
 constexpr T get_or_default(const F<T>& n, std::function<T()> f) noexcept {
   return unwrappable<F<T>>::get_or_default(n, f);
 }
