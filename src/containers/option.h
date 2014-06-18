@@ -6,6 +6,15 @@
 
 #include "core/tagged_union.h"
 
+// TODO: implement
+#include "traits/containable.h"
+#include "traits/disjoinable.h"
+#include "traits/droppable.h"
+#include "traits/filterable.h"
+#include "traits/intersectable.h"
+#include "traits/takeable.h"
+#include "traits/unwrappable.h"
+
 #include "meta/nth_arg.h"
 #include "traits/alternative.h"
 #include "traits/applicative.h"

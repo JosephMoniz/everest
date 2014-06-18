@@ -20,13 +20,23 @@ class max_monoid {
 private:
   const T _n;
 public:
+
   constexpr max_monoid(const T& n): _n(n) {}
-  constexpr T value() noexcept { return _n; }
-  constexpr max_monoid<T> add(const max_monoid<T>& lhs,
-                              const max_monoid<T>& rhs) noexcept
+
+  constexpr inline T value() noexcept { return _n; }
+
+  constexpr inline max_monoid<T> add(const max_monoid<T>& lhs,
+                                     const max_monoid<T>& rhs) noexcept
   {
-    return semigroup<max_monoid<T>>::add(lhs, rhs);
+    return traitorous::add(lhs, rhs);
   }
+
+  constexpr inline bool equals(const max_monoid<T>& lhs,
+                               const max_monoid<T>& rhs) noexcept
+  {
+    return traitorous::equals(lhs, rhs);
+  }
+
 };
 
 template <class T>
