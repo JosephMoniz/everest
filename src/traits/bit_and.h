@@ -18,7 +18,7 @@ struct default_and {
 };
 
 template <class T, class = typename std::enable_if<bit_and<T>::exists>::type>
-constexpr bool b_and(const T& lhs, const T& rhs) noexcept {
+constexpr inline bool b_and(const T& lhs, const T& rhs) noexcept {
   return bit_and<T>::apply(lhs, rhs);
 }
 

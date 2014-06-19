@@ -41,9 +41,15 @@ struct tagged_union_helper<X, Xs...> {
 
 template<>
 struct tagged_union_helper<>  {
-  inline static void destruct(size_t id, void* data) noexcept {}
-  inline static void move(size_t id, void* val, void* dest) noexcept {}
-  inline static void copy(size_t id, const void* val, void* dest) noexcept {}
+  inline static void destruct(size_t id, void* data) noexcept {
+    std::cout << "WTF!" << std::endl;
+  }
+  inline static void move(size_t id, void* val, void* dest) noexcept {
+    std::cout << "WTF!" << std::endl;
+  }
+  inline static void copy(size_t id, const void* val, void* dest) noexcept {
+    std::cout << "WTF!" << std::endl;
+  }
 };
 
 template <class T, class... Ts>
@@ -68,7 +74,7 @@ public:
     helper::copy(type_id, &val, &data);
   }
 
-  tagged_union(size_t id, void* val): type_id(id) {
+  tagged_union(size_t id, const void* val): type_id(id) {
     helper::copy(id, val, &data);
   }
 

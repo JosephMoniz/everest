@@ -7,6 +7,7 @@
 #include "core/tagged_union.h"
 
 #include "meta/nth_arg.h"
+
 #include "traits/alternative.h"
 #include "traits/applicative.h"
 #include "traits/containable.h"
@@ -167,7 +168,7 @@ struct eq<option<T>> {
       [&](const T& x){
         return rhs.cata(
           [](){ return false; },
-          [&](const T& y){ return eq<T>::equals(x, y); }
+          [&](const T& y){ return x == y; }
         );
       }
     );
@@ -202,7 +203,7 @@ struct semigroup<option<T>> {
       [&](const T& x) {
         return rhs.cata(
           [&lhs]() { return lhs; },
-          [&](const T& y){ return some(semigroup<T>::add(x, y)); }
+          [&](const T& y){ return some(x + y); }
         );
       }
     );
@@ -244,7 +245,7 @@ struct ord<option<T>> {
       [&rhs](const T& x) {
         return rhs.cata(
           []() { return GREATER; },
-          [&x](const T& y) { return ord<T>::cmp(x, y); }
+          [&x](const T& y) { return traitorous::cmp(x, y); }
         );
       }
     );
@@ -298,6 +299,38 @@ struct alternative<option<T>> {
 };
 
 template <class T>
+struct monad<option<T>> {
+  template <class F,
+            class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  static constexpr option<B> flat_map(F f, const option<T>& m) noexcept {
+    return m.cata(
+      [&m]() { return none<B>(); },
+      [&f](const T& t) { return f(t); }
+    );
+  }
+  template <class B>
+  static constexpr option<B>& then(const option<T>& m,
+                                   const option<T>& n) noexcept
+  {
+    return n;
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
+struct monad_plus<option<T>> {
+  static constexpr option<T>& mplus(const option<T>& lhs,
+                                  const option<T>& rhs) noexcept
+  {
+    return lhs.cata(
+      [&rhs]() { return rhs; },
+      [&lhs](const T& n) { return lhs; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class T>
 struct foldable<option<T>> {
   static constexpr T fold(const option<T>& n) noexcept {
     return n.cata(
@@ -332,38 +365,6 @@ struct foldable<option<T>> {
     return n.cata(
       [&init]() { return init; },
       [&f](const T& m) { return m; }
-    );
-  }
-  static constexpr bool exists = true;
-};
-
-template <class T>
-struct monad<option<T>> {
-  template <class F,
-            class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  static constexpr option<B> flat_map(F f, const option<T>& m) noexcept {
-    return m.cata(
-      [&m]() { return none<B>(); },
-      [&f](const T& t) { return f(t); }
-    );
-  }
-  template <class B>
-  static constexpr option<B>& then(const option<T>& m,
-                                   const option<T>& n) noexcept
-  {
-    return n;
-  }
-  static constexpr bool exists = true;
-};
-
-template <class T>
-struct monad_plus<option<T>> {
-  static constexpr option<T>& mplus(const option<T>& lhs,
-                                  const option<T>& rhs) noexcept
-  {
-    return lhs.cata(
-      [&rhs]() { return rhs; },
-      [&lhs](const T& n) { return lhs; }
     );
   }
   static constexpr bool exists = true;

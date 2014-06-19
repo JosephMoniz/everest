@@ -11,12 +11,12 @@ struct container {
 };
 
 template<class T, class = typename std::enable_if<container<T>::exists>::type>
-constexpr size_t length(const T& n) noexcept {
+constexpr inline size_t length(const T& n) noexcept {
   return container<T>::length(n);
 }
 
 template<class T, class = typename std::enable_if<container<T>::exists>::type>
-constexpr bool is_empty(const T& n) noexcept {
+constexpr inline bool is_empty(const T& n) noexcept {
   return container<T>::is_empty(n);
 }
 

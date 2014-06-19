@@ -20,7 +20,7 @@ template <template <class> class F,
           class B = typename std::result_of<Fn(A)>::type,
           class   = typename std::enable_if<functor<F<A>>::exists>::type,
           class   = typename std::enable_if<applicative<F<A>>::exists>::type>
-constexpr F<B> ap(const F<Fn>& f, const F<A>& a) noexcept {
+constexpr inline F<B> ap(const F<Fn>& f, const F<A>& a) noexcept {
   return applicative<F<Fn>>::ap(f, a);
 }
 

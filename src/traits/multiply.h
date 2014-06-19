@@ -16,12 +16,12 @@ struct default_multipliable {
 };
 
 template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
-constexpr T multiply(const T& lhs, const T& rhs) noexcept {
+constexpr inline T multiply(const T& lhs, const T& rhs) noexcept {
   return multipliable<T>::multiply(lhs, rhs);
 }
 
 template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
-constexpr T operator*(const T& lhs, const T& rhs) noexcept {
+constexpr inline T operator*(const T& lhs, const T& rhs) noexcept {
   return multipliable<T>::multiply(lhs, rhs);
 }
 

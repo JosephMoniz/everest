@@ -37,27 +37,27 @@ struct default_ord {
 
 
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr T cmp(const T& lhs, const T& rhs) noexcept {
+constexpr inline T cmp(const T& lhs, const T& rhs) noexcept {
   return ord<T>::cmp(lhs, rhs);
 }
 
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr T min(const T& lhs, const T& rhs) noexcept {
+constexpr inline T min(const T& lhs, const T& rhs) noexcept {
   return ord<T>::min(lhs, rhs);
 }
 
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr T max(const T& lhs, const T& rhs) noexcept {
+constexpr inline T max(const T& lhs, const T& rhs) noexcept {
   return ord<T>::max(lhs, rhs);
 }
 
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr bool operator<(const T& lhs, const T& rhs) noexcept {
+constexpr inline bool operator<(const T& lhs, const T& rhs) noexcept {
   return ord<T>::cmp(lhs, rhs) == LESS;
 }
 
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr bool operator>(const T& lhs, const T& rhs) noexcept {
+constexpr inline bool operator>(const T& lhs, const T& rhs) noexcept {
   return ord<T>::cmp(lhs, rhs) == GREATER;
 }
 

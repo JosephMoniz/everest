@@ -24,12 +24,12 @@ struct default_bounded {
 };
 
 template <class T, class = typename std::enable_if<bounded<T>::exists>::type>
-constexpr T min_value() noexcept {
+constexpr inline T min_value() noexcept {
   return bounded<T>::min_value();
 }
 
 template <class T, class = typename std::enable_if<bounded<T>::exists>::type>
-constexpr T max_value() noexcept {
+constexpr inline T max_value() noexcept {
   return bounded<T>::max_value();
 }
 

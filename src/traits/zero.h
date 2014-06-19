@@ -16,7 +16,7 @@ struct default_zero_val {
 };
 
 template <class T, class = typename std::enable_if<zero_val<T>::exists>::type>
-constexpr T zero() noexcept {
+constexpr inline T zero() noexcept {
   return zero_val<T>::zero();
 }
 

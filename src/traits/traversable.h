@@ -27,7 +27,7 @@ template <template <class> class T,
           class = typename std::enable_if<functor<T<A>>::exists>::type,
           class = typename std::enable_if<foldable<T<A>>::exists>::type,
           class = typename std::enable_if<applicative<F<B>>::exists>::type>
-constexpr F<T<A>> traverse(std::function<F<B>(const A&)>f, const T<A>& t) noexcept {
+constexpr inline F<T<A>> traverse(std::function<F<B>(const A&)>f, const T<A>& t) noexcept {
   return traversable<T<A>>::traverse(f, t);
 }
 
@@ -38,7 +38,7 @@ template <template <class> class T,
           class = typename std::enable_if<functor<T<A>>::exists>::type,
           class = typename std::enable_if<foldable<T<A>>::exists>::type,
           class = typename std::enable_if<applicative<F<A>>::exists>::type>
-constexpr F<T<A>> sequenceA(const T<F<A>>& t) noexcept {
+constexpr inline F<T<A>> sequenceA(const T<F<A>>& t) noexcept {
   return traversable<T<A>>::sequenceA(t);
 }
 
@@ -49,7 +49,7 @@ template <template <class> class F,
           class = typename std::enable_if<functor<T<A>>::exists>::type,
           class = typename std::enable_if<foldable<T<A>>::exists>::type,
           class = typename std::enable_if<monad<M<B>>::exists>::type>
-constexpr M<T<B>> mapM(std::function<M<B>(const A&)> f, const T<A>& t) noexcept {
+constexpr inline M<T<B>> mapM(std::function<M<B>(const A&)> f, const T<A>& t) noexcept {
   return traversable<T<A>>::mapM(lhs, rhs);
 }
 
@@ -60,7 +60,7 @@ template <template <class> class F,
           class = typename std::enable_if<functor<T<A>>::exists>::type,
           class = typename std::enable_if<foldable<T<A>>::exists>::type,
           class = typename std::enable_if<monad<M<A>>::exists>::type>
-constexpr M<T<A>> mapM(const T<M<A>>& t) noexcept {
+constexpr inline M<T<A>> mapM(const T<M<A>>& t) noexcept {
   return traversable<T<A>>::sequence(t);
 }
 

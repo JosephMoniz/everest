@@ -18,7 +18,7 @@ struct default_negation {
 };
 
 template <class T, class = typename std::enable_if<negation<T>::exists>::type>
-constexpr T negate(const T& n) noexcept {
+constexpr inline T negate(const T& n) noexcept {
   return negation<T>::negate(n);
 }
 

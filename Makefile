@@ -16,7 +16,7 @@ CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 INCLUDES = -I$(SRCDIR)
 
 $(BUILDDIR)/traitorous: $(BUILDDIR)/main.o
-	$(CC) $(CFLAGS_FAST) -o $@ $^
+	$(CC) $(CFLAGS_DEBUG) -o $@ $^
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cc
 	mkdir -p `dirname $@`

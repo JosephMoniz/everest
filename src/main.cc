@@ -9,11 +9,13 @@
 #include "containers/monoids/max.h"
 #include "containers/monoids/min.h"
 #include "containers/option.h"
+#include "containers/validation.h"
 
 using traitorous::add;
 using traitorous::ap;
 using traitorous::divide;
 using traitorous::equals;
+using traitorous::failure;
 using traitorous::flat_map;
 using traitorous::is_empty;
 using traitorous::length;
@@ -33,6 +35,7 @@ using traitorous::remainder;
 using traitorous::show;
 using traitorous::some;
 using traitorous::subtract;
+using traitorous::success;
 using traitorous::zero;
 
 
@@ -151,5 +154,14 @@ int main(int argc, char **argv) {
             << "zero<std::string>(): " << zero<std::string>() << std::endl
             << "add(string1, string2): " << add(string1, string2) << std::endl
             << std::endl;
+
+  auto success1 = success<std::string, int>(6);
+  auto success2 = success<std::string, int>(3);
+  auto success3 = success<std::string, int>(6);
+  auto failure1 = failure<std::string, int>("boom!");
+
+  std::cout << "== Validation" << std::endl
+            << "print success: " << show(success1) << std::endl
+            << "print failure: " << show(failure1) << std::endl;
 
 }

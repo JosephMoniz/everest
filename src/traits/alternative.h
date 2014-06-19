@@ -19,7 +19,7 @@ template <template <class> class F,
           class = typename std::enable_if<applicative<F<A>>::exists>::type,
           class = typename std::enable_if<alternative<F<A>>::exists>::type,
           class = typename std::enable_if<zero_val<F<A>>::exists>::type>
-constexpr F<A> alt(const F<A>& a, const F<A>& b) noexcept {
+constexpr inline F<A> alt(const F<A>& a, const F<A>& b) noexcept {
   return alternative<F<A>>::alt(a, b);
 }
 
@@ -29,7 +29,7 @@ template <template <class> class F,
           class = typename std::enable_if<applicative<F<A>>::exists>::type,
           class = typename std::enable_if<alternative<F<A>>::exists>::type,
           class = typename std::enable_if<zero_val<F<A>>::exists>::type>
-constexpr F<A> operator||(const F<A>& lhs, const F<A>& rhs) noexcept {
+constexpr inline F<A> operator||(const F<A>& lhs, const F<A>& rhs) noexcept {
   return alternative<F<A>>::alt(lhs, rhs);
 }
 

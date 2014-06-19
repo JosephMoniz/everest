@@ -12,7 +12,7 @@ struct containable {
 template <template <class> class F,
           class T,
           class = typename std::enable_if<containable<F<T>>::exists>::type>
-constexpr bool contains(const F<T>& f, const T& n) noexcept {
+constexpr inline bool contains(const F<T>& f, const T& n) noexcept {
   return containable<F<T>>::contains(f, n);
 }
 

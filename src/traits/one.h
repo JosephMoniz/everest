@@ -10,7 +10,7 @@ struct one_val {
 };
 
 template <class T, class = typename std::enable_if<one_val<T>::exists>::type>
-constexpr T one() noexcept {
+constexpr inline T one() noexcept {
   return one_val<T>::one();
 }
 

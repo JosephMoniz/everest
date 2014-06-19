@@ -18,12 +18,12 @@ struct default_subtract {
 };
 
 template <class T, class = typename std::enable_if<subtractable<T>::exists>::type>
-constexpr T subtract(const T& lhs, const T& rhs) noexcept {
+constexpr inline T subtract(const T& lhs, const T& rhs) noexcept {
   return subtractable<T>::subtract(lhs, rhs);
 }
 
 template <class T, class = typename std::enable_if<subtractable<T>::exists>::type>
-constexpr T operator-(const T& lhs, const T& rhs) noexcept {
+constexpr inline T operator-(const T& lhs, const T& rhs) noexcept {
   return subtractable<T>::subtract(lhs, rhs);
 }
 

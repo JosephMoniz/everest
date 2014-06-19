@@ -18,7 +18,7 @@ struct default_xor {
 };
 
 template <class T, class = typename std::enable_if<bit_xor<T>::exists>::type>
-constexpr bool b_xor(const T& lhs, const T& rhs) noexcept {
+constexpr inline bool b_xor(const T& lhs, const T& rhs) noexcept {
   return bit_xor<T>::apply(lhs, rhs);
 }
 

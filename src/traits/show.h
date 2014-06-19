@@ -10,7 +10,7 @@ struct shows {
 };
 
 template <class T, class = typename std::enable_if<shows<T>::exists>::type>
-const std::string show(const T& n) noexcept {
+const inline std::string show(const T& n) noexcept {
   return shows<T>::show(n);
 }
 

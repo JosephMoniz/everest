@@ -17,7 +17,7 @@ template <template <class> class F,
           class A,
           class B = typename std::result_of<Fn(A)>::type,
           class   = typename std::enable_if<functor<F<A>>::exists>::type>
-constexpr F<B> map(Fn f, const F<A>& n) noexcept {
+constexpr inline F<B> map(Fn f, const F<A>& n) noexcept {
   return functor<F<A>>::map(f, n);
 }
 

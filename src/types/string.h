@@ -46,7 +46,7 @@ struct ord<std::string> : public default_ord<std::string> {};
 
 template<>
 struct shows<std::string> {
-  static std::string show(const std::string& n) noexcept { return n; }
+  static std::string show(const std::string& n) noexcept { return "\"" + n + "\""; }
   static constexpr bool exists = true;
 };
 

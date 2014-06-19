@@ -11,7 +11,7 @@ struct intersectable {
 
 template <class T,
           class = typename std::enable_if<intersectable<T>::exists>::type>
-constexpr T inetsect(const T& a, const T& b) noexcept {
+constexpr inline T inetsect(const T& a, const T& b) noexcept {
   return intersectable<T>::intersect(a, b);
 }
 

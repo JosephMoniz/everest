@@ -16,7 +16,7 @@ struct default_modulus {
 };
 
 template <class T, class = typename std::enable_if<modulus<T>::exists>::type>
-constexpr T remainder(const T& lhs, const T& rhs) noexcept {
+constexpr inline T remainder(const T& lhs, const T& rhs) noexcept {
   return modulus<T>::modulo(lhs, rhs);
 }
 

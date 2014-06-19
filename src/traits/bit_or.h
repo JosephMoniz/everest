@@ -18,7 +18,7 @@ struct default_or {
 };
 
 template <class T, class = typename std::enable_if<bit_or<T>::exists>::type>
-constexpr bool b_or(const T& lhs, const T& rhs) noexcept {
+constexpr inline bool b_or(const T& lhs, const T& rhs) noexcept {
   return bit_or<T>::apply(lhs, rhs);
 }
 

@@ -15,7 +15,7 @@ template <template <class, class> class F
           class K,
           class V,
           class = typename std::enable_if<set<F<K, V>>::exists>::type>
-constexpr option<V> get(const F<K, V>& s, const K& k) noexcept {
+constexpr inline option<V> get(const F<K, V>& s, const K& k) noexcept {
   return set<F<K, V>>::get(s, k);
 }
 
