@@ -46,7 +46,7 @@ public:
   option() : _tag(OPTION_NONE) {}
 
   option(const T& o) : _tag(OPTION_SOME) {
-    new (&_value) T(*reinterpret_cast<const T*>(&o));
+    new (&_value) T(o);
   }
 
   ~option() noexcept {
