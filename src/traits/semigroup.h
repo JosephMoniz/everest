@@ -23,6 +23,20 @@ constexpr inline T add(const T& lhs, const T& rhs) noexcept {
 }
 
 template <class T, class = typename std::enable_if<semigroup<T>::exists>::type>
+constexpr inline std::function<T(const T&)> add(const T& lhs) noexcept {
+  return [&](const T& rhs) {
+    return semigroup<T>::add(lhs, rhs);
+  };
+}
+
+template <class T, class = typename std::enable_if<semigroup<T>::exists>::type>
+constexpr inline std::function<T(const T&, const T&)> add() noexcept {
+  return [&](const T& lhs, const T& rhs) {
+    return semigroup<T>::add(lhs, rhs);
+  };
+}
+
+template <class T, class = typename std::enable_if<semigroup<T>::exists>::type>
 constexpr inline T operator+(const T& lhs, const T& rhs) noexcept {
   return semigroup<T>::add(lhs, rhs);
 }

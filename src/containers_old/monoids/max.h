@@ -23,7 +23,7 @@ public:
 
   constexpr max_monoid(const T& n): _n(n) {}
 
-  constexpr inline T value() noexcept { return _n; }
+  constexpr inline T value() const noexcept { return _n; }
 
   constexpr inline max_monoid<T> add(const max_monoid<T>& lhs,
                                      const max_monoid<T>& rhs) noexcept
@@ -56,6 +56,11 @@ struct semigroup<max_monoid<T>> {
   }
   static constexpr bool exists = true;
 };
+
+template <class T>
+constexpr inline max_monoid<T> operator+(const max_monoid<T>& lhs, const max_monoid<T>& rhs) noexcept {
+  return semigroup<max_monoid<T>>::add(lhs, rhs);
+}
 
 template <class T>
 struct monoid<max_monoid<T>> {

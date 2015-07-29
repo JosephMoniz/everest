@@ -21,6 +21,13 @@ constexpr inline T multiply(const T& lhs, const T& rhs) noexcept {
 }
 
 template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
+constexpr inline std::function<T(const T&)> multiply(const T& lhs) noexcept {
+  return [&](const T& rhs) {
+    return multipliable<T>::multiply(lhs, rhs);
+  };
+}
+
+template <class T, class = typename std::enable_if<multipliable<T>::exists>::type>
 constexpr inline T operator*(const T& lhs, const T& rhs) noexcept {
   return multipliable<T>::multiply(lhs, rhs);
 }

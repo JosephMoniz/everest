@@ -13,24 +13,22 @@ struct alternative {
   static constexpr bool exists = false;
 };
 
-template <template <class> class F,
-          class A,
-          class = typename std::enable_if<functor<F<A>>::exists>::type,
-          class = typename std::enable_if<applicative<F<A>>::exists>::type,
-          class = typename std::enable_if<alternative<F<A>>::exists>::type,
-          class = typename std::enable_if<zero_val<F<A>>::exists>::type>
-constexpr inline F<A> alt(const F<A>& a, const F<A>& b) noexcept {
-  return alternative<F<A>>::alt(a, b);
+template <class F,
+          class = typename std::enable_if<functor<F>::exists>::type,
+          class = typename std::enable_if<applicative<F>::exists>::type,
+          class = typename std::enable_if<alternative<F>::exists>::type,
+          class = typename std::enable_if<zero_val<F>::exists>::type>
+constexpr inline F alt(const F& a, const F& b) noexcept {
+  return alternative<F>::alt(a, b);
 }
 
-template <template <class> class F,
-          class A,
-          class = typename std::enable_if<functor<F<A>>::exists>::type,
-          class = typename std::enable_if<applicative<F<A>>::exists>::type,
-          class = typename std::enable_if<alternative<F<A>>::exists>::type,
-          class = typename std::enable_if<zero_val<F<A>>::exists>::type>
-constexpr inline F<A> operator||(const F<A>& lhs, const F<A>& rhs) noexcept {
-  return alternative<F<A>>::alt(lhs, rhs);
+template <class F,
+          class = typename std::enable_if<functor<F>::exists>::type,
+          class = typename std::enable_if<applicative<F>::exists>::type,
+          class = typename std::enable_if<alternative<F>::exists>::type,
+          class = typename std::enable_if<zero_val<F>::exists>::type>
+constexpr inline F operator||(const F& lhs, const F& rhs) noexcept {
+  return alternative<F>::alt(lhs, rhs);
 }
 
 }

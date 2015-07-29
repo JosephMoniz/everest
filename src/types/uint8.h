@@ -44,9 +44,6 @@ template <>
 struct modulus<uint8_t> : public default_modulus<uint8_t> {};
 
 template <>
-struct negation<int8_t> : public default_negation<int8_t> {};
-
-template <>
 struct bounded<uint8_t> : public default_bounded<uint8_t> {};
 
 template <>

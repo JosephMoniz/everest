@@ -12,18 +12,20 @@ struct unwrappable {
   static constexpr bool exists = false;
 };
 
-  template <template <class> class F,
-          class T,
-          class = typename std::enable_if<unwrappable<F<T>>::exists>::type>
-constexpr inline T get_or_else(const F<T>& f, const T& d) noexcept {
-  return unwrappable<T>::get_or_else(f, d);
+template <class F,
+          class D,
+          class T = typename std::result_of<D()>::type,
+          class   = typename std::enable_if<unwrappable<F>::exists>::type>
+constexpr inline T get_or_else(D d, const F& f) noexcept {
+  return unwrappable<F>::get_or_else(d, f);
 }
 
-template <template <class> class F,
+
+template <class F,
           class T,
-          class = typename std::enable_if<unwrappable<F<T>>::exists>::type>
-constexpr inline T get_or_default(const F<T>& n, std::function<T()> f) noexcept {
-  return unwrappable<F<T>>::get_or_default(n, f);
+          class = typename std::enable_if<unwrappable<F>::exists>::type>
+constexpr inline T get_or_default(const T& f, const F& n) noexcept {
+  return unwrappable<F>::get_or_default(f, n);
 }
 
 }

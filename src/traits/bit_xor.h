@@ -11,14 +11,14 @@ struct bit_xor {
 
 template <class T>
 struct default_xor {
-  static constexpr bool apply(const T& lhs, const T& rhs) noexcept {
-    return lhs & rhs;
+  static constexpr T apply(const T& lhs, const T& rhs) noexcept {
+    return lhs ^ rhs;
   }
   static constexpr bool exists = true;
 };
 
 template <class T, class = typename std::enable_if<bit_xor<T>::exists>::type>
-constexpr inline bool b_xor(const T& lhs, const T& rhs) noexcept {
+constexpr inline T b_xor(const T& lhs, const T& rhs) noexcept {
   return bit_xor<T>::apply(lhs, rhs);
 }
 

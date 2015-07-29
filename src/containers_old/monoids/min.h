@@ -20,7 +20,7 @@ private:
   const T _n;
 public:
   constexpr min_monoid(const T& n): _n(n) {}
-  constexpr T value() noexcept { return _n; }
+  constexpr T value() const noexcept { return _n; }
 };
 
 template <class T>

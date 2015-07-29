@@ -102,7 +102,7 @@ public:
   }
 
   template<class N>
-  constexpr N get() noexcept { return *reinterpret_cast<const N*>(&data); }
+  constexpr N get() const noexcept { return *reinterpret_cast<const N*>(&data); }
 
   ~tagged_union() noexcept { helper::destruct(type_id, &data); }
 

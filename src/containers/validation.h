@@ -1,97 +1,160 @@
-#ifndef TRAITOROUS_CONTAINERS_VALIDATION
-#define TRAITOROUS_CONTAINERS_VALIDATION 1
+#ifndef TRAITOROUS_CONTAINERS_VALIDATION_H
+#define TRAITOROUS_CONTAINERS_VALIDATION_H
 
-#include <string>
 #include <type_traits>
+#include <functional>
+#include <string>
+#include <memory>
 
-#include "core/tagged_union.h"
+#include "meta/nth_arg.h"
 
-#include "containers/identity.h"
+#include "meta/max.h"
 
-#include "traits/alternative.h"
-#include "traits/applicative.h"
+#include "traits/containable.h"
+#include "traits/container.h"
 #include "traits/eq.h"
+#include "traits/hashable.h"
+#include "traits/zero.h"
+#include "traits/semigroup.h"
+#include "traits/monoid.h"
+#include "traits/filterable.h"
+#include "traits/ord.h"
 #include "traits/functor.h"
+#include "traits/applicative.h"
+#include "traits/alternative.h"
 #include "traits/monad.h"
-#include "traits/show.h"
+#include "traits/monad_plus.h"
+#include "traits/foldable.h"
+#include "traits/unwrappable.h"
 
 namespace traitorous {
 
-template <class F, class S>
-class validation;
+using std::shared_ptr;
 
-template<typename T>
-using _failure = identity_t<T>;
-
-template<typename T>
-using _success = identity_t<T>;
-
-template <class F,
-          class S,
-          class Ff,
-          class Sf,
-          class R = typename std::result_of<Ff(F)>::type>
-static constexpr R cata(const validation<F, S>& v, Ff f, Sf s) noexcept;
+enum validation_type {
+  VALIDATION_FAILURE,
+  VALIDATION_SUCCESS
+};
 
 template<class F, class S>
-class validation : public tagged_union<_success<S>, _failure<F>> {
+class validation {
+
+  using data_t = typename std::aligned_storage<
+    meta_max<sizeof(F), sizeof(S)>::value,
+    meta_max<alignof(F), alignof(S)>::value
+  >::type;
+  const validation_type _tag;
+  data_t _value;
+
 public:
 
-  validation(const S& s):
-    tagged_union<_success<S>, _failure<F>>(_success<S>(s)) {}
+  validation(validation_type t, const F& o) : _tag(t) {
+    new(&_value) F(o);
+  }
 
-  validation(const F& f):
-    tagged_union<_success<S>, _failure<F>>(typeid(_failure<F>).hash_code(),
-                                           std::addressof(f)) {}
+  template<class F1 = F,
+           class S1 = S,
+           class = typename std::enable_if<!std::is_same<F1, S1>::value>::type>
+  validation(validation_type t, const S& o) : _tag(t) {
+    new(&_value) S(o);
+  }
 
-  validation(const validation<F, S>& val):
-    tagged_union<_success<S>, _failure<F>>(val) {}
+  ~validation() noexcept {
+    if (_tag == VALIDATION_FAILURE) {
+      reinterpret_cast<F *>(&_value)->~F();
+    } else {
+      reinterpret_cast<S *>(&_value)->~S();
+    }
+  }
 
-  validation(const validation<F, S>&& val):
-    tagged_union<_success<S>, _failure<F>>(val) {}
+  validation_type get_type() const {
+    return _tag;
+  };
 
-  template <class Ff, class Sf, class R = typename std::result_of<Ff(F)>::type>
-  constexpr inline R cata(Ff f, Sf s) noexcept {
-    return traitorous::cata(*this, f, s);
+  const F &get_failure() const {
+    return *reinterpret_cast<const F *>(&_value);
+  }
+
+  const S &get_success() const {
+    return *reinterpret_cast<const S *>(&_value);
   }
 
 };
 
-template <class F, class S>
-validation<F, S> success(const S& s) {
-  return validation<F, S>(s);
+template<class F, class S>
+const validation<F, S> failure(const F &o) {
+  return validation<F, S>(VALIDATION_FAILURE, o);
 }
 
-template <class F, class S>
-validation<F, S> failure(const F& f) {
-  return validation<F, S>(f);
+template<class F, class S>
+const validation<F, S> success(const S &o) {
+  return validation<F, S>(VALIDATION_SUCCESS, o);
 }
 
 template <class F,
           class S,
           class Ff,
-          class Sf,
+          class Fs,
           class R = typename std::result_of<Ff(F)>::type>
-static constexpr R cata(const validation<F, S>& v, Ff f, Sf s) noexcept {
-  return (v.template is<_failure<F>>()) ? f(v.template get<F>()) : s(v.template get<S>());
+static constexpr R match(const validation<F, S>& o, Ff f, Fs s) noexcept {
+  return (o.get_type() == VALIDATION_FAILURE)
+         ? f(o.get_failure())
+         : s(o.get_success());
 }
+
+template <class F,
+          class S,
+          class Ff,
+          class Fs,
+          class R = typename std::result_of<Ff(F)>::type>
+static constexpr R match(shared_ptr<validation<F, S>> o, Ff f, Fs s) noexcept {
+  return match(*o, f, s);
+}
+
+template <class F, class S>
+struct containable<validation<F, S>> {
+  static constexpr bool contains(const S& n, const validation<F, S>& v) noexcept {
+    return match(v,
+      [](auto f)   { return false; },
+      [&n](auto s) { return n == s; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct container<validation<F, S>> {
+  static constexpr size_t length(const validation<F, S>& o) noexcept {
+    return match(o,
+      [](auto f) { return 0; },
+      [](auto s) { return 1; }
+    );
+  }
+  static constexpr bool is_empty(const validation<F, S>& o) noexcept {
+    return match(o,
+      [](auto f) { return true; },
+      [](auto s) { return false; }
+    );
+  }
+  static constexpr bool exists = true;
+};
 
 template <class F, class S>
 struct eq<validation<F, S>> {
   static constexpr bool equals(const validation<F, S>& lhs,
                                const validation<F, S>& rhs) noexcept
   {
-    return lhs.cata(
-      [&rhs](const F& f1) {
-        return rhs.cata(
-          [&f1](const F& f2) { return f1 == f2; },
-          [](const S& s) { return false; }
+    return match(lhs,
+      [&](auto x){
+        return match(rhs,
+          [&](auto y) { return x == y; },
+          [](auto _)  { return false; }
         );
       },
-      [&rhs](const S& s1) {
-        return rhs.cata(
-          [](const F& f) { return false; },
-          [&s1](const S& s2) { return s1 == s2; }
+      [&](auto x){
+        return match(rhs,
+          [](auto _)  { return false; },
+          [&](auto y) { return x == y; }
         );
       }
     );
@@ -100,12 +163,104 @@ struct eq<validation<F, S>> {
 };
 
 template <class F, class S>
+constexpr inline bool operator==(const validation<F, S>& lhs, const validation<F, S>& rhs) noexcept {
+  return eq<validation<F, S>>::equals(lhs, rhs);
+}
+
+template <class F, class S>
+constexpr inline bool operator!=(const validation<F, S>& lhs, const validation<F, S>& rhs) noexcept {
+  return !eq<validation<F, S>>::equals(lhs, rhs);
+}
+
+template <class F, class S>
+struct zero_val<validation<F, S>> {
+  static constexpr validation<F, S> zero() { return success<F, S>(zero_val<S>::zero()); }
+  static constexpr bool exists = true;
+};
+
+
+template <class F, class S>
+struct semigroup<validation<F, S>> {
+  static constexpr validation<F, S> add(const validation<F, S>& lhs,
+                                        const validation<F, S>& rhs) noexcept
+  {
+    return match(lhs,
+      [&](auto x) {
+        return match(rhs,
+          [&](auto y) { return failure<F, S>(x + y); },
+          [&](auto y) { return lhs; }
+        );
+      },
+      [&](auto x) {
+        return match(rhs,
+          [&](auto y) { return rhs; },
+          [&](auto y) { return success<F, S>(x + y); }
+        );
+      }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct monoid<validation<F, S>> {
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct filterable<validation<F, S>> {
+  template <class P>
+  static constexpr validation<F, S> filter(P p, const validation<F, S>& n) noexcept {
+    return match(n,
+      [&](auto _) { return n; },
+      [&](auto s) { return p(s) ? n : zero<validation<F, S>>(); }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct ord<validation<F, S>> {
+
+  static constexpr Ordering cmp(const validation<F, S>& lhs,
+                                const validation<F, S>& rhs) noexcept
+  {
+    return match(lhs,
+      [&](auto x) {
+        return match(rhs,
+          [&](auto y) { return ord<F>::cmp(x, y); },
+          [](auto y)  { return LESS; }
+        );
+      },
+      [&](auto x) {
+        return match(rhs,
+          [](auto y)  { return GREATER; },
+          [&](auto y) { return ord<S>::cmp(x, y); }
+        );
+      }
+    );
+  }
+
+  static constexpr const validation<F, S>& min(const validation<F, S>& lhs,
+                                               const validation<F, S>& rhs) noexcept
+  {
+    return (ord<validation<F, S>>::cmp(lhs, rhs) == GREATER) ? rhs : lhs;
+  }
+  static constexpr const validation<F, S>& max(const validation<F, S>& lhs,
+                                               const validation<F, S>& rhs) noexcept
+  {
+    return (ord<validation<F, S>>::cmp(lhs, rhs) == LESS) ? rhs : lhs;
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
 struct functor<validation<F, S>> {
   template <class Fn, class B = typename std::result_of<Fn(S)>::type>
-  static constexpr validation<F, B> map(Fn f, const validation<F, S>& v) noexcept {
-    return v.cata(
-      [&v](const F& e) { return failure(e); },
-      [&f](const S& s) { return success(f(s)); }
+  static constexpr validation<F, B> map(Fn f, const validation<F, S>& n) noexcept {
+    return match(n,
+      [&](auto _)  { return n; },
+      [&f](auto s) { return success<F, B>(f(s)); }
     );
   }
   static constexpr bool exists = true;
@@ -113,54 +268,131 @@ struct functor<validation<F, S>> {
 
 template <class F, class S>
 struct applicative<validation<F, S>> {
-  template <class A, class B = typename std::result_of<S(A)>::type>
-  static constexpr validation<F, B> ap(const validation<F, S>& f,
-                                       const validation<F, A>& v) noexcept
+  template <class Fn, class B = typename std::result_of<Fn(S)>::type>
+  static constexpr validation<F, B> ap(const validation<F, Fn>& f,
+                                       const validation<F, S>& a) noexcept
   {
-    return f >>= [&v](const S& fn) { return v.map(fn); };
+    return flat_map([&](auto fn) { return map(fn, a); }, f);
   }
   static constexpr bool exists = true;
 };
 
 template <class F, class S>
 struct alternative<validation<F, S>> {
-  static constexpr validation<F, S> alt(const validation<F, S>& a,
-                                        const validation<F, S>& b) noexcept
+  static constexpr validation<F, S> alt(const validation<F, S>& lhs,
+                                        const validation<F, S>& rhs) noexcept
   {
-    return a.cata(
-      [&b](const F& f) { return b; },
-      [&a](const S& s) { return a; }
+    return match(lhs,
+      [&](auto f) { return rhs; },
+      [&](auto s) { return lhs; }
     );
   }
+  static constexpr bool exists = true;
 };
 
 template <class F, class S>
 struct monad<validation<F, S>> {
-  template <class Fn, class B = nth_arg<typename std::result_of<Fn(S)>::type, 1>>
-  static constexpr validation<F, B> flat_map(Fn f, const validation<F, S>& v) noexcept {
-    return v.cata(
-      [](const F& e) { return failure(e); },
-      [&f](const S& s) { return f(s); }
+  template <class Fn,
+            class B = nth_arg<typename std::result_of<Fn(S)>::type, 1>>
+  static constexpr validation<F, B> flat_map(Fn f, const validation<F, S>& m) noexcept {
+    return match(m,
+      [&](auto _) { return m; },
+      [&](auto n) { return f(n); }
     );
   }
-  static constexpr validation<F, S> then(const validation<F, S>& a,
-                                         const validation<F, S>& b) noexcept
+  template <class B>
+  static constexpr validation<F, B> then(const validation<F, S>& m,
+                                         const validation<F, B>& n) noexcept
   {
-    return b;
+    return match(m,
+      [&](auto _) { return m; },
+      [&](auto _) { return n; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct monad_plus<validation<F, S>> {
+  static constexpr validation<F, S> mplus(const validation<F, S>& lhs,
+                                          const validation<F, S>& rhs) noexcept
+  {
+    return match(lhs,
+      [&rhs](auto _) { return rhs; },
+      [&lhs](auto _) { return lhs; }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct foldable<validation<F, S>> {
+  static constexpr S fold(const validation<F, S>& n) noexcept {
+    return match(n,
+      [](auto _)  { return zero_val<S>::zero(); },
+      [&](auto m) { return m; }
+    );
+  }
+  template <class Fn,
+            class M = typename std::result_of<Fn(S)>::type>
+  static constexpr M fold_map(Fn f, const validation<F, S>& n) noexcept {
+    return match(n,
+      [](auto _)  { return zero_val<M>::zero(); },
+      [&](auto m) { return f(m); }
+    );
+  }
+  template <class Fn, class B>
+  static constexpr B foldr(Fn f,
+                           const B& init,
+                           const validation<F, S>& n) noexcept
+  {
+    return match(n,
+      [&](auto _) { return init; },
+      [&](auto m) { return f(init, m); }
+    );
+  }
+  template <class Fn, class B>
+  static constexpr B foldl(Fn f,
+                           const B& init,
+                           const validation<F, S>& n) noexcept
+  {
+    return match(n,
+      [&](auto _) { return init; },
+      [&](auto m) { return f(init, m); }
+    );
+  }
+  static constexpr bool exists = true;
+};
+
+template <class F, class S>
+struct unwrappable<validation<F, S>> {
+  template <class D>
+  static constexpr S get_or_else(D d, const validation<F, S>& f) noexcept {
+    return match(f,
+      [&](auto _) { return d(); },
+      [](auto m)  { return m; }
+    );
+  }
+  static constexpr S get_or_default(const S& d, const validation<F, S>& n) noexcept {
+    return match(n,
+      [&](auto _) { return d; },
+      [](auto m)  { return m; }
+    );
   }
   static constexpr bool exists = true;
 };
 
 template <class F, class S>
 struct shows<validation<F, S>> {
-  static const std::string show(const validation<F, S>& v) noexcept {
-    return v.cata(
-      [](const F& f) { return std::string("failure(") + shows<F>::show(f) + ")"; },
-      [](const S& s) { return std::string("success(") + shows<S>::show(s) + ")"; }
+  static const std::string show(const validation<F, S>& n) noexcept {
+    return match(n,
+      [](auto f) { return std::string("failure(") + shows<F>::show(f) + ")"; },
+      [](auto s) { return std::string("success(") + shows<S>::show(s) + ")"; }
     );
   }
   static constexpr bool exists = true;
 };
+
 
 }
 

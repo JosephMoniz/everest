@@ -23,6 +23,17 @@ constexpr inline Mb flat_map(Fn f, const M<A>& m) noexcept {
   return monad<M<A>>::flat_map(f, m);
 }
 
+template <template <class, class> class M,
+  class Fn,
+  class A,
+  class B,
+  class Mr = typename std::result_of<Fn(B)>::type,
+  class    = typename std::enable_if<functor<M<A, B>>::exists>::type,
+  class    = typename std::enable_if<applicative<M<A, B>>::exists>::type>
+constexpr inline Mr flat_map(Fn f, const M<A, B>& m) noexcept {
+  return monad<M<A, B>>::flat_map(f, m);
+}
+
 template <template <class> class M,
           class Fn,
           class A,

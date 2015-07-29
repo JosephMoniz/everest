@@ -14,14 +14,13 @@ struct monad_plus {
   static constexpr bool exists = false;
 };
 
-template <template <class> class M,
-          class A,
-          class = typename std::enable_if<functor<M<A>>::exists>::type,
-          class = typename std::enable_if<applicative<M<A>>::exists>::type,
-          class = typename std::enable_if<monad<M<A>>::exists>::type,
-          class = typename std::enable_if<zero_val<M<A>>::exists>::type>
-constexpr inline M<A> mplus(const M<A>& a, const M<A>& b) noexcept {
-  return monad_plus<M<A>>::mplus(a, b);
+template <class M,
+          class = typename std::enable_if<functor<M>::exists>::type,
+          class = typename std::enable_if<applicative<M>::exists>::type,
+          class = typename std::enable_if<monad<M>::exists>::type,
+          class = typename std::enable_if<zero_val<M>::exists>::type>
+constexpr inline M mplus(const M& a, const M& b) noexcept {
+  return monad_plus<M>::mplus(a, b);
 }
 
 }

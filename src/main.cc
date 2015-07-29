@@ -1,46 +1,42 @@
-#include <functional>
-#include <iostream>
-#include <string>
+#include <traitorous_specs/types/bool_spec.h>
+#include <traitorous_specs/types/int8_spec.h>
+#include <traitorous_specs/types/int16_spec.h>
+#include <traitorous_specs/types/int32_spec.h>
+#include <traitorous_specs/types/int64_spec.h>
+#include <traitorous_specs/types/uint8_spec.h>
+#include <traitorous_specs/types/uint16_spec.h>
+#include <traitorous_specs/types/uint32_spec.h>
+#include <traitorous_specs/types/string_spec.h>
+#include <traitorous_specs/containers/option_spec.h>
+#include <traitorous_specs/containers/list_spec.h>
+#include <traitorous_specs/containers/validation_spec.h>
 
-#include "types/bool.h"
-#include "types/int.h"
-#include "types/string.h"
-
-#include "containers/monoids/max.h"
-#include "containers/monoids/min.h"
-#include "containers/option.h"
-#include "containers/validation.h"
-
-using traitorous::add;
-using traitorous::ap;
-using traitorous::divide;
-using traitorous::equals;
-using traitorous::failure;
-using traitorous::flat_map;
-using traitorous::is_empty;
-using traitorous::length;
-using traitorous::map;
-using traitorous::max;
-using traitorous::max_monoid;
-using traitorous::max_value;
-using traitorous::min;
-using traitorous::min_monoid;
-using traitorous::min_value;
-using traitorous::multiply;
-using traitorous::negate;
-using traitorous::none;
-using traitorous::one;
-using traitorous::option;
-using traitorous::remainder;
-using traitorous::show;
-using traitorous::some;
-using traitorous::subtract;
-using traitorous::success;
-using traitorous::zero;
-
+using namespace traitorous;
 
 int main(int argc, char **argv) {
+  // Type specifications
+  //
+  bool_specification();
+  int8_specification();
+  int16_specification();
+  int32_specification();
+  int64_specification();
+  uint8_specification();
+  uint16_specification();
+  uint32_specification();
+  string_specification();
 
+  // Container specifications
+  //
+  option_specification();
+  validation_specification();
+  list_specification();
+
+  // Print and return the final test results
+  //
+  return print_final_results_for_traitorous_test();
+
+  /*
   auto double_f = [](const int& n) { return n * 2; };
 
   std::cout << "== Basic" << std::endl
@@ -67,6 +63,8 @@ int main(int argc, char **argv) {
             << "cmp max: " << max(a, b) << std::endl
             << "cmp min: " << min(a, b) << std::endl
             << std::endl;
+
+
 
   std::cout << "== Monoid Max" << std::endl;
   auto a1     = max_monoid<int>(3);
@@ -158,10 +156,10 @@ int main(int argc, char **argv) {
   auto success1 = success<std::string, int>(6);
   auto success2 = success<std::string, int>(3);
   auto success3 = success<std::string, int>(6);
-  auto failure1 = failure<std::string, int>("boom!");
+  auto failure1 = failure<std::string, int>(std::string("boom!"));
 
   std::cout << "== Validation" << std::endl
             << "print success: " << show(success1) << std::endl
             << "print failure: " << show(failure1) << std::endl;
-
+  */
 }

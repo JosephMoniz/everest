@@ -1,12 +1,27 @@
 #ifndef TRAITOROUS_TRAITS_ORD
 #define TRAITOROUS_TRAITS_ORD 1
 
+#include "traits/show.h"
+
 namespace traitorous {
 
 enum Ordering {
   LESS,
   EQUAL,
   GREATER
+};
+
+template<>
+struct shows<Ordering> {
+  static std::string show(Ordering n) noexcept {
+    switch(n) {
+      case LESS:    return std::string("LESS");
+      case EQUAL:   return std::string("EQUAL");
+      case GREATER: return std::string("GREATER");
+      default:      return std::string("UNKNOWN");
+    }
+  }
+  static constexpr bool exists = true;
 };
 
 template <class T>
@@ -37,7 +52,7 @@ struct default_ord {
 
 
 template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr inline T cmp(const T& lhs, const T& rhs) noexcept {
+constexpr inline Ordering cmp(const T& lhs, const T& rhs) noexcept {
   return ord<T>::cmp(lhs, rhs);
 }
 

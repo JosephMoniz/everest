@@ -11,11 +11,11 @@ struct filterable {
   static constexpr bool exists = false;
 };
 
-template <template <class> class F,
-          class T,
-          class = typename std::enable_if<filterable<F<T>>::exists>::type>
-constexpr inline F<T> filter(const F<T>& n, std::function<bool(const T&)> p) noexcept {
-  return filterable<T>::filter(n, p);
+template <class F,
+          class P,
+          class = typename std::enable_if<filterable<F>::exists>::type>
+constexpr inline F filter(P p, const F& n) noexcept {
+  return filterable<F>::filter(p, n);
 }
 
 }

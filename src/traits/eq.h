@@ -17,19 +17,18 @@ struct default_eq {
   static constexpr bool exists = true;
 };
 
-template <class T, class = typename std::enable_if<eq<T>::exists>::type>
+template <class T,
+  class = typename std::enable_if<eq<T>::exists>::type>
 constexpr inline bool equals(const T& lhs, const T& rhs) noexcept {
   return eq<T>::equals(lhs, rhs);
 }
 
-template <class T, class = typename std::enable_if<eq<T>::exists>::type>
-constexpr inline bool operator==(const T& lhs, const T& rhs) noexcept {
-  return eq<T>::equals(lhs, rhs);
-}
-
-template <class T, class = typename std::enable_if<eq<T>::exists>::type>
-constexpr inline bool operator!=(const T& lhs, const T& rhs) noexcept {
-  return eq<T>::equals(lhs, rhs) == false;
+template <class T,
+  class = typename std::enable_if<eq<T>::exists>::type>
+constexpr inline std::function<bool(const T&)> equals(const T& lhs) noexcept {
+  return [&](const T& rhs) {
+    return eq<T>::equals(lhs, rhs);
+  };
 }
 
 }
