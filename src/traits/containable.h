@@ -1,7 +1,7 @@
 #ifndef TRAITOROUS_TRAITS_CONTAINABLE
 #define TRAITOROUS_TRAITS_CONTAINABLE 1
 
-#include <containers/option.h>
+#include "containers/local_option.h"
 
 namespace traitorous {
 

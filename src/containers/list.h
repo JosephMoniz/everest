@@ -7,7 +7,7 @@
 #include <numeric>
 #include <list>
 
-#include "containers/option.h"
+#include "local_option.h"
 #include "containers/shared_ptr.h"
 
 #include "traits/containable.h"
@@ -36,21 +36,31 @@ namespace traitorous {
 using std::shared_ptr;
 using std::make_shared;
 
+enum list_type {
+  LIST_CONS,
+  LIST_NIL
+};
+
 template<class T>
 class list {
 public:
 
-  const option<T> _item;
+  const list_type _tag;
+
+  const T _item;
 
   const shared_ptr<list<T>> _next;
 
-  list(const T& item, shared_ptr<list<T>> next) : _item(some(item)),
+  list(const T& item, shared_ptr<list<T>> next) : _tag(LIST_CONS),
+                                                  _item(item),
                                                   _next(next) { };
 
-  list(const T& item) : _item(some(item)),
+  list(const T& item) : _tag(LIST_CONS),
+                        _item(item),
                         _next(make_shared<list<T>>()) { }
 
-  list() : _item(none<T>()),
+  list() : _tag(LIST_NIL),
+           _item(T()),
            _next(nullptr) {}
 
 };
@@ -85,10 +95,9 @@ template <class T,
           class N,
           class R = typename std::result_of<N()>::type>
 static constexpr R match(const list<T>& o, N n, P p) {
-  return match(o._item,
-    [&]()       { return n(); },
-    [&](auto i) { return p(i, o._next); }
-  );
+  return o._tag == LIST_NIL
+    ? n()
+    : p(o._item, o._next);
 }
 
 template <class T,

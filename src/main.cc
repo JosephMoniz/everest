@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
   auto max_r1 = a1 + a2 + a3;
 
   auto ao1    = option<max_monoid<int>>(a1);
-  auto ao2    = none<max_monoid<int>>();
+  auto ao2    = local_none<max_monoid<int>>();
   auto ao3    = option<max_monoid<int>>(a3);
   auto max_r2 = ao1 + ao2 + ao3;
 
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
             << "equals(some(6), some(3)): " << show(equals(some1, some2)) << std::endl
             << "equals(some(6), some(6)): " << show(equals(some1, some3)) << std::endl
             << "equals(none, some(6)): " << show(equals(none1, some1)) << std::endl
-            << "some(6) == some(3): " << show(some1 == some2) << std::endl
+            << "local_some(6) == some(3): " << show(some1 == some2) << std::endl
             << "some(6) == some(6): " << show(some1 == some3) << std::endl
             << "none == some(6): " << show(none1 == some1) << std::endl
             << "alt(some(6), some(3)): " << show(alt(some1, some2)) << std::endl

@@ -6,6 +6,8 @@
 #include <string>
 #include <memory>
 
+#include "containers/local_option.h"
+
 #include "meta/nth_arg.h"
 
 #include "traits/containable.h"
@@ -27,52 +29,17 @@
 
 namespace traitorous {
 
-using std::shared_ptr;
-
-enum option_type {
-  OPTION_SOME,
-  OPTION_NONE
-};
+template <class T>
+using option<T> = std::shared_ptr<local_option<T>>;
 
 template<class T>
-class option {
-
-  using data_t = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
-  const option_type _tag;
-  data_t _value;
-
-public:
-
-  option() : _tag(OPTION_NONE) {}
-
-  option(const T& o) : _tag(OPTION_SOME) {
-    new (&_value) T(o);
-  }
-
-  ~option() noexcept {
-    if (_tag == OPTION_SOME) {
-      reinterpret_cast<T*>(&_value)->~T();
-    }
-  }
-
-  option_type get_type() const {
-    return _tag;
-  };
-
-  const T& get() const {
-    return *reinterpret_cast<const T*>(&_value);
-  }
-
-};
-
-template<class T>
-const option<T> some(const T& o) {
-  return option<T>(o);
+const option<T> some(const T &o) {
+  return std::make_shared<local_option<T>>(o);
 }
 
 template<class T>
 const option<T> none() {
-  return option<T>();
+  return std::make_shared<local_option<T>>();
 }
 
 template <class T,
@@ -80,16 +47,6 @@ template <class T,
           class S,
           class R = typename std::result_of<N()>::type>
 static constexpr R match(const option<T>& o, N n, S s) noexcept {
-  return (o.get_type() == OPTION_NONE)
-    ? n()
-    : s(o.get());
-}
-
-template <class T,
-          class N,
-          class S,
-          class R = typename std::result_of<N()>::type>
-static constexpr R match(shared_ptr<option<T>> o, N n, S s) noexcept {
   return (o)
     ? match(*o, n, s)
     : n();
@@ -116,8 +73,8 @@ struct container<option<T>> {
   }
   static constexpr bool is_empty(const option<T>& o) noexcept {
     return match(o,
-      []()           { return true; },
-      [](const T& n) { return false; }
+                 []()           { return true; },
+                 [](const T& n) { return false; }
     ) ;
   }
   static constexpr bool exists = true;
@@ -129,18 +86,18 @@ struct eq<option<T>> {
                                const option<T>& rhs) noexcept
   {
     return match(lhs,
-      [&](){
-        return match(rhs,
-          []()           { return true; },
-          [](const T& y) { return false; }
-        );
-      },
-      [&](const T& x){
-        return match(rhs,
-          []()            { return false; },
-          [&](const T& y) { return x == y; }
-        );
-      }
+                 [&](){
+                   return match(rhs,
+                                []()           { return true; },
+                                [](const T& y) { return false; }
+                   );
+                 },
+                 [&](const T& x){
+                   return match(rhs,
+                                []()            { return false; },
+                                [&](const T& y) { return x == y; }
+                   );
+                 }
     );
   }
   static constexpr bool exists = true;
@@ -160,8 +117,8 @@ template <class T>
 struct hashable<option<T>> {
   static constexpr int hash(const option<T>& o) noexcept {
     return match(o,
-      []()           { return 0; },
-      [](const T& n) { return hashable<T>::hash(n); }
+                 []()           { return 0; },
+                 [](const T& n) { return hashable<T>::hash(n); }
     );
   }
   static constexpr bool exists = true;
@@ -169,23 +126,23 @@ struct hashable<option<T>> {
 
 template <class T>
 struct zero_val<option<T>> {
-  static constexpr option<T> zero() { return none<T>(); }
+  static constexpr option<T> zero() { return local_none<T>(); }
   static constexpr bool exists = true;
 };
 
 template <class T>
 struct semigroup<option<T>> {
   static constexpr option<T> add(const option<T>& lhs,
-                                 const option<T>& rhs) noexcept
+                                       const option<T>& rhs) noexcept
   {
     return match(lhs,
-      [&rhs]()        { return rhs; },
-      [&](const T& x) {
-        return match(rhs,
-          [&lhs]()        { return lhs; },
-          [&](const T& y) { return some<T>(x + y); }
-        );
-      }
+                 [&rhs]()        { return rhs; },
+                 [&](const T& x) {
+                   return match(rhs,
+                                [&lhs]()        { return lhs; },
+                                [&](const T& y) { return local_some<T>(x + y); }
+                   );
+                 }
     );
   }
   static constexpr bool exists = true;
@@ -201,8 +158,8 @@ struct filterable<option<T>> {
   template <class P>
   static constexpr option<T> filter(P p, const option<T>& n) noexcept {
     return match(n,
-                 []()            { return none<T>(); },
-                 [&](const T& m) { return p(m) ? n : none<T>(); }
+                 []()            { return local_none<T>(); },
+                 [&](const T& m) { return p(m) ? n : local_none<T>(); }
     );
   }
   static constexpr bool exists = true;
@@ -215,28 +172,28 @@ struct ord<option<T>> {
                                 const option<T>& rhs) noexcept
   {
     return match(lhs,
-      [&rhs]() {
-        return match(rhs,
-          []()           { return EQUAL; },
-          [](const T& x) { return LESS; }
-        );
-      },
-      [&rhs](const T& x) {
-        return match(rhs,
-          []()             { return GREATER; },
-          [&x](const T& y) { return traitorous::cmp(x, y); }
-        );
-      }
+                 [&rhs]() {
+                   return match(rhs,
+                                []()           { return EQUAL; },
+                                [](const T& x) { return LESS; }
+                   );
+                 },
+                 [&rhs](const T& x) {
+                   return match(rhs,
+                                []()             { return GREATER; },
+                                [&x](const T& y) { return traitorous::cmp(x, y); }
+                   );
+                 }
     );
   }
 
   static constexpr const option<T>& min(const option<T>& lhs,
-                                        const option<T>& rhs) noexcept
+                                              const option<T>& rhs) noexcept
   {
     return (ord<option<T>>::cmp(lhs, rhs) == GREATER) ? rhs : lhs;
   }
   static constexpr const option<T>& max(const option<T>& lhs,
-                                        const option<T>& rhs) noexcept
+                                              const option<T>& rhs) noexcept
   {
     return (ord<option<T>>::cmp(lhs, rhs) == LESS) ? rhs : lhs;
   }
@@ -248,8 +205,8 @@ struct functor<option<T>> {
   template <class F, class B = typename std::result_of<F(T)>::type>
   static constexpr option<B> map(F f, const option<T>& n) noexcept {
     return match(n,
-      []()             { return none<B>(); },
-      [&f](const T& m) { return some<B>(f(m)); }
+                 []()             { return local_none<B>(); },
+                 [&f](const T& m) { return local_some<B>(f(m)); }
     );
   }
   static constexpr bool exists = true;
@@ -267,11 +224,11 @@ struct applicative<option<F>> {
 template <class T>
 struct alternative<option<T>> {
   static constexpr option<T> alt(const option<T>& lhs,
-                                 const option<T>& rhs) noexcept
+                                       const option<T>& rhs) noexcept
   {
     return match(lhs,
-      [&rhs]()           { return rhs; },
-      [&lhs](const T& n) { return lhs; }
+                 [&rhs]()           { return rhs; },
+                 [&lhs](const T& n) { return lhs; }
     );
   }
   static constexpr bool exists = true;
@@ -285,20 +242,20 @@ constexpr inline option<T> operator||(const option<T>& lhs, const option<T>& rhs
 template <class T>
 struct monad<option<T>> {
   template <class F,
-            class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+    class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
   static constexpr option<B> flat_map(F f, const option<T>& m) noexcept {
     return match(m,
-      [&m]()           { return none<B>(); },
-      [&f](const T& t) { return f(t); }
+                 [&m]()           { return local_none<B>(); },
+                 [&f](const T& t) { return f(t); }
     );
   }
   template <class B>
   static constexpr option<B> then(const option<T>& m,
-                                  const option<B>& n) noexcept
+                                        const option<B>& n) noexcept
   {
     return match(m,
-      []()        { return none<B>(); },
-      [&](auto _) { return n; }
+                 []()        { return local_none<B>(); },
+                 [&](auto _) { return n; }
     );
   }
   static constexpr bool exists = true;
@@ -307,11 +264,11 @@ struct monad<option<T>> {
 template <class T>
 struct monad_plus<option<T>> {
   static constexpr option<T> mplus(const option<T>& lhs,
-                                   const option<T>& rhs) noexcept
+                                         const option<T>& rhs) noexcept
   {
     return match(lhs,
-      [&rhs]()           { return rhs; },
-      [&lhs](const T& n) { return lhs; }
+                 [&rhs]()           { return rhs; },
+                 [&lhs](const T& n) { return lhs; }
     );
   }
   static constexpr bool exists = true;
@@ -321,16 +278,16 @@ template <class T>
 struct foldable<option<T>> {
   static constexpr T fold(const option<T>& n) noexcept {
     return match(n,
-      []()             { return zero_val<T>::zero(); },
-      [&n](const T& m) { return m; }
+                 []()             { return zero_val<T>::zero(); },
+                 [&n](const T& m) { return m; }
     );
   }
   template <class Fn,
-            class M = typename std::result_of<Fn(T)>::type>
+    class M = typename std::result_of<Fn(T)>::type>
   static constexpr M fold_map(Fn f, const option<T>& n) noexcept {
     return match(n,
-      []()             { return zero_val<M>::zero(); },
-      [&f](const T& m) { return f(m); }
+                 []()             { return zero_val<M>::zero(); },
+                 [&f](const T& m) { return f(m); }
     );
   }
   template <class Fn, class B>
@@ -339,8 +296,8 @@ struct foldable<option<T>> {
                            const option<T>& n) noexcept
   {
     return match(n,
-      [&]()           { return init; },
-      [&](const T& m) { return f(init, m); }
+                 [&]()           { return init; },
+                 [&](const T& m) { return f(init, m); }
     );
   }
   template <class Fn, class B>
@@ -349,8 +306,8 @@ struct foldable<option<T>> {
                            const option<T>& n) noexcept
   {
     return match(n,
-      [&]()           { return init; },
-      [&](const T& m) { return f(init, m); }
+                 [&]()           { return init; },
+                 [&](const T& m) { return f(init, m); }
     );
   }
   static constexpr bool exists = true;
@@ -361,14 +318,14 @@ struct unwrappable<option<T>> {
   template <class D>
   static constexpr T get_or_else(D d, const option<T>& f) noexcept {
     return match(f,
-      [&d]()         { return d(); },
-      [](const T& m) { return m; }
+                 [&d]()         { return d(); },
+                 [](const T& m) { return m; }
     );
   }
   static constexpr T get_or_default(const T& d, const option<T>& n) noexcept {
     return match(n,
-      [&d]()         { return d; },
-      [](const T& m) { return m; }
+                 [&d]()         { return d; },
+                 [](const T& m) { return m; }
     );
   }
   static constexpr bool exists = true;
@@ -378,8 +335,8 @@ template <class T>
 struct shows<option<T>> {
   static const std::string show(const option<T>& n) noexcept {
     return match(n,
-      []()           { return std::string("none"); },
-      [](const T& n) { return std::string("some(") + shows<T>::show(n) + ")"; }
+                 []()           { return std::string("local_none"); },
+                 [](const T& n) { return std::string("local_some(") + shows<T>::show(n) + ")"; }
     );
   }
   static constexpr bool exists = true;
