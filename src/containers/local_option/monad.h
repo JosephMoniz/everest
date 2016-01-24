@@ -2,7 +2,8 @@
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_MONAD_H
 
 #include "containers/local_option.h"
-#include "traits/lawful/monoid.h"
+#include "traits/lawful/monad.h"
+#include "meta/nth_arg.h"
 
 namespace traitorous {
 

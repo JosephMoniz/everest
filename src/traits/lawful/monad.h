@@ -3,7 +3,6 @@
 #ifndef TRAITOROUS_TRAITS_MONAD
 #define TRAITOROUS_TRAITS_MONAD 1
 
-#include <containers/local_option.h>
 #include "functor.h"
 
 namespace traitorous {

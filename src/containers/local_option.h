@@ -1,19 +1,6 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_H
 
-#include <type_traits>
-#include <functional>
-#include <string>
-#include <memory>
-
-#include "meta/nth_arg.h"
-
-#include "traits/lawful/monoid.h"
-#include "traits/unlawful/filterable.h"
-#include "traits/unlawful/ord.h"
-#include "traits/lawful/monad_plus.h"
-#include "traits/unlawful/unwrappable.h"
-
 namespace traitorous {
 
 enum option_type {
