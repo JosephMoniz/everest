@@ -3,51 +3,27 @@
 
 #include <string>
 
-#include "traits/container.h"
-#include "traits/eq.h"
-#include "traits/zero.h"
-#include "traits/semigroup.h"
-#include "traits/monoid.h"
-#include "traits/ord.h"
-#include "traits/show.h"
+#include "traits/unlawful/container.h"
+#include "traits/unlawful/eq.h"
+#include "traits/unlawful/zero.h"
+#include "traits/lawful/semigroup.h"
+#include "traits/lawful/monoid.h"
+#include "traits/unlawful/ord.h"
+#include "traits/unlawful/show.h"
 
 namespace traitorous {
 
-template<>
-struct zero_val<std::string> {
-  static std::string zero() noexcept { return std::string(""); }
-  static constexpr bool exists = true;
+enum string_type {
+  BASE_STRING,
+  CONCAT_STRING,
+  SLICED_STRING
 };
 
-template<>
-struct semigroup<std::string> : public default_semigroup<std::string> {};
+class string {
+public:
 
-template<>
-struct monoid<std::string> {
-  static constexpr bool exists = true;
-};
+  virtual string_type get_type() = 0;
 
-template<>
-struct eq<std::string> : public default_eq<std::string> {};
-
-template<>
-struct ord<std::string> : public default_ord<std::string> {};
-
-template<>
-struct container<std::string> {
-  static size_t length(const std::string& n) noexcept {
-    return n.length();
-  }
-  static bool is_empty(const std::string& n) noexcept {
-    return n.length() == 0;
-  }
-  static constexpr bool exists = true;
-};
-
-template<>
-struct shows<std::string> {
-  static std::string show(const std::string& n) noexcept { return n; }
-  static constexpr bool exists = true;
 };
 
 }

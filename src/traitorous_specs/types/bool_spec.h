@@ -4,7 +4,7 @@
 #include <string>
 
 #include "test/bdd.h"
-#include "traits/show.h"
+#include "traits/unlawful/show.h"
 #include "types/bool.h"
 #include "types/int32.h"
 

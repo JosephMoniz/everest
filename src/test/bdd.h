@@ -7,7 +7,7 @@
 #include <functional>
 #include <cstdint>
 
-#include "traits/show.h"
+#include "traits/unlawful/show.h"
 
 #include "types/string.h"
 #include "types/int32.h"

@@ -1,15 +1,25 @@
 #ifndef TRAITOROUS_TYPES_BOOL
 #define TRAITOROUS_TYPES_BOOL 1
 
-#include "traits/eq.h"
-#include "traits/zero.h"
-#include "traits/ord.h"
-#include "traits/show.h"
+#include "traits/unlawful/eq.h"
+#include "traits/unlawful/zero.h"
+#include "traits/unlawful/ord.h"
+#include "traits/unlawful/show.h"
 
 namespace traitorous {
 
 template<>
 struct eq<bool> : public default_eq<bool> {};
+
+constexpr inline bool equals(bool lhs, bool rhs) noexcept {
+  return eq<bool>::equals(lhs, rhs);
+}
+
+inline std::function<bool(bool)> equals(bool lhs) noexcept {
+  return [&](bool rhs) {
+    return eq<bool>::equals(lhs, rhs);
+  };
+}
 
 template<>
 struct zero_val<bool> {

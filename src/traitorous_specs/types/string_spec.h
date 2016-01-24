@@ -10,6 +10,7 @@ namespace traitorous {
 
 void string_specification() {
   describe("A type string", []() {
+    /*
     it("should return the length of the string when passed through length()", []() {
       return length(std::string("abc")) == 3;
     });
@@ -40,7 +41,6 @@ void string_specification() {
     it("should return GREATER when a greater string is passed through cmp()", []() {
       return cmp(std::string("b"), std::string("a")) == GREATER;
     });
-    /*
     it("should return itself when a greater value is passed through min()", []() {
       return min(std::string("a"), std::string("b")) == std::string("a");
     });
@@ -53,10 +53,10 @@ void string_specification() {
     it("should return the other value when a greater value is passed through max()", []() {
       return max(std::string("a"), std::string("b")) == std::string("b");
     });
-     */
     it("should return itself when passed through show()", []() {
       return show(std::string("abc")) == std::string("abc");
     });
+     */
   });
 }
 

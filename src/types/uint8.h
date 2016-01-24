@@ -3,22 +3,22 @@
 
 #include <cstdint>
 
-#include "traits/eq.h"
-#include "traits/ord.h"
-#include "traits/bounded.h"
-#include "traits/one.h"
-#include "traits/monoid.h"
-#include "traits/subtract.h"
-#include "traits/multiply.h"
-#include "traits/divide.h"
-#include "traits/remainder.h"
-#include "traits/negate.h"
-#include "traits/bit_and.h"
-#include "traits/bit_or.h"
-#include "traits/bit_xor.h"
-#include "traits/shift_left.h"
-#include "traits/shift_right.h"
-#include "traits/show.h"
+#include "traits/unlawful/eq.h"
+#include "traits/unlawful/ord.h"
+#include "traits/unlawful/bounded.h"
+#include "traits/unlawful/one.h"
+#include "traits/lawful/monoid.h"
+#include "traits/unlawful/subtract.h"
+#include "traits/unlawful/multiply.h"
+#include "traits/unlawful/divide.h"
+#include "traits/unlawful/remainder.h"
+#include "traits/unlawful/negate.h"
+#include "traits/unlawful/bit_and.h"
+#include "traits/unlawful/bit_or.h"
+#include "traits/unlawful/bit_xor.h"
+#include "traits/unlawful/shift_left.h"
+#include "traits/unlawful/shift_right.h"
+#include "traits/unlawful/show.h"
 
 namespace traitorous {
 
@@ -48,6 +48,16 @@ struct bounded<uint8_t> : public default_bounded<uint8_t> {};
 
 template <>
 struct eq<uint8_t> : public default_eq<uint8_t> {};
+
+constexpr inline bool equals(uint8_t lhs, uint8_t rhs) noexcept {
+  return eq<uint8_t>::equals(lhs, rhs);
+}
+
+inline std::function<bool(uint8_t)> equals(uint8_t lhs) noexcept {
+  return [&](uint8_t rhs) {
+    return eq<uint8_t>::equals(lhs, rhs);
+  };
+}
 
 template <>
 struct ord<uint8_t> : public default_ord<uint8_t> {};
