@@ -9,33 +9,43 @@
 namespace traitorous {
 
 template<>
-struct eq<bool> : public default_eq<bool> {};
+class Eq<bool> : public DefaultEq<bool> {};
 
-constexpr inline bool equals(bool lhs, bool rhs) noexcept {
-  return eq<bool>::equals(lhs, rhs);
+constexpr inline bool Equals(bool lhs, bool rhs) noexcept {
+  return Eq<bool>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(bool)> equals(bool lhs) noexcept {
+inline std::function<bool(bool)> Equals(bool lhs) noexcept {
   return [&](bool rhs) {
-    return eq<bool>::equals(lhs, rhs);
+    return Eq<bool>::Equals(lhs, rhs);
   };
 }
 
 template<>
-struct zero_val<bool> {
-  static constexpr bool zero() noexcept { return false; }
+class ZeroVal<bool> {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr bool Zero() noexcept {
+    return false;
+  }
+
 };
 
 template<>
-struct ord<bool> : public default_ord<bool> {};
+class Ord<bool> : public DefaultOrd<bool> {};
 
 template<>
-struct shows<bool> {
-  static std::string show(bool n) noexcept {
+class Shows<bool> {
+public:
+
+  static constexpr bool exists = true;
+
+  static std::string Show(bool n) noexcept {
     return n ? std::string("true") : std::string("false");
   }
-  static constexpr bool exists = true;
+
 };
 
 }

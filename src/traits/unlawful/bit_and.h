@@ -1,27 +1,44 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_BITAND
 #define TRAITOROUS_TRAITS_BITAND 1
 
 namespace traitorous {
 
 template <class T>
-struct bit_and {
-  // T and()
+class BitAnd {
+
+  typedef BitAnd<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  static constexpr T BinaryAnd(const T& lhs, const T& rhs) noexcept {
+    return Base::BinaryAnd(lhs, rhs);
+  }
+
 };
 
 template <class T>
-struct default_and {
-  static constexpr T apply(const T& lhs, const T& rhs) noexcept {
+class DefaultAnd {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr T BinaryAnd(const T& lhs, const T& rhs) noexcept {
     return lhs & rhs;
   }
-  static constexpr bool exists = true;
+
 };
 
-template <class T, class = typename std::enable_if<bit_and<T>::exists>::type>
-constexpr inline T b_and(const T& lhs, const T& rhs) noexcept {
-  return bit_and<T>::apply(lhs, rhs);
+template <class T>
+constexpr inline T BinaryAnd(const T& lhs, const T& rhs) noexcept {
+  return BitAnd<T>::BinaryAnd(lhs, rhs);
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

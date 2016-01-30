@@ -7,16 +7,16 @@
 namespace traitorous {
 
 template <class T>
-class filterable<local_option<T>> {
+class Filterable<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
   template <class P>
-  static constexpr local_option<T> filter(P p, const local_option<T>& n) noexcept {
-    return match(n,
-      []()            { return local_none<T>(); },
-      [&](const T& m) { return p(m) ? n : local_none<T>(); }
+  static constexpr LocalOption<T> Filter(P p, const LocalOption<T>& n) noexcept {
+    return Match(n,
+      []()            { return LocalNone<T>(); },
+      [&](const T& m) { return p(m) ? n : LocalNone<T>(); }
     );
   }
 

@@ -36,13 +36,11 @@ set(SOURCE_FILES
         src/traits/unlawful/ord.h
         src/traits/unlawful/remainder.h
         src/traits/lawful/semigroup.h
-        src/traits/unlawful/set.h
         src/traits/unlawful/shift_left.h
         src/traits/unlawful/shift_right.h
         src/traits/unlawful/show.h
         src/traits/unlawful/subtract.h
         src/traits/unlawful/takeable.h
-        src/traits/unlawful/traversable.h
         src/traits/unlawful/unwrappable.h
         src/traits/unlawful/zero.h
         src/types/bool.h
@@ -56,7 +54,29 @@ set(SOURCE_FILES
         src/types/uint64.h
         src/types/uint8.h
         src/main.cc
-        src/containers/local_option/hashable.h src/containers/local_option/zero.h src/containers/local_option/semigroup.h src/containers/local_option/monoid.h src/containers/local_option/filterable.h src/containers/local_option/ord.h src/containers/local_option/monad_plus.h src/containers/local_option/unwrappable.h src/containers/local_option/shows.h)
+        src/containers/local_option/hashable.h
+        src/containers/local_option/zero.h
+        src/containers/local_option/semigroup.h
+        src/containers/local_option/monoid.h
+        src/containers/local_option/filterable.h
+        src/containers/local_option/ord.h
+        src/containers/local_option/monad_plus.h
+        src/containers/local_option/unwrappable.h
+        src/containers/local_option/shows.h
+        src/containers/shared.h
+        src/containers/option.h
+        src/containers/option/containable.h
+        src/containers/option/container.h
+        src/containers/option/alternative.h
+        src/containers/option/eq.h
+        src/containers/option/foldable.h
+        src/containers/option/functor.h
+        src/containers/option/hashable.h
+        src/containers/option/monad.h
+        src/containers/option/semigroup.h
+        src/traitorous_specs/containers/option_spec.h
+        src/containers/enumerator.h
+        src/containers/chain.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}

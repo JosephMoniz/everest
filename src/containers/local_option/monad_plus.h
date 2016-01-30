@@ -7,15 +7,15 @@
 namespace traitorous {
 
 template <class T>
-class monad_plus<local_option<T>> {
+class MonadPlus<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr local_option<T> mplus(const local_option<T>& lhs,
-                                         const local_option<T>& rhs) noexcept
+  static constexpr LocalOption<T> MPlus(const LocalOption<T>& lhs,
+                                        const LocalOption<T>& rhs) noexcept
   {
-    return match(lhs,
+    return Match(lhs,
       [&rhs]()           { return rhs; },
       [&lhs](const T& n) { return lhs; }
     );

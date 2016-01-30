@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_BOUNDED
 #define TRAITOROUS_TRAITS_BOUNDED 1
 
@@ -6,33 +8,54 @@
 namespace traitorous {
 
 template <class T>
-struct bounded {
-  // T min_value()
-  // T max_value()
+class Bounded {
+
+  typedef Bounded<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class U>
+  static constexpr inline U MinValue() noexcept {
+    return Base::MinValue();
+  }
+
+  template <class U>
+  static constexpr inline U MaxValue() noexcept {
+    return Base::MaxValue();
+  }
+
 };
 
 template <class T>
-struct default_bounded {
-  static constexpr T min_value() noexcept {
+class DefaultBounded {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr T MinValue() noexcept {
     return std::numeric_limits<T>::min();
   }
-  static constexpr T max_value() noexcept {
+
+  static constexpr T MaxValue() noexcept {
     return std::numeric_limits<T>::max();
   }
-  static constexpr bool exists = true;
+
 };
 
 template <class T>
-constexpr inline T min_value() noexcept {
-  return bounded<T>::min_value();
+constexpr inline T MinValue() noexcept {
+  return Bounded<T>::MinValue();
 }
 
 template <class T>
-constexpr inline T max_value() noexcept {
-  return bounded<T>::max_value();
+constexpr inline T MaxValue() noexcept {
+  return Bounded<T>::MaxValue();
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

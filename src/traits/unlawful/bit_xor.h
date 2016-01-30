@@ -1,27 +1,45 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_BITXOR
 #define TRAITOROUS_TRAITS_BITXOR 1
 
 namespace traitorous {
 
 template <class T>
-struct bit_xor {
-  // T xor()
+class BitXor {
+
+  typedef BitXor<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class U>
+  static constexpr inline U BinaryXor(const U& lhs, const U& rhs) noexcept {
+    return Base::BinaryXor(lhs, rhs);
+  }
+
 };
 
 template <class T>
-struct default_xor {
-  static constexpr T apply(const T& lhs, const T& rhs) noexcept {
+class DefaultXor {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr T BinaryXor(const T& lhs, const T& rhs) noexcept {
     return lhs ^ rhs;
   }
-  static constexpr bool exists = true;
+
 };
 
-template <class T, class = typename std::enable_if<bit_xor<T>::exists>::type>
-constexpr inline T b_xor(const T& lhs, const T& rhs) noexcept {
-  return bit_xor<T>::apply(lhs, rhs);
+template <class T>
+constexpr inline T BinaryXor(const T& lhs, const T& rhs) noexcept {
+  return BitXor<T>::BinaryXor(lhs, rhs);
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

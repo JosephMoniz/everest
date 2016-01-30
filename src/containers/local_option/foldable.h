@@ -8,44 +8,44 @@
 namespace traitorous {
 
 template <class T>
-class foldable<local_option<T>> {
+class Foldable<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr T fold(const local_option<T>& n) noexcept {
-    return match(n,
-      []()             { return zero_val<T>::zero(); },
+  static constexpr T Fold(const LocalOption<T>& n) noexcept {
+    return Match(n,
+      []()             { return ZeroVal<T>::Zero(); },
       [&n](const T& m) { return m; }
     );
   }
 
   template <class Fn,
             class M = typename std::result_of<Fn(T)>::type>
-  static constexpr M fold_map(Fn f, const local_option<T>& n) noexcept {
-    return match(n,
-      []()             { return zero_val<M>::zero(); },
+  static constexpr M FoldMap(Fn f, const LocalOption<T>& n) noexcept {
+    return Match(n,
+      []()             { return ZeroVal<M>::Zero(); },
       [&f](const T& m) { return f(m); }
     );
   }
 
   template <class Fn, class B>
-  static constexpr B foldr(Fn f,
+  static constexpr B FoldR(Fn f,
                            const B& init,
-                           const local_option<T>& n) noexcept
+                           const LocalOption<T>& n) noexcept
   {
-    return match(n,
+    return Match(n,
       [&]()           { return init; },
       [&](const T& m) { return f(init, m); }
     );
   }
 
   template <class Fn, class B>
-  static constexpr B foldl(Fn f,
+  static constexpr B FoldL(Fn f,
                            const B& init,
-                           const local_option<T>& n) noexcept
+                           const LocalOption<T>& n) noexcept
   {
-    return match(n,
+    return Match(n,
       [&]()           { return init; },
       [&](const T& m) { return f(init, m); }
     );

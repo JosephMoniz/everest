@@ -7,41 +7,41 @@
 namespace traitorous {
 
 template<class T>
-class ord<local_option<T>> {
+class Ord<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr Ordering cmp(const local_option <T> &lhs,
-                                const local_option <T> &rhs) noexcept {
-    return match(lhs,
+  static constexpr Ordering Compare(const LocalOption<T> &lhs,
+                                    const LocalOption<T> &rhs) noexcept {
+    return Match(lhs,
       [&rhs]() {
-        return match(rhs,
+        return Match(rhs,
           []()           { return EQUAL; },
           [](const T &x) { return LESS; }
         );
       },
       [&rhs](const T &x) {
-        return match(rhs,
+        return Match(rhs,
           []()             { return GREATER; },
-          [&x](const T &y) { return traitorous::cmp(x, y); }
+          [&x](const T &y) { return traitorous::Compare(x, y); }
         );
       }
     );
   }
 
-  static constexpr const local_option <T> &min(const local_option <T> &lhs,
-                                               const local_option <T> &rhs) noexcept
+  static constexpr const LocalOption<T>& Min(const LocalOption<T> &lhs,
+                                             const LocalOption<T> &rhs) noexcept
   {
-    return (cmp(lhs, rhs) == GREATER)
+    return (Compare(lhs, rhs) == GREATER)
       ? rhs
       : lhs;
   }
 
-  static constexpr const local_option <T> &max(const local_option <T> &lhs,
-                                               const local_option <T> &rhs) noexcept
+  static constexpr const LocalOption<T>& Max(const LocalOption<T> &lhs,
+                                             const LocalOption<T> &rhs) noexcept
   {
-    return (cmp(lhs, rhs) == LESS)
+    return (Compare(lhs, rhs) == LESS)
       ? rhs
       : lhs;
   }

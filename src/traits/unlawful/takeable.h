@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_TAKEABLE
 #define TRAITOROUS_TRAITS_TAKEABLE 1
 
@@ -6,25 +8,39 @@
 namespace traitorous {
 
 template <class T>
-struct takeable {
-  // T take()
-  // T takeWhile()
+class Takeable {
+
+  typedef Takeable<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class T>
+  static constexpr inline T Take(const T& n, unsigned int s) noexcept {
+    return Base::Take(n, s);
+  }
+
+  template <template <class> class F, class T>
+  static constexpr inline F<T> TakeWhile(const F<T>& n, std::function<bool(const T&)> p) noexcept {
+    return Base::TakeWhile(n, p);
+  }
+
 };
 
-template <class T,
-          class = typename std::enable_if<takeable<T>::exists>::type>
-constexpr inline T take(const T& n, unsigned int s) noexcept {
-  return takeable<T>::take(n, s);
+template <class T>
+constexpr inline T Take(const T& n, unsigned int s) noexcept {
+  return Takeable<T>::Take(n, s);
 }
 
 template <template <class> class F,
-          class T,
-          class = typename std::enable_if<takeable<F<T>>::exists>::type>
-constexpr inline F<T> take_while(const F<T>& n, std::function<bool(const T&)> p) noexcept {
-  return takeable<F<T>>::take_while(n, p);
+  class T>
+constexpr inline F<T> TakeWhile(const F<T>& n, std::function<bool(const T&)> p) noexcept {
+  return Takeable<F<T>>::TakeWhile(n, p);
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

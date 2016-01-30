@@ -23,67 +23,75 @@
 namespace traitorous {
 
 template <>
-struct zero_val<uint16_t> : public default_zero_val<uint16_t> {};
+class ZeroVal<uint16_t> : public DefaultZeroVal<uint16_t> {};
 
 template <>
-struct semigroup<uint16_t> : public default_semigroup<uint16_t> {};
+class Semigroup<uint16_t> : public DefaultSemigroup<uint16_t> {};
 
 template <>
-struct monoid<uint16_t> : public default_monoid<uint16_t> {};
+class Monoid<uint16_t> : public DefaultMonoid<uint16_t> {};
 
 template <>
-struct subtractable<uint16_t> : public default_subtract<uint16_t> {};
+class Subtractable<uint16_t> : public DefaultSubtract<uint16_t> {};
 
 template <>
-struct multipliable<uint16_t> : public default_multipliable<uint16_t> {};
+class Multipliable<uint16_t> : public DefaultMultipliable<uint16_t> {};
 
 template <>
-struct dividable<uint16_t> : public default_dividable<uint16_t> {};
+class Dividable<uint16_t> : public DefaultDividable<uint16_t> {};
 
 template <>
-struct modulus<uint16_t> : public default_modulus<uint16_t> {};
+class Modulus<uint16_t> : public DefaultModulus<uint16_t> {};
 
 template <>
-struct negation<uint16_t> : public default_negation<uint16_t> {};
+class Negation<uint16_t> : public DefaultNegation<uint16_t> {};
 
 template <>
-struct bounded<uint16_t> : public default_bounded<uint16_t> {};
+class Bounded<uint16_t> : public DefaultBounded<uint16_t> {};
 
 template <>
-struct eq<uint16_t> : public default_eq<uint16_t> {};
+class Eq<uint16_t> : public DefaultEq<uint16_t> {};
 
-constexpr inline bool equals(uint16_t lhs, uint16_t rhs) noexcept {
-  return eq<uint16_t>::equals(lhs, rhs);
+constexpr inline bool Equals(uint16_t lhs, uint16_t rhs) noexcept {
+  return Eq<uint16_t>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(uint16_t)> equals(uint16_t lhs) noexcept {
+inline std::function<bool(uint16_t)> Equals(uint16_t lhs) noexcept {
   return [&](uint16_t rhs) {
-    return eq<uint16_t>::equals(lhs, rhs);
+    return Eq<uint16_t>::Equals(lhs, rhs);
   };
 }
 
 template <>
-struct ord<uint16_t> : public default_ord<uint16_t> {};
+class Ord<uint16_t> : public DefaultOrd<uint16_t> {};
 
 template <>
-struct bit_and<uint16_t> : public default_and<uint16_t> {};
+class BitAnd<uint16_t> : public DefaultAnd<uint16_t> {};
 
 template <>
-struct bit_or<uint16_t> : public default_or<uint16_t> {};
+class BitOr<uint16_t> : public DefaultOr<uint16_t> {};
 
 template <>
-struct bit_xor<uint16_t> : public default_xor<uint16_t> {};
+class BitXor<uint16_t> : public DefaultXor<uint16_t> {};
 
 template <>
-struct one_val<uint16_t> {
-  static constexpr uint16_t one() noexcept { return 1; }
+class OneVal<uint16_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr uint16_t One() noexcept { return 1; }
+
 };
 
 template <>
-struct shows<uint16_t> {
-  static const std::string show(uint16_t n) noexcept { return std::to_string(n); }
+class Shows<uint16_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static const std::string Show(uint16_t n) noexcept { return std::to_string(n); }
+
 };
 
 }

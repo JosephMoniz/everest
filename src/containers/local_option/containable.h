@@ -4,17 +4,16 @@
 #include "containers/local_option.h"
 #include "traits/unlawful/containable.h"
 
-
 namespace traitorous {
 
 template <class T>
-class containable<local_option, T> {
+class Containable<LocalOption<T>, T> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool contains(const T& n, const local_option<T>& f) noexcept {
-    return match(f,
+  static constexpr bool Contains(const T& n, const LocalOption<T>& f) noexcept {
+    return Match(f,
       []()             { return false; },
       [&n](const T& m) { return n == m; }
     );

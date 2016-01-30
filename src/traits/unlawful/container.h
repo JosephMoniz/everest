@@ -8,29 +8,31 @@
 namespace traitorous {
 
 template <class T>
-class container {
-  typedef container<T> base;
+class Container {
+
+  typedef Container<T> Base;
+
 public:
 
-  static constexpr size_t length(const T& n) {
-    return base::length(n);
+  static constexpr size_t Length(const T& n) {
+    return Base::Length(n);
   }
 
-  static constexpr bool is_empty(const T& n) {
-    return base::is_empty(n);
+  static constexpr bool IsEmpty(const T& n) {
+    return Base::IsEmpty(n);
   }
 
   static constexpr bool exists = false;
 };
 
 template<class T>
-constexpr inline size_t length(const T& n) noexcept {
-  return container<T>::length(n);
+constexpr inline size_t Length(const T& n) noexcept {
+  return Container<T>::Length(n);
 }
 
 template<class T>
-constexpr inline bool is_empty(const T& n) noexcept {
-  return container<T>::is_empty(n);
+constexpr inline bool IsEmpty(const T& n) noexcept {
+  return Container<T>::IsEmpty(n);
 }
 
 }

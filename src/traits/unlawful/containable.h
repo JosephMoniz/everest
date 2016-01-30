@@ -7,22 +7,24 @@
 
 namespace traitorous {
 
-template <template<class> class F, class T>
-struct containable {
-  typedef containable<F, T> base;
-public:
+template <class F, class T>
+class Containable {
 
-  static constexpr bool contains(const T& n, const F<T>& f) {
-    return base::contains(n, f);
-  }
+  typedef Containable<F, T> Base;
+
+public:
 
   static constexpr bool exists = false;
 
+  static constexpr bool Contains(const T& n, const F& f) {
+    return Base::Contains(n, f);
+  }
+
 };
 
-template<template<class> class F, class T>
-constexpr inline bool contains(const T& n, const F<T>& f) {
-  return containable<F, T>::contains(n, f);
+template<class F, class T>
+inline bool Contains(const T& n, const F& f) {
+  return Containable<F, T>::Contains(n, f);
 }
 
 }

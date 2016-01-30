@@ -7,20 +7,20 @@
 namespace traitorous {
 
 template <class T>
-class container<local_option<T>> {
+class Container<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t length(const local_option<T>& o) noexcept {
-    return match(o,
+  static constexpr size_t Length(const LocalOption<T>& o) noexcept {
+    return Match(o,
       []()           { return 0; },
       [](const T& n) { return 1; }
     );
   }
 
-  static constexpr bool is_empty(const local_option<T>& o) noexcept {
-    return match(o,
+  static constexpr bool IsEmpty(const LocalOption<T>& o) noexcept {
+    return Match(o,
       []()           { return true; },
       [](const T& n) { return false; }
     );

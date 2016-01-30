@@ -10,23 +10,23 @@
 namespace traitorous {
 
 template <class T>
-class monad_plus {
+class MonadPlus {
 
-  typedef monad_plus<T> base;
+  typedef MonadPlus<T> Base;
 
 public:
 
-  static constexpr T mplus(const T& lhs, const T& rhs) noexcept {
-    return base::mplus(lhs, rhs);
-  }
-
   static constexpr bool exists = false;
+
+  static constexpr T MPlus(const T& lhs, const T& rhs) noexcept {
+    return Base::MPlus(lhs, rhs);
+  }
 
 };
 
 template <class M>
-constexpr inline M mplus(const M& a, const M& b) noexcept {
-  return monad_plus<M>::mplus(a, b);
+constexpr inline M MPlus(const M& a, const M& b) noexcept {
+  return MonadPlus<M>::MPlus(a, b);
 }
 
 }

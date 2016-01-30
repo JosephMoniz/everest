@@ -7,21 +7,21 @@
 namespace traitorous {
 
 template <class T>
-class unwrappable<local_option<T>> {
+class Unwrappable<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
   template <class D>
-  static constexpr T get_or_else(D d, const local_option<T>& f) noexcept {
-    return match(f,
+  static constexpr T GetOrElse(D d, const LocalOption<T>& f) noexcept {
+    return Match(f,
       [&d]()         { return d(); },
       [](const T& m) { return m; }
     );
   }
 
-  static constexpr T get_or_default(const T& d, const local_option<T>& n) noexcept {
-    return match(n,
+  static constexpr T GetOrDefault(const T& d, const LocalOption<T>& n) noexcept {
+    return Match(n,
       [&d]()         { return d; },
       [](const T& m) { return m; }
     );

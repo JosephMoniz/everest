@@ -7,13 +7,13 @@
 namespace traitorous {
 
 template <class T>
-class zero_val<local_option<T>> {
+class ZeroVal<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr local_option<T> zero() {
-    return local_none<T>();
+  static constexpr LocalOption <T> Zero() {
+    return LocalNone<T>();
   }
 
 };

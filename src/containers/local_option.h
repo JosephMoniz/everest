@@ -1,35 +1,37 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_H
 
+#include <type_traits>
+
 namespace traitorous {
 
-enum option_type {
+enum OptionType {
   OPTION_SOME,
   OPTION_NONE
 };
 
 template<class T>
-class local_option {
+class LocalOption {
 
   using data_t = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
-  const option_type _tag;
+  const OptionType _tag;
   data_t _value;
 
 public:
 
-  local_option() : _tag(OPTION_NONE) {}
+  LocalOption() : _tag(OPTION_NONE) {}
 
-  local_option(const T& o) : _tag(OPTION_SOME) {
+  LocalOption(const T& o) : _tag(OPTION_SOME) {
     new (&_value) T(o);
   }
 
-  ~local_option() noexcept {
+  ~LocalOption() noexcept {
     if (_tag == OPTION_SOME) {
       reinterpret_cast<T*>(&_value)->~T();
     }
   }
 
-  option_type get_type() const {
+  OptionType get_type() const {
     return _tag;
   };
 
@@ -40,20 +42,20 @@ public:
 };
 
 template<class T>
-const local_option<T> local_some(const T &o) {
-  return local_option<T>(o);
+const LocalOption<T> LocalSome(const T &o) {
+  return LocalOption<T>(o);
 }
 
 template<class T>
-const local_option<T> local_none() {
-  return local_option<T>();
+const LocalOption<T> LocalNone() {
+  return LocalOption<T>();
 }
 
 template <class T,
           class N,
           class S,
           class R = typename std::result_of<N()>::type>
-static constexpr R match(const local_option<T>& o, N n, S s) noexcept {
+constexpr R Match(const LocalOption<T>& o, N n, S s) noexcept {
   return (o.get_type() == OPTION_NONE)
     ? n()
     : s(o.get());

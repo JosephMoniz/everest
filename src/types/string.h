@@ -1,30 +1,59 @@
 #ifndef TRAITOROUS_TYPES_STRING
 #define TRAITOROUS_TYPES_STRING 1
 
-#include <string>
-
-#include "traits/unlawful/container.h"
-#include "traits/unlawful/eq.h"
-#include "traits/unlawful/zero.h"
-#include "traits/lawful/semigroup.h"
-#include "traits/lawful/monoid.h"
-#include "traits/unlawful/ord.h"
-#include "traits/unlawful/show.h"
-
 namespace traitorous {
 
-enum string_type {
+enum StringType {
   BASE_STRING,
   CONCAT_STRING,
   SLICED_STRING
 };
 
-class string {
+class String {
 public:
 
-  virtual string_type get_type() = 0;
+  virtual StringType get_type() const = 0;
 
 };
+
+class BaseString : public String {
+public:
+
+  StringType get_type() const {
+    return BASE_STRING;
+  }
+
+};
+
+class ConcatString : public String {
+public:
+
+  StringType get_type() const {
+    return CONCAT_STRING;
+  }
+
+};
+
+class SlicedString : public String {
+public:
+
+  StringType get_type() const {
+    return SLICED_STRING;
+  }
+
+};
+
+template <class B,
+          class C,
+          class S,
+          class R = typename std::result_of<B()>::type>
+static constexpr R Match(const String& n, B base, C concat, S sliced) noexcept {
+  switch (n.get_type()) {
+    case BASE_STRING:   return base(dynamic_cast<const BaseString&>(n));
+    case CONCAT_STRING: return concat(dynamic_cast<const ConcatString&>(n));
+    case SLICED_STRING: return sliced(dynamic_cast<const SlicedString&>(n));
+  }
+}
 
 }
 

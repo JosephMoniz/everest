@@ -6,27 +6,35 @@
 namespace traitorous {
 
 template <class T>
-class zero_val {
-  typedef zero_val<T> base;
-public:
+class ZeroVal {
 
-  static constexpr T zero() noexcept {
-    return base::zero();
-  }
+  typedef ZeroVal<T> base;
+
+public:
 
   static constexpr bool exists = false;
 
+  static constexpr T Zero() noexcept {
+    return base::Zero();
+  }
+
 };
 
 template <class T>
-struct default_zero_val {
-  static constexpr T zero() noexcept { return T{}; }
+class DefaultZeroVal {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr T Zero() noexcept {
+    return T{};
+  }
+
 };
 
 template <class T>
-constexpr inline T zero() noexcept {
-  return zero_val<T>::zero();
+constexpr inline T Zero() noexcept {
+  return ZeroVal<T>::Zero();
 }
 
 }

@@ -1,27 +1,27 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_EQ_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_EQ_H
 
-#include "traits/unlawful/eq.h"
 #include "containers/local_option.h"
+#include "traits/unlawful/eq.h"
 
 namespace traitorous {
 
 template <class T>
-class eq<local_option<T>> {
+class Eq<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool equals(const local_option<T>& lhs, const local_option<T>& rhs) noexcept {
-    return match(lhs,
+  static constexpr bool Equals(const LocalOption <T>& lhs, const LocalOption <T>& rhs) noexcept {
+    return Match(lhs,
       [&](){
-        return match(rhs,
+        return Match(rhs,
           []()           { return true; },
           [](const T& y) { return false; }
         );
       },
       [&](const T& x){
-        return match(rhs,
+        return Match(rhs,
           []()            { return false; },
           [&](const T& y) { return x == y; }
         );

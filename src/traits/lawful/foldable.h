@@ -11,68 +11,68 @@
 namespace traitorous {
 
 template <class T>
-class foldable {
+class Foldable {
 
-    typedef foldable<T> base;
+    typedef Foldable<T> Base;
 
 public:
 
-  static constexpr T fold(const T& n) noexcept {
-    return base::fold(n);
+  static constexpr bool exists = false;
+
+  static constexpr T Fold(const T& n) noexcept {
+    return Base::Fold(n);
   }
 
   template <class Fn, class M = typename std::result_of<Fn(T)>::type>
-  static constexpr M fold_map(Fn f, const T& n) noexcept {
-    return base::fold_map(f, n);
+  static constexpr M FoldMap(Fn f, const T& n) noexcept {
+    return Base::FoldMap(f, n);
   }
 
   template <class Fn, class B>
-  static constexpr B foldr(Fn f, const B& init, const T& n) noexcept {
-    return base::foldr(f, init, n);
+  static constexpr B FoldR(Fn f, const B& init, const T& n) noexcept {
+    return Base::FoldR(f, init, n);
   }
 
   template <class Fn, class B>
-  static constexpr B foldl(Fn f, const B& init, const T& n) noexcept {
-    return base::foldl(f, init, n);
+  static constexpr B FoldL(Fn f, const B& init, const T& n) noexcept {
+    return Base::FoldL(f, init, n);
   }
-
-  static constexpr bool exists = false;
 
 };
 
 template <template<class> class F, class M>
-constexpr inline M fold(const F<M>& container) noexcept {
-  return foldable<F<M>>::fold(container);
+constexpr inline M Fold(const F<M>& container) noexcept {
+  return Foldable<F<M>>::Fold(container);
 }
 
 template <template<class> class F,
           class A,
           class Fn,
           class M = typename std::result_of<Fn(A)>::type>
-constexpr inline M fold_map(Fn f, const F<A>& container) noexcept {
-  return foldable<F<A>>::fold_map(f, container);
+constexpr inline M FoldMap(Fn f, const F<A>& container) noexcept {
+  return Foldable<F<A>>::FoldMap(f, container);
 }
 
 template <template<class> class F,
           class T,
           class Fn,
           class B>
-constexpr inline B foldr(Fn f,
+constexpr inline B FoldR(Fn f,
                          const B& init,
                          const F<T>& container) noexcept
 {
-  return foldable<F<T>>::foldr(f, init, container);
+  return Foldable<F<T>>::FoldR(f, init, container);
 }
 
 template <template<class> class F,
           class T,
           class Fn,
           class B>
-constexpr inline B foldl(Fn f,
+constexpr inline B FoldL(Fn f,
                          const B& init,
                          const F<T>& container) noexcept
 {
-  return foldable<F<T>>::foldl(f, init, container);
+  return Foldable<F<T>>::FoldL(f, init, container);
 }
 
 }

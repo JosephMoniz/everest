@@ -6,21 +6,23 @@
 namespace traitorous {
 
 template <class T>
-class hashable {
-  typedef hashable<T> base;
-public:
+class Hashable {
 
-  static constexpr int hash(const T& n) {
-    return base::hash(n);
-  }
+  typedef Hashable<T> Base;
+
+public:
 
   static constexpr bool exists = false;
 
+  static constexpr int Hash(const T& n) {
+    return Base::Hash(n);
+  }
+
 };
 
-template <class T, class = std::enable_if<hashable<T>::exists>>
-constexpr int hash(const T& n) {
-  return hashable<T>::hash(n);
+template <class T>
+constexpr int Hash(const T& n) {
+  return Hashable<T>::Hash(n);
 }
 
 }

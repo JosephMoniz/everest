@@ -1,10 +1,8 @@
 #ifndef TRAITOROUS_BDD_H
 #define TRAITOROUS_BDD_H
 
-#include <string>
 #include <cli/color.h>
 #include <iostream>
-#include <functional>
 #include <cstdint>
 
 #include "traits/unlawful/show.h"
@@ -63,21 +61,21 @@ void it(const std::string& str) noexcept {
 
 int print_final_results_for_traitorous_test() {
   if (__traitorous_test_fail == 0) {
-    std::cout << green("✔ ") << green(show(__traitorous_test_total)) << green(" tests evaluated") << std::endl;
+    std::cout << green("✔ ") << green(Show(__traitorous_test_total)) << green(" tests evaluated") << std::endl;
   } else {
-    std::cout << red("✖ ") << red(show(__traitorous_test_total)) << red(" tests evaluated") << std::endl;
+    std::cout << red("✖ ") << red(Show(__traitorous_test_total)) << red(" tests evaluated") << std::endl;
   }
 
   if (__traitorous_test_pass > 0) {
-    std::cout << green("  ✔ ") << show(__traitorous_test_pass) << " tests passed" << std::endl;
+    std::cout << green("  ✔ ") << Show(__traitorous_test_pass) << " tests passed" << std::endl;
   }
 
   if (__traitorous_test_fail > 0) {
-    std::cout << red("  ✖ ") << show(__traitorous_test_fail) << " tests failed" << std::endl;
+    std::cout << red("  ✖ ") << Show(__traitorous_test_fail) << " tests failed" << std::endl;
   }
 
   if(__traitorous_test_skip > 0) {
-    std::cout << yellow("  ? ") << show(__traitorous_test_skip) << " tests unimplemented" << std::endl;
+    std::cout << yellow("  ? ") << Show(__traitorous_test_skip) << " tests unimplemented" << std::endl;
   }
 
   if (__traitorous_test_fail == 0) {

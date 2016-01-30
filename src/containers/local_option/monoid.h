@@ -7,7 +7,7 @@
 namespace traitorous {
 
 template<class T>
-class monoid<local_option <T>> {
+class Monoid<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;

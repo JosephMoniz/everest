@@ -6,42 +6,52 @@
 namespace traitorous {
 
 template <class T>
-class eq {
-  typedef eq<T> base;
+class Eq {
+
+  typedef Eq<T> Base;
+
 public:
-  // bool equals()
-  static constexpr bool equals(const T& lhs, const T& rhs) noexcept { return base::equals(lhs, rhs); }
+
   static constexpr bool exists = false;
+
+  static constexpr bool Equals(const T& lhs, const T& rhs) noexcept {
+    return Base::Equals(lhs, rhs);
+  }
+
 };
 
 template <class T>
-struct default_eq {
-  static constexpr bool equals(const T& lhs, const T& rhs) noexcept {
+class DefaultEq {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr bool Equals(const T& lhs, const T& rhs) noexcept {
     return lhs == rhs;
   }
-  static constexpr bool exists = true;
+
 };
 
 template <class T>
-constexpr inline bool equals(const T& lhs, const T& rhs) noexcept {
-  return eq<T>::equals(lhs, rhs);
+constexpr inline bool Equals(const T& lhs, const T& rhs) noexcept {
+  return Eq<T>::Equals(lhs, rhs);
 }
 
 template <class T>
-constexpr inline std::function<bool(const T&)> equals(const T& lhs) noexcept {
+constexpr inline std::function<bool(const T&)> Equals(const T& lhs) noexcept {
   return [&](const T& rhs) {
-    return eq<T>::equals(lhs, rhs);
+    return Eq<T>::Equals(lhs, rhs);
   };
 }
 
 template <class T>
 constexpr inline bool operator==(const T& lhs, const T& rhs) noexcept {
-  return eq<T>::equals(lhs, rhs);
+  return Eq<T>::Equals(lhs, rhs);
 }
 
 template <class T>
 constexpr inline bool operator!=(const T& lhs, const T& rhs) noexcept {
-  return !eq<T>::equals(lhs, rhs);
+  return !Eq<T>::Equals(lhs, rhs);
 }
 
 }

@@ -7,9 +7,9 @@
 namespace traitorous {
 
 template <class T>
-class monoid : public zero_val<T>, public semigroup<T> {
+class Monoid : public ZeroVal<T>, public Semigroup<T> {
 
-  typedef monoid<T> base;
+  typedef Monoid<T> Base;
 
 public:
 
@@ -18,7 +18,7 @@ public:
 };
 
 template <class T>
-class default_monoid : public default_zero_val<T>, public default_semigroup<T> {
+class DefaultMonoid : public DefaultZeroVal<T>, public DefaultSemigroup<T> {
 public:
   static constexpr bool exists = true;
 };

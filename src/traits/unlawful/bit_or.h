@@ -1,27 +1,45 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_BITOR
 #define TRAITOROUS_TRAITS_BITOR 1
 
 namespace traitorous {
 
 template <class T>
-struct bit_or {
-  // T or()
+class BitOr {
+
+  typedef BitOr<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class U>
+  static constexpr inline U BinaryOr(const U& lhs, const U& rhs) noexcept {
+    return Base::BinaryOr(lhs, rhs);
+  }
+
 };
 
 template <class T>
-struct default_or {
-  static constexpr T apply(const T& lhs, const T& rhs) noexcept {
+class DefaultOr {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr T BinaryOr(const T& lhs, const T& rhs) noexcept {
     return lhs | rhs;
   }
-  static constexpr bool exists = true;
+
 };
 
-template <class T, class = typename std::enable_if<bit_or<T>::exists>::type>
-constexpr inline T b_or(const T& lhs, const T& rhs) noexcept {
-  return bit_or<T>::apply(lhs, rhs);
+template <class T>
+constexpr inline T BinaryOr(const T& lhs, const T& rhs) noexcept {
+  return BitOr<T>::BinaryOr(lhs, rhs);
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

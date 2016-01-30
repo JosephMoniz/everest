@@ -23,67 +23,75 @@
 namespace traitorous {
 
 template <>
-struct zero_val<int32_t> : public default_zero_val<int32_t> {};
+class ZeroVal<int32_t> : public DefaultZeroVal<int32_t> {};
 
 template <>
-struct semigroup<int32_t> : public default_semigroup<int32_t> {};
+class Semigroup<int32_t> : public DefaultSemigroup<int32_t> {};
 
 template <>
-struct monoid<int32_t> : public default_monoid<int32_t> {};
+class Monoid<int32_t> : public DefaultMonoid<int32_t> {};
 
 template <>
-struct subtractable<int32_t> : public default_subtract<int32_t> {};
+class Subtractable<int32_t> : public DefaultSubtract<int32_t> {};
 
 template <>
-struct multipliable<int32_t> : public default_multipliable<int32_t> {};
+class Multipliable<int32_t> : public DefaultMultipliable<int32_t> {};
 
 template <>
-struct dividable<int32_t> : public default_dividable<int32_t> {};
+class Dividable<int32_t> : public DefaultDividable<int32_t> {};
 
 template <>
-struct modulus<int32_t> : public default_modulus<int32_t> {};
+class Modulus<int32_t> : public DefaultModulus<int32_t> {};
 
 template <>
-struct negation<int32_t> : public default_negation<int32_t> {};
+class Negation<int32_t> : public DefaultNegation<int32_t> {};
 
 template <>
-struct bounded<int32_t> : public default_bounded<int32_t> {};
+class Bounded<int32_t> : public DefaultBounded<int32_t> {};
 
 template <>
-struct eq<int32_t> : public default_eq<int32_t> {};
+class Eq<int32_t> : public DefaultEq<int32_t> {};
 
-constexpr inline bool equals(int32_t lhs, int32_t rhs) noexcept {
-  return eq<int32_t>::equals(lhs, rhs);
+constexpr inline bool Equals(int32_t lhs, int32_t rhs) noexcept {
+  return Eq<int32_t>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(int32_t)> equals(int32_t lhs) noexcept {
+inline std::function<bool(int32_t)> Equals(int32_t lhs) noexcept {
   return [&](int32_t rhs) {
-    return eq<int32_t>::equals(lhs, rhs);
+    return Eq<int32_t>::Equals(lhs, rhs);
   };
 }
 
 template <>
-struct ord<int32_t> : public default_ord<int32_t> {};
+class Ord<int32_t> : public DefaultOrd<int32_t> {};
 
 template <>
-struct bit_and<int32_t> : public default_and<int32_t> {};
+class BitAnd<int32_t> : public DefaultAnd<int32_t> {};
 
 template <>
-struct bit_or<int32_t> : public default_or<int32_t> {};
+class BitOr<int32_t> : public DefaultOr<int32_t> {};
 
 template <>
-struct bit_xor<int32_t> : public default_xor<int32_t> {};
+class BitXor<int32_t> : public DefaultXor<int32_t> {};
 
 template <>
-struct one_val<int32_t> {
-  static constexpr int32_t one() noexcept { return 1; }
+class OneVal<int32_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr int32_t One() noexcept { return 1; }
+
 };
 
 template <>
-struct shows<int32_t> {
-  static const std::string show(int32_t n) noexcept { return std::to_string(n); }
+class Shows<int32_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static const std::string Show(int32_t n) noexcept { return std::to_string(n); }
+
 };
 
 }

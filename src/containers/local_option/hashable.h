@@ -9,15 +9,15 @@
 namespace traitorous {
 
 template <class T>
-class hashable<local_option<T>> {
+class Hashable<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr int hash(const local_option<T>& o) noexcept {
-    return match(o,
+  static constexpr int Hash(const LocalOption<T>& o) noexcept {
+    return Match(o,
       []()           { return 0; },
-      [](const T& n) { return hash(n); }
+      [](const T& n) { return Hash(n); }
     );
   }
 

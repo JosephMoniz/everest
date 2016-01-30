@@ -6,12 +6,12 @@
 namespace traitorous {
 
 template<class T>
-T identity(const T &n) {
+T Identity(const T &n) {
   return n;
 }
 
 template<class T>
-std::function<T(const T &)> identity() {
+std::function<T(const T &)> Identity() {
   return [](const T &n) {
     return n;
   };

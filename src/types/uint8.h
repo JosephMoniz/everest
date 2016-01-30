@@ -23,64 +23,75 @@
 namespace traitorous {
 
 template <>
-struct zero_val<uint8_t> : public default_zero_val<uint8_t> {};
+class ZeroVal<uint8_t> : public DefaultZeroVal<uint8_t> {};
 
 template <>
-struct semigroup<uint8_t> : public default_semigroup<uint8_t> {};
+class Semigroup<uint8_t> : public DefaultSemigroup<uint8_t> {};
 
 template <>
-struct monoid<uint8_t> : public default_monoid<uint8_t> {};
+class Monoid<uint8_t> : public DefaultMonoid<uint8_t> {};
 
 template <>
-struct subtractable<uint8_t> : public default_subtract<uint8_t> {};
+class Subtractable<uint8_t> : public DefaultSubtract<uint8_t> {};
 
 template <>
-struct multipliable<uint8_t> : public default_multipliable<uint8_t> {};
+class Multipliable<uint8_t> : public DefaultMultipliable<uint8_t> {};
 
 template <>
-struct dividable<uint8_t> : public default_dividable<uint8_t> {};
+class Dividable<uint8_t> : public DefaultDividable<uint8_t> {};
 
 template <>
-struct modulus<uint8_t> : public default_modulus<uint8_t> {};
+class Modulus<uint8_t> : public DefaultModulus<uint8_t> {};
 
 template <>
-struct bounded<uint8_t> : public default_bounded<uint8_t> {};
+class Negation<uint8_t> : public DefaultNegation<uint8_t> {};
 
 template <>
-struct eq<uint8_t> : public default_eq<uint8_t> {};
+class Bounded<uint8_t> : public DefaultBounded<uint8_t> {};
 
-constexpr inline bool equals(uint8_t lhs, uint8_t rhs) noexcept {
-  return eq<uint8_t>::equals(lhs, rhs);
+template <>
+class Eq<uint8_t> : public DefaultEq<uint8_t> {};
+
+constexpr inline bool Equals(uint8_t lhs, uint8_t rhs) noexcept {
+  return Eq<uint8_t>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(uint8_t)> equals(uint8_t lhs) noexcept {
+inline std::function<bool(uint8_t)> Equals(uint8_t lhs) noexcept {
   return [&](uint8_t rhs) {
-    return eq<uint8_t>::equals(lhs, rhs);
+    return Eq<uint8_t>::Equals(lhs, rhs);
   };
 }
 
 template <>
-struct ord<uint8_t> : public default_ord<uint8_t> {};
+class Ord<uint8_t> : public DefaultOrd<uint8_t> {};
 
 template <>
-struct bit_and<uint8_t> : public default_and<uint8_t> {};
+class BitAnd<uint8_t> : public DefaultAnd<uint8_t> {};
 
 template <>
-struct bit_or<uint8_t> : public default_or<uint8_t> {};
+class BitOr<uint8_t> : public DefaultOr<uint8_t> {};
 
 template <>
-struct bit_xor<uint8_t> : public default_xor<uint8_t> {};
+class BitXor<uint8_t> : public DefaultXor<uint8_t> {};
 
 template <>
-struct one_val<uint8_t> {
-  static constexpr uint8_t one() noexcept { return 1; }
+class OneVal<uint8_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr uint8_t One() noexcept { return 1; }
+
 };
 
 template <>
-struct shows<uint8_t> {
-  static const std::string show(uint8_t n) noexcept { return std::to_string(n); }
+class Shows<uint8_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static const std::string Show(uint8_t n) noexcept { return std::to_string(n); }
+
 };
 
 }

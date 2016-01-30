@@ -7,18 +7,18 @@
 namespace traitorous {
 
 template <class T>
-class semigroup<local_option<T>> {
+class Semigroup<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr local_option<T> add(const local_option<T>& lhs, const local_option<T>& rhs) noexcept {
-    return match(lhs,
+  static constexpr LocalOption <T> Add(const LocalOption <T>& lhs, const LocalOption <T>& rhs) noexcept {
+    return Match(lhs,
       [&rhs]()        { return rhs; },
       [&](const T& x) {
-        return match(rhs,
+        return Match(rhs,
           [&lhs]()        { return lhs; },
-          [&](const T& y) { return local_some<T>(x + y); }
+          [&](const T& y) { return LocalSome<T>(x + y); }
         );
       }
     );

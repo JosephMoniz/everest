@@ -1,20 +1,33 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_INTERSECTABLE
 #define TRAITOROUS_TRAITS_INTERSECTABLE 1
 
 namespace traitorous {
 
 template <class T>
-struct intersectable {
-  // T intersect()
+class Intersectable {
+
+  typedef Intersectable<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class T>
+  static constexpr inline T Intersect(const T& a, const T& b) noexcept {
+    return Base::Intersect(a, b);
+  }
+
 };
 
-template <class T,
-          class = typename std::enable_if<intersectable<T>::exists>::type>
-constexpr inline T inetsect(const T& a, const T& b) noexcept {
-  return intersectable<T>::intersect(a, b);
+template <class T>
+constexpr inline T Intersect(const T& a, const T& b) noexcept {
+  return Intersectable<T>::Intersect(a, b);
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

@@ -9,27 +9,28 @@
 namespace traitorous {
 
 template <class T>
-class alternative {
+class Alternative {
 
-  typedef alternative<T> base;
+  typedef Alternative<T> Base;
 
 public:
 
-  static constexpr T alt(const T& lhs, const T& rhs) noexcept {
-    return base::alt(lhs, rhs);
+  static constexpr bool exists = false;
+
+  static constexpr T Alt(const T& lhs, const T& rhs) noexcept {
+    return Base::Alt(lhs, rhs);
   }
 
-  static constexpr bool exists = false;
 };
 
 template <class T>
-constexpr inline T alt(const T& a, const T& b) noexcept {
-  return alternative<T>::alt(a, b);
+constexpr inline T Alt(const T& a, const T& b) noexcept {
+  return Alternative<T>::Alt(a, b);
 }
 
 template <class T>
 constexpr inline T operator||(const T& lhs, const T& rhs) noexcept {
-  return alternative<T>::alt(lhs, rhs);
+  return Alternative<T>::Alt(lhs, rhs);
 }
 
 }

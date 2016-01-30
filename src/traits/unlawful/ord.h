@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_ORD
 #define TRAITOROUS_TRAITS_ORD 1
 
@@ -12,8 +14,12 @@ enum Ordering {
 };
 
 template<>
-struct shows<Ordering> {
-  static std::string show(Ordering n) noexcept {
+class Shows<Ordering> {
+public:
+
+  static constexpr bool exists = true;
+
+  static std::string Show(Ordering n) noexcept {
     switch(n) {
       case LESS:    return std::string("LESS");
       case EQUAL:   return std::string("EQUAL");
@@ -21,61 +27,89 @@ struct shows<Ordering> {
       default:      return std::string("UNKNOWN");
     }
   }
-  static constexpr bool exists = true;
+
 };
 
 template <class T>
-struct ord {
-  // Ordering cmp()
-  // T min()
-  // T max()
+class Ord {
+
+  typedef Ord<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class U>
+  static constexpr inline Ordering Compare(const U& lhs, const U& rhs) noexcept {
+    return Base::Compare(lhs, rhs);
+  }
+
+  template <class U>
+  static constexpr inline U Min(const U& lhs, const U& rhs) noexcept {
+    return Base::Min(lhs, rhs);
+  }
+
+  template <class U>
+  static constexpr inline U Max(const U& lhs, const U& rhs) noexcept {
+    return Base::Max(lhs, rhs);
+  }
+
 };
 
 template <class T>
-struct default_ord {
-  static constexpr Ordering cmp(const T& lhs, const T& rhs) noexcept {
-    return (lhs < rhs)
-             ? LESS
-             : (lhs > rhs)
-                 ? GREATER
-                 : EQUAL;
-  }
-  static constexpr int min(const T& lhs, const T& rhs) noexcept {
-    return (ord<T>::cmp(lhs, rhs) == GREATER) ? rhs : lhs;
-  }
-  static constexpr int max(const T& lhs, const T& rhs) noexcept {
-    return (ord<T>::cmp(lhs, rhs) == LESS) ? rhs : lhs;
-  }
+class DefaultOrd {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr Ordering Compare(const T& lhs, const T& rhs) noexcept {
+    return (lhs < rhs)
+       ? LESS
+       : (lhs > rhs)
+         ? GREATER
+         : EQUAL;
+  }
+
+  static constexpr int Min(const T& lhs, const T& rhs) noexcept {
+    return (Compare(lhs, rhs) == GREATER)
+       ? rhs
+       : lhs;
+  }
+
+  static constexpr int Max(const T& lhs, const T& rhs) noexcept {
+    return (Compare(lhs, rhs) == LESS) ? rhs : lhs;
+  }
+
 };
 
 
-template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr inline Ordering cmp(const T& lhs, const T& rhs) noexcept {
-  return ord<T>::cmp(lhs, rhs);
+template <class T>
+constexpr inline Ordering Compare(const T& lhs, const T& rhs) noexcept {
+  return Ord<T>::Compare(lhs, rhs);
 }
 
-template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr inline T min(const T& lhs, const T& rhs) noexcept {
-  return ord<T>::min(lhs, rhs);
+template <class T>
+constexpr inline T Min(const T& lhs, const T& rhs) noexcept {
+  return Ord<T>::Min(lhs, rhs);
 }
 
-template <class T, class = typename std::enable_if<ord<T>::exists>::type>
-constexpr inline T max(const T& lhs, const T& rhs) noexcept {
-  return ord<T>::max(lhs, rhs);
+template <class T>
+constexpr inline T Max(const T& lhs, const T& rhs) noexcept {
+  return Ord<T>::Max(lhs, rhs);
 }
 
-template <class T, class = typename std::enable_if<ord<T>::exists>::type>
+template <class T>
 constexpr inline bool operator<(const T& lhs, const T& rhs) noexcept {
-  return ord<T>::cmp(lhs, rhs) == LESS;
+  return Ord<T>::Compare(lhs, rhs) == LESS;
 }
 
-template <class T, class = typename std::enable_if<ord<T>::exists>::type>
+template <class T>
 constexpr inline bool operator>(const T& lhs, const T& rhs) noexcept {
-  return ord<T>::cmp(lhs, rhs) == GREATER;
+  return Ord<T>::Compare(lhs, rhs) == GREATER;
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

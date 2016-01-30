@@ -23,67 +23,75 @@
 namespace traitorous {
 
 template <>
-struct zero_val<int64_t> : public default_zero_val<int64_t> {};
+class ZeroVal<int64_t> : public DefaultZeroVal<int64_t> {};
 
 template <>
-struct semigroup<int64_t> : public default_semigroup<int64_t> {};
+class Semigroup<int64_t> : public DefaultSemigroup<int64_t> {};
 
 template <>
-struct monoid<int64_t> : public default_monoid<int64_t> {};
+class Monoid<int64_t> : public DefaultMonoid<int64_t> {};
 
 template <>
-struct subtractable<int64_t> : public default_subtract<int64_t> {};
+class Subtractable<int64_t> : public DefaultSubtract<int64_t> {};
 
 template <>
-struct multipliable<int64_t> : public default_multipliable<int64_t> {};
+class Multipliable<int64_t> : public DefaultMultipliable<int64_t> {};
 
 template <>
-struct dividable<int64_t> : public default_dividable<int64_t> {};
+class Dividable<int64_t> : public DefaultDividable<int64_t> {};
 
 template <>
-struct modulus<int64_t> : public default_modulus<int64_t> {};
+class Modulus<int64_t> : public DefaultModulus<int64_t> {};
 
 template <>
-struct negation<int64_t> : public default_negation<int64_t> {};
+class Negation<int64_t> : public DefaultNegation<int64_t> {};
 
 template <>
-struct bounded<int64_t> : public default_bounded<int64_t> {};
+class Bounded<int64_t> : public DefaultBounded<int64_t> {};
 
 template <>
-struct eq<int64_t> : public default_eq<int64_t> {};
+class Eq<int64_t> : public DefaultEq<int64_t> {};
 
-constexpr inline bool equals(int64_t lhs, int64_t rhs) noexcept {
-  return eq<int64_t>::equals(lhs, rhs);
+constexpr inline bool Equals(int64_t lhs, int64_t rhs) noexcept {
+  return Eq<int64_t>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(int64_t)> equals(int64_t lhs) noexcept {
+inline std::function<bool(int64_t)> Equals(int64_t lhs) noexcept {
   return [&](int64_t rhs) {
-    return eq<int64_t>::equals(lhs, rhs);
+    return Eq<int64_t>::Equals(lhs, rhs);
   };
 }
 
 template <>
-struct ord<int64_t> : public default_ord<int64_t> {};
+class Ord<int64_t> : public DefaultOrd<int64_t> {};
 
 template <>
-struct bit_and<int64_t> : public default_and<int64_t> {};
+class BitAnd<int64_t> : public DefaultAnd<int64_t> {};
 
 template <>
-struct bit_or<int64_t> : public default_or<int64_t> {};
+class BitOr<int64_t> : public DefaultOr<int64_t> {};
 
 template <>
-struct bit_xor<int64_t> : public default_xor<int64_t> {};
+class BitXor<int64_t> : public DefaultXor<int64_t> {};
 
 template <>
-struct one_val<int64_t> {
-  static constexpr int64_t one() noexcept { return 1; }
+class OneVal<int64_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static constexpr int64_t One() noexcept { return 1; }
+
 };
 
 template <>
-struct shows<int64_t> {
-  static const std::string show(int64_t n) noexcept { return std::to_string(n); }
+class Shows<int64_t> {
+public:
+
   static constexpr bool exists = true;
+
+  static const std::string Show(int64_t n) noexcept { return std::to_string(n); }
+
 };
 
 }

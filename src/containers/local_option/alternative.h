@@ -7,15 +7,15 @@
 namespace traitorous {
 
 template <class T>
-class alternative<local_option<T>> {
+class Alternative<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr local_option<T> alt(const local_option<T>& lhs,
-                                       const local_option<T>& rhs) noexcept
+  static constexpr LocalOption<T> Alt(const LocalOption<T>& lhs,
+                                      const LocalOption<T>& rhs) noexcept
   {
-    return match(lhs,
+    return Match(lhs,
       [&rhs]()           { return rhs; },
       [&lhs](const T& n) { return lhs; }
     );

@@ -7,15 +7,15 @@
 namespace traitorous {
 
 template <class T>
-class shows<local_option<T>> {
+class Shows<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
-  static const std::string show(const local_option<T>& n) noexcept {
-    return match(n,
+  static const std::string Show(const LocalOption<T>& n) noexcept {
+    return Match(n,
       []()           { return std::string("local_none"); },
-      [](const T& m) { return std::string("local_some(") + shows<T>::show(m) + ")"; }
+      [](const T& m) { return std::string("local_some(") + Show(m) + ")"; }
     );
   }
 

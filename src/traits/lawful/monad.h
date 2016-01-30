@@ -8,23 +8,23 @@
 namespace traitorous {
 
 template <template<class> class F, class T>
-class monad {
+class Monad {
 
-  typedef monad<F, T> base;
+  typedef Monad<F, T> Base;
 
 public:
 
+  static constexpr bool exists = false;
+
   template <class Fn, class B = typename std::result_of<Fn(F<T>)>::type>
-  static constexpr B flat_map(Fn f, const F<T>& m) noexcept {
-    return base::flat_map(f, m);
+  static constexpr B FlatMap(Fn f, const F<T>& m) noexcept {
+    return Base::FlatMap(f, m);
   }
 
   template <class B>
-  static constexpr F<B> then(const F<T>& m, const F<B>& n) noexcept {
-    return base::then(m, n);
+  static constexpr F<B> Then(const F<T>& m, const F<B>& n) noexcept {
+    return Base::Then(m, n);
   }
-
-  static constexpr bool exists = false;
 
 };
 
@@ -32,8 +32,8 @@ template <template<class> class F,
           class Fn,
           class A,
           class Mb = typename std::result_of<Fn(A)>::type>
-constexpr inline Mb flat_map(Fn f, const F<A>& m) noexcept {
-  return monad<F, A>::flat_map(f, m);
+constexpr inline Mb FlatMap(Fn f, const F<A>& m) noexcept {
+  return Monad<F, A>::FlatMap(f, m);
 }
 
 template <template<class> class F,
@@ -41,12 +41,12 @@ template <template<class> class F,
           class A,
           class Mb = typename std::result_of<Fn(A)>::type>
 constexpr inline Mb operator>>=(const A& m, Fn f) noexcept {
-  return monad<F, A>::flat_map(f, m);
+  return Monad<F, A>::FlatMap(f, m);
 }
 
 template <template <class> class F, class A, class B>
-constexpr inline F<B> then(const F<A>& a, const F<B>& b) noexcept {
-  return monad<F, A>::then(a, b);
+constexpr inline F<B> Then(const F<A>& a, const F<B>& b) noexcept {
+  return Monad<F, A>::Then(a, b);
 }
 
 }

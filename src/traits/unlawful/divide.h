@@ -1,30 +1,50 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_DIVIDE
 #define TRAITOROUS_TRAITS_DIVIDE 1
 
 namespace traitorous {
 
 template <class T>
-struct dividable {
-  // T divide()
+class Dividable {
+
+  typedef Dividable<T> Base;
+
+public:
+
   static constexpr bool exists = false;
+
+  template <class U>
+  static constexpr inline U Divide(const U& lhs, const U& rhs) noexcept {
+    return Base::Divide(lhs, rhs);
+  }
+
 };
 
 template <class T>
-struct default_dividable {
-  static T divide(const T& lhs, const T& rhs) noexcept { return lhs / rhs; }
+class DefaultDividable {
+public:
+
   static constexpr bool exists = true;
+
+  static T Divide(const T& lhs, const T& rhs) noexcept {
+    return lhs / rhs;
+  }
+
 };
 
-template <class T, class = typename std::enable_if<dividable<T>::exists>::type>
-constexpr inline T divide(const T& lhs, const T& rhs) noexcept {
-  return dividable<T>::divide(lhs, rhs);
+template <class T>
+constexpr inline T Divide(const T& lhs, const T& rhs) noexcept {
+  return Dividable<T>::Divide(lhs, rhs);
 }
 
-template <class T, class = typename std::enable_if<dividable<T>::exists>::type>
+template <class T>
 constexpr inline T operator/(const T& lhs, const T& rhs) noexcept {
-  return dividable<T>::divide(lhs, rhs);
+  return Dividable<T>::Divide(lhs, rhs);
 }
 
 }
 
 #endif
+
+#pragma clang diagnostic pop

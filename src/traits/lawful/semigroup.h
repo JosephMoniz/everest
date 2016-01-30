@@ -8,51 +8,54 @@
 namespace traitorous {
 
 template <class T>
-class semigroup {
+class Semigroup {
 
-    typedef semigroup<T> base;
+  typedef Semigroup<T> Base;
 
 public:
-
-  static constexpr T add(const T& lhs, const T& rhs) {
-    return base::add(lhs, rhs);
-  }
 
   static constexpr bool exists = false;
 
+  static constexpr T Add(const T& lhs, const T& rhs) {
+    return Base::Add(lhs, rhs);
+  }
+
 };
 
 template <class T>
-class default_semigroup {
+class DefaultSemigroup {
 public:
-  static constexpr T add(const T& lhs, const T& rhs) noexcept {
+
+  static constexpr bool exists = true;
+
+  static constexpr T Add(const T& lhs, const T& rhs) noexcept {
     return lhs + rhs;
   }
-  static constexpr bool exists = true;
+
 };
 
 template <class T>
-constexpr inline T add(const T& lhs, const T& rhs) noexcept {
-  return semigroup<T>::add(lhs, rhs);
+constexpr inline T Add(const T& lhs, const T& rhs) noexcept {
+  return Semigroup<T>::Add(lhs, rhs);
 }
 
 template <class T>
-constexpr inline std::function<T(const T&)> add(const T& lhs) noexcept {
+constexpr inline std::function<T(const T&)> Add(const T& lhs) noexcept {
   return [&](const T& rhs) {
-    return semigroup<T>::add(lhs, rhs);
+    return Semigroup<T>::Add(lhs, rhs);
   };
 }
 
 template <class T>
-constexpr inline std::function<T(const T&, const T&)> add() noexcept {
+constexpr inline std::function<T(const T&, const T&)> Add() noexcept {
   return [&](const T& lhs, const T& rhs) {
-    return semigroup<T>::add(lhs, rhs);
+    return Semigroup<T>::Add(lhs, rhs);
   };
 }
 
 template <class T>
 constexpr inline T operator+(const T& lhs, const T& rhs) noexcept {
-  return semigroup<T>::add(lhs, rhs);
+  return Semigroup<T>::Add(lhs, rhs);
 }
 
 }
