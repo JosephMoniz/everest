@@ -15,7 +15,7 @@ const Option<T> Some(const T &o) {
 }
 
 template<class T>
-const Option<T> NOne() {
+const Option<T> None() {
   return MakeShared<LocalOption<T>>();
 }
 
@@ -24,9 +24,9 @@ template <class T,
           class S,
           class R = typename std::result_of<N()>::type>
 constexpr R Match(const Option<T>& o, N n, S s) noexcept {
-  return (o->get_type() == OPTION_NONE)
+  return (o->GetType() == OPTION_NONE)
     ? n()
-    : s(o->get());
+    : s(o->Get());
 }
 
 }
@@ -40,5 +40,12 @@ constexpr R Match(const Option<T>& o, N n, S s) noexcept {
 #include "containers/option/hashable.h"
 #include "containers/option/monad.h"
 #include "containers/option/semigroup.h"
+#include "containers/option/zero.h"
+#include "containers/option/monoid.h"
+#include "containers/option/filterable.h"
+#include "containers/option/ord.h"
+#include "containers/option/monad_plus.h"
+#include "containers/option/unwrappable.h"
+#include "containers/option/shows.h"
 
 #endif

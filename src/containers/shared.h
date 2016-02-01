@@ -19,6 +19,10 @@ public:
     *_count = 1;
   }
 
+  Shared(T* external, uint32_t* count) : _pointer(external), _count(count) {
+    (*_count)++;
+  }
+
   Shared(const Shared<T>& other) : _count(other._count), _pointer(other._pointer) {
     (*_count)++;
   }
@@ -30,12 +34,20 @@ public:
     }
   }
 
-  T *operator->() const {
+  T* operator->() const {
     return _pointer;
   }
 
-  T &operator*() const {
+  T& operator*() const {
     return *_pointer;
+  }
+
+  T* pointer() const {
+    return _pointer;
+  }
+
+  uint32_t* counter() const {
+    return _count;
   }
 
 };
@@ -44,6 +56,12 @@ template<class T, class ...As>
 Shared<T> MakeShared(As&&... args) {
   return Shared<T>(new T(args...));
 }
+
+template<class T, class U>
+Shared<U> DynamicSharedCast(const Shared<T>& shared) {
+  U* internal = dynamic_cast<U*>(shared.pointer());
+  return Shared<U>(internal, shared.counter());
+};
 
 }
 

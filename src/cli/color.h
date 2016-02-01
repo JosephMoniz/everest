@@ -5,99 +5,99 @@
 
 namespace traitorous {
 
-std::string black(const std::string& str) noexcept {
+std::string Black(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;30") + str + std::string("\033[0m");
 }
 
-std::string dark_gray(const std::string& str) noexcept {
+std::string DarkGray(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;30") + str + std::string("\033[0m");
 }
 
-std::string blue(const std::string& str) noexcept {
+std::string Blue(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;34m") + str + std::string("\033[0m");
 }
 
-std::string light_blue(const std::string& str) noexcept {
+std::string LightBlue(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;34m") + str + std::string("\033[0m");
 }
 
-std::string green(const std::string& str) noexcept {
+std::string Green(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;32m") + str + std::string("\033[0m");
 }
 
-std::string light_green(const std::string& str) noexcept {
+std::string LightGreen(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;32m") + str + std::string("\033[0m");
 }
 
-std::string cyan(const std::string& str) noexcept {
+std::string Cyan(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;36m") + str + std::string("\033[0m");
 }
 
-std::string light_cyan(const std::string& str) noexcept {
+std::string LightCyan(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;36m") + str + std::string("\033[0m");
 }
 
-std::string red(const std::string& str) noexcept {
+std::string Red(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;31m") + str + std::string("\033[0m");
 }
 
-std::string light_red(const std::string& str) noexcept {
+std::string LightRed(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;31m") + str + std::string("\033[0m");
 }
 
-std::string purple(const std::string& str) noexcept {
+std::string Purple(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;35m") + str + std::string("\033[0m");
 }
 
-std::string light_purple(const std::string& str) noexcept {
+std::string LightPurple(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;35m") + str + std::string("\033[0m");
 }
 
-std::string brown(const std::string& str) noexcept {
+std::string Brown(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;33m") + str + std::string("\033[0m");
 }
 
-std::string yellow(const std::string& str) noexcept {
+std::string Yellow(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;33m") + str + std::string("\033[0m");
 }
 
-std::string light_gray(const std::string& str) noexcept {
+std::string LightGray(const std::string &str) noexcept {
   return std::string("\033[") + std::string("0;37m") + str + std::string("\033[0m");
 }
 
-std::string white(const std::string& str) noexcept {
+std::string White(const std::string &str) noexcept {
   return std::string("\033[") + std::string("1;37m") + str + std::string("\033[0m");
 }
 
-std::string bg_black(const std::string& str) noexcept {
+std::string BgBlack(const std::string &str) noexcept {
   return std::string("\033[") + std::string("40m") + str + std::string("\033[0m");
 }
 
-std::string bg_red(const std::string& str) noexcept {
+std::string BgRed(const std::string &str) noexcept {
   return std::string("\033[") + std::string("41m") + str + std::string("\033[0m");
 }
 
-std::string bg_green(const std::string& str) noexcept {
+std::string BgGreen(const std::string &str) noexcept {
   return std::string("\033[") + std::string("42m") + str + std::string("\033[0m");
 }
 
-std::string bg_yellow(const std::string& str) noexcept {
+std::string BgYellow(const std::string &str) noexcept {
   return std::string("\033[") + std::string("43m") + str + std::string("\033[0m");
 }
 
-std::string bg_blue(const std::string& str) noexcept {
+std::string BgBlue(const std::string &str) noexcept {
   return std::string("\033[") + std::string("44m") + str + std::string("\033[0m");
 }
 
-std::string bg_magenta(const std::string& str) noexcept {
+std::string BgMagenta(const std::string &str) noexcept {
   return std::string("\033[") + std::string("45m") + str + std::string("\033[0m");
 }
 
-std::string bg_cyan(const std::string& str) noexcept {
+std::string BgCyan(const std::string &str) noexcept {
   return std::string("\033[") + std::string("46m") + str + std::string("\033[0m");
 }
 
-std::string bg_light_gray(const std::string& str) noexcept {
+std::string BgLightGray(const std::string &str) noexcept {
   return std::string("\033[") + std::string("47m") + str + std::string("\033[0m");
 }
 

@@ -14,8 +14,8 @@ public:
 
   static const std::string Show(const LocalOption<T>& n) noexcept {
     return Match(n,
-      []()           { return std::string("local_none"); },
-      [](const T& m) { return std::string("local_some(") + Show(m) + ")"; }
+      []()           { return std::string("LocalNone"); },
+      [](const T& m) { return std::string("LocalSome(") + Shows<T>::Show(m) + ")"; }
     );
   }
 

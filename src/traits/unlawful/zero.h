@@ -33,7 +33,7 @@ public:
 };
 
 template <class T>
-constexpr inline T Zero() noexcept {
+constexpr T Zero() noexcept {
   return ZeroVal<T>::Zero();
 }
 

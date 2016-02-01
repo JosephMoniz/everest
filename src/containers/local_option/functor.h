@@ -7,13 +7,13 @@
 namespace traitorous {
 
 template <class T>
-class Functor<LocalOption, T> {
+class Functor<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  static constexpr LocalOption <B> Map(F f, const LocalOption <T>& n) noexcept {
+  static constexpr LocalOption<B> Map(F f, const LocalOption<T>& n) noexcept {
     return Match(n,
       []()             { return LocalNone<B>(); },
       [&f](const T& m) { return LocalSome<B>(f(m)); }

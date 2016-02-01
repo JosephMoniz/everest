@@ -2,6 +2,7 @@
 #define TRAITOROUS_TYPES_INT32 1
 
 #include <cstdint>
+#include <functional>
 
 #include "traits/unlawful/eq.h"
 #include "traits/unlawful/ord.h"

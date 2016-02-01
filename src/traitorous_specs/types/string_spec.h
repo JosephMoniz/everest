@@ -9,7 +9,7 @@
 namespace traitorous {
 
 void string_specification() {
-  describe("A type string", []() {
+  Describe("A type string", []() {
     /*
     it("should return the length of the string when passed through Length()", []() {
       return Length(std::string("abc")) == 3;

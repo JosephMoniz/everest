@@ -1,10 +1,10 @@
 #ifndef TRAITOROUS_BDD_H
 #define TRAITOROUS_BDD_H
 
-#include <cli/color.h>
-#include <iostream>
 #include <cstdint>
+#include <unistd.h>
 
+#include "cli/color.h"
 #include "traits/unlawful/show.h"
 
 #include "types/string.h"
@@ -19,63 +19,89 @@ int32_t __traitorous_test_pass   = 0;
 int32_t __traitorous_test_fail   = 0;
 int32_t __traitorous_test_skip   = 0;
 
-std::string assert(bool result) noexcept {
+std::string Assert(bool result) noexcept {
   __traitorous_test_total++;
   __traitorous_test_ran++;
   if (result) {
     __traitorous_test_pass++;
-    return green("✔");
+    return Green("✔");
   } else {
     __traitorous_test_fail++;
-    return red("✖");
+    return Red("✖");
   }
 }
 
-std::string skipped_traitorous_test(const std::string& str) {
+std::string SkippedTraitorousTest(const std::string &str) {
   __traitorous_test_total++;
   __traitorous_test_skip++;
-  return yellow("?") + " " + str;
+  return Yellow("?") + " " + str;
 }
 
-void print_for_traitorous_test(const std::string& str) {
+void PrintForTraitorousTest(const std::string &str) {
   for (int i = 0; i < __traitorous_test_indent; i++) {
-    std::cout << "  ";
+    write(1, "  ", 2);
   }
-  std::cout << str << std::endl;
+  write(1, str.c_str(), str.length());
+  write(1, "\n", 1);
 }
 
-void describe(const std::string& str, std::function<void()>description) noexcept {
-  print_for_traitorous_test(str);
+void Describe(const std::string &str, std::function<void()> description) noexcept {
+  PrintForTraitorousTest(str);
   __traitorous_test_indent++;
   description();
   __traitorous_test_indent--;
 }
 
-void it(const std::string& str, std::function<bool()>assertion) noexcept {
-  print_for_traitorous_test(assert(assertion()) + " " + str);
+void It(const std::string &str, std::function<bool()> assertion) noexcept {
+  PrintForTraitorousTest(Assert(assertion()) + " " + str);
 }
 
-void it(const std::string& str) noexcept {
-  print_for_traitorous_test(skipped_traitorous_test(str));
+void It(const std::string &str) noexcept {
+  PrintForTraitorousTest(SkippedTraitorousTest(str));
 }
 
-int print_final_results_for_traitorous_test() {
+int PrintFinalResultsForTraitorousTest() {
   if (__traitorous_test_fail == 0) {
-    std::cout << green("✔ ") << green(Show(__traitorous_test_total)) << green(" tests evaluated") << std::endl;
+    std::string mark  = Green("✔ ");
+    std::string count = Green(Show(__traitorous_test_total));
+    std::string trail = Green(" tests evaluated\n");
+    write(1, mark.c_str(), mark.length());
+    write(1, count.c_str(), count.length());
+    write(1, trail.c_str(), trail.length());
   } else {
-    std::cout << red("✖ ") << red(Show(__traitorous_test_total)) << red(" tests evaluated") << std::endl;
+    std::string mark  = Red("✖ ");
+    std::string count = Red(Show(__traitorous_test_total));
+    std::string trail = Red(" tests evaluated\n");
+    write(1, mark.c_str(), mark.length());
+    write(1, count.c_str(), count.length());
+    write(1, trail.c_str(), trail.length());
   }
 
   if (__traitorous_test_pass > 0) {
-    std::cout << green("  ✔ ") << Show(__traitorous_test_pass) << " tests passed" << std::endl;
+    std::string mark  = Green("  ✔ ");
+    std::string count = Show(__traitorous_test_pass);
+    std::string trail = " tests passed\n";
+    write(1, mark.c_str(), mark.length());
+    write(1, count.c_str(), count.length());
+    write(1, trail.c_str(), trail.length());
   }
 
   if (__traitorous_test_fail > 0) {
-    std::cout << red("  ✖ ") << Show(__traitorous_test_fail) << " tests failed" << std::endl;
+    std::string mark  = Red("  ✖ ");
+    std::string count = Show(__traitorous_test_fail);
+    std::string trail = " tests failed\n";
+    write(1, mark.c_str(), mark.length());
+    write(1, count.c_str(), count.length());
+    write(1, trail.c_str(), trail.length());
   }
 
   if(__traitorous_test_skip > 0) {
-    std::cout << yellow("  ? ") << Show(__traitorous_test_skip) << " tests unimplemented" << std::endl;
+    std::string mark  = Yellow("  ? ");
+    std::string count = Show(__traitorous_test_skip);
+    std::string trail = " tests unimplemented\n";
+    write(1, mark.c_str(), mark.length());
+    write(1, count.c_str(), count.length());
+    write(1, trail.c_str(), trail.length());
   }
 
   if (__traitorous_test_fail == 0) {

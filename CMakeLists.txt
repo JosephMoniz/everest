@@ -76,7 +76,7 @@ set(SOURCE_FILES
         src/containers/option/semigroup.h
         src/traitorous_specs/containers/option_spec.h
         src/containers/enumerator.h
-        src/containers/chain.h)
+        src/containers/chain.h src/containers/option/zero.h src/containers/option/monoid.h src/containers/option/filterable.h src/containers/option/ord.h src/containers/option/monad_plus.h src/containers/option/unwrappable.h src/containers/option/shows.h src/containers/array.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}

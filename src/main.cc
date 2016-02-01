@@ -32,5 +32,5 @@ int main(int argc, char **argv) {
 
   // Print and return the final test results
   //
-  return print_final_results_for_traitorous_test();
+  return PrintFinalResultsForTraitorousTest();
 }

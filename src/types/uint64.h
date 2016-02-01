@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <functional>
 
 #include "traits/unlawful/eq.h"
 #include "traits/unlawful/ord.h"

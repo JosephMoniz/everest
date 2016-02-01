@@ -7,7 +7,7 @@
 namespace traitorous {
 
 template <class T>
-class Functor<Option, T> {
+class Functor<Option<T>> {
 public:
 
   static constexpr bool exists = true;
@@ -15,7 +15,7 @@ public:
   template <class F, class B = typename std::result_of<F(T)>::type>
   static constexpr Option <B> Map(F f, const Option <T>& n) noexcept {
     return Match(n,
-      []()             { return NOne<B>(); },
+      []()             { return None<B>(); },
       [&f](const T& m) { return Some<B>(f(m)); }
     );
   }

@@ -8,6 +8,7 @@ CFLAGS += -Wextra
 CFLAGS += -Werror
 CFLAGS += -Wno-unused-parameter
 CFLAGS += -Wno-return-type
+CFLAGS += -Wno-unknown-pragmas
 CFLAGS += --std=c++14
 
 CFLAGS_FAST = $(CFLAGS) -O3

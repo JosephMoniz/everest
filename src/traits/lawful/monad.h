@@ -7,46 +7,35 @@
 
 namespace traitorous {
 
-template <template<class> class F, class T>
+template <class F>
 class Monad {
 
-  typedef Monad<F, T> Base;
+  typedef Monad<F> Base;
 
 public:
 
   static constexpr bool exists = false;
 
-  template <class Fn, class B = typename std::result_of<Fn(F<T>)>::type>
-  static constexpr B FlatMap(Fn f, const F<T>& m) noexcept {
+  template <class Fn, class B = typename std::result_of<Fn(F)>::type>
+  static constexpr B FlatMap(Fn f, const F& m) noexcept {
     return Base::FlatMap(f, m);
   }
 
   template <class B>
-  static constexpr F<B> Then(const F<T>& m, const F<B>& n) noexcept {
+  static constexpr B Then(const F& m, const B& n) noexcept {
     return Base::Then(m, n);
   }
 
 };
 
-template <template<class> class F,
-          class Fn,
-          class A,
-          class Mb = typename std::result_of<Fn(A)>::type>
-constexpr inline Mb FlatMap(Fn f, const F<A>& m) noexcept {
-  return Monad<F, A>::FlatMap(f, m);
+template <class Fn, class F>
+constexpr inline auto FlatMap(Fn f, const F& m) noexcept {
+  return Monad<F>::FlatMap(f, m);
 }
 
-template <template<class> class F,
-          class Fn,
-          class A,
-          class Mb = typename std::result_of<Fn(A)>::type>
-constexpr inline Mb operator>>=(const A& m, Fn f) noexcept {
-  return Monad<F, A>::FlatMap(f, m);
-}
-
-template <template <class> class F, class A, class B>
-constexpr inline F<B> Then(const F<A>& a, const F<B>& b) noexcept {
-  return Monad<F, A>::Then(a, b);
+template <class F, class B>
+constexpr inline B Then(const F& a, const B& b) noexcept {
+  return Monad<F>::Then(a, b);
 }
 
 }

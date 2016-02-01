@@ -8,7 +8,7 @@
 namespace traitorous {
 
 template <class T>
-class Monad<LocalOption, T> {
+class Monad<LocalOption<T>> {
 public:
 
   static constexpr bool exists = true;

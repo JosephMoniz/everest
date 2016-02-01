@@ -40,17 +40,14 @@ public:
 
 };
 
-template <template<class> class F, class M>
-constexpr inline M Fold(const F<M>& container) noexcept {
-  return Foldable<F<M>>::Fold(container);
+template <class F>
+constexpr inline auto Fold(const F& container) noexcept {
+  return Foldable<F>::Fold(container);
 }
 
-template <template<class> class F,
-          class A,
-          class Fn,
-          class M = typename std::result_of<Fn(A)>::type>
-constexpr inline M FoldMap(Fn f, const F<A>& container) noexcept {
-  return Foldable<F<A>>::FoldMap(f, container);
+template <class Fn, class F>
+constexpr inline auto FoldMap(Fn f, const F& container) noexcept {
+  return Foldable<F>::FoldMap(f, container);
 }
 
 template <template<class> class F,

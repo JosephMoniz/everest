@@ -31,11 +31,11 @@ public:
     }
   }
 
-  OptionType get_type() const {
+  OptionType GetType() const {
     return _tag;
   };
 
-  const T& get() const {
+  const T& Get() const {
     return *reinterpret_cast<const T*>(&_value);
   }
 
@@ -56,9 +56,9 @@ template <class T,
           class S,
           class R = typename std::result_of<N()>::type>
 constexpr R Match(const LocalOption<T>& o, N n, S s) noexcept {
-  return (o.get_type() == OPTION_NONE)
+  return (o.GetType() == OPTION_NONE)
     ? n()
-    : s(o.get());
+    : s(o.Get());
 }
 
 }

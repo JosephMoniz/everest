@@ -22,11 +22,12 @@ public:
 
   virtual ChainType GetType() const = 0;
 
-  virtual unsigned long Size() const = 0;
+  virtual uint64_t long Size() const = 0;
 
 };
 
-using Chain = Shared<LocalChain>;
+template<class T>
+using Chain = Shared<LocalChain<T>>;
 
 template<class T>
 class EmptyChain : public LocalChain<T> {
@@ -36,7 +37,7 @@ public:
     return EMPTY_CHAIN;
   };
 
-  unsigned long Size() const {
+  uint64_t Size() const {
     return 0;
   }
 
@@ -61,7 +62,7 @@ public:
     return ITEM_CHAIN;
   };
 
-  unsigned long Size() const {
+  uint64_t Size() const {
     return 1;
   }
 
@@ -71,30 +72,26 @@ public:
 
 };
 
-template<class T, class S>
+template<class T, uint64_t S>
 class ArrayChain : public LocalChain<T> {
 
-  const std::array<T, S> _array;
+  T _array[S];
 
 public:
 
-  ArrayChain(const T& array): _array(array) {
-    //
-  }
-
-  ArrayChain(const T&& array): _array(array) {
-    //
+  ArrayChain(std::initializer_list<T> list) {
+    std::copy(list.begin(), list.end(), _array);
   }
 
   ChainType GetType() const {
     return ARRAY_CHAIN;
   };
 
-  unsigned long Size() const {
-    return _array.size();
+  uint64_t Size() const {
+    return S;
   }
 
-  std::array<T, S> Array() const {
+  T* Array() const {
     return _array;
   };
 
@@ -117,7 +114,7 @@ public:
     return CONCAT_CHAIN;
   };
 
-  unsigned long Size() const {
+  uint64_t Size() const {
     return _left->Size() + _right->Size();
   }
 
@@ -168,7 +165,51 @@ public:
 };
 
 template<class T>
+Chain<T> MakeEmptyChain() {
+  return DynamicSharedCast<EmptyChain<T>, LocalChain<T>>(MakeShared<EmptyChain<T>>());
+}
 
+template<class T>
+Chain<T> MakeItemChain(const T& item) {
+  return DynamicSharedCast<ItemChain<T>, LocalChain<T>>(MakeShared<ItemChain<T>>(item));
+}
+
+template<class T>
+Chain<T> MakeItemChain(const T&& item) {
+  return DynamicSharedCast<ItemChain<T>, LocalChain<T>>(MakeShared<ItemChain<T>>(item));
+}
+
+template<class T>
+Chain<T> MakeArrayChain(std::initializer_list<T> list) {
+  return DynamicSharedCast<ArrayChain<T>, LocalChain<T>>(MakeShared<ArrayChain<T, list.size()>>(list));
+}
+
+template<class T>
+Chain<T> MakeConcatChain(const Chain<T>& left, const Chain<T>& right) {
+  return DynamicSharedCast<ConcatChain<T>, LocalChain<T>>(MakeShared<ConcatChain<T>>(left, right));
+}
+
+template<class T>
+Chain<T> MakeSliceChain(const Chain<T>& inner, uint32_t offset, uint32_t length) {
+  return DynamicSharedCast<SliceChain<T>, LocalChain<T>>(MakeShared<SliceChain<T>>(inner, offset, length));
+}
+
+template <class T,
+          class E,
+          class I,
+          class A,
+          class C,
+          class S,
+          class R = typename std::result_of<E()>::type>
+constexpr R Match(const Chain<T>& chain, E empty, I item, A array, C concat, S slice) noexcept {
+  switch (chain->GetType()) {
+    case EMPTY_CHAIN:  return empty();
+    case ITEM_CHAIN:   return item(DynamicSharedCast<LocalChain<T>, ItemChain<T>>(chain));
+    case ARRAY_CHAIN:  return array(DynamicSharedCast<LocalChain<T>, ArrayChain<T>>(chain));
+    case CONCAT_CHAIN: return concat(DynamicSharedCast<LocalChain<T>, ConcatChain<T>>(chain));
+    case SLICE_CHAIN:  return slice(DynamicSharedCast<LocalChain<T>, SliceChain<T>>(chain));
+  }
+}
 
 }
 

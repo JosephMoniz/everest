@@ -8,28 +8,25 @@
 
 namespace traitorous {
 
-template <template<class> class F, class T>
+template <class F>
 class Functor {
 
-  typedef Functor<F, T> Base;
+  typedef Functor<F> Base;
 
 public:
 
   static constexpr bool exists = false;
 
-  template <class Fn, class B = typename std::result_of<Fn(T)>::type>
-  static constexpr F<B> Map(Fn f, const F<T>& n) noexcept {
+  template <class Fn, class B>
+  static constexpr B Map(Fn f, const F& n) noexcept {
     return Base::Map(f, n);
   }
 
 };
 
-template <template<class> class F,
-          class Fn,
-          class A,
-          class B = typename std::result_of<Fn(A)>::type>
-constexpr inline F<B> Map(Fn f, const F<A>& n) noexcept {
-  return Functor<F, A>::Map(f, n);
+template <class Fn, class A>
+constexpr inline auto Map(Fn f, const A& n) noexcept -> decltype(Functor<A>::Map(f, n)) {
+  return Functor<A>::Map(f, n);
 }
 
 }
