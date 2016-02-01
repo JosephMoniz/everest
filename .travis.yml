@@ -1,7 +1,11 @@
 language: cpp
 compiler:
-  - clang
   - gcc
 os:
   - osx
+before_install:
+  - brew update
+  - brew install homebrew/versions/gcc5
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 script: make test
