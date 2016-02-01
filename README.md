@@ -1,5 +1,6 @@
 Traitorous
 ==========
+[![Build Status](https://travis-ci.org/JosephMoniz/traitorous.svg?branch=master)](https://travis-ci.org/JosephMoniz/traitorous)
 
 Traitorous is an almost complete divorcement from C++'s standard template
 library. The idea is to explore alternative methods for expressing
