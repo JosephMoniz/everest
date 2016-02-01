@@ -15,11 +15,11 @@ CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 INCLUDES = -I$(SRCDIR)
 
 $(BUILDDIR)/traitorous: $(BUILDDIR)/main.o
-	$(CC) $(CFLAGS_FAST) -o $@ $^
+	$(CXX) $(CFLAGS_FAST) -o $@ $^
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cc
 	mkdir -p `dirname $@`
-	$(CC) $(CFLAGS_FAST) $(INCLUDES) -c $< -o $@
+	$(CXX) $(CFLAGS_FAST) $(INCLUDES) -c $< -o $@
 
 test:
 	$(MAKE) clean
@@ -27,7 +27,7 @@ test:
 	./build/traitorous
 
 dep:
-	$(CC) -MM $(SRCDIR)/*.cc $(INCLUDES)
+	$(CXX) -MM $(SRCDIR)/*.cc $(INCLUDES)
 
 clean:
 	rm -rf build
