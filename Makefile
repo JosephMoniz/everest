@@ -1,4 +1,4 @@
-CC=g++-5
+CC=g++
 
 BUILDDIR=build
 SRCDIR=src
