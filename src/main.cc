@@ -9,6 +9,12 @@
 #include <traitorous_specs/types/string_spec.h>
 #include <traitorous_specs/containers/local_option_spec.h>
 #include <traitorous_specs/containers/option_spec.h>
+#include <traitorous_specs/containers/array_spec.h>
+#include <traitorous_specs/containers/local_array_spec.h>
+#include <traitorous_specs/containers/list_spec.h>
+
+//#include "local_nel_list_spec.h"
+
 
 using namespace traitorous;
 
@@ -29,6 +35,10 @@ int main(int argc, char **argv) {
   //
   LocalOptionSpecification();
   OptionSpecification();
+  LocalArraySpecification();
+  ArraySpecification();
+  ListSpecification();
+
 
   // Print and return the final test results
   //

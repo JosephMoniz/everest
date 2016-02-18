@@ -10,6 +10,7 @@ CFLAGS += -Wno-unknown-pragmas
 CFLAGS += --std=c++14
 
 CFLAGS_FAST = $(CFLAGS) -O3
+CFLAGS_TEST = $(CFLAGS) -O0
 CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 
 INCLUDES = -I$(SRCDIR)

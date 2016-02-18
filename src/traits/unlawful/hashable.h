@@ -14,15 +14,27 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr int Hash(const T& n) {
+  static constexpr int Hash(const T& n) noexcept {
     return Base::Hash(n);
   }
 
 };
 
 template <class T>
-constexpr int Hash(const T& n) {
-  return Hashable<T>::Hash(n);
+class DefaultHashable {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr int Hash(const T& hashable) noexcept {
+    return (int) hashable;
+  }
+
+};
+
+template <class T>
+constexpr int Hash(const T& hashable) noexcept {
+  return Hashable<T>::Hash(hashable);
 }
 
 }

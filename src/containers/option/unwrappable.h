@@ -14,17 +14,11 @@ public:
 
   template <class D>
   static constexpr T GetOrElse(D d, const Option<T>& f) noexcept {
-    return Match(f,
-      [&d]()         { return d(); },
-      [](const T& m) { return m; }
-    );
+    return Unwrappable<LocalOption<T>>::GetOrElse(d, *f.pointer());
   }
 
   static constexpr T GetOrDefault(const T& d, const Option<T>& n) noexcept {
-    return Match(n,
-      [&d]()         { return d; },
-      [](const T& m) { return m; }
-    );
+    return Unwrappable<LocalOption<T>>::GetOrDefault(d, *n.pointer());
   }
 
 };

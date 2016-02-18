@@ -5,6 +5,8 @@
 
 #include <functional>
 
+#include "functions/types.h"
+
 namespace traitorous {
 
 template <class T>
@@ -22,7 +24,7 @@ public:
   }
 
   template <template <class> class F, class T>
-  static constexpr inline F<T> TakeWhile(const F<T>& n, std::function<bool(const T&)> p) noexcept {
+  static constexpr inline F<T> TakeWhile(const F<T>& n, Predicate<const T&> p) noexcept {
     return Base::TakeWhile(n, p);
   }
 
@@ -33,9 +35,8 @@ constexpr inline T Take(const T& n, unsigned int s) noexcept {
   return Takeable<T>::Take(n, s);
 }
 
-template <template <class> class F,
-  class T>
-constexpr inline F<T> TakeWhile(const F<T>& n, std::function<bool(const T&)> p) noexcept {
+template <template <class> class F, class T>
+constexpr inline F<T> TakeWhile(const F<T>& n, Predicate<const T&> p) noexcept {
   return Takeable<F<T>>::TakeWhile(n, p);
 }
 

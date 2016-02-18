@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <unistd.h>
 
+#include "functions/types.h"
+
 #include "cli/color.h"
 #include "traits/unlawful/show.h"
 
@@ -52,7 +54,7 @@ void Describe(const std::string &str, std::function<void()> description) noexcep
   __traitorous_test_indent--;
 }
 
-void It(const std::string &str, std::function<bool()> assertion) noexcept {
+void It(const std::string &str, Supplier<bool> assertion) noexcept {
   PrintForTraitorousTest(Assert(assertion()) + " " + str);
 }
 

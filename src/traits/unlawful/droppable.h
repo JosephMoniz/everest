@@ -5,6 +5,8 @@
 
 #include <functional>
 
+#include "functions/types.h"
+
 namespace traitorous {
 
 template <class T>
@@ -22,7 +24,7 @@ public:
   }
 
   template <template <class> class F, class T>
-  static constexpr inline F<T> DropWhile(const F<T>& n, std::function<bool(const T&)> p) noexcept {
+  static constexpr inline F<T> DropWhile(const F<T>& n, Predicate<const T&> p) noexcept {
     return Base::DropWhile(n, p);
   }
 
@@ -34,7 +36,7 @@ constexpr inline T Drop(const T& n, unsigned int s) noexcept {
 }
 
 template <template <class> class F, class T>
-constexpr inline F<T> DropWhile(const F<T>& n, std::function<bool(const T&)> p) noexcept {
+constexpr inline F<T> DropWhile(const F<T>& n, Predicate<const T&> p) noexcept {
   return Droppable<F<T>>::DropWhile(n, p);
 }
 

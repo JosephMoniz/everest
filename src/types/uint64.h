@@ -21,6 +21,8 @@
 #include "traits/unlawful/shift_left.h"
 #include "traits/unlawful/shift_right.h"
 #include "traits/unlawful/show.h"
+#include "traits/unlawful/hashable.h"
+#include "functions/types.h"
 
 namespace traitorous {
 
@@ -58,8 +60,8 @@ constexpr inline bool Equals(uint64_t lhs, uint64_t rhs) noexcept {
   return Eq<uint64_t>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(uint64_t)> Equals(uint64_t lhs) noexcept {
-  return [&](uint64_t rhs) {
+inline Predicate<uint64_t> Equals(uint64_t lhs) noexcept {
+  return [=](uint64_t rhs) {
     return Eq<uint64_t>::Equals(lhs, rhs);
   };
 }
@@ -75,6 +77,9 @@ class BitOr<uint64_t> : public DefaultOr<uint64_t> {};
 
 template <>
 class BitXor<uint64_t> : public DefaultXor<uint64_t> {};
+
+template<>
+class Hashable<uint64_t> : public DefaultHashable<uint64_t> {};
 
 template <>
 class OneVal<uint64_t> {

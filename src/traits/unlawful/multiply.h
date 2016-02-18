@@ -3,6 +3,8 @@
 #ifndef TRAITOROUS_TRAITS_MULTIPLY
 #define TRAITOROUS_TRAITS_MULTIPLY 1
 
+#include "functions/types.h"
+
 namespace traitorous {
 
 template <class T>
@@ -20,7 +22,7 @@ public:
   }
 
   template <class U>
-  static constexpr inline std::function<U(const U&)> Multiply(const U& lhs) noexcept {
+  static constexpr inline Function<const U&, U> Multiply(const U& lhs) noexcept {
     return [&](const U& rhs) {
       return Base::Multiply(lhs, rhs);
     };
@@ -46,7 +48,7 @@ constexpr inline T Multiply(const T& lhs, const T& rhs) noexcept {
 }
 
 template <class T>
-constexpr inline std::function<T(const T&)> Multiply(const T& lhs) noexcept {
+constexpr inline Function<const T&, T> Multiply(const T& lhs) noexcept {
   return [&](const T& rhs) {
     return Multipliable<T>::Multiply(lhs, rhs);
   };

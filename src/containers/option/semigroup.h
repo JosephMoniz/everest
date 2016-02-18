@@ -12,7 +12,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Option <T> Add(const Option <T>& lhs, const Option <T>& rhs) noexcept {
+  static constexpr Option<T> Add(const Option<T>& lhs, const Option<T>& rhs) noexcept {
     return Match(lhs,
       [&rhs]()        { return rhs; },
       [&](const T& x) {

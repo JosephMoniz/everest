@@ -50,7 +50,9 @@ void OptionSpecification() {
       It("should return true when compared with != a Some()", []() {
         return None<int>() != Some(42);
       });
-      It("should return a hash value of 0 when called with hashable()");
+      It("should return a hash value of 0 when called with hashable()", []() {
+        return Hash(None<int>()) == 0;
+      });
       It("should return none when called with Add() and another None()", []() {
         return Add(None<int>(), None<int>()) == None<int>();
       });
@@ -167,7 +169,9 @@ void OptionSpecification() {
       It("should return false when compared with != and a matching item", []() {
         return !(Some(42) != Some(42));
       });
-      It("should return the hash of the inner item when called with hashable()");
+      It("should return the hash of the inner item when called with hashable()", []() {
+        return Hash(Some<int>(42)) == Hash(42);
+      });
       It("should return itself when called with Add() and a None()", []() {
         return Add(Some(42), None<int>()) == Some(42);
       });

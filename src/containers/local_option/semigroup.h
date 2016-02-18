@@ -12,7 +12,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr LocalOption <T> Add(const LocalOption <T>& lhs, const LocalOption <T>& rhs) noexcept {
+  static constexpr LocalOption<T> Add(const LocalOption<T>& lhs, const LocalOption<T>& rhs) noexcept {
     return Match(lhs,
       [&rhs]()        { return rhs; },
       [&](const T& x) {

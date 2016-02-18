@@ -13,20 +13,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr Ordering Compare(const Option<T> &lhs, const Option<T> &rhs) noexcept {
-    return Match(lhs,
-      [&rhs]() {
-        return Match(rhs,
-          []()           { return EQUAL; },
-          [](const T &x) { return LESS; }
-        );
-      },
-      [&rhs](const T &x) {
-        return Match(rhs,
-          []()             { return GREATER; },
-          [&x](const T &y) { return traitorous::Compare(x, y); }
-        );
-      }
-    );
+    return Ord<LocalOption<T>>::Compare(*lhs.pointer(), *rhs.pointer());
   }
 
   static constexpr const Option<T>& Min(const Option<T> &lhs, const Option<T> &rhs) noexcept {

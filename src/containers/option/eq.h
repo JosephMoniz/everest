@@ -13,20 +13,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr bool Equals(const Option<T>& lhs, const Option<T>& rhs) noexcept {
-    return Match(lhs,
-      [&](){
-        return Match(rhs,
-          []()           { return true; },
-          [](const T& y) { return false; }
-        );
-      },
-      [&](const T& x){
-        return Match(rhs,
-          []()            { return false; },
-          [&](const T& y) { return x == y; }
-        );
-      }
-    );
+    return Eq<LocalOption<T>>::Equals(*lhs.pointer(), *rhs.pointer());
   }
 
 };

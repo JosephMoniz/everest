@@ -9,7 +9,7 @@
 namespace traitorous {
 
 void LocalOptionSpecification() {
-  Describe("A local_option type", []() {
+  Describe("A LocalOption type", []() {
     It("should have a zero value of None()", []() {
       return Zero<LocalOption<int>>() == LocalNone<int>();
     });
@@ -50,7 +50,9 @@ void LocalOptionSpecification() {
       It("should return true when compared with != a LocalSome()", []() {
         return LocalNone<int>() != LocalSome(42);
       });
-      It("should return a hash value of 0 when called with hashable()");
+      It("should return a hash value of 0 when called with hashable()", []() {
+        return Hash(LocalNone<int>()) == 0;
+      });
       It("should return none when called with Add() and another None()", []() {
         return Add(LocalNone<int>(), LocalNone<int>()) == LocalNone<int>();
       });
@@ -167,7 +169,9 @@ void LocalOptionSpecification() {
       It("should return false when compared with != and a matching item", []() {
         return !(LocalSome(42) != LocalSome(42));
       });
-      It("should return the hash of the inner item when called with hashable()");
+      It("should return the hash of the inner item when called with hashable()", []() {
+        return Hash(LocalSome<int>(42)) == Hash(42);
+      });
       It("should return itself when called with Add() and a None()", []() {
         return Add(LocalSome(42), LocalNone<int>()) == LocalSome(42);
       });

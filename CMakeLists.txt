@@ -76,7 +76,16 @@ set(SOURCE_FILES
         src/containers/option/semigroup.h
         src/traitorous_specs/containers/option_spec.h
         src/containers/enumerator.h
-        src/containers/chain.h src/containers/option/zero.h src/containers/option/monoid.h src/containers/option/filterable.h src/containers/option/ord.h src/containers/option/monad_plus.h src/containers/option/unwrappable.h src/containers/option/shows.h src/containers/array.h)
+        src/containers/option/zero.h
+        src/containers/option/monoid.h
+        src/containers/option/filterable.h
+        src/containers/option/ord.h
+        src/containers/option/monad_plus.h
+        src/containers/option/unwrappable.h
+        src/containers/option/shows.h
+        src/containers/array.h
+        src/containers/nel_list.h
+        src/traitorous_specs/containers/array_spec.h src/traitorous_specs/containers/local_array_spec.h src/containers/local_array/shows.h src/containers/local_array/eq.h src/containers/local_array/ord.h src/containers/local_array/functor.h src/containers/local_array/containable.h src/containers/local_array/container.h src/containers/local_array/semigroup.h src/containers/local_array/zero.h src/containers/local_array/monoid.h src/containers/local_array/hashable.h src/containers/array/shows.h src/containers/array/eq.h src/containers/array/ord.h src/containers/array/functor.h src/containers/array/containable.h src/containers/array/container.h src/containers/array/semigroup.h src/containers/array/zero.h src/containers/array/monoid.h src/containers/array/hashable.h src/containers/list.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}
@@ -91,7 +100,10 @@ add_executable(traitorous_og
         src/traitorous_specs/types/string_spec.h
         src/containers/local_option.h
         src/traitorous_specs/containers/local_option_spec.h
+        src/traitorous_specs/containers/local_nel_list_spec.h
+        src/traitorous_specs/containers/list_spec.h
         src/functions/identity.h
+        src/functions/types.h
         src/meta/last_arg.h
         src/meta/deepest_arg.h
         src/containers/local_option/alternative.h

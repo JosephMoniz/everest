@@ -13,10 +13,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr int Hash(const Option<T>& o) noexcept {
-    return Match(o,
-      []()           { return 0; },
-      [](const T& n) { return Hash(n); }
-    );
+    return Hashable<LocalOption<T>>::Hash(*o.pointer());
   }
 
 };

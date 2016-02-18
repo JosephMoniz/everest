@@ -20,6 +20,8 @@
 #include "traits/unlawful/shift_left.h"
 #include "traits/unlawful/shift_right.h"
 #include "traits/unlawful/show.h"
+#include "traits/unlawful/hashable.h"
+#include "functions/types.h"
 
 namespace traitorous {
 
@@ -57,8 +59,8 @@ constexpr inline bool Equals(int32_t lhs, int32_t rhs) noexcept {
   return Eq<int32_t>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(int32_t)> Equals(int32_t lhs) noexcept {
-  return [&](int32_t rhs) {
+inline Predicate<int32_t> Equals(int32_t lhs) noexcept {
+  return [=](int32_t rhs) {
     return Eq<int32_t>::Equals(lhs, rhs);
   };
 }
@@ -74,6 +76,9 @@ class BitOr<int32_t> : public DefaultOr<int32_t> {};
 
 template <>
 class BitXor<int32_t> : public DefaultXor<int32_t> {};
+
+template<>
+class Hashable<int32_t> : public DefaultHashable<int32_t> {};
 
 template <>
 class OneVal<int32_t> {

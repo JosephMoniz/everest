@@ -12,11 +12,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Contains(const T& n, const Option <T>& f) noexcept {
-    return Match(f,
-      []()             { return false; },
-      [&n](const T& m) { return n == m; }
-    );
+  static constexpr bool Contains(const T& n, const Option<T>& option) noexcept {
+    return Containable<LocalOption<T>, T>::Contains(n, *option.pointer());
   }
 
 };

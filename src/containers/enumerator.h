@@ -11,7 +11,6 @@ public:
 
   virtual T next() = 0;
 
-
 };
 
 }

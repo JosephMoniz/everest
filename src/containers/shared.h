@@ -15,20 +15,38 @@ private:
 public:
 
   Shared(T* external) : _pointer(external) {
-    _count = new uint32_t;
-    *_count = 1;
+    if (_pointer != nullptr) {
+      _count = new uint32_t;
+      *_count = 1;
+    }
   }
 
   Shared(T* external, uint32_t* count) : _pointer(external), _count(count) {
-    (*_count)++;
+    if (_pointer != nullptr) {
+      (*_count)++;
+    }
   }
 
   Shared(const Shared<T>& other) : _count(other._count), _pointer(other._pointer) {
-    (*_count)++;
+    if (_pointer != nullptr) {
+      (*_count)++;
+    }
+  }
+
+  Shared(const Shared<T>&& other) : _count(std::move(other._count)), _pointer(std::move(other._pointer)) {
+    //
+  }
+
+  Shared& operator=(const Shared<T>& other) {
+    _count   = other._count;
+    _pointer = other._pointer;
+    if (_pointer != nullptr) {
+      (*_count)++;
+    }
   }
 
   ~Shared() {
-    if (--(*_count) == 0) {
+    if (_pointer != nullptr && --(*_count) == 0) {
       delete _pointer;
       delete _count;
     }

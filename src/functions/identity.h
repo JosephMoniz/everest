@@ -3,6 +3,8 @@
 
 #include <functional>
 
+#include "functions/types.h"
+
 namespace traitorous {
 
 template<class T>
@@ -11,8 +13,8 @@ T Identity(const T &n) {
 }
 
 template<class T>
-std::function<T(const T &)> Identity() {
-  return [](const T &n) {
+Function<const T&, T> Identity() {
+  return [](const T& n) {
     return n;
   };
 }

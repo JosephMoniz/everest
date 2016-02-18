@@ -5,8 +5,12 @@
 #include "traits/unlawful/zero.h"
 #include "traits/unlawful/ord.h"
 #include "traits/unlawful/show.h"
+#include "traits/unlawful/hashable.h"
+#include "functions/types.h"
 
 namespace traitorous {
+
+using Bool = bool;
 
 template<>
 class Eq<bool> : public DefaultEq<bool> {};
@@ -15,7 +19,7 @@ constexpr inline bool Equals(bool lhs, bool rhs) noexcept {
   return Eq<bool>::Equals(lhs, rhs);
 }
 
-inline std::function<bool(bool)> Equals(bool lhs) noexcept {
+inline Function<bool, bool> Equals(bool lhs) noexcept {
   return [&](bool rhs) {
     return Eq<bool>::Equals(lhs, rhs);
   };
@@ -35,6 +39,9 @@ public:
 
 template<>
 class Ord<bool> : public DefaultOrd<bool> {};
+
+template<>
+class Hashable<bool> : public DefaultHashable<bool> {};
 
 template<>
 class Shows<bool> {

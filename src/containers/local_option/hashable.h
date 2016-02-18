@@ -17,7 +17,7 @@ public:
   static constexpr int Hash(const LocalOption<T>& o) noexcept {
     return Match(o,
       []()           { return 0; },
-      [](const T& n) { return Hash(n); }
+      [](const T& n) { return Hashable<T>::Hash(n); }
     );
   }
 

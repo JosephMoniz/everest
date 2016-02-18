@@ -82,7 +82,8 @@ public:
 
 };
 
-
+// These are for the case of comparing the same types
+//
 template <class T>
 constexpr inline Ordering Compare(const T& lhs, const T& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs);
@@ -105,6 +106,33 @@ constexpr inline bool operator<(const T& lhs, const T& rhs) noexcept {
 
 template <class T>
 constexpr inline bool operator>(const T& lhs, const T& rhs) noexcept {
+  return Ord<T>::Compare(lhs, rhs) == GREATER;
+}
+
+// These are the cases for comparing different types
+//
+template <class T, class U>
+constexpr inline Ordering Compare(const T& lhs, const U& rhs) noexcept {
+  return Ord<T>::Compare(lhs, rhs);
+}
+
+template <class T, class U>
+constexpr inline T Min(const T& lhs, const U& rhs) noexcept {
+  return Ord<T>::Min(lhs, rhs);
+}
+
+template <class T, class U>
+constexpr inline T Max(const T& lhs, const U& rhs) noexcept {
+  return Ord<T>::Max(lhs, rhs);
+}
+
+template <class T, class U>
+constexpr inline bool operator<(const T& lhs, const U& rhs) noexcept {
+  return Ord<T>::Compare(lhs, rhs) == LESS;
+}
+
+template <class T, class U>
+constexpr inline bool operator>(const T& lhs, const U& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs) == GREATER;
 }
 
