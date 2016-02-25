@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T>
+using Option = Shared<LocalOption<T>>;
+
 template <class T>
 class Containable<Option<T>, T> {
 public:
@@ -13,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr bool Contains(const T& n, const Option<T>& option) noexcept {
-    return Containable<LocalOption<T>, T>::Contains(n, *option.pointer());
+    return Containable<LocalOption<T>, T>::Contains(n, *option.Pointer());
   }
 
 };

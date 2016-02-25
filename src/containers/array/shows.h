@@ -10,6 +10,9 @@
 
 namespace traitorous {
 
+template<class T, size_t S>
+using Array = Shared<LocalArray<T, S>>;
+
 template <class T, size_t S>
 class Shows<Array<T, S>> {
 public:

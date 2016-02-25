@@ -3,10 +3,13 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_HASHABLE_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_HASHABLE_H
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "traits/unlawful/hashable.h"
 
 namespace traitorous {
+
+template <class T>
+class LocalOption;
 
 template <class T>
 class Hashable<LocalOption<T>> {

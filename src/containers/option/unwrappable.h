@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T>
+using Option = Shared<LocalOption<T>>;
+
 template <class T>
 class Unwrappable<Option<T>> {
 public:
@@ -14,11 +17,11 @@ public:
 
   template <class D>
   static constexpr T GetOrElse(D d, const Option<T>& f) noexcept {
-    return Unwrappable<LocalOption<T>>::GetOrElse(d, *f.pointer());
+    return Unwrappable<LocalOption<T>>::GetOrElse(d, *f.Pointer());
   }
 
   static constexpr T GetOrDefault(const T& d, const Option<T>& n) noexcept {
-    return Unwrappable<LocalOption<T>>::GetOrDefault(d, *n.pointer());
+    return Unwrappable<LocalOption<T>>::GetOrDefault(d, *n.Pointer());
   }
 
 };

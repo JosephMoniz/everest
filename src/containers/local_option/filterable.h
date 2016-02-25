@@ -1,10 +1,13 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_FILTERABLE
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_FILTERABLE
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "traits/unlawful/filterable.h"
 
 namespace traitorous {
+
+template <class T>
+class LocalOption;
 
 template <class T>
 class Filterable<LocalOption<T>> {

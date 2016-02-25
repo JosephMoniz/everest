@@ -9,7 +9,7 @@
 
 namespace traitorous {
 
-void uint32_specification() {
+void Uint32Specification() {
   uint32_t zero_n    = 0;
   uint32_t fortytwo  = 42;
   uint32_t twentyone = 21;

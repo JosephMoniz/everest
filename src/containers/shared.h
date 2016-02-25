@@ -18,17 +18,19 @@ public:
     if (_pointer != nullptr) {
       _count = new uint32_t;
       *_count = 1;
+    } else {
+      _count = nullptr;
     }
   }
 
   Shared(T* external, uint32_t* count) : _pointer(external), _count(count) {
-    if (_pointer != nullptr) {
+    if (_count != nullptr) {
       (*_count)++;
     }
   }
 
   Shared(const Shared<T>& other) : _count(other._count), _pointer(other._pointer) {
-    if (_pointer != nullptr) {
+    if (_count != nullptr) {
       (*_count)++;
     }
   }
@@ -40,31 +42,32 @@ public:
   Shared& operator=(const Shared<T>& other) {
     _count   = other._count;
     _pointer = other._pointer;
-    if (_pointer != nullptr) {
+    if (_count != nullptr) {
       (*_count)++;
     }
+    return *this;
   }
 
   ~Shared() {
-    if (_pointer != nullptr && --(*_count) == 0) {
+    if (_count != nullptr && --(*_count) == 0) {
       delete _pointer;
       delete _count;
     }
   }
 
-  T* operator->() const {
+  T* operator->() const noexcept {
     return _pointer;
   }
 
-  T& operator*() const {
+  T& operator*() const noexcept {
     return *_pointer;
   }
 
-  T* pointer() const {
+  T* Pointer() const noexcept {
     return _pointer;
   }
 
-  uint32_t* counter() const {
+  uint32_t* Counter() const noexcept {
     return _count;
   }
 
@@ -77,8 +80,8 @@ Shared<T> MakeShared(As&&... args) {
 
 template<class T, class U>
 Shared<U> DynamicSharedCast(const Shared<T>& shared) {
-  U* internal = dynamic_cast<U*>(shared.pointer());
-  return Shared<U>(internal, shared.counter());
+  U* internal = dynamic_cast<U*>(shared.Pointer());
+  return Shared<U>(internal, shared.Counter());
 };
 
 }

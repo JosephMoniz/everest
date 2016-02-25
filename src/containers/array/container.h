@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T, size_t S>
+using Array = Shared<LocalArray<T, S>>;
+
 template <class T, size_t S>
 class Container<Array<T, S>> {
 public:
@@ -13,11 +16,11 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const Array<T, S>& o) noexcept {
-    return Container<LocalArray<T, S>>::Length(*o.pointer());
+    return Container<LocalArray<T, S>>::Length(*o.Pointer());
   }
 
   static constexpr bool IsEmpty(const Array<T, S>& o) noexcept {
-    return Container<LocalArray<T, S>>::IsEmpty(*o.pointer());
+    return Container<LocalArray<T, S>>::IsEmpty(*o.Pointer());
   }
 
 };

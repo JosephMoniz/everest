@@ -3,7 +3,8 @@
 
 #include <cstdint>
 #include <initializer_list>
-#include <string>
+
+#include "functions/identity.h"
 
 #include "containers/shared.h"
 
@@ -65,6 +66,7 @@ Array<T, S> MakeArray() {
 #include "containers/local_array/zero.h"
 #include "containers/local_array/monoid.h"
 #include "containers/local_array/hashable.h"
+#include "containers/local_array/foldable.h"
 
 #include "containers/array/shows.h"
 #include "containers/array/eq.h"
@@ -76,5 +78,6 @@ Array<T, S> MakeArray() {
 #include "containers/array/zero.h"
 #include "containers/array/monoid.h"
 #include "containers/array/hashable.h"
+#include "containers/array/foldable.h"
 
 #endif

@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T>
+using Option = Shared<LocalOption<T>>;
+
 template <class T>
 class Container<Option<T>> {
 public:
@@ -13,11 +16,11 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const Option<T>& o) noexcept {
-    return Container<LocalOption<T>>::Length(*o.pointer());
+    return Container<LocalOption<T>>::Length(*o.Pointer());
   }
 
   static constexpr bool IsEmpty(const Option<T>& o) noexcept {
-    return Container<LocalOption<T>>::IsEmpty(*o.pointer());
+    return Container<LocalOption<T>>::IsEmpty(*o.Pointer());
   }
 
 };

@@ -1,10 +1,11 @@
 #ifndef TRAITOROUS_LOCAL_LIST_SPEC_H
 #define TRAITOROUS_LOCAL_LIST_SPEC_H
 
-#include "containers/list.h"
 #include "test/bdd.h"
 
 #include "functions/identity.h"
+
+#include "containers/list.h"
 
 namespace traitorous {
 
@@ -71,6 +72,18 @@ void ListSpecification() {
     });
     It("Should return return an empty list when calling Zero()", []() {
       return Zero<List<int>>() == Cons<int>();
+    });
+    It("Should return the sum of the list when called with Fold()", []() {
+      return Fold(Cons(1, Cons(2, Cons(3)))) == 6;
+    });
+    It("Should return the sum of the list when called with FoldMap() w/ Identity()", []() {
+      return FoldMap(Identity<int>(), Cons(1, Cons(2, Cons(3)))) == 6;
+    });
+    It("Should return the sum of the list when called with FoldR() w/ Add()", []() {
+      return FoldR(Add<int>(), 0, Cons(1, Cons(2, Cons(3)))) == 6;
+    });
+    It("Should return the sum of the list when called with FoldL() w/ Add()", []() {
+      return FoldL(Add<int>(), 0, Cons(1, Cons(2, Cons(3)))) == 6;
     });
   });
 }

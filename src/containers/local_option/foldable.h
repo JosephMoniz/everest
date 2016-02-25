@@ -1,11 +1,14 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_FOLDABLE_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_FOLDABLE_H
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "traits/lawful/foldable.h"
 #include "traits/lawful/monoid.h"
 
 namespace traitorous {
+
+template <class T>
+class LocalOption;
 
 template <class T>
 class Foldable<LocalOption<T>> {

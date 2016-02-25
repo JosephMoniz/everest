@@ -3,8 +3,9 @@
 
 #include "test/bdd.h"
 
-#include "containers/option.h"
 #include "functions/identity.h"
+
+#include "containers/option.h"
 
 namespace traitorous {
 
@@ -15,7 +16,7 @@ void OptionSpecification() {
     });
     Describe("in the case of type none", []() {
       It("should return OPTION_NONE when calling get_type()", []() {
-        return None<int>()->GetType() == OPTION_NONE;
+        return None<int>()->GetType() == OptionType::NONE;
       });
       It("should evalute the none case when calling Match()", []() {
         return Match(None<int>(),
@@ -122,7 +123,7 @@ void OptionSpecification() {
     });
     Describe("in the case of type Some", []() {
       It("should return OPTION_SOME when calling get_type()", []() {
-        return Some(42)->GetType() == OPTION_SOME;
+        return Some(42)->GetType() == OptionType::SOME;
       });
       It("should evalute the Some case when calling Match()", []() {
         return Match(Some(42),

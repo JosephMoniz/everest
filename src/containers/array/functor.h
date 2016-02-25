@@ -7,6 +7,9 @@
 namespace traitorous {
 
 template<class T, size_t S>
+using Array = Shared<LocalArray<T, S>>;
+
+template<class T, size_t S>
 class Functor<Array<T, S>> {
 public:
 
@@ -14,7 +17,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static constexpr Array<B, S> Map(F f, const Array<T, S>& array) noexcept {
-    return Functor<LocalArray<T, S>>::Map(f, *array.pointer());
+    return Functor<LocalArray<T, S>>::Map(f, *array.Pointer());
   }
 
 };

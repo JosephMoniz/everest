@@ -1,10 +1,14 @@
 #ifndef TRAITOROUS_CONTAINERS_OPTION_MONAD_H
 #define TRAITOROUS_CONTAINERS_OPTION_MONAD_H
 
+#include <meta/nth_arg.h>
 #include "containers/option.h"
 #include "traits/lawful/monad.h"
 
 namespace traitorous {
+
+template<class T>
+using Option = Shared<LocalOption<T>>;
 
 template <class T>
 class Monad<Option<T>> {

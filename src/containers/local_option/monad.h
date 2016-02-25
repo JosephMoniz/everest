@@ -1,11 +1,14 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_MONAD_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_MONAD_H
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "traits/lawful/monad.h"
 #include "meta/nth_arg.h"
 
 namespace traitorous {
+
+template <class T>
+class LocalOption;
 
 template <class T>
 class Monad<LocalOption<T>> {

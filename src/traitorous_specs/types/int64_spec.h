@@ -9,7 +9,7 @@
 
 namespace traitorous {
 
-void int64_specification() {
+void Int64Specification() {
   int64_t zero_n    = 0;
   int64_t fortytwo  = 42;
   int64_t twentyone = 21;

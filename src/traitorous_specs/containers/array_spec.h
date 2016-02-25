@@ -4,7 +4,7 @@
 #include <containers/array.h>
 #include "test/bdd.h"
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "functions/identity.h"
 
 namespace traitorous {
@@ -81,6 +81,18 @@ void ArraySpecification() {
     });
     It("Should return return an empty array when calling Zero()", []() {
       return Zero<Array<int, 0>>() == MakeArray<int, 0>({});
+    });
+    It("Should return the sum of the array when called with Fold()", []() {
+      return Fold(MakeArray<int, 3>({1, 2, 3})) == 6;
+    });
+    It("Should return the sum of the array when called with FoldMap() w/ Identity()", []() {
+      return FoldMap(Identity<int>(), MakeArray<int, 3>({1, 2, 3})) == 6;
+    });
+    It("Should return the sum of the array when called with FoldR() w/ Add()", []() {
+      return FoldR(Add<int>(), 0, MakeArray<int, 3>({1, 2, 3})) == 6;
+    });
+    It("Should return the sum of the array when called with FoldL() w/ Add()", []() {
+      return FoldL(Add<int>(), 0, MakeArray<int, 3>({1, 2, 3})) == 6;
     });
   });
 }

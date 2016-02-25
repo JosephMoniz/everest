@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T, size_t S>
+using Array = Shared<LocalArray<T, S>>;
+
 template <class T, size_t S>
 class Semigroup<Array<T, S>> {
 public:
@@ -14,7 +17,7 @@ public:
 
   template <size_t Rs, size_t Ns = S + Rs>
   static constexpr Array<T, S + Rs> Add(const Array<T, S>& lhs, const Array<T, Rs>& rhs) noexcept {
-    return Semigroup<LocalArray<T, S>>::Add(*lhs.pointer(), *rhs.pointer());
+    return Semigroup<LocalArray<T, S>>::Add(*lhs.Pointer(), *rhs.Pointer());
   }
 
 };

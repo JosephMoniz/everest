@@ -7,6 +7,9 @@
 namespace traitorous {
 
 template<class T, size_t S>
+using Array = Shared<LocalArray<T, S>>;
+
+template<class T, size_t S>
 class Monoid<Array<T, S>> {
 public:
   static constexpr bool exists = true;

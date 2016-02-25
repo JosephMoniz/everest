@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T, size_t S>
+using Array = Shared<LocalArray<T, S>>;
+
 template <class T, size_t S>
 class Containable<Array<T, S>, T> {
 public:
@@ -13,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const Array<T, S>& array) noexcept {
-    return Containable<LocalArray<T, S>, T>::Contains(n, *array.pointer());
+    return Containable<LocalArray<T, S>, T>::Contains(n, *array.Pointer());
   }
 
 };

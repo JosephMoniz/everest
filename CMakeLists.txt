@@ -75,7 +75,6 @@ set(SOURCE_FILES
         src/containers/option/monad.h
         src/containers/option/semigroup.h
         src/traitorous_specs/containers/option_spec.h
-        src/containers/enumerator.h
         src/containers/option/zero.h
         src/containers/option/monoid.h
         src/containers/option/filterable.h
@@ -84,8 +83,7 @@ set(SOURCE_FILES
         src/containers/option/unwrappable.h
         src/containers/option/shows.h
         src/containers/array.h
-        src/containers/nel_list.h
-        src/traitorous_specs/containers/array_spec.h src/traitorous_specs/containers/local_array_spec.h src/containers/local_array/shows.h src/containers/local_array/eq.h src/containers/local_array/ord.h src/containers/local_array/functor.h src/containers/local_array/containable.h src/containers/local_array/container.h src/containers/local_array/semigroup.h src/containers/local_array/zero.h src/containers/local_array/monoid.h src/containers/local_array/hashable.h src/containers/array/shows.h src/containers/array/eq.h src/containers/array/ord.h src/containers/array/functor.h src/containers/array/containable.h src/containers/array/container.h src/containers/array/semigroup.h src/containers/array/zero.h src/containers/array/monoid.h src/containers/array/hashable.h src/containers/list.h)
+        src/traitorous_specs/containers/array_spec.h src/traitorous_specs/containers/local_array_spec.h src/containers/local_array/shows.h src/containers/local_array/eq.h src/containers/local_array/ord.h src/containers/local_array/functor.h src/containers/local_array/containable.h src/containers/local_array/container.h src/containers/local_array/semigroup.h src/containers/local_array/zero.h src/containers/local_array/monoid.h src/containers/local_array/hashable.h src/containers/array/shows.h src/containers/array/eq.h src/containers/array/ord.h src/containers/array/functor.h src/containers/array/containable.h src/containers/array/container.h src/containers/array/semigroup.h src/containers/array/zero.h src/containers/array/monoid.h src/containers/array/hashable.h src/containers/list.h src/containers/enumerators/option_enumerator.h src/containers/enumerators/array_enumerator.h src/containers/enumerators/list_enumerator.h src/exceptions/no_such_element_exception.h src/traits/unlawful/enumerable.h src/containers/option/enumerable.h src/traits/unlawful/enumerator.h src/containers/list/shows.h src/containers/list/ord.h src/containers/list/eq.h src/containers/list/functor.h src/containers/list/containable.h src/containers/list/container.h src/containers/list/semigroup.h src/containers/list/zero.h src/containers/list/monoid.h src/containers/list/foldable.h src/containers/local_array/foldable.h src/containers/array/foldable.h src/containers/checked.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}
@@ -100,7 +98,6 @@ add_executable(traitorous_og
         src/traitorous_specs/types/string_spec.h
         src/containers/local_option.h
         src/traitorous_specs/containers/local_option_spec.h
-        src/traitorous_specs/containers/local_nel_list_spec.h
         src/traitorous_specs/containers/list_spec.h
         src/functions/identity.h
         src/functions/types.h

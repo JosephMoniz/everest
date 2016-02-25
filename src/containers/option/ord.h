@@ -7,13 +7,16 @@
 namespace traitorous {
 
 template<class T>
+using Option = Shared<LocalOption<T>>;
+
+template<class T>
 class Ord<Option<T>> {
 public:
 
   static constexpr bool exists = true;
 
   static constexpr Ordering Compare(const Option<T> &lhs, const Option<T> &rhs) noexcept {
-    return Ord<LocalOption<T>>::Compare(*lhs.pointer(), *rhs.pointer());
+    return Ord<LocalOption<T>>::Compare(*lhs.Pointer(), *rhs.Pointer());
   }
 
   static constexpr const Option<T>& Min(const Option<T> &lhs, const Option<T> &rhs) noexcept {

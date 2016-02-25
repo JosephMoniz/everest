@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T>
+using Option = Shared<LocalOption<T>>;
+
 template <class T>
 class Eq<Option<T>> {
 public:
@@ -13,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr bool Equals(const Option<T>& lhs, const Option<T>& rhs) noexcept {
-    return Eq<LocalOption<T>>::Equals(*lhs.pointer(), *rhs.pointer());
+    return Eq<LocalOption<T>>::Equals(*lhs.Pointer(), *rhs.Pointer());
   }
 
 };

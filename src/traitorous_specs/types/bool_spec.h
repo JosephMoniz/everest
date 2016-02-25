@@ -10,7 +10,7 @@
 
 namespace traitorous {
 
-void bool_specification() {
+void BoolSpecification() {
   Describe("A type bool", []() {
     It("should have a zero value of false", []() {
       return !Zero<bool>();

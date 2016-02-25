@@ -1,10 +1,13 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_ALTERNATIVE_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_ALTERNATIVE_H
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "traits/lawful/alternative.h"
 
 namespace traitorous {
+
+template <class T>
+class LocalOption;
 
 template <class T>
 class Alternative<LocalOption<T>> {

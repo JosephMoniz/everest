@@ -6,6 +6,9 @@
 
 namespace traitorous {
 
+template<class T>
+using Option = Shared<LocalOption<T>>;
+
 template <class T>
 class Hashable<Option<T>> {
 public:
@@ -13,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr int Hash(const Option<T>& o) noexcept {
-    return Hashable<LocalOption<T>>::Hash(*o.pointer());
+    return Hashable<LocalOption<T>>::Hash(*o.Pointer());
   }
 
 };

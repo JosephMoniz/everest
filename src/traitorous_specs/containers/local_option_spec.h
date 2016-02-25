@@ -3,8 +3,9 @@
 
 #include "test/bdd.h"
 
-#include "containers/local_option.h"
 #include "functions/identity.h"
+
+#include "containers/option.h"
 
 namespace traitorous {
 
@@ -15,7 +16,7 @@ void LocalOptionSpecification() {
     });
     Describe("in the case of type none", []() {
       It("should return OPTION_NONE when calling get_type()", []() {
-        return LocalNone<int>().GetType() == OPTION_NONE;
+        return LocalNone<int>().GetType() == OptionType::NONE;
       });
       It("should evalute the none case when calling Match()", []() {
         return Match(LocalNone<int>(),
@@ -122,7 +123,7 @@ void LocalOptionSpecification() {
     });
     Describe("in the case of type LocalSome", []() {
       It("should return OPTION_SOME when calling get_type()", []() {
-        return LocalSome(42).GetType() == OPTION_SOME;
+        return LocalSome(42).GetType() == OptionType::SOME;
       });
       It("should evalute the LocalSome case when calling Match()", []() {
         return Match(LocalSome(42),

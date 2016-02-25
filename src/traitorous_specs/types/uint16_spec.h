@@ -9,7 +9,7 @@
 
 namespace traitorous {
 
-void uint16_specification() {
+void Uint16Specification() {
   uint16_t zero_n    = 0;
   uint16_t fortytwo  = 42;
   uint16_t twentyone = 21;

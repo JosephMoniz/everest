@@ -8,7 +8,7 @@
 
 namespace traitorous {
 
-void string_specification() {
+void StringSpecification() {
   Describe("A type string", []() {
     /*
     it("should return the length of the string when passed through Length()", []() {

@@ -9,7 +9,7 @@
 
 namespace traitorous {
 
-void uint8_specification() {
+void Uint8Specification() {
   uint8_t zero_n    = 0;
   uint8_t fortytwo  = 42;
   uint8_t twentyone = 21;

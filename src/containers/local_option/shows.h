@@ -1,10 +1,13 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_SHOWS_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_SHOWS_H
 
-#include "containers/local_option.h"
+#include "containers/option.h"
 #include "traits/unlawful/show.h"
 
 namespace traitorous {
+
+template <class T>
+class LocalOption;
 
 template <class T>
 class Shows<LocalOption<T>> {

@@ -50,26 +50,20 @@ constexpr inline auto FoldMap(Fn f, const F& container) noexcept {
   return Foldable<F>::FoldMap(f, container);
 }
 
-template <template<class> class F,
-          class T,
-          class Fn,
-          class B>
+template <class F, class Fn, class B>
 constexpr inline B FoldR(Fn f,
                          const B& init,
-                         const F<T>& container) noexcept
+                         const F& container) noexcept
 {
-  return Foldable<F<T>>::FoldR(f, init, container);
+  return Foldable<F>::FoldR(f, init, container);
 }
 
-template <template<class> class F,
-          class T,
-          class Fn,
-          class B>
+template <class F, class Fn, class B>
 constexpr inline B FoldL(Fn f,
                          const B& init,
-                         const F<T>& container) noexcept
+                         const F& container) noexcept
 {
-  return Foldable<F<T>>::FoldL(f, init, container);
+  return Foldable<F>::FoldL(f, init, container);
 }
 
 }

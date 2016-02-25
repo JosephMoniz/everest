@@ -13,23 +13,20 @@
 #include <traitorous_specs/containers/local_array_spec.h>
 #include <traitorous_specs/containers/list_spec.h>
 
-//#include "local_nel_list_spec.h"
-
-
 using namespace traitorous;
 
 int main(int argc, char **argv) {
   // Type specifications
   //
-  bool_specification();
-  int8_specification();
-  int16_specification();
-  int32_specification();
-  int64_specification();
-  uint8_specification();
-  uint16_specification();
-  uint32_specification();
-  string_specification();
+  BoolSpecification();
+  Int8Specification();
+  Int16Specification();
+  Int32Specification();
+  Int64Specification();
+  Uint8Specification();
+  Uint16Specification();
+  Uint32Specification();
+  StringSpecification();
 
   // Container specifications
   //
