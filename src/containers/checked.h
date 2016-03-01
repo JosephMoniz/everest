@@ -8,7 +8,10 @@
 #include <string>
 #include <traits/unlawful/ord.h>
 #include <meta/nth_arg.h>
-#include "shared.h"
+
+#include "traits/unlawful/container.h"
+
+#include "containers/shared.h"
 
 namespace traitorous {
 
@@ -48,7 +51,7 @@ public:
     }
   }
 
-  CheckedType GetType() const noexcept {
+  constexpr CheckedType GetType() const noexcept {
     return _tag;
   };
 
@@ -58,6 +61,14 @@ public:
 
   const E& GetError() const noexcept {
     return *reinterpret_cast<const E*>(&_value);
+  }
+
+  constexpr bool IsOk() const noexcept {
+    return GetType() == CheckedType::OK;
+  }
+
+  constexpr bool IsError() const noexcept {
+    return GetType() == CheckedType::ERROR;
   }
 
 };
@@ -85,18 +96,18 @@ const Checked<E, T> Ok(const T& ok) {
   return MakeShared<LocalChecked<E, T>>(CheckedType::OK, ok);
 }
 
-template <class E, class T, class Ef, class Sf>
-constexpr auto Match(const LocalChecked<E, T>& checked, Ef e, Sf o) noexcept -> decltype(Sf(checked.Get())) {
+template <class E, class T, class Ef, class Of>
+constexpr auto Match(const LocalChecked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked.Get())) {
   return (checked.GetType() == CheckedType::OK)
-    ? e(checked.Get())
-    : o(checked.GetError());
+    ? ok(checked.Get())
+    : error(checked.GetError());
 }
 
-template <class E, class T, class Ef, class Sf>
-constexpr auto Match(const Checked<E, T>& checked, Ef e, Sf o) noexcept -> decltype(Sf(checked->Get())) {
+template <class E, class T, class Ef, class Of>
+constexpr auto Match(const Checked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked->Get())) {
   return (checked->GetType() == CheckedType::OK)
-    ? e(checked->Get())
-    : o(checked->GetError());
+    ? ok(checked->Get())
+    : error(checked->GetError());
 }
 
 template <class E, class T>
@@ -125,12 +136,12 @@ public:
       [&](const E& errorLeft){
         return Match(rhs,
           [&](const E& errorRight) { return errorLeft == errorRight; },
-          [](const T& ok)          { return false; }
+          [](const T& okRight)     { return false; }
         );
       },
       [&](const T& okLeft){
         return Match(rhs,
-          [](const E& error)       { return false; },
+          [](const E& errorLeft)   { return false; },
           [&](const T& okRight)    { return okLeft == okRight; }
         );
       }
@@ -283,11 +294,11 @@ public:
 
   static constexpr LocalChecked<E, T> Add(const LocalChecked<E, T>& lhs, const LocalChecked<E, T>& rhs) noexcept {
     return Match(lhs,
-      [&](const E& errorLeft) { return errorLeft; },
+      [&](const E& errorLeft) { return lhs; },
       [&](const T& okLeft) {
         return Match(rhs,
-          [&](const E& errorRight) { return errorRight; },
-          [&](const T& okRight)    { return LocalChecked<E, T>(okLeft + okRight); }
+          [&](const E& errorRight) { return rhs; },
+          [&](const T& okRight)    { return LocalOk<E, T>(okLeft + okRight); }
         );
       }
     );
@@ -302,7 +313,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr LocalChecked<E, T> Zero() {
-    return LocalOk<T>(Zero<T>());
+    return LocalOk<E, T>(ZeroVal<T>::Zero());
   }
 
 };
@@ -398,7 +409,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const LocalChecked<E, T>& n) noexcept {
+  static const std::string Show(const Checked<E, T>& n) noexcept {
     return Match(n,
       [](const E& error) { return std::string("Error(") + Shows<E>::Show(error) + ")"; },
       [](const T& ok)    { return std::string("Ok(") + Shows<T>::Show(ok) + ")"; }
@@ -478,8 +489,11 @@ public:
   static constexpr bool exists = true;
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  static constexpr LocalChecked<E, B> Map(F f, const Checked<E, T>& checked) noexcept {
-    return Functor<LocalChecked<E, T>>::Map(f, *checked);
+  static constexpr Checked<E, B> Map(F f, const Checked<E, T>& checked) noexcept {
+    return Match(checked,
+      [&](const E& error) { return Error<E, B>(error); },
+      [&](const T& ok)    { return Ok<E, B>(f(ok)); }
+    );
   }
 
 };
@@ -505,10 +519,10 @@ public:
 
   static constexpr bool exists = true;
 
-  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 1>>
+  template <class F, class B = nth_arg<nth_arg<typename std::result_of<F(T)>::type, 0>, 1>>
   static constexpr Checked<E, B> FlatMap(F f, const Checked<E, T>& checked) noexcept {
     return Match(checked,
-      [&](const E& error) { return LocalError<E, B>(error); },
+      [&](const E& error) { return Error<E, B>(error); },
       [&](const T& ok)    { return f(ok); }
     );
   }
@@ -524,17 +538,17 @@ public:
 };
 
 template <class E, class T>
-class Semigroup<LocalChecked<E, T>> {
+class Semigroup<Checked<E, T>> {
 public:
 
   static constexpr bool exists = true;
 
   static constexpr Checked<E, T> Add(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
     return Match(lhs,
-      [&](const E& errorLeft) { return errorLeft; },
+      [&](const E& errorLeft) { return lhs; },
       [&](const T& okLeft) {
         return Match(rhs,
-          [&](const E& errorRight) { return errorRight; },
+          [&](const E& errorRight) { return rhs; },
           [&](const T& okRight)    { return Ok<E, T>(okLeft + okRight); }
         );
       }
@@ -550,7 +564,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr Checked<E, T> Zero() {
-    return Ok<T>(Zero<T>());
+    return Ok<E, T>(ZeroVal<T>::Zero());
   }
 
 };

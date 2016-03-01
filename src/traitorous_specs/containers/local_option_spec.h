@@ -131,7 +131,7 @@ void LocalOptionSpecification() {
           [](auto n) { return true; }
         );
       });
-      It("should return true when calling Contains() with a matching item", []() {
+      It("should return true w hen calling Contains() with a matching item", []() {
         return Contains(42, LocalSome(42));
       });
       It("should return false when calling Contains() with a different item", []() {

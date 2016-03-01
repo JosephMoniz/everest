@@ -12,6 +12,8 @@
 #include <traitorous_specs/containers/array_spec.h>
 #include <traitorous_specs/containers/local_array_spec.h>
 #include <traitorous_specs/containers/list_spec.h>
+#include <traitorous_specs/containers/local_checked_spec.h>
+#include <traitorous_specs/containers/checked_spec.h>
 
 using namespace traitorous;
 
@@ -35,6 +37,8 @@ int main(int argc, char **argv) {
   LocalArraySpecification();
   ArraySpecification();
   ListSpecification();
+  LocalCheckedSpecification();
+  CheckedSpecification();
 
 
   // Print and return the final test results

@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "InfiniteRecursion"
 #ifndef TRAITOROUS_TRAITS_UNLAWFUL_ENUMERABLE_H
 #define TRAITOROUS_TRAITS_UNLAWFUL_ENUMERABLE_H
 
@@ -14,11 +12,10 @@ public:
 
   static constexpr bool exists = false;
 
-  /*
-  static auto Enumerator(const T& enumerable) noexcept -> decltype(Base::Enumerator(enumerable)) {
+  template <class U>
+  static U Enumerator(const T& enumerable) noexcept {
     return Base::Enumerator(enumerable);
   }
-   */
 
 };
 
@@ -31,4 +28,3 @@ auto Enumerator(const T& enumerable) noexcept -> decltype(Enumerable<T>::Enumera
 
 #endif
 
-#pragma clang diagnostic pop

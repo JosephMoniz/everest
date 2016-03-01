@@ -70,15 +70,15 @@ const Option<T> None() {
 template <class T, class N, class S, class R = typename std::result_of<N()>::type>
 constexpr R Match(const LocalOption<T>& o, N n, S s) noexcept {
   return (o.GetType() == OptionType::NONE)
-         ? n()
-         : s(o.Get());
+    ? n()
+    : s(o.Get());
 }
 
 template <class T, class N, class S, class R = typename std::result_of<N()>::type>
 constexpr R Match(const Option<T>& o, N n, S s) noexcept {
   return (o->GetType() == OptionType::NONE)
-         ? n()
-         : s(o->Get());
+    ? n()
+    : s(o->Get());
 }
 
 }
