@@ -35,8 +35,9 @@ public:
     }
   }
 
-  Shared(const Shared<T>&& other) : _count(std::move(other._count)), _pointer(std::move(other._pointer)) {
-    //
+  Shared(Shared<T>&& other) : _count(std::move(other._count)), _pointer(std::move(other._pointer)) {
+    other._count   = nullptr;
+    other._pointer = nullptr;
   }
 
   Shared& operator=(const Shared<T>& other) {

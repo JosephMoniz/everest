@@ -99,6 +99,11 @@ List<T> Cons() {
   return MakeShared<LocalList<T>>(0, nullptr);
 }
 
+template<class T>
+ListNode<T> Cons(const T& item, const ListNode<T>& next) {
+  return MakeShared<LocalListNode<T>>(item, next);
+}
+
 }
 
 #include "containers/list/containable.h"

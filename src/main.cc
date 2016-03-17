@@ -14,6 +14,7 @@
 #include <traitorous_specs/containers/list_spec.h>
 #include <traitorous_specs/containers/local_checked_spec.h>
 #include <traitorous_specs/containers/checked_spec.h>
+#include <traitorous_specs/concurrency/box_spec.h>
 
 using namespace traitorous;
 
@@ -39,6 +40,7 @@ int main(int argc, char **argv) {
   ListSpecification();
   LocalCheckedSpecification();
   CheckedSpecification();
+  BoxSpecification();
 
 
   // Print and return the final test results

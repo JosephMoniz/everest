@@ -9,18 +9,25 @@
 namespace traitorous {
 
 template <class T>
+class BankersQueue;
+
+template <class T>
 class LocalBankersQueue {
 
-  friend BankersQueue<T> Rebalance;
+  friend BankersQueue<T> Rebalance(const BankersQueue<T>& queue);
   friend class Queue<BankersQueue<T>>;
 
-  const ListNode _in;
+  const ListNode<T> _in;
 
-  const ListNode _out;
+  const ListNode<T> _out;
 
   const size_t _inSize;
 
   const size_t _outSize;
+
+  ListNode<T> In() {
+    return _in;
+  }
 
 public:
 
@@ -56,24 +63,25 @@ BankersQueue<T> MakeBankersQueue(const ListNode& in,
   return MakeShared<LocalBankersQueue<T>>(in, out, inSize, outSize);
 }
 
-BankersQueue<T> Rebalance(const BankersQueue<T>* queue) noexcept {
-  if (queue._inSize <= queue._outSize) {
+template <class T>
+BankersQueue<T> Rebalance(const BankersQueue<T>& queue) noexcept {
+  if (queue->_inSize <= queue->_outSize) {
     return queue;
   } else {
-    auto newOut = queue._out;
-    for (auto in = queue._in; in.Pointer() != nullptr; in = in->Next()) {
-      newOut = Cons(in->Item(), newOut);
+    ListNode<T> newOut = queue->_out;
+    for (auto it = queue->In(); it.Pointer() != nullptr; it = it->Next()) {
+      newOut = Cons(it->Item(), newOut);
     }
     return MakeBankersQueue(
       nullptr,
       newOut,
       0,
-      queue._inSize + queue._outSize
+      queue->_inSize + queue->_outSize
     );
   }
 }
 
-template <class T> 
+template <class T>
 class Queue<BankersQueue<T>> {
 public:
 
@@ -81,30 +89,31 @@ public:
 
   static constexpr BankersQueue<T> Enqueue(const T& item, const BankersQueue<T>& queue) noexcept {
     return Rebalance(MakeBankersQueue(
-      Cons(item, queue._in),
-      queue._out,
-      queue._inSize + 1,
-      queue._outSize
+      Cons(item, queue->_in),
+      queue->_out,
+      queue->_inSize + 1,
+      queue->_outSize
     ));
   }
 
   static constexpr BankersQueue<T> Dequeue(const BankersQueue<T>& queue) noexcept {
-    if (queue._outSize == 0) {
+    if (queue->_outSize == 0) {
       return queue;
     } else {
       return Rebalance(MakeBankersQueue(
-        queue._in,
-        queue._out->Next(),
-        queue._inSize,
-        queue._outSize - 1
+        queue->_in,
+        queue->_out->Next(),
+        queue->_inSize,
+        queue->_outSize - 1
       ));
+    }
   }
 
   static constexpr LocalOption<T> Front(const BankersQueue<T>& queue) noexcept {
-    if (queue._outSize == 0) {
+    if (queue->_outSize == 0) {
       return LocalNone<T>();
     } else {
-      return LocalSome<>(queue._in->Item());
+      return LocalSome<>(queue->_in->Item());
     }
   }
 

@@ -157,7 +157,8 @@ public:
   static constexpr bool exists = true;
 
   static constexpr Ordering Compare(const LocalChecked<E, T> &lhs,
-                                    const LocalChecked<E, T> &rhs) noexcept {
+                                    const LocalChecked<E, T> &rhs) noexcept
+  {
     return Match(lhs,
       [&](const E& errorLeft) {
         return Match(rhs,
@@ -215,8 +216,8 @@ public:
 
   static constexpr size_t Length(const LocalChecked<E, T>& checked) noexcept {
     return Match(checked,
-      [](const E& error) { return 0; },
-      [](const T& ok)    { return 1; }
+      [](const E& error) { return 0u; },
+      [](const T& ok)    { return 1u; }
     );
   }
 
