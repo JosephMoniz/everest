@@ -3,6 +3,8 @@
 #ifndef TRAITOROUS_TRAITS_SHOW
 #define TRAITOROUS_TRAITS_SHOW 1
 
+#include <types/string.h>
+
 namespace traitorous {
 
 template <class T>
@@ -15,14 +17,14 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static const inline std::string Show(const U& n) noexcept {
+  static const LocalString Show(const U& n) noexcept {
     return Base::Show(n);
   }
 
 };
 
 template <class T>
-const inline std::string Show(const T& n) noexcept {
+const LocalString Show(const T& n) noexcept {
   return Shows<T>::Show(n);
 }
 

@@ -11,6 +11,9 @@
 namespace traitorous {
 
 template <class T, size_t S>
+class LocalArray;
+
+template <class T, size_t S>
 class Containable<LocalArray<T, S>, T> {
 public:
 
@@ -18,7 +21,7 @@ public:
 
   static bool Contains(const T& n, const LocalArray<T, S>& array) noexcept {
     for (size_t i = 0; i < S; i++) {
-      if (array.pointer()[i] == n) {
+      if (array.Pointer()[i] == n) {
         return true;
       }
     }

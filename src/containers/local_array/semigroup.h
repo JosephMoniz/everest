@@ -11,6 +11,9 @@
 namespace traitorous {
 
 template <class T, size_t S>
+class LocalArray;
+
+template <class T, size_t S>
 class Semigroup<LocalArray<T, S>> {
 public:
 
@@ -22,10 +25,10 @@ public:
   {
     auto newArray = MakeArray<T, Ns>();
     for (size_t i = 0; i < S; i++) {
-      newArray->mut_pointer()[i] = lhs.pointer()[i];
+      newArray->MutablePointer()[i] = lhs.Pointer()[i];
     }
     for (size_t i = 0; i < Rs; i++) {
-      newArray->mut_pointer()[i + S] = rhs.pointer()[i];
+      newArray->MutablePointer()[i + S] = rhs.Pointer()[i];
     }
     return newArray;
   }

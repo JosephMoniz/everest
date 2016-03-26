@@ -1,8 +1,9 @@
 #ifndef TRAITOROUS_CONTAINERS_LOCAL_OPTION_SHOWS_H
 #define TRAITOROUS_CONTAINERS_LOCAL_OPTION_SHOWS_H
 
-#include "containers/option.h"
-#include "traits/unlawful/show.h"
+#include <containers/chain.h>
+#include <containers/option.h>
+#include <traits/unlawful/show.h>
 
 namespace traitorous {
 
@@ -15,10 +16,10 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const LocalOption<T>& n) noexcept {
+  static const LocalString Show(const LocalOption<T>& n) noexcept {
     return Match(n,
-      []()           { return std::string("LocalNone"); },
-      [](const T& m) { return std::string("LocalSome(") + Shows<T>::Show(m) + ")"; }
+      []()           { return LocalString("LocalNone"); },
+      [](const T& m) { return LocalString("LocalSome(") + Shows<T>::Show(m) + LocalString(")"); }
     );
   }
 

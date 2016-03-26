@@ -133,7 +133,7 @@ void CheckedSpecification() {
         return GetOrDefault(12, Ok<bool, int>(42)) == 42;
       });
       It("should return the string 'Ok(n)' when called with Show()", []() {
-        return Show(Ok<bool, int>(42)) == std::string("Ok(42)");
+        return Show(Ok<bool, int>(42)) == LocalString("Ok(42)");
       });
     });
     Describe("in the case of type Error", []() {
@@ -231,7 +231,9 @@ void CheckedSpecification() {
         return GetOrDefault(42, Error<bool, int>(false)) == 42;
       });
       It("should return the correct string when called with Show()", []() {
-        return Show(Error<bool, int>(false)) == std::string("Error(false)");
+        auto expected = LocalString("Error(false)");
+        auto result   = Show(Error<bool, int>(false));
+        return result == expected;
       });
     });
   });

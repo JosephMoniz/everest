@@ -20,7 +20,7 @@ template<class T>
 using List = Shared<LocalList<T>>;
 
 template<class T>
-class LocalListNode {
+class LocalListNode final {
 
   friend class Functor<List<T>>;
   friend class Semigroup<List<T>>;
@@ -59,7 +59,7 @@ public:
 };
 
 template<class T>
-class LocalList {
+class LocalList final {
 
   const size_t _length;
 

@@ -7,6 +7,9 @@
 namespace traitorous {
 
 template <class T, size_t S>
+class LocalArray;
+
+template <class T, size_t S>
 class Foldable<LocalArray<T, S>> {
 public:
 
@@ -15,7 +18,7 @@ public:
   static constexpr T Fold(const LocalArray<T, S>& array) noexcept {
     T memo = ZeroVal<T>::Zero();
     for (size_t i = 0; i < S; i++) {
-      memo = Semigroup<T>::Add(memo, array.pointer()[i]);
+      memo = Semigroup<T>::Add(memo, array.Pointer()[i]);
     }
     return memo;
   }
@@ -25,7 +28,7 @@ public:
   static constexpr M FoldMap(Fn f, const LocalArray<T, S>& array) noexcept {
     auto memo = ZeroVal<T>::Zero();
     for (size_t i = 0; i < S; i++) {
-      memo = Semigroup<T>::Add(memo, f(array.pointer()[i]));
+      memo = Semigroup<T>::Add(memo, f(array.Pointer()[i]));
     }
     return memo;
   }
@@ -37,10 +40,10 @@ public:
   {
     auto memo = init;
     for (size_t i = S - 1; i != 0; i--) {
-      memo = f(memo, array.pointer()[i]);
+      memo = f(memo, array.Pointer()[i]);
     }
     if (S > 0) {
-      memo = f(memo, array.pointer()[0]);
+      memo = f(memo, array.Pointer()[0]);
     }
     return memo;
   }
@@ -52,7 +55,7 @@ public:
   {
     auto memo = init;
     for (size_t i = 0; i < S; i++) {
-      memo = f(memo, array.pointer()[i]);
+      memo = f(memo, array.Pointer()[i]);
     }
     return memo;
   }

@@ -22,6 +22,7 @@
 #include "traits/unlawful/show.h"
 #include "traits/unlawful/hashable.h"
 #include "functions/types.h"
+#include "string.h"
 
 namespace traitorous {
 
@@ -96,7 +97,32 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(uint32_t n) noexcept { return std::to_string(n); }
+  static size_t NumDigits(uint32_t number) noexcept {
+    if (number < 10)         return 1;
+    if (number < 100)        return 2;
+    if (number < 1000)       return 3;
+    if (number < 10000)      return 4;
+    if (number < 100000)     return 5;
+    if (number < 1000000)    return 6;
+    if (number < 10000000)   return 7;
+    if (number < 100000000)  return 8;
+    if (number < 1000000000) return 9;
+    return 10;
+  }
+
+  static const LocalString Show(uint32_t number) noexcept {
+    auto size     = NumDigits(number);
+    auto offset   = size;
+    auto capacity = size + 1;
+    auto memory   = LocalMemory<char>(capacity);
+    auto pointer  = memory.MutablePointer();
+    for (auto i = size; i; i--) {
+      pointer[--offset] = (char) (number % 10) + '0';
+      number /= 10;
+    };
+    pointer[capacity - 1] = '\0';
+    return LocalString(std::move(memory), size);
+  }
 
 };
 

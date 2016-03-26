@@ -1,104 +1,104 @@
 #ifndef TRAITOROUS_COLOR_H
 #define TRAITOROUS_COLOR_H
 
-#include <string>
+#include <types/string.h>
 
 namespace traitorous {
 
-std::string Black(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;30") + str + std::string("\033[0m");
+LocalString Black(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;30") + str + LocalString("\033[0m");
 }
 
-std::string DarkGray(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;30") + str + std::string("\033[0m");
+LocalString DarkGray(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;30") + str + LocalString("\033[0m");
 }
 
-std::string Blue(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;34m") + str + std::string("\033[0m");
+LocalString Blue(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;34m") + str + LocalString("\033[0m");
 }
 
-std::string LightBlue(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;34m") + str + std::string("\033[0m");
+LocalString LightBlue(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;34m") + str + LocalString("\033[0m");
 }
 
-std::string Green(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;32m") + str + std::string("\033[0m");
+LocalString Green(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;32m") + str + LocalString("\033[0m");
 }
 
-std::string LightGreen(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;32m") + str + std::string("\033[0m");
+LocalString LightGreen(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;32m") + str + LocalString("\033[0m");
 }
 
-std::string Cyan(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;36m") + str + std::string("\033[0m");
+LocalString Cyan(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;36m") + str + LocalString("\033[0m");
 }
 
-std::string LightCyan(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;36m") + str + std::string("\033[0m");
+LocalString LightCyan(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;36m") + str + LocalString("\033[0m");
 }
 
-std::string Red(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;31m") + str + std::string("\033[0m");
+LocalString Red(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;31m") + str + LocalString("\033[0m");
 }
 
-std::string LightRed(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;31m") + str + std::string("\033[0m");
+LocalString LightRed(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;31m") + str + LocalString("\033[0m");
 }
 
-std::string Purple(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;35m") + str + std::string("\033[0m");
+LocalString Purple(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;35m") + str + LocalString("\033[0m");
 }
 
-std::string LightPurple(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;35m") + str + std::string("\033[0m");
+LocalString LightPurple(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;35m") + str + LocalString("\033[0m");
 }
 
-std::string Brown(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;33m") + str + std::string("\033[0m");
+LocalString Brown(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;33m") + str + LocalString("\033[0m");
 }
 
-std::string Yellow(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;33m") + str + std::string("\033[0m");
+LocalString Yellow(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;33m") + str + LocalString("\033[0m");
 }
 
-std::string LightGray(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("0;37m") + str + std::string("\033[0m");
+LocalString LightGray(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("0;37m") + str + LocalString("\033[0m");
 }
 
-std::string White(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("1;37m") + str + std::string("\033[0m");
+LocalString White(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("1;37m") + str + LocalString("\033[0m");
 }
 
-std::string BgBlack(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("40m") + str + std::string("\033[0m");
+LocalString BgBlack(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("40m") + str + LocalString("\033[0m");
 }
 
-std::string BgRed(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("41m") + str + std::string("\033[0m");
+LocalString BgRed(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("41m") + str + LocalString("\033[0m");
 }
 
-std::string BgGreen(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("42m") + str + std::string("\033[0m");
+LocalString BgGreen(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("42m") + str + LocalString("\033[0m");
 }
 
-std::string BgYellow(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("43m") + str + std::string("\033[0m");
+LocalString BgYellow(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("43m") + str + LocalString("\033[0m");
 }
 
-std::string BgBlue(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("44m") + str + std::string("\033[0m");
+LocalString BgBlue(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("44m") + str + LocalString("\033[0m");
 }
 
-std::string BgMagenta(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("45m") + str + std::string("\033[0m");
+LocalString BgMagenta(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("45m") + str + LocalString("\033[0m");
 }
 
-std::string BgCyan(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("46m") + str + std::string("\033[0m");
+LocalString BgCyan(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("46m") + str + LocalString("\033[0m");
 }
 
-std::string BgLightGray(const std::string &str) noexcept {
-  return std::string("\033[") + std::string("47m") + str + std::string("\033[0m");
+LocalString BgLightGray(const LocalString& str) noexcept {
+  return LocalString("\033[") + LocalString("47m") + str + LocalString("\033[0m");
 }
 
 }

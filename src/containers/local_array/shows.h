@@ -5,10 +5,13 @@
 
 #include <stddef.h>
 
-#include "containers/array.h"
-#include "traits/unlawful/show.h"
+#include <containers/array.h>
+#include <traits/unlawful/show.h>
 
 namespace traitorous {
+
+template <class T, size_t S>
+class LocalArray;
 
 template <class T, size_t S>
 class Shows<LocalArray<T, S>> {
@@ -16,14 +19,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const LocalArray<T, S>& array) noexcept {
-    std::string out = "LocalArray(";
+  static const LocalString Show(const LocalArray<T, S>& array) noexcept {
+    auto out = LocalString("LocalArray(");
     for (size_t i = 0; i < S; i ++) {
-      out += Shows<T>::Show(array.pointer()[i]) + ", ";
+      out = out + Shows<T>::Show(array.Pointer()[i]) + LocalString(", ");
     }
-    out = out.substr(0, out.length() - 2);
-    out += ")";
-    return out;
+    return Take(out, out.Length() - 2) + LocalString(")");
   }
 
 };

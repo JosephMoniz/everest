@@ -12,7 +12,9 @@ namespace traitorous {
 void ArraySpecification() {
   Describe("An Array type", []() {
     It("Should render the correct string when called with Shows()", []{
-      return Show(MakeArray<int, 3>({1, 2, 3})) == "Array(1, 2, 3)";
+      auto expected = LocalString("Array(1, 2, 3)");
+      auto result   = Show(MakeArray<int, 3>({1, 2, 3}));
+      return result == expected;
     });
     It("Should return false when calling Equals() w/ different arrays", [](){
       return !Equals(MakeArray<int, 3>({1, 2, 3}), MakeArray<int, 3>({4, 5, 6}));

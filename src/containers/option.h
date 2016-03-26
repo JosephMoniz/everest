@@ -12,7 +12,7 @@ enum class OptionType {
 };
 
 template<class T>
-class LocalOption {
+class LocalOption final {
 
   using data_t = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
 

@@ -118,7 +118,7 @@ void OptionSpecification() {
         return GetOrDefault(42, None<int>()) == 42;
       });
       It("should return the string 'none' when called with Show()", []() {
-        return Show(None<int>()) == std::string("None");
+        return Show(None<int>()) == LocalString("None");
       });
     });
     Describe("in the case of type Some", []() {
@@ -249,7 +249,7 @@ void OptionSpecification() {
         return GetOrDefault(12, Some(42)) == 42;
       });
       It("should return the string 'Some(n)' when called with Show()", []() {
-        return Show(Some(42)) == std::string("Some(42)");
+        return Show(Some(42)) == LocalString("Some(42)");
       });
     });
   });

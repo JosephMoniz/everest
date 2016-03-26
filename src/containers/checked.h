@@ -21,7 +21,7 @@ enum class CheckedType {
 };
 
 template<class E, class T>
-class LocalChecked {
+class LocalChecked final {
 
 
   using data_t = typename std::aligned_storage<
@@ -98,14 +98,14 @@ const Checked<E, T> Ok(const T& ok) {
 
 template <class E, class T, class Ef, class Of>
 constexpr auto Match(const LocalChecked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked.Get())) {
-  return (checked.GetType() == CheckedType::OK)
+  return (checked.IsOk())
     ? ok(checked.Get())
     : error(checked.GetError());
 }
 
 template <class E, class T, class Ef, class Of>
 constexpr auto Match(const Checked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked->Get())) {
-  return (checked->GetType() == CheckedType::OK)
+  return (checked->IsOk())
     ? ok(checked->Get())
     : error(checked->GetError());
 }
@@ -116,10 +116,10 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const LocalChecked<E, T>& n) noexcept {
+  static const LocalString Show(const LocalChecked<E, T>& n) noexcept {
     return Match(n,
-      [](const E& error) { return std::string("LocalError(") + Shows<E>::Show(error) + ")"; },
-      [](const T& ok)    { return std::string("LocalOk(") + Shows<T>::Show(ok) + ")"; }
+      [](const E& error) { return LocalString("LocalError(") + Shows<E>::Show(error) + LocalString(")"); },
+      [](const T& ok)    { return LocalString("LocalOk(") + Shows<T>::Show(ok) + LocalString(")"); }
     );
   }
 
@@ -410,10 +410,10 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const Checked<E, T>& n) noexcept {
+  static const LocalString Show(const Checked<E, T>& n) noexcept {
     return Match(n,
-      [](const E& error) { return std::string("Error(") + Shows<E>::Show(error) + ")"; },
-      [](const T& ok)    { return std::string("Ok(") + Shows<T>::Show(ok) + ")"; }
+      [](const E& error) { return LocalString("Error(") + Shows<E>::Show(error) + LocalString(")"); },
+      [](const T& ok)    { return LocalString("Ok(") + Shows<T>::Show(ok) + LocalString(")"); }
     );
   }
 
@@ -507,8 +507,8 @@ public:
 
   static constexpr Checked<E, T> Alt(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
     return Match(lhs,
-      [&rhs](const E& error) { return rhs; },
-      [&lhs](const T& ok)    { return lhs; }
+      [&](const E& error) { return rhs; },
+      [&](const T& ok)    { return lhs; }
     );
   }
 

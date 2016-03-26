@@ -3,6 +3,7 @@
 
 namespace traitorous {
 
+
 template<class T>
 struct Enumerable {
 
@@ -13,15 +14,15 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static U Enumerator(const T& enumerable) noexcept {
-    return Base::Enumerator(enumerable);
+  static U Enumerate(const T& enumerable) noexcept {
+    return Base::Enumerate(enumerable);
   }
 
 };
 
 template<class T>
-auto Enumerator(const T& enumerable) noexcept -> decltype(Enumerable<T>::Enumerator(enumerable)) {
-  return Enumerable<T>::Enumerator(enumerable);
+auto Enumerate(const T& e) noexcept -> decltype(Enumerable<T>::Enumerate(e)) {
+  return Enumerable<T>::Enumerate(e);
 };
 
 }

@@ -35,7 +35,7 @@ void BoolSpecification() {
         return Compare(true, false) == GREATER;
       });
       It("should return 'true' when passed to Show()", []() {
-        return std::string("true") == Show(true);
+        return LocalString("true") == Show(true);
       });
     });
     Describe("with a value of false", []() {
@@ -58,7 +58,7 @@ void BoolSpecification() {
         return Compare(false, true) == LESS;
       });
       It("should return 'false' when passed to Show()", []() {
-        return std::string("false") == Show(false);
+        return LocalString("false") == Show(false);
       });
     });
   });

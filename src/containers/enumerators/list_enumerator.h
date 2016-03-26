@@ -2,12 +2,15 @@
 #define TRAITOROUS_CONTAINERS_ENUMERATORS_LIST_ENUMERATOR_H_H
 
 #include <containers/list.h>
-#include <exceptions/no_such_element_exception.h>
+#include <traits/unlawful/enumerator.h>
 
 namespace traitorous {
 
 template<class T>
 class ListEnumerator {
+
+  template<class T> 
+  friend class Enumerator<ListEnumerator<T>>;
 
   ListNode<T> _next;
 
@@ -17,30 +20,31 @@ public:
     //
   }
 
-  ListEnumerator(const ListEnumerator<T>& enumerator) noexcept : _next(enumerator._next) {
+  ListEnumerator(const ListEnumerator<T>& other) noexcept : _next(other._next) {
     //
   }
 
-  ListEnumerator(const ListEnumerator<T>&& enumerator) noexcept : _next(std::move(enumerator._next)) {
-    //
-  }
 
   ListEnumerator<T>& operator=(const ListEnumerator<T>& enumerator) noexcept {
     _next = enumerator._next;
     return *this;
   }
 
-  bool HasNext() const noexcept {
-    return _next != nullptr;
-  }
+};
 
-  const T& Next() {
-    if (HasNext()) {
-      auto result = _next;
-      _next       = _next->Next();
-      return result;
+template<class T>
+class Enumerator<ListEnumerator<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const LocalOption<T> Next(const T& enumerator) noexcept {
+    if (enumerator._next != nullptr) {
+      auto result      = enumerator._next;
+      enumerator._next = enumerator._next->Next();
+      return LocalOption<T>(result);
     } else {
-      throw NoSuchElementException();
+      return LocalOption<T>();
     }
   }
 

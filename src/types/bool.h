@@ -49,8 +49,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static std::string Show(bool n) noexcept {
-    return n ? std::string("true") : std::string("false");
+  static LocalString Show(bool n) noexcept {
+    return n ? LocalString("true") : LocalString("false");
   }
 
 };

@@ -7,7 +7,7 @@
 namespace traitorous {
 
 template<class T>
-struct Enumerator {
+class Enumerator {
 
   typedef Enumerator<T> Base;
 
@@ -15,19 +15,15 @@ public:
 
   static constexpr bool exists = false;
 
-  static bool HasNext(const T& enumerator) const noexcept {
-    return Base::HasNext(enumerator);
-  }
-
-  static const T& Next(const T& enumerator) {
+  static const LocalOption<T> Next(const T& enumerator) {
     return Base::Next(enumerator);
   }
 
 };
 
 template<class T>
-static bool HasNext(const T& enumerator) noexcept {
-  return Enumerator<T>::HasNext(enumerator);
+static const LocalOption<T> Next(const T& enumerator) noexcept {
+  return Enumerator<T>::Next(enumerator);
 };
 
 }

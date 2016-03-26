@@ -17,14 +17,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const List<T>& list) noexcept {
-    std::string out = "List(";
+  static const LocalString Show(const List<T>& list) noexcept {
+    auto out = LocalString("List(");
     for (auto current = list->Head(); current.Pointer() != nullptr; current = current->Next()) {
-      out += Shows<T>::Show(current->Item()) + ", ";
+      out = out + Shows<T>::Show(current->Item()) + LocalString(", ");
     }
-    out = out.substr(0, out.length() - 2);
-    out += ")";
-    return out;
+    return Take(out, out.Length() - 2) + LocalString(")");
   }
 
 };

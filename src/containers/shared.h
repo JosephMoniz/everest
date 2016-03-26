@@ -1,29 +1,27 @@
 #ifndef TRAITOROUS_CONTAINERS_SHARED_H
 #define TRAITOROUS_CONTAINERS_SHARED_H
 
-#include "types/uint32.h"
-
 namespace traitorous {
 
 template<class T>
-class Shared {
+class Shared final {
 private:
 
-  uint32_t *_count;
-  T *_pointer;
+  size_t * _count;
+  T* _pointer;
 
 public:
 
   Shared(T* external) : _pointer(external) {
     if (_pointer != nullptr) {
-      _count = new uint32_t;
+      _count = new size_t;
       *_count = 1;
     } else {
       _count = nullptr;
     }
   }
 
-  Shared(T* external, uint32_t* count) : _pointer(external), _count(count) {
+  Shared(T* external, size_t * count) : _pointer(external), _count(count) {
     if (_count != nullptr) {
       (*_count)++;
     }
@@ -49,6 +47,14 @@ public:
     return *this;
   }
 
+  Shared& operator=(Shared<T>&& other) {
+    _count         = other._count;
+    _pointer       = other._pointer;
+    other._count   = nullptr;
+    other._pointer = nullptr;
+    return *this;
+  }
+
   ~Shared() {
     if (_count != nullptr && --(*_count) == 0) {
       delete _pointer;
@@ -68,7 +74,7 @@ public:
     return _pointer;
   }
 
-  uint32_t* Counter() const noexcept {
+  size_t* Counter() const noexcept {
     return _count;
   }
 

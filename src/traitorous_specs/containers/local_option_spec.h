@@ -118,7 +118,7 @@ void LocalOptionSpecification() {
         return GetOrDefault(42, LocalNone<int>()) == 42;
       });
       It("should return the string 'none' when called with Show()", []() {
-        return Show(LocalNone<int>()) == std::string("LocalNone");
+        return Show(LocalNone<int>()) == LocalString("LocalNone");
       });
     });
     Describe("in the case of type LocalSome", []() {
@@ -249,7 +249,7 @@ void LocalOptionSpecification() {
         return GetOrDefault(12, LocalSome(42)) == 42;
       });
       It("should return the string 'LocalSome(n)' when called with Show()", []() {
-        return Show(LocalSome(42)) == std::string("LocalSome(42)");
+        return Show(LocalSome(42)) == LocalString("LocalSome(42)");
       });
     });
   });

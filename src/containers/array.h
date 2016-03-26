@@ -13,7 +13,9 @@
 namespace traitorous {
 
 template<class T, size_t S>
-class LocalArray {
+class LocalArray final {
+
+  friend class Functor<LocalArray<T, S>>;
 
   T _array[S];
 
@@ -31,12 +33,12 @@ public:
     return S;
   }
 
-  const T* pointer() const {
-    return (const int*) &_array;
+  const T* Pointer() const {
+    return (const T*) &_array;
   };
 
-  T* mut_pointer() const {
-    return (int*) &_array;
+  T* MutablePointer() const {
+    return (T*) &_array;
   };
 
 };

@@ -11,6 +11,9 @@
 namespace traitorous {
 
 template <class T, size_t S>
+class LocalArray;
+
+template <class T, size_t S>
 class Container<LocalArray<T, S>> {
 public:
 

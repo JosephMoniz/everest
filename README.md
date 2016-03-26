@@ -24,11 +24,8 @@ Currently, this is still a heavy work in progress. Expect much to change.
 Todo
 ----
 
-  + Implement an immutable cons based `List<T>`
-  + Create an `Enumerable<T>` trait
-  + Create `Enumerators<T>`'s instances for containers
   + An asserting library for the test suite
-  + Figure out how Strings/Ropes will work
+  + Make String into a Rope implementation
   + Implement `Map<K, V>` as a 32 way HAMT
   + A free list based `Pool<T>` container
   + An IO Abstraction suite around `kqueue()`

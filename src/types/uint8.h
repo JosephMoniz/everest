@@ -96,7 +96,25 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(uint8_t n) noexcept { return std::to_string(n); }
+  static size_t NumDigits(uint8_t number) noexcept {
+    if (number < 10)         return 1;
+    if (number < 100)        return 2;
+    return 3;
+  }
+
+  static const LocalString Show(uint8_t number) noexcept {
+    auto size    = NumDigits(number);
+    auto offset   = size;
+    auto capacity = size + 1;
+    auto memory   = LocalMemory<char>(capacity);
+    auto pointer  = memory.MutablePointer();
+    for (auto i = size; i; i--) {
+      pointer[--offset] = (char) (number % 10) + '0';
+      number /= 10;
+    };
+    pointer[capacity - 1] = '\0';
+    return LocalString(std::move(memory), size);
+  }
 
 };
 

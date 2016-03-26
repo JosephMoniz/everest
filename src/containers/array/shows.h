@@ -19,14 +19,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const Array<T, S>& array) noexcept {
-    std::string out = "Array(";
+  static const LocalString Show(const Array<T, S>& array) noexcept {
+    auto out = LocalString("Array(");
     for (size_t i = 0; i < S; i ++) {
-      out += Shows<T>::Show(array->pointer()[i]) + ", ";
+      out = out + Shows<T>::Show(array->Pointer()[i]) + LocalString(", ");
     }
-    out = out.substr(0, out.length() - 2);
-    out += ")";
-    return out;
+    return Take(out, out.Length() - 2) + LocalString(")");
   }
 
 };

@@ -7,6 +7,9 @@
 namespace traitorous {
 
 template <class T, size_t S>
+class LocalArray;
+
+template <class T, size_t S>
 class Hashable<LocalArray<T, S>> {
 public:
 
@@ -15,7 +18,7 @@ public:
   static int Hash(const LocalArray<T, S>& array) noexcept {
     int result = 37;
     for (size_t i = 0; i < S; i++) {
-      result = 37 * result + Hash(array.pointer()[i]);
+      result = 37 * result + Hash(array.Pointer()[i]);
     }
     return result;
   }

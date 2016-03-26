@@ -10,6 +10,9 @@
 
 namespace traitorous {
 
+template <class T, size_t S>
+class LocalArray;
+
 template<class T, size_t S>
 class Eq<LocalArray<T, S>> {
 public:
@@ -18,7 +21,7 @@ public:
 
   static bool Equals(const LocalArray<T, S>& lhs, const LocalArray<T, S>& rhs) noexcept {
     for (size_t i = 0; i < S; i++) {
-      if (lhs.pointer()[i] != rhs.pointer()[i]) {
+      if (lhs.Pointer()[i] != rhs.Pointer()[i]) {
         return false;
       }
     }

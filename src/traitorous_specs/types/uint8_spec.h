@@ -80,6 +80,9 @@ void Uint8Specification() {
     It("should be bitwise xorable via the BinaryXor() function", [=]() {
       return BinaryXor(fortytwo, twelve) == (fortytwo ^ twelve);
     });
+    It("should serialize to the correct value when called with Show()", [=]() {
+      return Show(fortytwo) == LocalString("42");
+    });
   });
 }
 

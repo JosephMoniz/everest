@@ -2,7 +2,7 @@
 #define TRAITOROUS_CONTAINERS_ENUMERATORS_OPTION_ENUMERATOR_H
 
 #include <containers/option.h>
-#include <exceptions/no_such_element_exception.h>
+#include <traits/unlawful/enumerator.h>
 
 namespace traitorous {
 
@@ -21,21 +21,8 @@ public:
     //
   }
 
-  OptionEnumerator(const Option<T>&& option) noexcept : _done(false),
-                                                        _option(std::move(option))
-  {
-    //
-  }
-
-  OptionEnumerator(const OptionEnumerator<T>& enumerator) noexcept : _done(enumerator._done),
-                                                                     _option(enumerator._option)
-  {
-    //
-  }
-
-  OptionEnumerator(const OptionEnumerator<T>&& enumerator) noexcept : _done(std::move(enumerator._done)),
-                                                                      _option(std::move(enumerator._option))
-
+  OptionEnumerator(const OptionEnumerator<T>& other) noexcept : _done(other._done),
+                                                                _option(other._option)
   {
     //
   }
@@ -46,16 +33,20 @@ public:
     return *this;
   }
 
-  bool HasNext() const noexcept {
-    return !_done && _option->GetType() == OptionType::SOME;
-  }
+};
 
-  const T& Next() {
-    if (HasNext()) {
-      _done = true;
-      return _option->Get();
+template<class T>
+class Enumerator<OptionEnumerator<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const LocalOption<T> Next(const T& enumerator) noexcept {
+    if (!enumerator._done && enumerator._option->GetType() == OptionType::SOME) {
+      enumerator._done = true;
+      return LocalOption<T>(enumerator._option->Get());
     } else {
-      throw NoSuchElementException();
+      return LocalOption<T>();
     }
   }
 

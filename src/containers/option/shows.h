@@ -15,10 +15,10 @@ public:
 
   static constexpr bool exists = true;
 
-  static const std::string Show(const Option<T>& n) noexcept {
+  static const LocalString Show(const Option<T>& n) noexcept {
     return Match(n,
-      []()           { return std::string("None"); },
-      [](const T& m) { return std::string("Some(") + Shows<T>::Show(m) + ")"; }
+      []()           { return LocalString("None"); },
+      [](const T& m) { return LocalString("Some(") + Shows<T>::Show(m) + LocalString(")"); }
     );
   }
 

@@ -3,7 +3,8 @@
 #ifndef TRAITOROUS_TRAITS_ORD
 #define TRAITOROUS_TRAITS_ORD 1
 
-#include "traits/unlawful/show.h"
+#include <traits/unlawful/show.h>
+#include <types/string.h>
 
 namespace traitorous {
 
@@ -19,12 +20,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static std::string Show(Ordering n) noexcept {
+  static LocalString Show(Ordering n) noexcept {
     switch(n) {
-      case LESS:    return std::string("LESS");
-      case EQUAL:   return std::string("EQUAL");
-      case GREATER: return std::string("GREATER");
-      default:      return std::string("UNKNOWN");
+      case LESS:    return LocalString("LESS");
+      case EQUAL:   return LocalString("EQUAL");
+      case GREATER: return LocalString("GREATER");
+      default:      return LocalString("UNKNOWN");
     }
   }
 

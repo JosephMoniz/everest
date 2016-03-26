@@ -2,7 +2,7 @@
 #define TRAITOROUS_CONTAINERS_ENUMERATORS_ARRAY_ENUMERATOR_H_H
 
 #include <containers/array.h>
-#include <exceptions/no_such_element_exception.h>
+#include <traits/unlawful/enumerator.h>
 
 namespace traitorous {
 
@@ -19,14 +19,8 @@ public:
     //
   }
 
-  ArrayEnumerator(const ArrayEnumerator<T>& enumerator) noexcept : _array(enumerator._array),
-                                                                   _position(enumerator._position)
-  {
-    //
-  }
-
-  ArrayEnumerator(const ArrayEnumerator<T>&& enumerator) noexcept : _array(std::move(enumerator._array)),
-                                                                    _position(std::move(enumerator._position))
+  ArrayEnumerator(const ArrayEnumerator<T>& other) noexcept : _array(other._array),
+                                                              _position(other._position)
   {
     //
   }
@@ -36,15 +30,19 @@ public:
     return *this;
   }
 
-  bool HasNext() const noexcept {
-    return _position >= _array->Size();
-  }
+};
 
-  const T& Next() {
-    if (HasNext()) {
-      return _array->pointer()[_position++];
+template<class T>
+class Enumerator<ArrayEnumerator<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const LocalOption<T> Next(const T& enumerator) noexcept {
+    if (enumerator._position >= enumerator._array->Size()) {
+      return LocalOption<T>(enumerator._array->pointer()[enumerator._position++]);
     } else {
-      throw NoSuchElementException();
+      return LocalOption<T>();
     }
   }
 

@@ -1,6 +1,7 @@
 #ifndef TRAITOROUS_LOCAL_CHECKED_SPEC_H
 #define TRAITOROUS_LOCAL_CHECKED_SPEC_H
 
+#include <traits/unlawful/containable.h>
 #include "test/bdd.h"
 
 #include "functions/identity.h"
@@ -133,7 +134,7 @@ void LocalCheckedSpecification() {
         return GetOrDefault(12, LocalOk<bool, int>(42)) == 42;
       });
       It("should return the string 'LocalOk(n)' when called with Show()", []() {
-        return Show(LocalOk<bool, int>(42)) == std::string("LocalOk(42)");
+        return Show(LocalOk<bool, int>(42)) == LocalString("LocalOk(42)");
       });
     });
     Describe("in the case of type LocalError", []() {
@@ -231,7 +232,7 @@ void LocalCheckedSpecification() {
         return GetOrDefault(42, LocalError<bool, int>(false)) == 42;
       });
       It("should return the correct string when called with Show()", []() {
-        return Show(LocalError<bool, int>(false)) == std::string("LocalError(false)");
+        return Show(LocalError<bool, int>(false)) == LocalString("LocalError(false)");
       });
     });
   });

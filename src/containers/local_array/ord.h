@@ -10,6 +10,9 @@
 
 namespace traitorous {
 
+template <class T, size_t S>
+class LocalArray;
+
 template<class T, size_t S>
 class Ord<LocalArray<T, S>> {
 public:
@@ -20,7 +23,7 @@ public:
                           const LocalArray<T, S> &rhs) noexcept
   {
     for (size_t i = 0; i < S; i ++) {
-      switch(Ord<T>::Compare(lhs.pointer()[i], rhs.pointer()[i])) {
+      switch(Ord<T>::Compare(lhs.Pointer()[i], rhs.Pointer()[i])) {
         case LESS:    return LESS;
         case GREATER: return GREATER;
         case EQUAL:   continue;

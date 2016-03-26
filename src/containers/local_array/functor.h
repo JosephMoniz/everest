@@ -10,6 +10,9 @@
 
 namespace traitorous {
 
+template <class T, size_t S>
+class LocalArray;
+
 template<class T, size_t S>
 class Functor<LocalArray<T, S>> {
 public:
@@ -20,7 +23,7 @@ public:
   static constexpr Array<B, S> Map(F f, const LocalArray<T, S>& array) noexcept {
     auto newArray = MakeArray<B, S>();
     for (size_t i = 0; i < S; i++) {
-      newArray->mut_pointer()[i] = f(array.pointer()[i]);
+      newArray->_array[i] = f(array.Pointer()[i]);
     }
     return newArray;
   }

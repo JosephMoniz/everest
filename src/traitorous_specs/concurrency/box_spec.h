@@ -47,7 +47,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [](const int& item)    { }
         ));
-        return result == true;
+        return result;
       });
     });
     Describe("that gets an error passed through it", []() {
@@ -68,7 +68,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [](const int& item)    { }
         ));
-        return result == true;
+        return result;
       });
       It("Should pass the error through untouched on a call to FlatMap()", []() {
         auto result = false;
@@ -78,7 +78,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [](const int& item)    { }
         ));
-        return result == true;
+        return result;
       });
     });
   });
