@@ -12,78 +12,78 @@ namespace traitorous {
 void ListSpecification() {
   Describe("A List type", []() {
     It("Should render the correct string when called with Shows()", []() {
-      return Show(Cons(1, Cons(2))) == "List(1, 2)";
+      AssertEquals(LocalString("List(1, 2)"), Show(Cons(1, Cons(2))));
     });
     It("Should return true when Equals() is called w/ matching single item lists", []() {
-      return Equals(Cons(1), Cons(1));
+      AssertTrue(Equals(Cons(1), Cons(1)));
     });
     It("Should return false when Equals() is called w/ non-matching single item lists", []() {
-      return !Equals(Cons(1), Cons(2));
+      AssertFalse(Equals(Cons(1), Cons(2)));
     });
     It("Should return true when Equals() is called w/ matching lists", []() {
-      return Equals(Cons(1, Cons(2)), Cons(1, Cons(2)));
+      AssertTrue(Equals(Cons(1, Cons(2)), Cons(1, Cons(2))));
     });
     It("Should return false when Equals() is called w/ non-matching lists", []() {
-      return !Equals(Cons(1, Cons(2)), Cons(1, Cons(3)));
+      AssertFalse(Equals(Cons(1, Cons(2)), Cons(1, Cons(3))));
     });
     It("Should return false when comparing different lists with ==", []() {
-      return !(Cons(1, Cons(2)) == Cons(1, Cons(4)));
+      AssertFalse(Cons(1, Cons(2)) == Cons(1, Cons(4)));
     });
     It("Should return true when comparing matching lists with ==", []() {
-      return Cons(1, Cons(2)) == Cons(1, Cons(2));
+      AssertTrue(Cons(1, Cons(2)) == Cons(1, Cons(2)));
     });
     It("Should return true when comparing different lists with !=", []() {
-      return Cons(1, Cons(2)) != Cons(1, Cons(4));
+      AssertTrue(Cons(1, Cons(2)) != Cons(1, Cons(4)));
     });
     It("Should return false when comparing matching lists with !=", []() {
-      return !(Cons(1, Cons(2)) != Cons(1, Cons(2)));
+      AssertFalse(Cons(1, Cons(2)) != Cons(1, Cons(2)));
     });
     It("Should return EQUAL when passing matching lists through Compare()", []() {
-      return Compare(Cons(1, Cons(2)), Cons(1, Cons(2))) == EQUAL;
+      AssertEquals(EQUAL, Compare(Cons(1, Cons(2)), Cons(1, Cons(2))));
     });
     It("Should return LESS when passing an appropriate list through Compare()", []() {
-      return Compare(Cons(1, Cons(1)), Cons(1, Cons(2))) == LESS;
+      AssertEquals(LESS, Compare(Cons(1, Cons(1)), Cons(1, Cons(2))));
     });
     It("Should return GREATER when passing an appropriate list through Compare()", []() {
-      return Compare(Cons(1, Cons(3)), Cons(1, Cons(2))) == GREATER;
+      AssertEquals(GREATER, Compare(Cons(1, Cons(3)), Cons(1, Cons(2))));
     });
     It("Should return the mapped list when called with Map(Multiply(2))", []() {
-      return Map(Multiply(2), Cons(1, Cons(2))) == Cons(2, Cons(4));
+      AssertEquals(Cons(2, Cons(4)), Map(Multiply(2), Cons(1, Cons(2))));
     });
     It("Should return true when calling Contains() with a contained item", [](){
-      return Contains(2, Cons(1, Cons(2, Cons(3))));
+      AssertTrue(Contains(2, Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return false when calling Contains() with a non contained item", [](){
-      return !Contains(6, Cons(1, Cons(2, Cons(3))));
+      AssertFalse(Contains(6, Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return 3 when calling Length() an list w/ 3 elements", [](){
-      return Length(Cons(1, Cons(2, Cons(3)))) == 3;
+      AssertEquals((size_t) 3, Length(Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return false when IsEmpty() is called on a non empty list", []() {
-      return !IsEmpty(Cons(1, Cons(2, Cons(3))));
+      AssertFalse(IsEmpty(Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return true when IsEmpty() is called on an empty list", []() {
-      return IsEmpty(Cons<int>());
+      AssertTrue(IsEmpty(Cons<int>()));
     });
     It("Should return a new merged array when calling Add() w/ two arrays", []() {
       auto expected = Cons(1, Cons(2, Cons(3, Cons(4, Cons(5, Cons(6))))));
       auto result   = Add(Cons(1, Cons(2, Cons(3))), Cons(4, Cons(5, Cons(6))));
-      return result == expected;
+      AssertEquals(expected, result);
     });
     It("Should return return an empty list when calling Zero()", []() {
-      return Zero<List<int>>() == Cons<int>();
+      AssertEquals(Cons<int>(), Zero<List<int>>());
     });
     It("Should return the sum of the list when called with Fold()", []() {
-      return Fold(Cons(1, Cons(2, Cons(3)))) == 6;
+      AssertEquals(6, Fold(Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return the sum of the list when called with FoldMap() w/ Identity()", []() {
-      return FoldMap(Identity<int>(), Cons(1, Cons(2, Cons(3)))) == 6;
+      AssertEquals(6, FoldMap(Identity<int>(), Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return the sum of the list when called with FoldR() w/ Add()", []() {
-      return FoldR(Add<int>(), 0, Cons(1, Cons(2, Cons(3)))) == 6;
+      AssertEquals(6, FoldR(Add<int>(), 0, Cons(1, Cons(2, Cons(3)))));
     });
     It("Should return the sum of the list when called with FoldL() w/ Add()", []() {
-      return FoldL(Add<int>(), 0, Cons(1, Cons(2, Cons(3)))) == 6;
+      AssertEquals(6, FoldL(Add<int>(), 0, Cons(1, Cons(2, Cons(3)))));
     });
   });
 }

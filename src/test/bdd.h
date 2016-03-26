@@ -34,6 +34,44 @@ LocalString Assert(bool result) noexcept {
   }
 }
 
+class AssertionException {
+
+  LocalString _message;
+
+public:
+
+  AssertionException(const LocalString& message) noexcept : _message(message) {}
+
+  AssertionException(LocalString&& message) noexcept : _message(std::move(message)) {}
+
+};
+
+void AssertTrue(bool result) {
+  if (!result) {
+    throw AssertionException("Should have been true but was false");
+  }
+}
+
+void AssertFalse(bool result) {
+  if (result) {
+    throw AssertionException("Should have been false but was true");
+  }
+}
+
+template<class T>
+void AssertEquals(const T& lhs, const T& rhs) {
+  if (lhs != rhs) {
+    throw AssertionException(Show(lhs) + LocalString(" doesn't equal ") + Show(rhs));
+  }
+}
+
+template<class T>
+void AssertNotEquals(const T& lhs, const T& rhs) {
+  if (lhs == rhs) {
+    throw AssertionException(Show(lhs) + LocalString(" equals ") + Show(rhs));
+  }
+}
+
 LocalString SkippedTraitorousTest(const LocalString& str) {
   __traitorous_test_total++;
   __traitorous_test_skip++;
@@ -54,8 +92,13 @@ void Describe(const LocalString& str, std::function<void()> description) noexcep
   __traitorous_test_indent--;
 }
 
-void It(const LocalString& str, Supplier<bool> assertion) noexcept {
-  PrintForTraitorousTest(Assert(assertion()) + LocalString(" ") + str);
+void It(const LocalString& str, Thunk test) noexcept {
+  try {
+    test();
+    PrintForTraitorousTest(Assert(true) + LocalString(" ") + str);
+  } catch (const AssertionException& e) {
+    PrintForTraitorousTest(Assert(false) + LocalString(" ") + str);
+  }
 }
 
 void It(const LocalString& str) noexcept {

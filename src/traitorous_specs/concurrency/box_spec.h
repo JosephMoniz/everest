@@ -17,7 +17,7 @@ void BoxSpecification() {
           [](const bool& error) { },
           [&](const int& item)  { result = item; }
         ));
-        return result == 42;
+        AssertEquals(42, result);
       });
       It("Should apply the transform when called with Map()", []() {
         auto result = 0;
@@ -27,9 +27,9 @@ void BoxSpecification() {
           [](const bool& error) { },
           [&](const int& item)  { result = item; }
         ));
-        return result == 42;
+        AssertEquals(42, result);
       });
-      It("Should correctly apply a succesfull FlatMap() transform", []() {
+      It("Should correctly apply a successful FlatMap() transform", []() {
         auto result = 0;
         auto box    = MakeBoxWithItem<bool, int>(21);
         auto next   = FlatMap([](auto n) { return MakeBoxWithItem<bool, int>(n * 2); }, box);
@@ -37,7 +37,7 @@ void BoxSpecification() {
           [](const bool& error) { },
           [&](const int& item)  { result = item; }
         ));
-        return result == 42;
+        AssertEquals(42, result);
       });
       It("Should correctly apply a failed FlatMap() transform", []() {
         auto result = false;
@@ -47,7 +47,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [](const int& item)    { }
         ));
-        return result;
+        AssertTrue(result);
       });
     });
     Describe("that gets an error passed through it", []() {
@@ -58,7 +58,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [&](const int& item)   { /* Nothing to do here */ }
         ));
-        return result;
+        AssertTrue(result);
       });
       It("Should pass the error on untouched when called with Map()", []() {
         auto result = false;
@@ -68,7 +68,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [](const int& item)    { }
         ));
-        return result;
+        AssertTrue(result);
       });
       It("Should pass the error through untouched on a call to FlatMap()", []() {
         auto result = false;
@@ -78,7 +78,7 @@ void BoxSpecification() {
           [&](const bool& error) { result = error; },
           [](const int& item)    { }
         ));
-        return result;
+        AssertTrue(result);
       });
     });
   });

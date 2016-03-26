@@ -20,6 +20,8 @@ using Supplier = std::function<R()>;
 template<class T>
 using Consumer = std::function<void(T)>;
 
+using Thunk = std::function<void()>;
+
 }
 
 #endif
