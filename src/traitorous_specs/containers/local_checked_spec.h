@@ -12,227 +12,231 @@ namespace traitorous {
 
 void LocalCheckedSpecification() {
   Describe("A LocalChecked type", []() {
-    It("should have a zero value of None()", []() {
-      return Zero<LocalChecked<bool, int>>() == LocalOk<bool, int>(0);
+    It("should have a zero value of LocalOk(0)", []() {
+      AssertEquals(LocalOk<bool, int>(0), Zero<LocalChecked<bool, int>>());
     });
     Describe("in the case of type LocalOk", []() {
-      It("should return OK when calling GetType()", []() {
-        return LocalOk<bool, int>(42).GetType() == CheckedType::OK;
+      It("should return LocalOk when calling GetType()", []() {
+        AssertEquals(CheckedType::OK, LocalOk<bool, int>(42).GetType());
       });
-      It("should evalute the ok case when calling Match()", []() {
-        return Match(LocalOk<bool, int>(42),
+      It("should evalute the LocalOk case when calling Match()", []() {
+        auto result = Match(LocalOk<bool, int>(42),
           [](const bool& error) { return false; },
           [](const int& ok)     { return true; }
         );
+        AssertTrue(result);
       });
       It("should return true w hen calling Contains() with a matching item", []() {
-        return Contains(42, LocalOk<bool, int>(42));
+        AssertTrue(Contains(42, LocalOk<bool, int>(42)));
       });
       It("should return false when calling Contains() with a different item", []() {
-        return !Contains(12, LocalOk<bool, int>(42));
+        AssertFalse(Contains(12, LocalOk<bool, int>(42)));
       });
       It("should return 1 when called with Length()", []() {
-        return Length(LocalOk<bool, int>(42)) == 1;
+        AssertEquals((size_t) 1, Length(LocalOk<bool, int>(42)));
       });
       It("should return false when called with is_empty", []() {
-        return !IsEmpty(LocalOk<bool, int>(42));
+        AssertFalse(IsEmpty(LocalOk<bool, int>(42)));
       });
       It("should return false when called with Equals() and a different item", []() {
-        return !Equals(LocalOk<bool, int>(42), LocalError<bool, int>(false));
+        AssertFalse(Equals(LocalOk<bool, int>(42), LocalError<bool, int>(false)));
       });
       It("should return true when called with Equals() and a matching item", []() {
-        return Equals(LocalOk<bool, int>(42), LocalOk<bool, int>(42));
+        AssertTrue(Equals(LocalOk<bool, int>(42), LocalOk<bool, int>(42)));
       });
       It("should return false when compared with == and a none", []() {
-        return !(LocalOk<bool, int>(42) == LocalError<bool, int>(false));
+        AssertFalse(LocalOk<bool, int>(42) == LocalError<bool, int>(false));
       });
       It("should return false when compared with == and a different item", []() {
-        return !(LocalOk<bool, int>(42) == LocalOk<bool, int>(12));
+        AssertFalse(LocalOk<bool, int>(42) == LocalOk<bool, int>(12));
       });
       It("should return true when compared with == with a matching item", []() {
-        return LocalOk<bool, int>(42) == LocalOk<bool, int>(42);
+        AssertTrue(LocalOk<bool, int>(42) == LocalOk<bool, int>(42));
       });
       It("should return true when compared with != and a none", []() {
-        return LocalOk<bool, int>(42) != LocalError<bool, int>(false);
+        AssertTrue(LocalOk<bool, int>(42) != LocalError<bool, int>(false));
       });
       It("should return true when compared with != and a different item", []() {
-        return LocalOk<bool, int>(42) != LocalOk<bool, int>(12);
+        AssertTrue(LocalOk<bool, int>(42) != LocalOk<bool, int>(12));
       });
       It("should return false when compared with != and a matching item", []() {
-        return !(LocalOk<bool, int>(42) != LocalOk<bool, int>(42));
+        AssertFalse(LocalOk<bool, int>(42) != LocalOk<bool, int>(42));
       });
       It("should return the hash of the inner item when called with hashable()", []() {
-        return Hash(LocalOk<bool, int>(42)) == Hash(42);
+        AssertEquals(Hash(42), Hash(LocalOk<bool, int>(42)));
       });
       It("should return the error when called with Add() and an error", []() {
-        return Add(LocalOk<bool, int>(42), LocalError<bool, int>(false)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Add(LocalOk<bool, int>(42), LocalError<bool, int>(false)));
       });
       It("should return the sum of values when called with Add() and a value", []() {
-        return Add(LocalOk<bool, int>(42), LocalOk<bool, int>(6)) == LocalOk<bool, int>(48);
+        AssertEquals(LocalOk<bool, int>(48), Add(LocalOk<bool, int>(42), LocalOk<bool, int>(6)));
       });
       It("should return the error when called with + and an error", []() {
-        return (LocalOk<bool, int>(42) + LocalError<bool, int>(false)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), LocalOk<bool, int>(42) + LocalError<bool, int>(false));
       });
       It("should return the sum of values when called with + and a value", []() {
-        return (LocalOk<bool, int>(42) + LocalOk<bool, int>(6)) == LocalOk<bool, int>(48);
+        AssertEquals(LocalOk<bool, int>(48), LocalOk<bool, int>(42) + LocalOk<bool, int>(6));
       });
       It("should return GREATER when called with Compare() and an error", []() {
-        return Compare(LocalOk<bool, int>(42), LocalError<bool, int>(false)) == GREATER;
+        AssertEquals(GREATER, Compare(LocalOk<bool, int>(42), LocalError<bool, int>(false)));
       });
       It("should return GREATER when called with Compare() and a lesser LocalOk()", []() {
-        return Compare(LocalOk<bool, int>(42), LocalOk<bool, int>(8)) == GREATER;
+        AssertEquals(GREATER, Compare(LocalOk<bool, int>(42), LocalOk<bool, int>(8)));
       });
       It("should return EQUAL when called with Compare() and an equal LocalOk()", []() {
-        return Compare(LocalOk<bool, int>(42), LocalOk<bool, int>(42)) == EQUAL;
+        AssertEquals(EQUAL, Compare(LocalOk<bool, int>(42), LocalOk<bool, int>(42)));
       });
       It("should return LESS when called with Compare() and a greater LocalOk()", []() {
-        return Compare(LocalOk<bool, int>(42), LocalOk<bool, int>(100)) == LESS;
+        AssertEquals(LESS, Compare(LocalOk<bool, int>(42), LocalOk<bool, int>(100)));
       });
       It("should return n * 2 when called with Map(*2)", []() {
-        return Map(Multiply(2), LocalOk<bool, int>(42)) == LocalOk<bool, int>(84);
+        AssertEquals(LocalOk<bool, int>(84), Map(Multiply(2), LocalOk<bool, int>(42)));
       });
       It("should return itself when called with Alt() and another LocalOk()", []() {
-        return Alt(LocalOk<bool, int>(42), LocalOk<bool, int>(12)) == LocalOk<bool, int>(42);
+        AssertEquals(LocalOk<bool, int>(42), Alt(LocalOk<bool, int>(42), LocalOk<bool, int>(12)));
       });
       It("should return itself when called with Alt() and a LocalError()", []() {
-        return Alt(LocalOk<bool, int>(42), LocalError<bool, int>(false)) == LocalOk<bool, int>(42);
+        AssertEquals(LocalOk<bool, int>(42), Alt(LocalOk<bool, int>(42), LocalError<bool, int>(false)));
       });
       It("should return itself when compared with || and another LocalOk()", []() {
-        return (LocalOk<bool, int>(42) || LocalOk<bool, int>(12)) == LocalOk<bool, int>(42);
+        AssertEquals(LocalOk<bool, int>(42), LocalOk<bool, int>(42) || LocalOk<bool, int>(12));
       });
       It("should return itself when compared with || and LocalError()", []() {
-        return (LocalOk<bool, int>(42) || LocalError<bool, int>(false)) == LocalOk<bool, int>(42);
+        AssertEquals(LocalOk<bool, int>(42), LocalOk<bool, int>(42) || LocalError<bool, int>(false));
       });
       It("should return none when called with FlatMap() and a function -> none", []() {
-        return FlatMap([](auto n) { return LocalError<bool, int>(false); }, LocalOk<bool, int>(42)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), FlatMap([](auto n) { return LocalError<bool, int>(false); }, LocalOk<bool, int>(42)));
       });
       It("should return n * 2 when called with flat_map and a function -> *2", []() {
-        return FlatMap([](auto n) { return LocalOk<bool, int>(n * 2); }, LocalOk<bool, int>(42)) == LocalOk<bool, int>(84);
+        AssertEquals(LocalOk<bool, int>(84), FlatMap([](auto n) { return LocalOk<bool, int>(n * 2); }, LocalOk<bool, int>(42)));
       });
       It("should return the next LocalOk(n) when called with Then()", []() {
-        return Then(LocalOk<bool, int>(12), LocalOk<bool, int>(42)) == LocalOk<bool, int>(42);
+        AssertEquals(LocalOk<bool, int>(42), Then(LocalOk<bool, int>(12), LocalOk<bool, int>(42)));
       });
       It("should return the error when called with Then() and an error", []() {
-        return Then(LocalOk<bool, int>(42), LocalError<bool, int>(false)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Then(LocalOk<bool, int>(42), LocalError<bool, int>(false)));
       });
       It("should return the inner value when called with Fold()", []() {
-        return Fold(LocalOk<bool, int>(42)) == 42;
+        AssertEquals(42, Fold(LocalOk<bool, int>(42)));
       });
       It("should return the inner value mapped when called with FoldMap()", []() {
-        return FoldMap(Identity<int>(), LocalOk<bool, int>(42)) == 42;
+        AssertEquals(42, FoldMap(Identity<int>(), LocalOk<bool, int>(42)));
       });
       It("should return the folded value when called with FoldR()", []() {
-        return FoldR(Add<int>(), 12, LocalOk<bool, int>(42)) == 54;
+        AssertEquals(54, FoldR(Add<int>(), 12, LocalOk<bool, int>(42)));
       });
       It("should return the folded value when called with FoldL()", []() {
-        return FoldL(Add<int>(), 12, LocalOk<bool, int>(42)) == 54;
+        AssertEquals(54, FoldL(Add<int>(), 12, LocalOk<bool, int>(42)));
       });
       It("should return the inner value when called with GetOrElse()", []() {
-        return GetOrElse([]() { return 12; }, LocalOk<bool, int>(42)) == 42;
+        AssertEquals(42, GetOrElse([]() { return 12; }, LocalOk<bool, int>(42)));
       });
       It("should return the inner value when called with GetOrDefault()", []() {
-        return GetOrDefault(12, LocalOk<bool, int>(42)) == 42;
+        AssertEquals(42, GetOrDefault(12, LocalOk<bool, int>(42)));
       });
       It("should return the string 'LocalOk(n)' when called with Show()", []() {
-        return Show(LocalOk<bool, int>(42)) == LocalString("LocalOk(42)");
+        AssertEquals(LocalString("LocalOk(42)"), Show(LocalOk<bool, int>(42)));
       });
     });
     Describe("in the case of type LocalError", []() {
       It("should return ERROR when calling GetType()", []() {
-        return LocalError<bool, int>(false).GetType() == CheckedType::ERROR;
+        AssertEquals(CheckedType::ERROR, LocalError<bool, int>(false).GetType());
       });
       It("should evalute the none case when calling Match()", []() {
-        return Match(LocalError<bool, int>(false),
+        auto result = Match(LocalError<bool, int>(false),
           [](auto error) { return true; },
           [](auto ok)    { return false; }
         );
+        AssertTrue(result);
       });
       It("should return false when called with Contains()", []() {
-        return !Contains(42, LocalError<bool, int>(false));
+        AssertFalse(Contains(42, LocalError<bool, int>(false)));
       });
       It("should return 0 when called with Length()", []() {
-        return Length(LocalError<bool, int>(false)) == 0;
+        AssertEquals((size_t) 0, Length(LocalError<bool, int>(false)));
       });
       It("should return true when called with IsEmpty()", []() {
-        return IsEmpty(LocalError<bool, int>(false));
+        AssertTrue(IsEmpty(LocalError<bool, int>(false)));
       });
       It("should return true when called with Equals() and a matching error", []() {
-        return Equals(LocalError<bool, int>(false), LocalError<bool, int>(false));
+        AssertTrue(Equals(LocalError<bool, int>(false), LocalError<bool, int>(false)));
       });
       It("should return false when called with Equals() and a LocalOk()", []() {
-        return !Equals(LocalError<bool, int>(false), LocalOk<bool, int>(42));
+        AssertFalse(Equals(LocalError<bool, int>(false), LocalOk<bool, int>(42)));
       });
       It("should return true when compared with == a matching error", []() {
-        return LocalError<bool, int>(false) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), LocalError<bool, int>(false));
       });
       It("should return false when compared with == and a LocalOk()", []() {
-        return !(LocalError<bool, int>(false) == LocalOk<bool, int>(42));
+        AssertFalse(LocalError<bool, int>(false) == LocalOk<bool, int>(42));
       });
       It("should return false when compared with != and a matching error", []() {
-        return !(LocalError<bool, int>(false) != LocalError<bool, int>(false));
+        AssertFalse(LocalError<bool, int>(false) != LocalError<bool, int>(false));
       });
       It("should return true when compared with != a LocalOk()", []() {
-        return LocalError<bool, int>(false) != LocalOk<bool, int>(42);
+        AssertTrue(LocalError<bool, int>(false) != LocalOk<bool, int>(42));
       });
       It("should return a hash value of 0 when called with hashable()", []() {
-        return Hash(LocalError<bool, int>(false)) == 0;
+        AssertEquals(0, Hash(LocalError<bool, int>(false)));
       });
       It("should return itself when called with Add() and another LocalError()", []() {
-        return Add(LocalError<bool, int>(false), LocalError<bool, int>(true)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Add(LocalError<bool, int>(false), LocalError<bool, int>(true)));
       });
       It("should return itself when called with Add() and a LocalOk(n)", []() {
-        return Add(LocalError<bool, int>(false), LocalOk<bool, int>(42)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Add(LocalError<bool, int>(false), LocalOk<bool, int>(42)));
       });
       It("should return LESS when passed through Compare() with LocalOk()", []() {
-        return Compare(LocalError<bool, int>(false), LocalOk<bool, int>(42)) == LESS;
+        AssertEquals(LESS, Compare(LocalError<bool, int>(false), LocalOk<bool, int>(42)));
       });
       It("should return EQUAL when passed through Compare() with a matching LocalError()", []() {
-        return Compare(LocalError<bool, int>(false), LocalError<bool, int>(false)) == EQUAL;
+        AssertEquals(EQUAL, Compare(LocalError<bool, int>(false), LocalError<bool, int>(false)));
       });
       It("should return itself when passed through Map()", []() {
-        return Map(Multiply(2), LocalError<bool, int>(false)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Map(Multiply(2), LocalError<bool, int>(false)));
       });
       It("should return the other error when passed through Alt() with another error", []() {
-        return Alt(LocalError<bool, int>(false), LocalError<bool, int>(true)) == LocalError<bool, int>(true);
+        AssertEquals(LocalError<bool, int>(true), Alt(LocalError<bool, int>(false), LocalError<bool, int>(true)));
       });
-      It("should return the ok when passed through Alt() with LocalOk(n)", []() {
-        return Alt(LocalError<bool, int>(false), LocalOk<bool, int>(42)) == LocalOk<bool, int>(42);
+      It("should return the LocalOk when passed through Alt() with LocalOk(n)", []() {
+        AssertEquals(LocalOk<bool, int>(42), Alt(LocalError<bool, int>(false), LocalOk<bool, int>(42)));
       });
       It("should return the other error when passed through || with another LocalError()", []() {
-        return (LocalError<bool, int>(false) || LocalError<bool, int>(true)) == LocalError<bool, int>(true);
+        AssertEquals(LocalError<bool, int>(true), LocalError<bool, int>(false) || LocalError<bool, int>(true));
       });
       It("should return LocalOk(n) when passed through || with LocalOk(n)", []() {
-        return (LocalError<bool, int>(false) || LocalOk<bool, int>(42)) == LocalOk<bool, int>(42);
+        AssertEquals(LocalOk<bool, int>(42), LocalError<bool, int>(false) || LocalOk<bool, int>(42));
       });
       It("should return itself when called with FlatMap()", []() {
-        return FlatMap([](auto n) { return LocalOk<bool, int>(n * 2); }, LocalError<bool, int>(false)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), FlatMap([](auto n) { return LocalOk<bool, int>(n * 2); }, LocalError<bool, int>(false)));
       });
       It("should return the first error when called with Then() and another error", []() {
-        return Then(LocalError<bool, int>(false), LocalError<bool, int>(true)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Then(LocalError<bool, int>(false), LocalError<bool, int>(true)));
       });
       It("should return itself when called with Then() and a LocalOk()", []() {
-        return Then(LocalError<bool, int>(false), LocalOk<bool, int>(42)) == LocalError<bool, int>(false);
+        AssertEquals(LocalError<bool, int>(false), Then(LocalError<bool, int>(false), LocalOk<bool, int>(42)));
       });
       It("should return zero when called with Fold()", []() {
-        return Fold(LocalError<bool, int>(false)) == 0;
+        AssertEquals(0, Fold(LocalError<bool, int>(false)));
       });
       It("should return zero when called with foldMap()", []() {
-        return FoldMap(Identity<int>(), LocalError<bool, int>(false)) == 0;
+        AssertEquals(0, FoldMap(Identity<int>(), LocalError<bool, int>(false)));
       });
       It("should return init when called with FoldR()", []() {
-        return FoldR(Add<int>(), 0, LocalError<bool, int>(false)) == 0;
+        AssertEquals(0, FoldR(Add<int>(), 0, LocalError<bool, int>(false)));
       });
       It("should return init when called with FoldL()", []() {
-        return FoldL(Add<int>(), 0, LocalError<bool, int>(false)) == 0;
+        AssertEquals(0, FoldL(Add<int>(), 0, LocalError<bool, int>(false)));
       });
       It("should return the alternative when called with GetOrElse()", []() {
-        return GetOrElse([]() { return 12; }, LocalError<bool, int>(false)) == 12;
+        AssertEquals(12, GetOrElse([]() { return 12; }, LocalError<bool, int>(false)));
       });
       It("should return the default when called with GetOrDefault()", []() {
-        return GetOrDefault(42, LocalError<bool, int>(false)) == 42;
+        AssertEquals(42, GetOrDefault(42, LocalError<bool, int>(false)));
       });
       It("should return the correct string when called with Show()", []() {
-        return Show(LocalError<bool, int>(false)) == LocalString("LocalError(false)");
+        auto expected = LocalString("LocalError(false)");
+        auto result   = Show(LocalError<bool, int>(false));
+        AssertEquals(expected, result);
       });
     });
   });

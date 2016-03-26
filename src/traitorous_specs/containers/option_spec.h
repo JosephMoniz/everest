@@ -12,244 +12,246 @@ namespace traitorous {
 void OptionSpecification() {
   Describe("A Option type", []() {
     It("should have a zero value of None()", []() {
-      return Zero<Option<int>>() == None<int>();
+      AssertEquals(None<int>(), Zero<Option<int>>());
     });
     Describe("in the case of type none", []() {
       It("should return OPTION_NONE when calling get_type()", []() {
-        return None<int>()->GetType() == OptionType::NONE;
+        AssertEquals(OptionType::NONE, None<int>()->GetType());
       });
       It("should evalute the none case when calling Match()", []() {
-        return Match(None<int>(),
+        auto result = Match(None<int>(),
           []()       { return true; },
           [](auto n) { return false; }
         );
+        AssertTrue(result);
       });
       It("should return false when called with Contains()", []() {
-        return !Contains(42, None<int>());
+        AssertFalse(Contains(42, None<int>()));
       });
       It("should return 0 when called with Length()", []() {
-        return Length(None<int>()) == 0;
+        AssertEquals((size_t) 0, Length(None<int>()));
       });
       It("should return true when called with IsEmpty()", []() {
-        return IsEmpty(None<int>());
+        AssertTrue(IsEmpty(None<int>()));
       });
       It("should return true when called with Equals() and another none", []() {
-        return Equals(None<int>(), None<int>());
+        AssertTrue(Equals(None<int>(), None<int>()));
       });
       It("should return false when called with Equals() and a Some()", []() {
-        return !Equals(None<int>(), Some(42));
+        AssertFalse(Equals(None<int>(), Some(42)));
       });
       It("should return true when compared with == and another none", []() {
-        return None<int>() == None<int>();
+        AssertTrue(None<int>() == None<int>());
       });
       It("should return false when compared with == and a Some()", []() {
-        return !(None<int>() == Some(42));
+        AssertFalse(None<int>() == Some(42));
       });
       It("should return false when compared with != and another none", []() {
-        return !(None<int>() != None<int>());
+        AssertFalse(None<int>() != None<int>());
       });
       It("should return true when compared with != a Some()", []() {
-        return None<int>() != Some(42);
+        AssertTrue(None<int>() != Some(42));
       });
       It("should return a hash value of 0 when called with hashable()", []() {
-        return Hash(None<int>()) == 0;
+        AssertEquals(0, Hash(None<int>()));
       });
       It("should return none when called with Add() and another None()", []() {
-        return Add(None<int>(), None<int>()) == None<int>();
+        AssertEquals(None<int>(), Add(None<int>(), None<int>()));
       });
       It("should return Some(n) when called with Add() and a Some(n)", []() {
-        return Add(None<int>(), Some(42)) == Some(42);
+        AssertEquals(Some(42), Add(None<int>(), Some(42)));
       });
       It("should return None() when called with Filter()", []() {
-        return Filter(Equals(42), None<int>()) == None<int>();
+        AssertEquals(None<int>(), Filter(Equals(42), None<int>()));
       });
       It("should return LESS when passed through Compare() with Some()", []() {
-        return Compare(None<int>(), Some(42)) == LESS;
+        AssertEquals(LESS, Compare(None<int>(), Some(42)));
       });
       It("should return EQUAL when passed through Compare() with another None()", []() {
-        return Compare(None<int>(), None<int>()) == EQUAL;
+        AssertEquals(EQUAL, Compare(None<int>(), None<int>()));
       });
       It("should return None() when passed through Map()", []() {
-        return Map(Multiply(2), None<int>()) == None<int>();
+        AssertEquals(None<int>(), Map(Multiply(2), None<int>()));
       });
       It("should return None() when passed through Alt() with another None()", []() {
-        return Alt(None<int>(), None<int>()) == None<int>();
+        AssertEquals(None<int>(), Alt(None<int>(), None<int>()));
       });
       It("should return Some(n) when passed through Alt() with Some(n)", []() {
-        return Alt(None<int>(), Some(42)) == Some(42);
+        AssertEquals(Some(42), Alt(None<int>(), Some(42)));
       });
       It("should return None() when passed through || with another None()", []() {
-        return (None<int>() || None<int>()) == None<int>();
+        AssertEquals(None<int>(), None<int>() || None<int>());
       });
       It("should return Some(n) when passed through || with Some(n)", []() {
-        return (None<int>() || Some(42)) == Some(42);
+        AssertEquals(Some(42), None<int>() || Some(42));
       });
       It("should return None() when called with FlatMap()", []() {
-        return FlatMap([](auto n) { return Some(n * 2); }, None<int>()) == None<int>();
+        AssertEquals(None<int>(), FlatMap([](auto n) { return Some(n * 2); }, None<int>()));
       });
       It("should return None() when called with Then() and another none", []() {
-        return Then(None<int>(), None<int>()) == None<int>();
+        AssertEquals(None<int>(), Then(None<int>(), None<int>()));
       });
       It("should return None() when called with Then() and a Some()", []() {
-        return Then(None<int>(), Some(42)) == None<int>();
+        AssertEquals(None<int>(), Then(None<int>(), Some(42)));
       });
       It("should return None() when called with MPlus() and another None()", []() {
-        return MPlus(None<int>(), None<int>()) == None<int>();
+        AssertEquals(None<int>(), MPlus(None<int>(), None<int>()));
       });
       It("should return Some(n) when called with MPlus() and another Some(n)", []() {
-        return MPlus(None<int>(), Some(42)) == Some(42);
+        AssertEquals(Some(42), MPlus(None<int>(), Some(42)));
       });
       It("should return zero when called with Fold()", []() {
-        return Fold(None<int>()) == 0;
+        AssertEquals(0, Fold(None<int>()));
       });
       It("should return zero when called with foldMap()", []() {
-        return FoldMap(Identity<int>(), None<int>()) == 0;
+        AssertEquals(0, FoldMap(Identity<int>(), None<int>()));
       });
       It("should return init when called with FoldR()", []() {
-        return FoldR(Add<int>(), 0, None<int>()) == 0;
+        AssertEquals(0, FoldR(Add<int>(), 0, None<int>()));
       });
       It("should return init when called with FoldL()", []() {
-        return FoldL(Add<int>(), 0, None<int>()) == 0;
+        AssertEquals(0, FoldL(Add<int>(), 0, None<int>()));
       });
       It("should return the alternative when called with GetOrElse()", []() {
-        return GetOrElse([]() { return 12; }, None<int>()) == 12;
+        AssertEquals(12, GetOrElse([]() { return 12; }, None<int>()));
       });
       It("should return the default when called with GetOrDefault()", []() {
-        return GetOrDefault(42, None<int>()) == 42;
+        AssertEquals(42, GetOrDefault(42, None<int>()));
       });
       It("should return the string 'none' when called with Show()", []() {
-        return Show(None<int>()) == LocalString("None");
+        AssertEquals(LocalString("None"), Show(None<int>()));
       });
     });
     Describe("in the case of type Some", []() {
       It("should return OPTION_SOME when calling get_type()", []() {
-        return Some(42)->GetType() == OptionType::SOME;
+        AssertEquals(OptionType::SOME, Some(42)->GetType());
       });
       It("should evalute the Some case when calling Match()", []() {
-        return Match(Some(42),
-          []()       { return false; },
-          [](auto n) { return true; }
+        auto result = Match(Some(42),
+                            []()       { return false; },
+                            [](auto n) { return true; }
         );
+        AssertTrue(result);
       });
       It("should return true when calling Contains() with a matching item", []() {
-        return Contains(42, Some(42));
+        AssertTrue(Contains(42, Some(42)));
       });
       It("should return false when calling Contains() with a different item", []() {
-        return !Contains(12, Some(42));
+        AssertFalse(Contains(12, Some(42)));
       });
       It("should return 1 when called with Length()", []() {
-        return Length(Some(42)) == 1;
+        AssertEquals((size_t) 1, Length(Some(42)));
       });
       It("should return false when called with is_empty", []() {
-        return !IsEmpty(Some(42));
+        AssertFalse(IsEmpty(Some(42)));
       });
       It("should return false when called with Equals() and a none", []() {
-        return IsEmpty(None<int>());
+        AssertTrue(IsEmpty(None<int>()));
       });
       It("should return false when called with Equals() and a different item", []() {
-        return !Equals(Some(42), None<int>());
+        AssertFalse(Equals(Some(42), None<int>()));
       });
       It("should return true when called with Equals() and a matching item", []() {
-        return Equals(Some(42), Some(42));
+        AssertTrue(Equals(Some(42), Some(42)));
       });
       It("should return false when compared with == and a none", []() {
-        return !(Some(42) == None<int>());
+        AssertFalse(Some(42) == None<int>());
       });
       It("should return false when compared with == and a different item", []() {
-        return !(Some(42) == Some(12));
+        AssertFalse(Some(42) == Some(12));
       });
       It("should return true when compared with == with a matching item", []() {
-        return Some(42) == Some(42);
+        AssertTrue(Some(42) == Some(42));
       });
       It("should return true when compared with != and a none", []() {
-        return Some(42) != None<int>();
+        AssertTrue(Some(42) != None<int>());
       });
       It("should return true when compared with != and a different item", []() {
-        return Some(42) != Some(12);
+        AssertTrue(Some(42) != Some(12));
       });
       It("should return false when compared with != and a matching item", []() {
-        return !(Some(42) != Some(42));
+        AssertFalse(Some(42) != Some(42));
       });
       It("should return the hash of the inner item when called with hashable()", []() {
-        return Hash(Some<int>(42)) == Hash(42);
+        AssertEquals(Hash(42), Hash(Some<int>(42)));
       });
       It("should return itself when called with Add() and a None()", []() {
-        return Add(Some(42), None<int>()) == Some(42);
+        AssertEquals(Some(42), Add(Some(42), None<int>()));
       });
       It("should return the sum of values when called with Add() and a value", []() {
-        return Add(Some(42), Some(6)) == Some(48);
+        AssertEquals(Some(48), Add(Some(42), Some(6)));
       });
       It("should return itself when called with + and a None()", []() {
-        return (Some(42) + None<int>()) == Some(42);
+        AssertEquals(Some(42), Some(42) + None<int>());
       });
       It("should return the sum of values when called with + and a value", []() {
-        return (Some(42) + Some(6)) == Some(48);
+        AssertEquals(Some(48), Some(42) + Some(6));
       });
       It("should return None() when called with Filter() and a non match predicate", []() {
-        return Filter(Equals(12), Some(42)) == None<int>();
+        AssertEquals(None<int>(), Filter(Equals(12), Some(42)));
       });
       It("should return itself when called with Filter() and a matching predicate", []() {
-        return Filter(Equals(42), Some(42)) == Some(42);
+        AssertEquals(Some(42), Filter(Equals(42), Some(42)));
       });
       It("should return GREATER when called with Compare() and a None()", []() {
-        return Compare(Some(42), None<int>()) == GREATER;
+        AssertEquals(GREATER, Compare(Some(42), None<int>()));
       });
       It("should return GREATER when called with Compare() and a lesser Some()", []() {
-        return Compare(Some(42), Some(8)) == GREATER;
+        AssertEquals(GREATER, Compare(Some(42), Some(8)));
       });
       It("should return EQUAL when called with Compare() and an equal Some()", []() {
-        return Compare(Some(42), Some(42)) == EQUAL;
+        AssertEquals(EQUAL, Compare(Some(42), Some(42)));
       });
       It("should return LESS when called with Compare() and a greater Some()", []() {
-        return Compare(Some(42), Some(100)) == LESS;
+        AssertEquals(LESS, Compare(Some(42), Some(100)));
       });
       It("should return n * 2 when called with Map(*2)", []() {
-        return Map(Multiply(2), Some(42)) == Some(84);
+        AssertEquals(Some(84), Map(Multiply(2), Some(42)));
       });
       It("should return itself when called with Alt() and another Some()", []() {
-        return Alt(Some(42), Some(12)) == Some(42);
+        AssertEquals(Some(42), Alt(Some(42), Some(12)));
       });
       It("should return itself when called with Alt() and a None()", []() {
-        return Alt(Some(42), None<int>()) == Some(42);
+        AssertEquals(Some(42), Alt(Some(42), None<int>()));
       });
       It("should return itself when compared with || and another Some()", []() {
-        return (Some(42) || Some(12)) == Some(42);
+        AssertEquals(Some(42), Some(42) || Some(12));
       });
       It("should return itself when compared with || and None()", []() {
-        return (Some(42) || None<int>()) == Some(42);
+        AssertEquals(Some(42), Some(42) || None<int>());
       });
       It("should return none when called with FlatMap() and a function -> none", []() {
-        return FlatMap([](auto n) { return None<int>(); }, Some(42)) == None<int>();
+        AssertEquals(None<int>(), FlatMap([](auto n) { return None<int>(); }, Some(42)));
       });
       It("should return n * 2 when called with flat_map and a function -> *2", []() {
-        return FlatMap([](auto n) { return Some(n * 2); }, Some(42)) == Some(84);
+        AssertEquals(Some(84), FlatMap([](auto n) { return Some(n * 2); }, Some(42)));
       });
       It("should return the next Some(n) when called with Then()", []() {
-        return Then(Some(12), Some(42)) == Some(42);
+        AssertEquals(Some(42), Then(Some(12), Some(42)));
       });
       It("should return None() when called with Then() and a None()", []() {
-        return Then(Some(42), None<int>()) == None<int>();
+        AssertEquals(None<int>(), Then(Some(42), None<int>()));
       });
       It("should return the inner value when called with Fold()", []() {
-        return Fold(Some(42)) == 42;
+        AssertEquals(42, Fold(Some(42)));
       });
       It("should return the inner value mapped when called with FoldMap()", []() {
-        return FoldMap(Identity<int>(), Some(42)) == 42;
+        AssertEquals(42, FoldMap(Identity<int>(), Some(42)));
       });
       It("should return the folded value when called with FoldR()", []() {
-        return FoldR(Add<int>(), 12, Some(42)) == 54;
+        AssertEquals(54, FoldR(Add<int>(), 12, Some(42)));
       });
       It("should return the folded value when called with FoldL()", []() {
-        return FoldL(Add<int>(), 12, Some(42)) == 54;
+        AssertEquals(54, FoldL(Add<int>(), 12, Some(42)));
       });
       It("should return the inner value when called with GetOrElse()", []() {
-        return GetOrElse([]() { return 12; }, Some(42)) == 42;
+        AssertEquals(42, GetOrElse([]() { return 12; }, Some(42)));
       });
       It("should return the inner value when called with GetOrDefault()", []() {
-        return GetOrDefault(12, Some(42)) == 42;
+        AssertEquals(42, GetOrDefault(12, Some(42)));
       });
       It("should return the string 'Some(n)' when called with Show()", []() {
-        return Show(Some(42)) == LocalString("Some(42)");
+        AssertEquals(LocalString("Some(42)"), Show(Some(42)));
       });
     });
   });

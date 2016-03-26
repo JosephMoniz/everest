@@ -19,74 +19,72 @@ void Int32Specification() {
   int32_t five      = 5;
   int32_t nine      = 9;
   int32_t twelve    = 12;
-  Describe("A type int32", [=]() {
+  Describe("A type int8", [=]() {
     It("should have a zero value of zero_n", [=]() {
-      return Zero<int32_t>() == zero_n;
+      AssertEquals(zero_n, Zero<int32_t>());
     });
     It("should be addable via the Add() function", [=]() {
-      return Add(twentyone, twentyone) == fortytwo;
+      AssertEquals(fortytwo, Add(twentyone, twentyone));
     });
     It("should be subtractable via the Subtract() function", [=]() {
-      return Subtract(six, three) == three;
+      AssertEquals(three, Subtract(six, three));
     });
     It("should be multiplyable via the Multiply() function", [=]() {
-      return Multiply(three, three) == nine;
+      AssertEquals(nine, Multiply(three, three));
     });
     It("should be divadable via the Divide() function", [=]() {
-      return Divide(nine, three) == three;
+      AssertEquals(three, Divide(nine, three));
     });
     It("should be able to get the remainder via the Remainder() function", [=]() {
-      return Remainder(ten, five) == zero_n;
+      AssertEquals(zero_n, Remainder(ten, five));
     });
     It("should be negatable via the Negate() function", [=]() {
-      return Negate(fortytwo) == -fortytwo;
+      AssertEquals<int32_t>(-fortytwo, Negate(fortytwo));
     });
     It("should have a min value accessible via the MinValue() function", [=]() {
-      return MinValue<int32_t>() == std::numeric_limits<int32_t>::min();
+      AssertEquals(std::numeric_limits<int32_t>::min(), MinValue<int32_t>());
     });
     It("should have a max value accessible via the MaxValue() function", [=]() {
-      return MaxValue<int32_t>() == std::numeric_limits<int32_t>::max();
+      AssertEquals(std::numeric_limits<int32_t>::max(), MaxValue<int32_t>());
     });
     It("should return true when an equal values are passed through Equals()", [=]() {
-      return Equals(fortytwo, fortytwo);
+      AssertTrue(Equals(fortytwo, fortytwo));
     });
     It("should return false when unequal values are passed through Equals()", [=]() {
-      return !Equals(fortytwo, twelve);
+      AssertFalse(Equals(fortytwo, twelve));
     });
     It("should return LESS when a lesser value is passed through Compare()", [=]() {
-      return Compare(twelve, fortytwo) == LESS;
+      AssertEquals(LESS, Compare(twelve, fortytwo));
     });
     It("should return EQUAL when an equal value is passed through Compare()", [=]() {
-      return Compare(fortytwo, fortytwo) == EQUAL;
+      AssertEquals(EQUAL, Compare(fortytwo, fortytwo));
     });
     It("should return GREATER when a greater value is passed through Compare()", [=]() {
-      return Compare(fortytwo, twelve) == GREATER;
+      AssertEquals(GREATER, Compare(fortytwo, twelve));
     });
     It("should return itself when passed through Min() with a greater value", [=]() {
-      return Min(twelve, fortytwo) == twelve;
+      AssertEquals(twelve, Min(twelve, fortytwo));
     });
     It("should return the other value when passed through Min() with a lesser value", [=]() {
-      return Min(fortytwo, twelve) == twelve;
+      AssertEquals(twelve, Min(fortytwo, twelve));
     });
     It("should return itself when passed through Max() with a lesser value", [=]() {
-      return Max(fortytwo, twelve) == fortytwo;
+      AssertEquals(fortytwo, Max(fortytwo, twelve));
     });
     It("should return the other value when passed through Max() with a greater value", [=]() {
-      return Max(twelve, fortytwo) == fortytwo;
+      AssertEquals(fortytwo, Max(twelve, fortytwo));
     });
     It("should be bitwise andable via the BinaryAnd() function", [=]() {
-      return BinaryAnd(fortytwo, twelve) == (fortytwo & twelve);
+      AssertEquals<int32_t>(fortytwo & twelve, BinaryAnd(fortytwo, twelve));
     });
     It("should be bitwise orable via the BinaryOr() function", [=]() {
-      return BinaryOr(fortytwo, twelve) == (fortytwo | twelve);
+      AssertEquals<int32_t>(fortytwo | twelve, BinaryOr(fortytwo, twelve));
     });
     It("should be bitwise xorable via the BinaryXor() function", [=]() {
-      return BinaryXor(fortytwo, twelve) == (fortytwo ^ twelve);
+      AssertEquals<int32_t>(fortytwo ^ twelve, BinaryXor(fortytwo, twelve));
     });
     It("should serialize to the correct value when called with Show()", [=]() {
-      auto expected = LocalString("42");
-      auto result   = Show(fortytwo);
-      return result == expected;
+      AssertEquals(LocalString("42"), Show(fortytwo));
     });
   });
 }

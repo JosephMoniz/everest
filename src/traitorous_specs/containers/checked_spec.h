@@ -11,7 +11,7 @@ namespace traitorous {
 
 void CheckedSpecification() {
   Describe("A Checked type", []() {
-    It("should have a zero value of None()", []() {
+    It("should have a zero value of Ok(0)", []() {
       AssertEquals(Ok<bool, int>(0), Zero<Checked<bool, int>>());
     });
     Describe("in the case of type Ok", []() {
