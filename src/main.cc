@@ -14,6 +14,7 @@
 #include <traitorous_specs/containers/shared_array_spec.h>
 #include <traitorous_specs/containers/checked_spec.h>
 #include <traitorous_specs/containers/shared_checked_spec.h>
+#include <traitorous_specs/containers/list_spec.h>
 
 using namespace traitorous;
 
@@ -36,7 +37,7 @@ int main(int argc, char **argv) {
   SharedOptionSpecification();
   ArraySpecification();
   SharedArraySpecification();
-  //ListSpecification();
+  ListSpecification();
   CheckedSpecification();
   SharedCheckSpecification();
   BoxSpecification();

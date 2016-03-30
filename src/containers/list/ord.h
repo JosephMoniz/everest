@@ -21,26 +21,26 @@ public:
            lCurrent = lCurrent->Next(), rCurrent = rCurrent->Next())
       {
         auto result = Ord<T>::Compare(lCurrent->Item(), rCurrent->Item());
-        if (result != EQUAL) {
+        if (result != Ordering::EQUAL) {
           return result;
         }
       }
-      return EQUAL;
+      return Ordering::EQUAL;
     } else {
       return (lhs->Length() > rhs->Length())
-        ? GREATER
-        : LESS;
+        ? Ordering::GREATER
+        : Ordering::LESS;
   }
   }
 
   static constexpr const List<T>& Min(const List<T> &lhs, const List<T> &rhs) noexcept {
-    return (Compare(lhs, rhs) == GREATER)
+    return (Compare(lhs, rhs) == Ordering::GREATER)
       ? rhs
       : lhs;
   }
 
   static constexpr const List<T>& Max(const List<T> &lhs, const List<T> &rhs) noexcept {
-    return (Compare(lhs, rhs) == LESS)
+    return (Compare(lhs, rhs) == Ordering::LESS)
       ? rhs
       : lhs;
 }

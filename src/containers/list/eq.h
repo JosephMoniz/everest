@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const List<T>& lhs, const List<T>& rhs) noexcept {
-    return Compare(lhs, rhs) == EQUAL;
+    return Compare(lhs, rhs) == Ordering::EQUAL;
   }
 
 };
