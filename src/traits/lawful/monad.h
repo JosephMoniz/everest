@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_MONAD
-#define TRAITOROUS_TRAITS_MONAD 1
 
 #include "functor.h"
 
@@ -39,7 +38,5 @@ constexpr inline B Then(const F& a, const B& b) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

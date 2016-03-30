@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_LIST_SHOWS_H
-#define TRAITOROUS_CONTAINERS_LIST_SHOWS_H
+#pragma once
 
 #include <string>
 
@@ -17,16 +16,14 @@ public:
 
   static constexpr bool exists = true;
 
-  static const LocalString Show(const List<T>& list) noexcept {
-    auto out = LocalString("List(");
+  static const String Show(const List<T>& list) noexcept {
+    auto out = String("List(");
     for (auto current = list->Head(); current.Pointer() != nullptr; current = current->Next()) {
-      out = out + Shows<T>::Show(current->Item()) + LocalString(", ");
+      out = out + Shows<T>::Show(current->Item()) + String(", ");
     }
-    return Take(out, out.Length() - 2) + LocalString(")");
+    return Take(out, out.Length() - 2) + String(")");
   }
 
 };
 
 }
-
-#endif

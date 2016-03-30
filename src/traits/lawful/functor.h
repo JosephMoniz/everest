@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_FUNCTOR
-#define TRAITOROUS_TRAITS_FUNCTOR 1
 
 #include <functional>
 #include <type_traits>
@@ -25,12 +24,10 @@ public:
 };
 
 template <class Fn, class A>
-constexpr inline auto Map(Fn f, const A& n) noexcept -> decltype(Functor<A>::Map(f, n)) {
+auto Map(Fn f, const A& n) noexcept -> decltype(Functor<A>::Map(f, n)) {
   return Functor<A>::Map(f, n);
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_EQ_H
-#define TRAITOROUS_CONTAINERS_OPTION_EQ_H
+#pragma once
 
 #include "containers/option.h"
 #include "traits/unlawful/eq.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template <class T>
 class Eq<Option<T>> {
@@ -16,11 +15,22 @@ public:
   static constexpr bool exists = true;
 
   static constexpr bool Equals(const Option<T>& lhs, const Option<T>& rhs) noexcept {
-    return Eq<LocalOption<T>>::Equals(*lhs.Pointer(), *rhs.Pointer());
+    return Match(lhs,
+      [&](){
+        return Match(rhs,
+          []()           { return true; },
+          [](const T& y) { return false; }
+        );
+      },
+      [&](const T& x){
+        return Match(rhs,
+          []()            { return false; },
+          [&](const T& y) { return x == y; }
+        );
+      }
+    );
   }
 
 };
 
 }
-
-#endif

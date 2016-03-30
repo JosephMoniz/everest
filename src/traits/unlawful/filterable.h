@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_FILTERABLE
-#define TRAITOROUS_TRAITS_FILTERABLE 1
 
 #include <functional>
 
@@ -29,7 +28,5 @@ constexpr inline F Filter(P p, const F& n) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

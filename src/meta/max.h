@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_META_MAX
-#define TRAITOROUS_META_MAX 1
+#pragma once
 
 #include <stddef.h>
 
@@ -21,5 +20,3 @@ struct meta_max<X, Y, Zs...> {
 };
 
 }
-
-#endif

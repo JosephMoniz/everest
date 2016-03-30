@@ -1,13 +1,16 @@
-#ifndef TRAITOROUS_CONTAINERS_ARRAY_FUNCTOR_H
-#define TRAITOROUS_CONTAINERS_ARRAY_FUNCTOR_H
+#pragma once
+
+#include <string>
+
+#include <stddef.h>
 
 #include "containers/array.h"
 #include "traits/lawful/functor.h"
 
 namespace traitorous {
 
-template<class T, size_t S>
-using Array = Shared<LocalArray<T, S>>;
+template <class T, size_t S>
+class Array;
 
 template<class T, size_t S>
 class Functor<Array<T, S>> {
@@ -16,12 +19,14 @@ public:
   static constexpr bool exists = true;
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  static constexpr Array<B, S> Map(F f, const Array<T, S>& array) noexcept {
-    return Functor<LocalArray<T, S>>::Map(f, *array.Pointer());
+  static SharedArray <B, S> Map(F f, const Array<T, S>& array) noexcept {
+    auto newArray = MakeSharedArray<B, S>();
+    for (size_t i = 0; i < S; i++) {
+      newArray->_array[i] = f(array.Pointer()[i]);
+    }
+    return newArray;
   }
 
 };
 
 }
-
-#endif

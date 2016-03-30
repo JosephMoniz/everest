@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_MULTIPLY
-#define TRAITOROUS_TRAITS_MULTIPLY 1
 
 #include "functions/types.h"
 
@@ -60,7 +59,5 @@ constexpr inline T operator*(const T& lhs, const T& rhs) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

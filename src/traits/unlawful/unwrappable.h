@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_UNWRAPPABLE
-#define TRAITOROUS_TRAITS_UNWRAPPABLE 1
 
 #include <functional>
 
@@ -41,7 +40,5 @@ constexpr inline T GetOrDefault(const T& f, const F& n) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

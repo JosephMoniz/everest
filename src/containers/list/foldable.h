@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_LIST_FOLDABLE_H
-#define TRAITOROUS_CONTAINERS_LIST_FOLDABLE_H
+#pragma once
 
 #include "traits/lawful/foldable.h"
 #include "containers/list.h"
@@ -63,4 +62,3 @@ public:
 
 }
 
-#endif

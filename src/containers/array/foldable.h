@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_OG_FOLDABLE_H
-#define TRAITOROUS_OG_FOLDABLE_H
+#pragma once
 
 #include "traits/lawful/foldable.h"
 #include "containers/array.h"
 
 namespace traitorous {
 
-template<class T, size_t S>
-using Array = Shared<LocalArray<T, S>>;
+template <class T, size_t S>
+class Array;
 
 template <class T, size_t S>
 class Foldable<Array<T, S>> {
@@ -16,13 +15,21 @@ public:
   static constexpr bool exists = true;
 
   static constexpr T Fold(const Array<T, S>& array) noexcept {
-    return Foldable<LocalArray<T, S>>::Fold(*array.Pointer());
+    T memo = ZeroVal<T>::Zero();
+    for (size_t i = 0; i < S; i++) {
+      memo = Semigroup<T>::Add(memo, array.Pointer()[i]);
+    }
+    return memo;
   }
 
   template <class Fn,
     class M = typename std::result_of<Fn(T)>::type>
   static constexpr M FoldMap(Fn f, const Array<T, S>& array) noexcept {
-    return Foldable<LocalArray<T, S>>::FoldMap(f, *array.Pointer());
+    auto memo = ZeroVal<T>::Zero();
+    for (size_t i = 0; i < S; i++) {
+      memo = Semigroup<T>::Add(memo, f(array.Pointer()[i]));
+    }
+    return memo;
   }
 
   template <class Fn, class B>
@@ -30,7 +37,14 @@ public:
                            const B& init,
                            const Array<T, S>& array) noexcept
   {
-    return Foldable<LocalArray<T, S>>::FoldR(f, init, *array.Pointer());
+    auto memo = init;
+    for (size_t i = S - 1; i != 0; i--) {
+      memo = f(memo, array.Pointer()[i]);
+    }
+    if (S > 0) {
+      memo = f(memo, array.Pointer()[0]);
+    }
+    return memo;
   }
 
   template <class Fn, class B>
@@ -38,11 +52,13 @@ public:
                            const B& init,
                            const Array<T, S>& array) noexcept
   {
-    return Foldable<LocalArray<T, S>>::FoldL(f, init, *array.Pointer());
+    auto memo = init;
+    for (size_t i = 0; i < S; i++) {
+      memo = f(memo, array.Pointer()[i]);
+    }
+    return memo;
   }
 
 };
 
 }
-
-#endif

@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_REMAINDER
-#define TRAITOROUS_TRAITS_REMAINDER 1
 
 namespace traitorous {
 
@@ -39,7 +38,5 @@ constexpr inline T Remainder(const T& lhs, const T& rhs) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

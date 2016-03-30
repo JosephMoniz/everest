@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_SHOW
-#define TRAITOROUS_TRAITS_SHOW 1
 
 #include <types/string.h>
 
@@ -16,20 +15,13 @@ public:
 
   static constexpr bool exists = false;
 
-  template <class U>
-  static const LocalString Show(const U& n) noexcept {
-    return Base::Show(n);
-  }
-
 };
 
 template <class T>
-const LocalString Show(const T& n) noexcept {
+const String Show(const T& n) noexcept {
   return Shows<T>::Show(n);
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

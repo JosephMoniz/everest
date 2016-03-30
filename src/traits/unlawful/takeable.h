@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_TAKEABLE
-#define TRAITOROUS_TRAITS_TAKEABLE 1
 
 #include <functional>
 
@@ -40,7 +39,5 @@ constexpr inline F TakeWhile(const F& n, Predicate<const T&> p) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_FUNCTOR_H
-#define TRAITOROUS_CONTAINERS_OPTION_FUNCTOR_H
+#pragma once
 
 #include "containers/option.h"
 #include "traits/lawful/functor.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template <class T>
 class Functor<Option<T>> {
@@ -26,5 +25,3 @@ public:
 };
 
 }
-
-#endif

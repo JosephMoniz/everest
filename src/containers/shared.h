@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_SHARED_H
-#define TRAITOROUS_CONTAINERS_SHARED_H
+#pragma once
 
 namespace traitorous {
 
@@ -7,7 +6,8 @@ template<class T>
 class Shared final {
 private:
 
-  size_t * _count;
+  size_t* _count;
+
   T* _pointer;
 
 public:
@@ -21,7 +21,7 @@ public:
     }
   }
 
-  Shared(T* external, size_t * count) : _pointer(external), _count(count) {
+  Shared(T* external, size_t* count) : _pointer(external), _count(count) {
     if (_count != nullptr) {
       (*_count)++;
     }
@@ -82,7 +82,7 @@ public:
 
 template<class T, class ...As>
 Shared<T> MakeShared(As&&... args) {
-  return Shared<T>(new T(args...));
+  return Shared<T>(new T(std::forward<As>(args)...));
 }
 
 template<class T, class U>
@@ -92,5 +92,3 @@ Shared<U> DynamicSharedCast(const Shared<T>& shared) {
 };
 
 }
-
-#endif

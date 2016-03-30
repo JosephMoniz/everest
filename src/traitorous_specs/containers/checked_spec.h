@@ -1,24 +1,25 @@
-#ifndef TRAITOROUS_CHECKED_SPEC_H
-#define TRAITOROUS_CHECKED_SPEC_H
+#pragma once
 
-#include "test/bdd.h"
-
-#include "functions/identity.h"
-
-#include "containers/checked.h"
+#include <test/bdd.h>
+#include <traits/unlawful/containable.h>
+#include <functions/identity.h>
+#include <containers/checked.h>
 
 namespace traitorous {
 
 void CheckedSpecification() {
   Describe("A Checked type", []() {
     It("should have a zero value of Ok(0)", []() {
-      AssertEquals(Ok<bool, int>(0), Zero<Checked<bool, int>>());
+      auto expected = Ok<bool, int>(0);
+      auto result   = Zero<Checked<bool, int>>();
+      auto failure  = "Zero<Checked<bool, int>>() did not return Ok(0)";
+      AssertEquals(failure, expected, result);
     });
     Describe("in the case of type Ok", []() {
-      It("should return OK when calling GetType()", []() {
-        AssertEquals(CheckedType::OK, Ok<bool, int>(42)->GetType());
+      It("should return Ok when calling GetType()", []() {
+        AssertEquals(CheckedType::OK, Ok<bool, int>(42).GetType());
       });
-      It("should evalute the ok case when calling Match()", []() {
+      It("should evalute the Ok case when calling Match()", []() {
         auto result = Match(Ok<bool, int>(42),
           [](const bool& error) { return false; },
           [](const int& ok)     { return true; }
@@ -77,16 +78,16 @@ void CheckedSpecification() {
         AssertEquals(Ok<bool, int>(48), Ok<bool, int>(42) + Ok<bool, int>(6));
       });
       It("should return GREATER when called with Compare() and an error", []() {
-        AssertEquals(GREATER, Compare(Ok<bool, int>(42), Error<bool, int>(false)));
+        AssertEquals(Ordering::GREATER, Compare(Ok<bool, int>(42), Error<bool, int>(false)));
       });
       It("should return GREATER when called with Compare() and a lesser Ok()", []() {
-        AssertEquals(GREATER, Compare(Ok<bool, int>(42), Ok<bool, int>(8)));
+        AssertEquals(Ordering::GREATER, Compare(Ok<bool, int>(42), Ok<bool, int>(8)));
       });
       It("should return EQUAL when called with Compare() and an equal Ok()", []() {
-        AssertEquals(EQUAL, Compare(Ok<bool, int>(42), Ok<bool, int>(42)));
+        AssertEquals(Ordering::EQUAL, Compare(Ok<bool, int>(42), Ok<bool, int>(42)));
       });
       It("should return LESS when called with Compare() and a greater Ok()", []() {
-        AssertEquals(LESS, Compare(Ok<bool, int>(42), Ok<bool, int>(100)));
+        AssertEquals(Ordering::LESS, Compare(Ok<bool, int>(42), Ok<bool, int>(100)));
       });
       It("should return n * 2 when called with Map(*2)", []() {
         AssertEquals(Ok<bool, int>(84), Map(Multiply(2), Ok<bool, int>(42)));
@@ -134,12 +135,12 @@ void CheckedSpecification() {
         AssertEquals(42, GetOrDefault(12, Ok<bool, int>(42)));
       });
       It("should return the string 'Ok(n)' when called with Show()", []() {
-        AssertEquals(LocalString("Ok(42)"), Show(Ok<bool, int>(42)));
+        AssertEquals(String("Ok(42)"), Show(Ok<bool, int>(42)));
       });
     });
     Describe("in the case of type Error", []() {
       It("should return ERROR when calling GetType()", []() {
-        AssertEquals(CheckedType::ERROR, Error<bool, int>(false)->GetType());
+        AssertEquals(CheckedType::ERROR, Error<bool, int>(false).GetType());
       });
       It("should evalute the none case when calling Match()", []() {
         auto result = Match(Error<bool, int>(false),
@@ -185,10 +186,10 @@ void CheckedSpecification() {
         AssertEquals(Error<bool, int>(false), Add(Error<bool, int>(false), Ok<bool, int>(42)));
       });
       It("should return LESS when passed through Compare() with Ok()", []() {
-        AssertEquals(LESS, Compare(Error<bool, int>(false), Ok<bool, int>(42)));
+        AssertEquals(Ordering::LESS, Compare(Error<bool, int>(false), Ok<bool, int>(42)));
       });
       It("should return EQUAL when passed through Compare() with a matching Error()", []() {
-        AssertEquals(EQUAL, Compare(Error<bool, int>(false), Error<bool, int>(false)));
+        AssertEquals(Ordering::EQUAL, Compare(Error<bool, int>(false), Error<bool, int>(false)));
       });
       It("should return itself when passed through Map()", []() {
         AssertEquals(Error<bool, int>(false), Map(Multiply(2), Error<bool, int>(false)));
@@ -196,7 +197,7 @@ void CheckedSpecification() {
       It("should return the other error when passed through Alt() with another error", []() {
         AssertEquals(Error<bool, int>(true), Alt(Error<bool, int>(false), Error<bool, int>(true)));
       });
-      It("should return the ok when passed through Alt() with Ok(n)", []() {
+      It("should return the Ok when passed through Alt() with Ok(n)", []() {
         AssertEquals(Ok<bool, int>(42), Alt(Error<bool, int>(false), Ok<bool, int>(42)));
       });
       It("should return the other error when passed through || with another Error()", []() {
@@ -233,7 +234,7 @@ void CheckedSpecification() {
         AssertEquals(42, GetOrDefault(42, Error<bool, int>(false)));
       });
       It("should return the correct string when called with Show()", []() {
-        auto expected = LocalString("Error(false)");
+        auto expected = String("Error(false)");
         auto result   = Show(Error<bool, int>(false));
         AssertEquals(expected, result);
       });
@@ -242,5 +243,3 @@ void CheckedSpecification() {
 }
 
 }
-
-#endif

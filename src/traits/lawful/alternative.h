@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_ALTERNATIVE
-#define TRAITOROUS_TRAITS_ALTERNATIVE 1
 
 #include "functor.h"
 #include "traits/unlawful/zero.h"
@@ -35,5 +34,4 @@ constexpr inline T operator||(const T& lhs, const T& rhs) noexcept {
 
 }
 
-#endif
 #pragma clang diagnostic pop

@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_HASHABLE
-#define TRAITOROUS_TRAITS_HASHABLE 1
 
 namespace traitorous {
 
@@ -38,7 +37,5 @@ constexpr int Hash(const T& hashable) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

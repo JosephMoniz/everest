@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONCURRENCY_CONVEYOR_H
-#define TRAITOROUS_CONCURRENCY_CONVEYOR_H
+#pragma once
 
 #include <functions/types.h>
 #include <containers/shared.h>
@@ -47,5 +46,3 @@ Conveyor<E, T> MakeConveyor(const Consumer<E>& error, const Consumer<T>& convey)
 };
 
 }
-
-#endif

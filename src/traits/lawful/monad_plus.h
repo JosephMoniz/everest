@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_MONADPLUS
-#define TRAITOROUS_TRAITS_MONADPLUS 1
 
 #include "functor.h"
 #include "monad.h"
@@ -30,7 +29,5 @@ constexpr inline M MPlus(const M& a, const M& b) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

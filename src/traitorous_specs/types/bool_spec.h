@@ -1,12 +1,7 @@
-#ifndef TRAITOROUS_BOOL_SPEC_H
-#define TRAITOROUS_BOOL_SPEC_H
+#pragma once
 
-#include <string>
-
-#include "test/bdd.h"
-#include "traits/unlawful/show.h"
-#include "types/bool.h"
-#include "types/int32.h"
+#include <test/bdd.h>
+#include <types/bool.h>
 
 namespace traitorous {
 
@@ -29,13 +24,13 @@ void BoolSpecification() {
         AssertFalse(true == false);
       });
       It("should return EQUAL when Compare() called w/ a boolean true", []() {
-        AssertEquals(EQUAL, Compare(true, true));
+        AssertEquals(Ordering::EQUAL, Compare(true, true));
       });
       It("should return GREATER when Compare() called w/ a boolean false", []() {
-        AssertEquals(GREATER, Compare(true, false));
+        AssertEquals(Ordering::GREATER, Compare(true, false));
       });
       It("should return 'true' when passed to Show()", []() {
-        AssertEquals(LocalString("true"), Show(true));
+        AssertEquals(String("true"), Show(true));
       });
     });
     Describe("with a value of false", []() {
@@ -52,18 +47,16 @@ void BoolSpecification() {
         AssertTrue(false == false);
       });
       It("should return EQUAL when Compare() called w/ a boolean false", []() {
-        AssertEquals(EQUAL, Compare(false, false));
+        AssertEquals(Ordering::EQUAL, Compare(false, false));
       });
       It("should return LESS when Compare() called w/ a boolean true", []() {
-        AssertEquals(LESS, Compare(false, true));
+        AssertEquals(Ordering::LESS, Compare(false, true));
       });
       It("should return 'false' when passed to Show()", []() {
-        AssertEquals(LocalString("false"), Show(false));
+        AssertEquals(String("false"), Show(false));
       });
     });
   });
 }
 
 }
-
-#endif

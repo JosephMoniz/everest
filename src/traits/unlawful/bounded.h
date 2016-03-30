@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_BOUNDED
-#define TRAITOROUS_TRAITS_BOUNDED 1
 
 #include <limits>
 
@@ -55,7 +54,5 @@ constexpr inline T MaxValue() noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

@@ -1,6 +1,7 @@
-#ifndef TRAITOROUS_CONCURRENCY_BOX_H
-#define TRAITOROUS_CONCURRENCY_BOX_H
+#pragma once
 
+#include <traits/lawful/functor.h>
+#include <traits/lawful/monad.h>
 #include <functions/types.h>
 #include <concurrency/conveyor.h>
 #include <meta/nth_arg.h>
@@ -97,4 +98,3 @@ public:
 
 }
 
-#endif

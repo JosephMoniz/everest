@@ -1,13 +1,16 @@
-#ifndef TRAITOROUS_CONTAINERS_ARRAY_EQ_H
-#define TRAITOROUS_CONTAINERS_ARRAY_EQ_H
+#pragma once
+
+#include <string>
+
+#include <stddef.h>
 
 #include "containers/array.h"
 #include "traits/unlawful/eq.h"
 
 namespace traitorous {
 
-template<class T, size_t S>
-using Array = Shared<LocalArray<T, S>>;
+template <class T, size_t S>
+class Array;
 
 template<class T, size_t S>
 class Eq<Array<T, S>> {
@@ -16,7 +19,12 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const Array<T, S>& lhs, const Array<T, S>& rhs) noexcept {
-    return Eq<LocalArray<T, S>>::Equals(*lhs.Pointer(), *rhs.Pointer());
+    for (size_t i = 0; i < S; i++) {
+      if (lhs.Pointer()[i] != rhs.Pointer()[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   template<size_t Rs>
@@ -27,5 +35,3 @@ public:
 };
 
 }
-
-#endif

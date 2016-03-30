@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_LIST_MONOID_H
-#define TRAITOROUS_CONTAINERS_LIST_MONOID_H
+#pragma once
 
 #include "traits/lawful/monoid.h"
 #include "containers/list.h"
@@ -16,5 +15,3 @@ public:
 };
 
 }
-
-#endif

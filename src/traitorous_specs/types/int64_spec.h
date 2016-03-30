@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_INT64_SPEC_H
-#define TRAITOROUS_INT64_SPEC_H
+#pragma once
 
 #include <limits>
 
@@ -54,13 +53,13 @@ void Int64Specification() {
       AssertFalse(Equals(fortytwo, twelve));
     });
     It("should return LESS when a lesser value is passed through Compare()", [=]() {
-      AssertEquals(LESS, Compare(twelve, fortytwo));
+      AssertEquals(Ordering::LESS, Compare(twelve, fortytwo));
     });
     It("should return EQUAL when an equal value is passed through Compare()", [=]() {
-      AssertEquals(EQUAL, Compare(fortytwo, fortytwo));
+      AssertEquals(Ordering::EQUAL, Compare(fortytwo, fortytwo));
     });
     It("should return GREATER when a greater value is passed through Compare()", [=]() {
-      AssertEquals(GREATER, Compare(fortytwo, twelve));
+      AssertEquals(Ordering::GREATER, Compare(fortytwo, twelve));
     });
     It("should return itself when passed through Min() with a greater value", [=]() {
       AssertEquals(twelve, Min(twelve, fortytwo));
@@ -84,11 +83,10 @@ void Int64Specification() {
       AssertEquals<int64_t>(fortytwo ^ twelve, BinaryXor(fortytwo, twelve));
     });
     It("should serialize to the correct value when called with Show()", [=]() {
-      AssertEquals(LocalString("42"), Show(fortytwo));
+      AssertEquals(String("42"), Show(fortytwo));
     });
   });
 }
 
 }
 
-#endif

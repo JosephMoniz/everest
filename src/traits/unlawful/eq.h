@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_EQ
-#define TRAITOROUS_TRAITS_EQ 1
 
 namespace traitorous {
 
@@ -81,7 +80,5 @@ constexpr inline bool operator!=(const T& lhs, const U& rhs) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_UNWRAPPABLE_H
-#define TRAITOROUS_CONTAINERS_OPTION_UNWRAPPABLE_H
+#pragma once
 
 #include "containers/option.h"
 #include "traits/unlawful/unwrappable.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template <class T>
 class Unwrappable<Option<T>> {
@@ -17,15 +16,20 @@ public:
 
   template <class D>
   static constexpr T GetOrElse(D d, const Option<T>& f) noexcept {
-    return Unwrappable<LocalOption<T>>::GetOrElse(d, *f.Pointer());
+    return Match(f,
+      [&d]()         { return d(); },
+      [](const T& m) { return m; }
+    );
   }
 
   static constexpr T GetOrDefault(const T& d, const Option<T>& n) noexcept {
-    return Unwrappable<LocalOption<T>>::GetOrDefault(d, *n.Pointer());
+    return Match(n,
+      [&d]()         { return d; },
+      [](const T& m) { return m; }
+    );
   }
 
 };
 
 }
 
-#endif

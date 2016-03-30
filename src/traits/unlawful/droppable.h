@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_DROPPABLE
-#define TRAITOROUS_TRAITS_DROPPABLE 1
 
 #include <functional>
 
@@ -41,7 +40,5 @@ constexpr inline F<T> DropWhile(const F<T>& n, Predicate<const T&> p) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

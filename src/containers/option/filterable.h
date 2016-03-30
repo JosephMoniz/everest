@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_FILTERABLE
-#define TRAITOROUS_CONTAINERS_OPTION_FILTERABLE
+#pragma once
 
 #include "containers/option.h"
 #include "traits/unlawful/filterable.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template <class T>
 class Filterable<Option<T>> {
@@ -26,5 +25,3 @@ public:
 };
 
 }
-
-#endif

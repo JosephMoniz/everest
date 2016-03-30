@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_ZERO_H
-#define TRAITOROUS_CONTAINERS_OPTION_ZERO_H
+#pragma once
 
 #include "containers/option.h"
 #include "traits/unlawful/zero.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template<class T>
 class ZeroVal<Option<T>> {
@@ -23,4 +22,3 @@ public:
 
 }
 
-#endif

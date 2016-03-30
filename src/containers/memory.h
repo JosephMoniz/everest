@@ -1,12 +1,11 @@
-#ifndef TRAITOROUS_CONTAINERS_MEMORY_H
-#define TRAITOROUS_CONTAINERS_MEMORY_H
+#pragma once
 
 #include <containers/shared.h>
 
 namespace traitorous {
 
 template<class T>
-class LocalMemory final {
+class Memory final {
 
   T*_pointer;
 
@@ -22,29 +21,30 @@ class LocalMemory final {
 
 public:
 
-  LocalMemory() noexcept {
+  Memory() noexcept {
     _pointer = nullptr;
     _length  = 0;
   }
 
-  LocalMemory(size_t length) noexcept {
+  Memory(size_t length) noexcept {
     _pointer = new T[length];
     _length  = length;
   }
 
-  LocalMemory(const T* pointer, size_t length) noexcept {
+  Memory(const T* pointer, size_t length) noexcept {
     copyInit(pointer, length);
   }
 
-  LocalMemory(const LocalMemory<T>& other) noexcept : LocalMemory(other._pointer, other._length) { }
+  Memory(const Memory<T>& other) noexcept : Memory(other._pointer, other._length) { }
 
-  LocalMemory(LocalMemory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
-                                                 _length(std::move(other._length))
+  Memory(Memory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
+                                       _length(std::move(other._length))
   {
     other._pointer = nullptr;
+    other._length  = 0;
   }
 
-  LocalMemory& operator=(const LocalMemory<T>& other) noexcept {
+  Memory& operator=(const Memory<T>& other) noexcept {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -52,7 +52,7 @@ public:
     return *this;
   }
 
-  LocalMemory& operator=(LocalMemory<T>&& other) noexcept {
+  Memory& operator=(Memory<T>&& other) noexcept {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -63,7 +63,7 @@ public:
     return *this;
   }
 
-  ~LocalMemory() {
+  ~Memory() {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -84,13 +84,11 @@ public:
 };
 
 template<class T>
-using Memory = Shared<LocalMemory<T>>;
+using SharedMemory = Shared<Memory<T>>;
 
 template<class T>
-Memory<T> MakeMemory(const T* pointer, size_t length) {
-  return MakeShared<LocalMemory<T>>(pointer, length);
+SharedMemory<T> MakeSharedMemory(const T *pointer, size_t length) {
+  return MakeShared<Memory<T>>(pointer, length);
 }
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_FUNCTIONS_IDENTITY_H
-#define TRAITOROUS_FUNCTIONS_IDENTITY_H
+#pragma once
 
 #include <functional>
 
@@ -20,5 +19,3 @@ Function<const T&, T> Identity() {
 }
 
 }
-
-#endif

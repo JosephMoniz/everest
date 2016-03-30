@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_FUNCTIONS_TYPES_H
-#define TRAITOROUS_FUNCTIONS_TYPES_H
+#pragma once
 
 #include <functional>
 
@@ -23,6 +22,4 @@ using Consumer = std::function<void(T)>;
 using Thunk = std::function<void()>;
 
 }
-
-#endif
 

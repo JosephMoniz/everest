@@ -1,106 +1,103 @@
-#ifndef TRAITOROUS_COLOR_H
-#define TRAITOROUS_COLOR_H
+#pragma once
 
 #include <types/string.h>
 
 namespace traitorous {
 
-LocalString Black(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;30") + str + LocalString("\033[0m");
+String Black(const String & str) noexcept {
+  return String("\033[0;30") + str + String("\033[0m");
 }
 
-LocalString DarkGray(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;30") + str + LocalString("\033[0m");
+String DarkGray(const String & str) noexcept {
+  return String("\033[1;30") + str + String("\033[0m");
 }
 
-LocalString Blue(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;34m") + str + LocalString("\033[0m");
+String Blue(const String & str) noexcept {
+  return String("\033[0;34m") + str + String("\033[0m");
 }
 
-LocalString LightBlue(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;34m") + str + LocalString("\033[0m");
+String LightBlue(const String & str) noexcept {
+  return String("\033[1;34m") + str + String("\033[0m");
 }
 
-LocalString Green(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;32m") + str + LocalString("\033[0m");
+String Green(const String & str) noexcept {
+  return String("\033[0;32m") + str + String("\033[0m");
 }
 
-LocalString LightGreen(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;32m") + str + LocalString("\033[0m");
+String LightGreen(const String & str) noexcept {
+  return String("\033[1;32m") + str + String("\033[0m");
 }
 
-LocalString Cyan(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;36m") + str + LocalString("\033[0m");
+String Cyan(const String & str) noexcept {
+  return String("\033[0;36m") + str + String("\033[0m");
 }
 
-LocalString LightCyan(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;36m") + str + LocalString("\033[0m");
+String LightCyan(const String & str) noexcept {
+  return String("\033[1;36m") + str + String("\033[0m");
 }
 
-LocalString Red(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;31m") + str + LocalString("\033[0m");
+String Red(const String & str) noexcept {
+  return String("\033[0;31m") + str + String("\033[0m");
 }
 
-LocalString LightRed(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;31m") + str + LocalString("\033[0m");
+String LightRed(const String & str) noexcept {
+  return String("\033[1;31m") + str + String("\033[0m");
 }
 
-LocalString Purple(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;35m") + str + LocalString("\033[0m");
+String Purple(const String & str) noexcept {
+  return String("\033[0;35m") + str + String("\033[0m");
 }
 
-LocalString LightPurple(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;35m") + str + LocalString("\033[0m");
+String LightPurple(const String & str) noexcept {
+  return String("\033[1;35m") + str + String("\033[0m");
 }
 
-LocalString Brown(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;33m") + str + LocalString("\033[0m");
+String Brown(const String & str) noexcept {
+  return String("\033[0;33m") + str + String("\033[0m");
 }
 
-LocalString Yellow(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;33m") + str + LocalString("\033[0m");
+String Yellow(const String & str) noexcept {
+  return String("\033[1;33m") + str + String("\033[0m");
 }
 
-LocalString LightGray(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("0;37m") + str + LocalString("\033[0m");
+String LightGray(const String & str) noexcept {
+  return String("\033[0;37m") + str + String("\033[0m");
 }
 
-LocalString White(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("1;37m") + str + LocalString("\033[0m");
+String White(const String & str) noexcept {
+  return String("\033[1;37m") + str + String("\033[0m");
 }
 
-LocalString BgBlack(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("40m") + str + LocalString("\033[0m");
+String BgBlack(const String & str) noexcept {
+  return String("\033[40m") + str + String("\033[0m");
 }
 
-LocalString BgRed(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("41m") + str + LocalString("\033[0m");
+String BgRed(const String & str) noexcept {
+  return String("\033[41m") + str + String("\033[0m");
 }
 
-LocalString BgGreen(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("42m") + str + LocalString("\033[0m");
+String BgGreen(const String & str) noexcept {
+  return String("\033[42m") + str + String("\033[0m");
 }
 
-LocalString BgYellow(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("43m") + str + LocalString("\033[0m");
+String BgYellow(const String & str) noexcept {
+  return String("\033[43m") + str + String("\033[0m");
 }
 
-LocalString BgBlue(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("44m") + str + LocalString("\033[0m");
+String BgBlue(const String & str) noexcept {
+  return String("\033[44m") + str + String("\033[0m");
 }
 
-LocalString BgMagenta(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("45m") + str + LocalString("\033[0m");
+String BgMagenta(const String & str) noexcept {
+  return String("\033[45m") + str + String("\033[0m");
 }
 
-LocalString BgCyan(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("46m") + str + LocalString("\033[0m");
+String BgCyan(const String & str) noexcept {
+  return String("\033[46m") + str + String("\033[0m");
 }
 
-LocalString BgLightGray(const LocalString& str) noexcept {
-  return LocalString("\033[") + LocalString("47m") + str + LocalString("\033[0m");
+String BgLightGray(const String & str) noexcept {
+  return String("\033[47m") + str + String("\033[0m");
 }
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_META_MIN
-#define TRAITOROUS_META_MIN 1
+#pragma once
 
 namespace traitorous {
 
@@ -19,5 +18,3 @@ struct meta_Min<X, Y, Zs...> {
 };
 
 }
-
-#endif

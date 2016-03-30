@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_FOLDABLE
-#define TRAITOROUS_TRAITS_FOLDABLE 1
 
 #include <functional>
 #include <memory>
@@ -67,7 +66,5 @@ constexpr inline B FoldL(Fn f,
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

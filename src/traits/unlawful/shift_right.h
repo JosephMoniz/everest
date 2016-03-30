@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TRAITS_SHIFTRIGHT
-#define TRAITOROUS_TRAITS_SHIFTRIGHT 1
+#pragma once
 
 namespace traitorous {
 
@@ -10,5 +9,3 @@ struct shift_right {
 };
 
 }
-
-#endif

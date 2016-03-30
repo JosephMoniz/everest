@@ -1,5 +1,6 @@
-#ifndef TRAITOROUS_TRAITS_UNLAWFUL_QUEUE_H
-#define TRAITOROUS_TRAITS_UNLAWFUL_QUEUE_H
+#pragma once
+
+#include <containers/option.h>
 
 namespace traitorous {
 
@@ -18,11 +19,11 @@ public:
   }
 
   static T Dequeue(const T& queue) noexcept {
-    return Base::Dequeue(item, queue);
+    return Base::Dequeue(queue);
   }
 
   template <class U>
-  static LocalOption<U> Front(const T& queue) noexcept {
+  static Option<U> Front(const T& queue) noexcept {
     return Base::Front(queue);
   }
 
@@ -30,7 +31,7 @@ public:
 
 template <class T, class U>
 constexpr T Enqueue(const U& item, const T& queue) noexcept {
-  return Queue<T>::Enqueue(item, stack);
+  return Queue<T>::Enqueue(item, queue);
 };
 
 template <class T>
@@ -44,5 +45,3 @@ constexpr auto Front(const T& queue) noexcept -> decltype(Queue<T>::Front(queue)
 };
 
 }
-
-#endif

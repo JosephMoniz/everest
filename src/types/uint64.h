@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TYPES_UINT64
-#define TRAITOROUS_TYPES_UINT64 1
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -98,44 +97,43 @@ public:
   static constexpr bool exists = true;
 
   static size_t NumDigits(uint64_t number) noexcept {
-    if (number < 10)                   return 1;
-    if (number < 100)                  return 2;
-    if (number < 1000)                 return 3;
-    if (number < 10000)                return 4;
-    if (number < 100000)               return 5;
-    if (number < 1000000)              return 6;
-    if (number < 10000000)             return 7;
-    if (number < 100000000)            return 8;
-    if (number < 1000000000)           return 9;
-    if (number < 10000000000)          return 10;
-    if (number < 100000000000)         return 11;
-    if (number < 1000000000000)        return 12;
-    if (number < 10000000000000)       return 13;
-    if (number < 100000000000000)      return 14;
-    if (number < 1000000000000000)     return 15;
-    if (number < 10000000000000000)    return 16;
-    if (number < 100000000000000000)   return 17;
-    if (number < 1000000000000000000)  return 18;
-    if (number < 10000000000000000000) return 19;
+    if (number < 10u)                   return 1;
+    if (number < 100u)                  return 2;
+    if (number < 1000u)                 return 3;
+    if (number < 10000u)                return 4;
+    if (number < 100000u)               return 5;
+    if (number < 1000000u)              return 6;
+    if (number < 10000000u)             return 7;
+    if (number < 100000000u)            return 8;
+    if (number < 1000000000u)           return 9;
+    if (number < 10000000000u)          return 10;
+    if (number < 100000000000u)         return 11;
+    if (number < 1000000000000u)        return 12;
+    if (number < 10000000000000u)       return 13;
+    if (number < 100000000000000u)      return 14;
+    if (number < 1000000000000000u)     return 15;
+    if (number < 10000000000000000u)    return 16;
+    if (number < 100000000000000000u)   return 17;
+    if (number < 1000000000000000000u)  return 18;
+    if (number < 10000000000000000000u) return 19;
     return 20;
   }
 
-  static const LocalString Show(uint64_t number) noexcept {
+  static const String Show(uint64_t number) noexcept {
     auto size     = NumDigits(number);
     auto offset   = size;
     auto capacity = size + 1;
-    auto memory   = LocalMemory<char>(capacity);
+    auto memory   = Memory<char>(capacity);
     auto pointer  = memory.MutablePointer();
     for (auto i = size; i; i--) {
       pointer[--offset] = (char) (number % 10) + '0';
       number /= 10;
     };
     pointer[capacity - 1] = '\0';
-    return LocalString(std::move(memory), size);
+    return String(std::move(memory), size);
   }
 
 };
 
 }
 
-#endif

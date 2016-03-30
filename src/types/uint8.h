@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TYPES_UINT8
-#define TRAITOROUS_TYPES_UINT8 1
+#pragma once
 
 #include <cstdint>
 #include <functional>
@@ -97,27 +96,26 @@ public:
   static constexpr bool exists = true;
 
   static size_t NumDigits(uint8_t number) noexcept {
-    if (number < 10)         return 1;
-    if (number < 100)        return 2;
+    if (number < 10u)         return 1;
+    if (number < 100u)        return 2;
     return 3;
   }
 
-  static const LocalString Show(uint8_t number) noexcept {
+  static const String Show(uint8_t number) noexcept {
     auto size    = NumDigits(number);
     auto offset   = size;
     auto capacity = size + 1;
-    auto memory   = LocalMemory<char>(capacity);
+    auto memory   = Memory<char>(capacity);
     auto pointer  = memory.MutablePointer();
     for (auto i = size; i; i--) {
       pointer[--offset] = (char) (number % 10) + '0';
       number /= 10;
     };
     pointer[capacity - 1] = '\0';
-    return LocalString(std::move(memory), size);
+    return String(std::move(memory), size);
   }
 
 };
 
 }
 
-#endif

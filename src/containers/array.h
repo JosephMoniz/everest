@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_ARRAY_H
-#define TRAITOROUS_CONTAINERS_ARRAY_H
+#pragma once
 
 #include <cstdint>
 #include <initializer_list>
@@ -13,62 +12,54 @@
 namespace traitorous {
 
 template<class T, size_t S>
-class LocalArray final {
+class Array final {
 
-  friend class Functor<LocalArray<T, S>>;
+  friend class Functor<Array<T, S>>;
 
   T _array[S];
 
 public:
 
-  LocalArray() {
+  Array() {
     //
   }
 
-  LocalArray(std::initializer_list<T> list) {
-    std::copy(list.begin(), list.end(), _array);
+  Array(std::initializer_list<T> list) {
+    size_t i = 0;
+    auto it  = list.begin();
+    for (; it != list.end(); it++, i++) {
+      _array[i] = *it;
+    }
   }
 
-  size_t Size() const {
+  size_t Size() const noexcept {
     return S;
   }
 
-  const T* Pointer() const {
+  const T* Pointer() const noexcept {
     return (const T*) &_array;
   };
 
-  T* MutablePointer() const {
+  T* MutablePointer() const noexcept {
     return (T*) &_array;
   };
 
 };
 
 template<class T, size_t S>
-using Array = Shared<LocalArray<T, S>>;
+using SharedArray = Shared<Array<T, S>>;
 
 template<class T, size_t S>
-Array<T, S> MakeArray(std::initializer_list<T> list) {
-  return MakeShared<LocalArray<T, S>>(list);
+SharedArray<T, S> MakeSharedArray(std::initializer_list<T> list) {
+  return MakeShared<Array<T, S>>(list);
 }
 
 template<class T, size_t S>
-Array<T, S> MakeArray() {
-  return MakeShared<LocalArray<T, S>>();
+SharedArray<T, S> MakeSharedArray() {
+  return MakeShared<Array<T, S>>();
 }
 
 }
-
-#include "containers/local_array/shows.h"
-#include "containers/local_array/eq.h"
-#include "containers/local_array/ord.h"
-#include "containers/local_array/functor.h"
-#include "containers/local_array/containable.h"
-#include "containers/local_array/container.h"
-#include "containers/local_array/semigroup.h"
-#include "containers/local_array/zero.h"
-#include "containers/local_array/monoid.h"
-#include "containers/local_array/hashable.h"
-#include "containers/local_array/foldable.h"
 
 #include "containers/array/shows.h"
 #include "containers/array/eq.h"
@@ -82,4 +73,14 @@ Array<T, S> MakeArray() {
 #include "containers/array/hashable.h"
 #include "containers/array/foldable.h"
 
-#endif
+#include "containers/shared_array/shows.h"
+#include "containers/shared_array/eq.h"
+#include "containers/shared_array/ord.h"
+#include "containers/shared_array/functor.h"
+#include "containers/shared_array/containable.h"
+#include "containers/shared_array/container.h"
+#include "containers/shared_array/semigroup.h"
+#include "containers/shared_array/zero.h"
+#include "containers/shared_array/monoid.h"
+#include "containers/shared_array/hashable.h"
+#include "containers/shared_array/foldable.h"

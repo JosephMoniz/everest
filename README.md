@@ -25,7 +25,7 @@ Todo
 ----
 
   + An asserting library for the test suite
-  + Make String into a Rope implementation
+  + Make SharedString into a Rope implementation
   + Implement `Map<K, V>` as a 32 way HAMT
   + A free list based `Pool<T>` container
   + An IO Abstraction suite around `kqueue()`

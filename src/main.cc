@@ -7,14 +7,13 @@
 #include <traitorous_specs/types/uint16_spec.h>
 #include <traitorous_specs/types/uint32_spec.h>
 #include <traitorous_specs/types/string_spec.h>
-#include <traitorous_specs/containers/local_option_spec.h>
-#include <traitorous_specs/containers/option_spec.h>
-#include <traitorous_specs/containers/array_spec.h>
-#include <traitorous_specs/containers/local_array_spec.h>
-#include <traitorous_specs/containers/list_spec.h>
-#include <traitorous_specs/containers/local_checked_spec.h>
-#include <traitorous_specs/containers/checked_spec.h>
 #include <traitorous_specs/concurrency/box_spec.h>
+#include <traitorous_specs/containers/option_spec.h>
+#include <traitorous_specs/containers/shared_option_spec.h>
+#include <traitorous_specs/containers/array_spec.h>
+#include <traitorous_specs/containers/shared_array_spec.h>
+#include <traitorous_specs/containers/checked_spec.h>
+#include <traitorous_specs/containers/shared_checked_spec.h>
 
 using namespace traitorous;
 
@@ -33,13 +32,13 @@ int main(int argc, char **argv) {
 
   // Container specifications
   //
-  LocalOptionSpecification();
   OptionSpecification();
-  LocalArraySpecification();
+  SharedOptionSpecification();
   ArraySpecification();
-  ListSpecification();
-  LocalCheckedSpecification();
+  SharedArraySpecification();
+  //ListSpecification();
   CheckedSpecification();
+  SharedCheckSpecification();
   BoxSpecification();
 
 

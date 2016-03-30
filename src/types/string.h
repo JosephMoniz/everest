@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TYPES_STRING_H
-#define TRAITOROUS_TYPES_STRING_H
+#pragma once
 
 #include <stddef.h>
 #include <utility>
@@ -11,17 +10,17 @@
 
 namespace traitorous {
 
-class LocalString {
+class String {
 
-  friend class Semigroup<LocalString>;
+  friend class Semigroup<String>;
 
-  LocalMemory<char> _memory;
+  Memory<char> _memory;
 
   size_t _length;
 
 public:
 
-  LocalString(const char* str) noexcept {
+  String(const char* str) noexcept {
     size_t length   = 0;
     size_t capacity = 0;
     for (capacity = 0; str[capacity]; capacity++) {
@@ -30,25 +29,25 @@ public:
       }
     }
     _length = length;
-    _memory = LocalMemory<char>(str, capacity + 1);
+    _memory = Memory<char>(str, capacity + 1);
   }
 
-  LocalString(LocalMemory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
-                                                                    _length(length) {}
+  String(Memory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
+                                                          _length(length) { }
 
-  LocalString(const LocalString& other) noexcept : _memory(other._memory),
-                                                   _length(other._length) { }
+  String(const String & other) noexcept : _memory(other._memory),
+                                          _length(other._length) { }
 
-  LocalString(LocalString&& other) noexcept : _memory(std::move(other._memory)),
-                                              _length(std::move(other._length)) { }
+  String(String && other) noexcept : _memory(std::move(other._memory)),
+                                     _length(std::move(other._length)) { }
 
-  LocalString& operator=(const LocalString& other) noexcept {
+  String & operator=(const String & other) noexcept {
     _memory = other._memory;
     _length = other._length;
     return *this;
   }
 
-  LocalString& operator=(LocalString&& other) noexcept {
+  String & operator=(String && other) noexcept {
     _memory = std::move(other._memory);
     _length = other._length;
     other._length = 0;
@@ -68,24 +67,24 @@ public:
   }
 
   bool IsByteAligned() const noexcept {
-    return Length() == Capacity();
+    return Length() == (Capacity() - 1);
   }
 
 };
 
-using String = Shared<LocalString>;
+using SharedString = Shared<String>;
 
-String MakeString(const char* pointer) {
-  return MakeShared<LocalString>(pointer);
+SharedString MakeSharedString(const char *pointer) {
+  return MakeShared<String>(pointer);
 }
 
 template<>
-class Eq<LocalString> {
+class Eq<String> {
 public:
 
   static constexpr bool exists = true;
 
-  static bool Equals(const LocalString& lhs, const LocalString& rhs) noexcept {
+  static bool Equals(const String& lhs, const String& rhs) noexcept {
     if (lhs.Length() != rhs.Length() || lhs.Capacity() != rhs.Capacity()) {
       return false;
     } else {
@@ -104,45 +103,51 @@ public:
 };
 
 template<>
-class Takeable<LocalString> {
+class Takeable<String> {
 public:
 
   static constexpr bool exists = true;
 
-  static const LocalString Take(const LocalString& n, size_t size) noexcept {
-    if (n.Length() <= size) {
-      return n;
+  static const String Take(const String& inString, size_t size) noexcept {
+    if (inString.Length() <= size) {
+      return inString;
     } else {
-      auto str        = n.CString();
-      size_t length   = 0;
-      size_t capacity = 0;
-      for (capacity = 0; str[capacity] && length < size; capacity++) {
-        if ((str[capacity] & 0b11000000) != 0b10000000) {
-          length++;
+      auto string = inString.CString();
+      if (inString.IsByteAligned()) {
+        auto memory = Memory<char>(string, size + 1);
+        memory.MutablePointer()[size] = '\0';
+        return String(std::move(memory), size);
+      } else {
+        size_t length   = 0;
+        size_t capacity = 0;
+        for (capacity = 0; string[capacity] && length < size; capacity++) {
+          if ((string[capacity] & 0b11000000) != 0b10000000) {
+            length++;
+          }
         }
+        auto memory = Memory<char>(string, ++capacity);
+        memory.MutablePointer()[length] = '\0';
+        return String(std::move(memory), length);
       }
-      auto memory = LocalMemory<char>(n.CString(), ++capacity);
-      memory.MutablePointer()[capacity] = '\0';
-      return LocalString(std::move(memory), length);
     }
   }
 
-  static const LocalString TakeWhile(const LocalString& n, Predicate<char> p) noexcept {
-    return LocalString("TODO"); // TODO
+  static const String TakeWhile(const String& n, Predicate<char> p) noexcept {
+    return String("TODO"); // TODO
   }
 
 };
 
 template<>
-class Semigroup<LocalString> {
+class Semigroup<String> {
 public:
 
   static constexpr bool exists = true;
 
-  static const LocalString Add(const LocalString& lhs, const LocalString& rhs) noexcept {
+  static const String Add(const String& lhs, const String& rhs) noexcept {
     auto lCapacity  = lhs.Capacity() - 1;
     auto capacity   = lCapacity + rhs.Capacity();
-    auto memory     = LocalMemory<char>(capacity);
+    auto memory     = Memory<char>(capacity);
     auto lPointer   = lhs._memory.Pointer();
     auto rPointer   = rhs._memory.Pointer();
     auto srcPointer = memory.MutablePointer();
@@ -152,11 +157,10 @@ public:
     for (size_t i = lCapacity , j = 0; i < capacity; i++, j++) {
       srcPointer[i] = rPointer[j];
     }
-    return LocalString(std::move(memory), capacity - 1);
+    return String(std::move(memory), capacity - 1);
   }
 
 };
 
 }
 
-#endif

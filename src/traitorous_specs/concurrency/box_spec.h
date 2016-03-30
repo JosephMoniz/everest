@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_BOX_SPEC_H
-#define TRAITOROUS_BOX_SPEC_H
+#pragma once
 
 #include <test/bdd.h>
 #include <concurrency/conveyor.h>
@@ -86,4 +85,3 @@ void BoxSpecification() {
 
 }
 
-#endif

@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_MONOID_H
-#define TRAITOROUS_CONTAINERS_OPTION_MONOID_H
+#pragma once
 
 #include "containers/option.h"
 #include "traits/lawful/monoid.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template<class T>
 class Monoid<Option<T>> {
@@ -18,5 +17,3 @@ public:
 };
 
 }
-
-#endif

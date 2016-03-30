@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_CONTAINER
-#define TRAITOROUS_TRAITS_CONTAINER 1
 
 #include <type_traits>
 
@@ -36,7 +35,5 @@ constexpr inline bool IsEmpty(const T& n) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

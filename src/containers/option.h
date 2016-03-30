@@ -1,8 +1,7 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_H
-#define TRAITOROUS_CONTAINERS_OPTION_H
+#pragma once
 
-#include "containers/shared.h"
-#include "containers/option.h"
+#include <type_traits>
+#include <containers/shared.h>
 
 namespace traitorous {
 
@@ -11,8 +10,23 @@ enum class OptionType {
   NONE
 };
 
+template<>
+class Shows<OptionType> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String Show(OptionType n) noexcept {
+    switch(n) {
+      case OptionType::SOME: return String("SOME");
+      case OptionType::NONE: return String("NONE");
+    }
+  }
+
+};
+
 template<class T>
-class LocalOption final {
+class Option final {
 
   using data_t = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
 
@@ -22,13 +36,13 @@ class LocalOption final {
 
 public:
 
-  LocalOption() noexcept : _tag(OptionType::NONE) {}
+  Option() noexcept : _tag(OptionType::NONE) {}
 
-  LocalOption(const T& o) noexcept : _tag(OptionType::SOME) {
+  Option(const T& o) noexcept : _tag(OptionType::SOME) {
     new (&_value) T(o);
   }
 
-  ~LocalOption() noexcept {
+  ~Option() noexcept {
     if (_tag == OptionType::SOME) {
       reinterpret_cast<T*>(&_value)->~T();
     }
@@ -45,43 +59,61 @@ public:
 };
 
 template<class T>
-using Option = Shared<LocalOption<T>>;
-
-template<class T>
-const LocalOption<T> LocalSome(const T &o) {
-  return LocalOption<T>(o);
-}
-
-template<class T>
-const LocalOption<T> LocalNone() {
-  return LocalOption<T>();
-}
+using SharedOption = Shared<Option<T>>;
 
 template<class T>
 const Option<T> Some(const T &o) {
-  return MakeShared<LocalOption<T>>(o);
+  return Option<T>(o);
 }
 
 template<class T>
 const Option<T> None() {
-  return MakeShared<LocalOption<T>>();
+  return Option<T>();
+}
+
+template<class T>
+const SharedOption<T> SharedSome(const T &o) {
+  return MakeShared<Option<T>>(o);
+}
+
+template<class T>
+const SharedOption<T> SharedNone() {
+  return MakeShared<Option<T>>();
 }
 
 template <class T, class N, class S, class R = typename std::result_of<N()>::type>
-constexpr R Match(const LocalOption<T>& o, N n, S s) noexcept {
+constexpr R Match(const Option<T>& o, N n, S s) noexcept {
   return (o.GetType() == OptionType::NONE)
     ? n()
     : s(o.Get());
 }
 
 template <class T, class N, class S, class R = typename std::result_of<N()>::type>
-constexpr R Match(const Option<T>& o, N n, S s) noexcept {
+constexpr R Match(const SharedOption<T>& o, N n, S s) noexcept {
   return (o->GetType() == OptionType::NONE)
     ? n()
     : s(o->Get());
 }
 
 }
+
+#include "containers/shared_option/containable.h"
+#include "containers/shared_option/container.h"
+#include "containers/shared_option/alternative.h"
+#include "containers/shared_option/eq.h"
+#include "containers/shared_option/foldable.h"
+#include "containers/shared_option/functor.h"
+#include "containers/shared_option/hashable.h"
+#include "containers/shared_option/monad.h"
+#include "containers/shared_option/semigroup.h"
+#include "containers/shared_option/zero.h"
+#include "containers/shared_option/monoid.h"
+#include "containers/shared_option/filterable.h"
+#include "containers/shared_option/ord.h"
+#include "containers/shared_option/monad_plus.h"
+#include "containers/shared_option/unwrappable.h"
+#include "containers/shared_option/shows.h"
+#include "containers/shared_option/enumerable.h"
 
 #include "containers/option/containable.h"
 #include "containers/option/container.h"
@@ -99,23 +131,3 @@ constexpr R Match(const Option<T>& o, N n, S s) noexcept {
 #include "containers/option/monad_plus.h"
 #include "containers/option/unwrappable.h"
 #include "containers/option/shows.h"
-#include "containers/option/enumerable.h"
-
-#include "containers/local_option/containable.h"
-#include "containers/local_option/container.h"
-#include "containers/local_option/alternative.h"
-#include "containers/local_option/eq.h"
-#include "containers/local_option/foldable.h"
-#include "containers/local_option/functor.h"
-#include "containers/local_option/hashable.h"
-#include "containers/local_option/monad.h"
-#include "containers/local_option/semigroup.h"
-#include "containers/local_option/zero.h"
-#include "containers/local_option/monoid.h"
-#include "containers/local_option/filterable.h"
-#include "containers/local_option/ord.h"
-#include "containers/local_option/monad_plus.h"
-#include "containers/local_option/unwrappable.h"
-#include "containers/local_option/shows.h"
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_OG_ORD_H
-#define TRAITOROUS_OG_ORD_H
+#pragma once
 
 #include "traits/unlawful/ord.h"
 #include "containers/list.h"
@@ -49,5 +48,3 @@ public:
 };
 
 }
-
-#endif

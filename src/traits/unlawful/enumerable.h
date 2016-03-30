@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TRAITS_UNLAWFUL_ENUMERABLE_H
-#define TRAITOROUS_TRAITS_UNLAWFUL_ENUMERABLE_H
+#pragma once
 
 namespace traitorous {
 
@@ -27,5 +26,4 @@ auto Enumerate(const T& e) noexcept -> decltype(Enumerable<T>::Enumerate(e)) {
 
 }
 
-#endif
 

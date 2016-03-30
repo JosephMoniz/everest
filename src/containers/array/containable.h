@@ -1,13 +1,16 @@
-#ifndef TRAITOROUS_CONTAINERS_ARRAY_CONTAINABLE_H
-#define TRAITOROUS_CONTAINERS_ARRAY_CONTAINABLE_H
+#pragma once
+
+#include <string>
+
+#include <stddef.h>
 
 #include "containers/array.h"
 #include "traits/unlawful/containable.h"
 
 namespace traitorous {
 
-template<class T, size_t S>
-using Array = Shared<LocalArray<T, S>>;
+template <class T, size_t S>
+class Array;
 
 template <class T, size_t S>
 class Containable<Array<T, S>, T> {
@@ -16,11 +19,14 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const Array<T, S>& array) noexcept {
-    return Containable<LocalArray<T, S>, T>::Contains(n, *array.Pointer());
+    for (size_t i = 0; i < S; i++) {
+      if (array.Pointer()[i] == n) {
+        return true;
+      }
+    }
+    return false;
   }
 
 };
 
 }
-
-#endif

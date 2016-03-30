@@ -1,13 +1,16 @@
-#ifndef TRAITOROUS_CONTAINERS_ARRAY_CONTAINER_H
-#define TRAITOROUS_CONTAINERS_ARRAY_CONTAINER_H
+#pragma once
+
+#include <string>
+
+#include <stddef.h>
 
 #include "containers/array.h"
 #include "traits/unlawful/container.h"
 
 namespace traitorous {
 
-template<class T, size_t S>
-using Array = Shared<LocalArray<T, S>>;
+template <class T, size_t S>
+class Array;
 
 template <class T, size_t S>
 class Container<Array<T, S>> {
@@ -16,15 +19,13 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const Array<T, S>& o) noexcept {
-    return Container<LocalArray<T, S>>::Length(*o.Pointer());
+    return (size_t) S;
   }
 
   static constexpr bool IsEmpty(const Array<T, S>& o) noexcept {
-    return Container<LocalArray<T, S>>::IsEmpty(*o.Pointer());
+    return S == 0;
   }
 
 };
 
 }
-
-#endif

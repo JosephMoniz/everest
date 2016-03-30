@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TYPES_BOOL
-#define TRAITOROUS_TYPES_BOOL 1
+#pragma once
 
 #include "traits/unlawful/eq.h"
 #include "traits/unlawful/zero.h"
@@ -49,12 +48,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static LocalString Show(bool n) noexcept {
-    return n ? LocalString("true") : LocalString("false");
+  static String Show(bool n) noexcept {
+    return n ? String("true") : String("false");
   }
 
 };
 
 }
 
-#endif

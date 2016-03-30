@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_CONTAINER_H
-#define TRAITOROUS_CONTAINERS_OPTION_CONTAINER_H
+#pragma once
 
-#include "containers/option.h"
-#include "traits/unlawful/container.h"
+#include <containers/option.h>
+#include <traits/unlawful/container.h>
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template <class T>
 class Container<Option<T>> {
@@ -16,15 +15,19 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const Option<T>& o) noexcept {
-    return Container<LocalOption<T>>::Length(*o.Pointer());
+    return Match(o,
+      []()           { return 0; },
+      [](const T& n) { return 1; }
+    );
   }
 
   static constexpr bool IsEmpty(const Option<T>& o) noexcept {
-    return Container<LocalOption<T>>::IsEmpty(*o.Pointer());
+    return Match(o,
+      []()           { return true; },
+      [](const T& n) { return false; }
+    );
   }
 
 };
 
 }
-
-#endif

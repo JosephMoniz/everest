@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_ENUMERATORS_OPTION_ENUMERATOR_H
-#define TRAITOROUS_CONTAINERS_ENUMERATORS_OPTION_ENUMERATOR_H
+#pragma once
 
 #include <containers/option.h>
 #include <traits/unlawful/enumerator.h>
@@ -11,12 +10,12 @@ class OptionEnumerator {
 
   bool _done = false;
 
-  Option<T> _option;
+  SharedOption<T> _option;
 
 public:
 
-  OptionEnumerator(const Option<T>& option) noexcept : _done(false),
-                                                       _option(option)
+  OptionEnumerator(const SharedOption<T>& option) noexcept : _done(false),
+                                                             _option(option)
   {
     //
   }
@@ -41,17 +40,15 @@ public:
 
   static constexpr bool exists = true;
 
-  static const LocalOption<T> Next(const T& enumerator) noexcept {
+  static const Option<T> Next(const T& enumerator) noexcept {
     if (!enumerator._done && enumerator._option->GetType() == OptionType::SOME) {
       enumerator._done = true;
-      return LocalOption<T>(enumerator._option->Get());
+      return Option<T>(enumerator._option->Get());
     } else {
-      return LocalOption<T>();
+      return Option<T>();
     }
   }
 
 };
 
 }
-
-#endif

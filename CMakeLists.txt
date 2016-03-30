@@ -54,51 +54,39 @@ set(SOURCE_FILES
         src/types/uint64.h
         src/types/uint8.h
         src/main.cc
-        src/containers/local_option/hashable.h
-        src/containers/local_option/zero.h
-        src/containers/local_option/semigroup.h
-        src/containers/local_option/monoid.h
-        src/containers/local_option/filterable.h
-        src/containers/local_option/ord.h
-        src/containers/local_option/monad_plus.h
-        src/containers/local_option/unwrappable.h
-        src/containers/local_option/shows.h
-        src/containers/shared.h
-        src/containers/option.h
-        src/containers/option/containable.h
-        src/containers/option/container.h
-        src/containers/option/alternative.h
-        src/containers/option/eq.h
-        src/containers/option/foldable.h
-        src/containers/option/functor.h
         src/containers/option/hashable.h
-        src/containers/option/monad.h
-        src/containers/option/semigroup.h
-        src/traitorous_specs/containers/option_spec.h
         src/containers/option/zero.h
+        src/containers/option/semigroup.h
         src/containers/option/monoid.h
         src/containers/option/filterable.h
         src/containers/option/ord.h
         src/containers/option/monad_plus.h
         src/containers/option/unwrappable.h
         src/containers/option/shows.h
+        src/containers/shared.h
+        src/containers/option.h
+        src/containers/shared_option/containable.h
+        src/containers/shared_option/container.h
+        src/containers/shared_option/alternative.h
+        src/containers/shared_option/eq.h
+        src/containers/shared_option/foldable.h
+        src/containers/shared_option/functor.h
+        src/containers/shared_option/hashable.h
+        src/containers/shared_option/monad.h
+        src/containers/shared_option/semigroup.h
+        src/traitorous_specs/containers/shared_option_spec.h
+        src/containers/shared_option/zero.h
+        src/containers/shared_option/monoid.h
+        src/containers/shared_option/filterable.h
+        src/containers/shared_option/ord.h
+        src/containers/shared_option/monad_plus.h
+        src/containers/shared_option/unwrappable.h
+        src/containers/shared_option/shows.h
         src/containers/array.h
-        src/containers/bankers_queue.h
-        src/containers/batched_queue.h
-        src/traitorous_specs/containers/local_checked_spec.h
         src/traitorous_specs/containers/checked_spec.h
+        src/traitorous_specs/containers/shared_checked_spec.h
+        src/traitorous_specs/containers/shared_array_spec.h
         src/traitorous_specs/containers/array_spec.h
-        src/traitorous_specs/containers/local_array_spec.h
-        src/containers/local_array/shows.h
-        src/containers/local_array/eq.h
-        src/containers/local_array/ord.h
-        src/containers/local_array/functor.h
-        src/containers/local_array/containable.h
-        src/containers/local_array/container.h
-        src/containers/local_array/semigroup.h
-        src/containers/local_array/zero.h
-        src/containers/local_array/monoid.h
-        src/containers/local_array/hashable.h
         src/containers/array/shows.h
         src/containers/array/eq.h
         src/containers/array/ord.h
@@ -109,14 +97,25 @@ set(SOURCE_FILES
         src/containers/array/zero.h
         src/containers/array/monoid.h
         src/containers/array/hashable.h
-        src/containers/list.h
+        src/containers/shared_array/shows.h
+        src/containers/shared_array/eq.h
+        src/containers/shared_array/ord.h
+        src/containers/shared_array/functor.h
+        src/containers/shared_array/containable.h
+        src/containers/shared_array/container.h
+        src/containers/shared_array/semigroup.h
+        src/containers/shared_array/zero.h
+        src/containers/shared_array/monoid.h
+        src/containers/shared_array/hashable.h
         src/containers/enumerators/option_enumerator.h
         src/containers/enumerators/array_enumerator.h
         src/containers/enumerators/list_enumerator.h
         src/exceptions/no_such_element_exception.h
         src/traits/unlawful/enumerable.h
-        src/containers/option/enumerable.h
+        src/containers/shared_option/enumerable.h
         src/traits/unlawful/enumerator.h
+        src/traits/unlawful/queue.h
+        src/traits/unlawful/stack.h
         src/containers/list/shows.h
         src/containers/list/ord.h
         src/containers/list/eq.h
@@ -127,13 +126,16 @@ set(SOURCE_FILES
         src/containers/list/zero.h
         src/containers/list/monoid.h
         src/containers/list/foldable.h
-        src/containers/local_array/foldable.h
         src/containers/array/foldable.h
+        src/containers/shared_array/foldable.h
         src/containers/checked.h
         src/concurrency/conveyor.h
         src/concurrency/box.h
         src/traitorous_specs/concurrency/box_spec.h
-        src/containers/memory.h src/containers/chain.h)
+        src/containers/memory.h
+        src/types/size.h
+        src/containers/mutable/mutable_map.h
+        src/containers/mutable/mutable_vector.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}
@@ -146,16 +148,15 @@ add_executable(traitorous_og
         src/traitorous_specs/types/uint16_spec.h
         src/traitorous_specs/types/uint32_spec.h
         src/traitorous_specs/types/string_spec.h
-        src/traitorous_specs/containers/local_option_spec.h
-        src/traitorous_specs/containers/list_spec.h
+        src/traitorous_specs/containers/option_spec.h
         src/functions/identity.h
         src/functions/types.h
         src/meta/last_arg.h
         src/meta/deepest_arg.h
-        src/containers/local_option/alternative.h
-        src/containers/local_option/containable.h
-        src/containers/local_option/container.h
-        src/containers/local_option/foldable.h
-        src/containers/local_option/functor.h
-        src/containers/local_option/eq.h
-        src/containers/local_option/monad.h)
+        src/containers/option/alternative.h
+        src/containers/option/containable.h
+        src/containers/option/container.h
+        src/containers/option/foldable.h
+        src/containers/option/functor.h
+        src/containers/option/eq.h
+        src/containers/option/monad.h)

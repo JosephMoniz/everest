@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_INTERSECTABLE
-#define TRAITOROUS_TRAITS_INTERSECTABLE 1
 
 namespace traitorous {
 
@@ -27,7 +26,5 @@ constexpr inline T Intersect(const T& a, const T& b) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

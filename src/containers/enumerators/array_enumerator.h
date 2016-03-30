@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_ENUMERATORS_ARRAY_ENUMERATOR_H_H
-#define TRAITOROUS_CONTAINERS_ENUMERATORS_ARRAY_ENUMERATOR_H_H
+#pragma once
 
 #include <containers/array.h>
 #include <traits/unlawful/enumerator.h>
@@ -9,13 +8,13 @@ namespace traitorous {
 template<class T>
 class ArrayEnumerator {
 
-  Array<T> _array;
+  SharedArray<T> _array;
 
   size_t _position;
 
 public:
 
-  ArrayEnumerator(const Array<T>& array) noexcept : _array(array), _position(0) {
+  ArrayEnumerator(const SharedArray<T>& array) noexcept : _array(array), _position(0) {
     //
   }
 
@@ -38,16 +37,14 @@ public:
 
   static constexpr bool exists = true;
 
-  static const LocalOption<T> Next(const T& enumerator) noexcept {
+  static const Option<T> Next(const T& enumerator) noexcept {
     if (enumerator._position >= enumerator._array->Size()) {
-      return LocalOption<T>(enumerator._array->pointer()[enumerator._position++]);
+      return Option<T>(enumerator._array->pointer()[enumerator._position++]);
     } else {
-      return LocalOption<T>();
+      return Option<T>();
     }
   }
 
 };
 
 }
-
-#endif

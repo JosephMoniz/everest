@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_META_NTHARG
-#define TRAITOROUS_META_NTHARG 1
+#pragma once
 
 #include <tuple>
 
@@ -16,5 +15,3 @@ template <typename T, unsigned int N>
 using nth_arg = typename std::tuple_element<N, typename tuplify<T>::type>::type;
 
 }
-
-#endif

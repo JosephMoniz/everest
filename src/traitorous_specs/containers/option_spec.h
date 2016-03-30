@@ -1,22 +1,19 @@
-#ifndef TRAITOROUS_OPTION_SPEC_H
-#define TRAITOROUS_OPTION_SPEC_H
+#pragma once
 
-#include "test/bdd.h"
-
-#include "functions/identity.h"
-
-#include "containers/option.h"
+#include <test/bdd.h>
+#include <functions/identity.h>
+#include <containers/option.h>
 
 namespace traitorous {
 
 void OptionSpecification() {
   Describe("A Option type", []() {
     It("should have a zero value of None()", []() {
-      AssertEquals(None<int>(), Zero<Option<int>>());
+      AssertEquals(None<int>(), Zero<Option<int>> ());
     });
     Describe("in the case of type none", []() {
       It("should return OPTION_NONE when calling get_type()", []() {
-        AssertEquals(OptionType::NONE, None<int>()->GetType());
+        AssertEquals(OptionType::NONE, None<int>().GetType());
       });
       It("should evalute the none case when calling Match()", []() {
         auto result = Match(None<int>(),
@@ -65,21 +62,21 @@ void OptionSpecification() {
         AssertEquals(None<int>(), Filter(Equals(42), None<int>()));
       });
       It("should return LESS when passed through Compare() with Some()", []() {
-        AssertEquals(LESS, Compare(None<int>(), Some(42)));
+        AssertEquals(Ordering::LESS, Compare(None<int>(), Some(42)));
       });
       It("should return EQUAL when passed through Compare() with another None()", []() {
-        AssertEquals(EQUAL, Compare(None<int>(), None<int>()));
+        AssertEquals(Ordering::EQUAL, Compare(None<int>(), None<int>()));
       });
       It("should return None() when passed through Map()", []() {
         AssertEquals(None<int>(), Map(Multiply(2), None<int>()));
       });
-      It("should return None() when passed through Alt() with another None()", []() {
+      It("should return LocalNone() when passed through Alt() with another None()", []() {
         AssertEquals(None<int>(), Alt(None<int>(), None<int>()));
       });
       It("should return Some(n) when passed through Alt() with Some(n)", []() {
         AssertEquals(Some(42), Alt(None<int>(), Some(42)));
       });
-      It("should return None() when passed through || with another None()", []() {
+      It("should return LocalNone() when passed through || with another None()", []() {
         AssertEquals(None<int>(), None<int>() || None<int>());
       });
       It("should return Some(n) when passed through || with Some(n)", []() {
@@ -94,7 +91,7 @@ void OptionSpecification() {
       It("should return None() when called with Then() and a Some()", []() {
         AssertEquals(None<int>(), Then(None<int>(), Some(42)));
       });
-      It("should return None() when called with MPlus() and another None()", []() {
+      It("should return None() when called with MPlus() and another LocalNone()", []() {
         AssertEquals(None<int>(), MPlus(None<int>(), None<int>()));
       });
       It("should return Some(n) when called with MPlus() and another Some(n)", []() {
@@ -119,17 +116,17 @@ void OptionSpecification() {
         AssertEquals(42, GetOrDefault(42, None<int>()));
       });
       It("should return the string 'none' when called with Show()", []() {
-        AssertEquals(LocalString("None"), Show(None<int>()));
+        AssertEquals(String("None"), Show(None<int>()));
       });
     });
     Describe("in the case of type Some", []() {
       It("should return OPTION_SOME when calling get_type()", []() {
-        AssertEquals(OptionType::SOME, Some(42)->GetType());
+        AssertEquals(OptionType::SOME, Some(42).GetType());
       });
       It("should evalute the Some case when calling Match()", []() {
         auto result = Match(Some(42),
-                            []()       { return false; },
-                            [](auto n) { return true; }
+          []()       { return false; },
+          [](auto n) { return true; }
         );
         AssertTrue(result);
       });
@@ -194,16 +191,16 @@ void OptionSpecification() {
         AssertEquals(Some(42), Filter(Equals(42), Some(42)));
       });
       It("should return GREATER when called with Compare() and a None()", []() {
-        AssertEquals(GREATER, Compare(Some(42), None<int>()));
+        AssertEquals(Ordering::GREATER, Compare(Some(42), None<int>()));
       });
       It("should return GREATER when called with Compare() and a lesser Some()", []() {
-        AssertEquals(GREATER, Compare(Some(42), Some(8)));
+        AssertEquals(Ordering::GREATER, Compare(Some(42), Some(8)));
       });
       It("should return EQUAL when called with Compare() and an equal Some()", []() {
-        AssertEquals(EQUAL, Compare(Some(42), Some(42)));
+        AssertEquals(Ordering::EQUAL, Compare(Some(42), Some(42)));
       });
       It("should return LESS when called with Compare() and a greater Some()", []() {
-        AssertEquals(LESS, Compare(Some(42), Some(100)));
+        AssertEquals(Ordering::LESS, Compare(Some(42), Some(100)));
       });
       It("should return n * 2 when called with Map(*2)", []() {
         AssertEquals(Some(84), Map(Multiply(2), Some(42)));
@@ -229,7 +226,7 @@ void OptionSpecification() {
       It("should return the next Some(n) when called with Then()", []() {
         AssertEquals(Some(42), Then(Some(12), Some(42)));
       });
-      It("should return None() when called with Then() and a None()", []() {
+      It("should return None() when called with Then() and a LocalNone()", []() {
         AssertEquals(None<int>(), Then(Some(42), None<int>()));
       });
       It("should return the inner value when called with Fold()", []() {
@@ -251,12 +248,10 @@ void OptionSpecification() {
         AssertEquals(42, GetOrDefault(12, Some(42)));
       });
       It("should return the string 'Some(n)' when called with Show()", []() {
-        AssertEquals(LocalString("Some(42)"), Show(Some(42)));
+        AssertEquals(String("Some(42)"), Show(Some(42)));
       });
     });
   });
 }
 
 }
-
-#endif

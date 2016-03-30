@@ -1,14 +1,13 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_ORD
-#define TRAITOROUS_TRAITS_ORD 1
 
-#include <traits/unlawful/show.h>
 #include <types/string.h>
+#include <traits/unlawful/show.h>
 
 namespace traitorous {
 
-enum Ordering {
+enum class Ordering {
   LESS,
   EQUAL,
   GREATER
@@ -20,12 +19,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static LocalString Show(Ordering n) noexcept {
+  static String Show(Ordering n) noexcept {
     switch(n) {
-      case LESS:    return LocalString("LESS");
-      case EQUAL:   return LocalString("EQUAL");
-      case GREATER: return LocalString("GREATER");
-      default:      return LocalString("UNKNOWN");
+      case Ordering::LESS:    return String("LESS");
+      case Ordering::EQUAL:   return String("EQUAL");
+      case Ordering::GREATER: return String("GREATER");
     }
   }
 
@@ -65,20 +63,20 @@ public:
 
   static constexpr Ordering Compare(const T& lhs, const T& rhs) noexcept {
     return (lhs < rhs)
-       ? LESS
+       ? Ordering::LESS
        : (lhs > rhs)
-         ? GREATER
-         : EQUAL;
+         ? Ordering::GREATER
+         : Ordering::EQUAL;
   }
 
   static constexpr int Min(const T& lhs, const T& rhs) noexcept {
-    return (Compare(lhs, rhs) == GREATER)
+    return (Compare(lhs, rhs) == Ordering::GREATER)
        ? rhs
        : lhs;
   }
 
   static constexpr int Max(const T& lhs, const T& rhs) noexcept {
-    return (Compare(lhs, rhs) == LESS) ? rhs : lhs;
+    return (Compare(lhs, rhs) == Ordering::LESS) ? rhs : lhs;
   }
 
 };
@@ -102,12 +100,12 @@ constexpr inline T Max(const T& lhs, const T& rhs) noexcept {
 
 template <class T>
 constexpr inline bool operator<(const T& lhs, const T& rhs) noexcept {
-  return Ord<T>::Compare(lhs, rhs) == LESS;
+  return Ord<T>::Compare(lhs, rhs) == Ordering::LESS;
 }
 
 template <class T>
 constexpr inline bool operator>(const T& lhs, const T& rhs) noexcept {
-  return Ord<T>::Compare(lhs, rhs) == GREATER;
+  return Ord<T>::Compare(lhs, rhs) == Ordering::GREATER;
 }
 
 // These are the cases for comparing different types
@@ -129,16 +127,14 @@ constexpr inline T Max(const T& lhs, const U& rhs) noexcept {
 
 template <class T, class U>
 constexpr inline bool operator<(const T& lhs, const U& rhs) noexcept {
-  return Ord<T>::Compare(lhs, rhs) == LESS;
+  return Ord<T>::Compare(lhs, rhs) == Ordering::LESS;
 }
 
 template <class T, class U>
 constexpr inline bool operator>(const T& lhs, const U& rhs) noexcept {
-  return Ord<T>::Compare(lhs, rhs) == GREATER;
+  return Ord<T>::Compare(lhs, rhs) == Ordering::GREATER;
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

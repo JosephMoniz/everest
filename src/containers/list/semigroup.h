@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_LIST_SEMIGROUP_H
-#define TRAITOROUS_CONTAINERS_LIST_SEMIGROUP_H
+#pragma once
 
 #include "traits/lawful/semigroup.h"
 #include "containers/list.h"
@@ -34,5 +33,3 @@ public:
 };
 
 }
-
-#endif

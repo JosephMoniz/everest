@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_EXCEPTIONS_NO_SUCH_ELEMENT_EXCEPTION_H
-#define TRAITOROUS_EXCEPTIONS_NO_SUCH_ELEMENT_EXCEPTION_H
+#pragma once
 
 #include <exception>
 
@@ -14,5 +13,3 @@ class NoSuchElementException: public std::exception {
 };
 
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_META_DEEPEST_ARG_H
-#define TRAITOROUS_META_DEEPEST_ARG_H
+#pragma once
 
 namespace traitorous {
 
@@ -17,5 +16,3 @@ struct deepest_arg<X> {
 };
 
 }
-
-#endif

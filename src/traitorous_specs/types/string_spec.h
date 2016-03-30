@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_STRING_SPEC_H
-#define TRAITOROUS_STRING_SPEC_H
+#pragma once
 
 #include <string>
 
@@ -61,5 +60,3 @@ void StringSpecification() {
 }
 
 }
-
-#endif

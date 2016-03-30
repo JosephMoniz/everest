@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_LIST_ZERO_H
-#define TRAITOROUS_CONTAINERS_LIST_ZERO_H
+#pragma once
 
 #include "traits/unlawful/zero.h"
 #include "containers/list.h"
@@ -22,5 +21,3 @@ public:
 };
 
 }
-
-#endif

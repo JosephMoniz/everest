@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_LIST_CONTAINABLE_H
-#define TRAITOROUS_CONTAINERS_LIST_CONTAINABLE_H
+#pragma once
 
 #include "traits/unlawful/containable.h"
 #include "containers/list.h"
@@ -27,5 +26,3 @@ public:
 };
 
 }
-
-#endif

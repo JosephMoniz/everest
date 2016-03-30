@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_DISJOINABLE
-#define TRAITOROUS_TRAITS_DISJOINABLE 1
 
 namespace traitorous {
 
@@ -27,7 +26,5 @@ constexpr inline T Disjoin(const T& a, const T& b) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

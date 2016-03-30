@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_ZERO
-#define TRAITOROUS_TRAITS_ZERO 1
 
 namespace traitorous {
 
@@ -38,7 +37,5 @@ constexpr T Zero() noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

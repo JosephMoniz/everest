@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_BITAND
-#define TRAITOROUS_TRAITS_BITAND 1
 
 namespace traitorous {
 
@@ -38,7 +37,5 @@ constexpr inline T BinaryAnd(const T& lhs, const T& rhs) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

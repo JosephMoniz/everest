@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TRAITS_MONOID
-#define TRAITOROUS_TRAITS_MONOID 1
+#pragma once
 
 #include "traits/lawful/semigroup.h"
 #include "traits/unlawful/zero.h"
@@ -25,4 +24,3 @@ public:
 
 }
 
-#endif

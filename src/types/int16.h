@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TYPES_INT16
-#define TRAITOROUS_TYPES_INT16 1
+#pragma once
 
 #include <cstdint>
 #include <functional>
@@ -110,12 +109,12 @@ public:
     return 6;
   }
 
-  static const LocalString Show(int16_t number) noexcept {
+  static const String Show(int16_t number) noexcept {
     auto signSpace = number < 0 ? 1 : 0;
     auto size      = NumDigits(number);
     auto offset    = size;
     auto capacity  = size + 1;
-    auto memory    = LocalMemory<char>(capacity);
+    auto memory    = Memory<char>(capacity);
     auto pointer   = memory.MutablePointer();
     auto unsignedN = number & 0x7FFFFFFF;
     for (size_t i = size; i - signSpace; i--) {
@@ -126,11 +125,10 @@ public:
       pointer[0] = '-';
     }
     pointer[capacity - 1] = '\0';
-    return LocalString(std::move(memory), size);
+    return String(std::move(memory), size);
   }
 
 };
 
 }
 
-#endif

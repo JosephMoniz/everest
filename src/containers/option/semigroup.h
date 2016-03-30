@@ -1,13 +1,12 @@
-#ifndef TRAITOROUS_CONTAINERS_OPTION_SEMIGROUP_H
-#define TRAITOROUS_CONTAINERS_OPTION_SEMIGROUP_H
+#pragma once
 
 #include "containers/option.h"
 #include "traits/lawful/semigroup.h"
 
 namespace traitorous {
 
-template<class T>
-using Option = Shared<LocalOption<T>>;
+template <class T>
+class Option;
 
 template <class T>
 class Semigroup<Option<T>> {
@@ -30,6 +29,4 @@ public:
 };
 
 }
-
-#endif
 

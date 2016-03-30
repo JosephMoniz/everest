@@ -3,15 +3,11 @@
 
 #include <cstdint>
 #include <unistd.h>
-
-#include "functions/types.h"
-
-#include "cli/color.h"
-#include "traits/unlawful/show.h"
-#include "process/io.h"
-
-#include "types/string.h"
-#include "types/int32.h"
+#include <functions/types.h>
+#include <cli/color.h>
+#include <process/io.h>
+#include <types/string.h>
+#include <types/size.h>
 
 namespace traitorous {
 
@@ -22,7 +18,7 @@ uint32_t __traitorous_test_pass   = 0;
 uint32_t __traitorous_test_fail   = 0;
 uint32_t __traitorous_test_skip   = 0;
 
-LocalString Assert(bool result) noexcept {
+String Assert(bool result) noexcept {
   __traitorous_test_total++;
   __traitorous_test_ran++;
   if (result) {
@@ -36,19 +32,31 @@ LocalString Assert(bool result) noexcept {
 
 class AssertionException {
 
-  LocalString _message;
+  String _message;
 
 public:
 
-  AssertionException(const LocalString& message) noexcept : _message(message) {}
+  AssertionException(const String& message) noexcept : _message(message) {}
 
-  AssertionException(LocalString&& message) noexcept : _message(std::move(message)) {}
+  AssertionException(String&& message) noexcept : _message(std::move(message)) {}
 
 };
+
+void AssertTrue(const String& error, bool result) {
+  if (!result) {
+    throw AssertionException(error);
+  }
+}
 
 void AssertTrue(bool result) {
   if (!result) {
     throw AssertionException("Should have been true but was false");
+  }
+}
+
+void AssertFalse(const String& error, bool result) {
+  if (result) {
+    throw AssertionException(error);
   }
 }
 
@@ -59,49 +67,75 @@ void AssertFalse(bool result) {
 }
 
 template<class T>
+void AssertEquals(const String& error, const T& lhs, const T& rhs) {
+  if (lhs != rhs) {
+    throw AssertionException(error);
+  }
+}
+
+void AssertEquals(const String& lhs, const String& rhs) {
+  if (lhs != rhs) {
+    throw AssertionException(lhs + String(" doesn't equal ") + rhs);
+  }
+}
+
+template<class T>
 void AssertEquals(const T& lhs, const T& rhs) {
   if (lhs != rhs) {
-    throw AssertionException(Show(lhs) + LocalString(" doesn't equal ") + Show(rhs));
+    throw AssertionException(Show(lhs) + String(" doesn't equal ") + Show(rhs));
+  }
+}
+
+template<class T>
+void AssertNotEquals(const String& error, const T& lhs, const T& rhs) {
+  if (lhs == rhs) {
+    throw AssertionException(error);
+  }
+}
+
+void AssertNotEquals(const String& lhs, const String& rhs) {
+  if (lhs == rhs) {
+    throw AssertionException(lhs + String(" equals ") + rhs);
   }
 }
 
 template<class T>
 void AssertNotEquals(const T& lhs, const T& rhs) {
   if (lhs == rhs) {
-    throw AssertionException(Show(lhs) + LocalString(" equals ") + Show(rhs));
+    throw AssertionException(Show(lhs) + String(" equals ") + Show(rhs));
   }
 }
 
-LocalString SkippedTraitorousTest(const LocalString& str) {
+String SkippedTraitorousTest(const String& str) {
   __traitorous_test_total++;
   __traitorous_test_skip++;
-  return Yellow("?") + LocalString(" ") + str;
+  return Yellow("?") + String(" ") + str;
 }
 
-void PrintForTraitorousTest(const LocalString& str) {
+void PrintForTraitorousTest(const String& str) {
   for (uint32_t i = 0; i < __traitorous_test_indent; i++) {
-    Print(LocalString("  "));
+    Print(String("  "));
   }
   PrintLn(str);
 }
 
-void Describe(const LocalString& str, std::function<void()> description) noexcept {
+void Describe(const String& str, std::function<void()> description) noexcept {
   PrintForTraitorousTest(str);
   __traitorous_test_indent++;
   description();
   __traitorous_test_indent--;
 }
 
-void It(const LocalString& str, Thunk test) noexcept {
+void It(const String& str, Thunk test) noexcept {
   try {
     test();
-    PrintForTraitorousTest(Assert(true) + LocalString(" ") + str);
+    PrintForTraitorousTest(Assert(true) + String(" ") + str);
   } catch (const AssertionException& e) {
-    PrintForTraitorousTest(Assert(false) + LocalString(" ") + str);
+    PrintForTraitorousTest(Assert(false) + String(" ") + str);
   }
 }
 
-void It(const LocalString& str) noexcept {
+void It(const String& str) noexcept {
   PrintForTraitorousTest(SkippedTraitorousTest(str));
 }
 
@@ -119,19 +153,19 @@ int PrintFinalResultsForTraitorousTest() {
   if (__traitorous_test_pass > 0) {
     Print(Green("  ✔ "));
     Print(Show(__traitorous_test_pass));
-    Print(LocalString(" tests passed\n"));
+    Print(String(" tests passed\n"));
   }
 
   if (__traitorous_test_fail > 0) {
     Print(Red("  ✖ "));
     Print(Show(__traitorous_test_fail));
-    Print(LocalString(" tests failed\n"));
+    Print(String(" tests failed\n"));
   }
 
   if(__traitorous_test_skip > 0) {
     Print(Yellow("  ? "));
     Print(Show(__traitorous_test_skip));
-    Print(LocalString(" tests unimplemented\n"));
+    Print(String(" tests unimplemented\n"));
   }
 
   if (__traitorous_test_fail == 0) {

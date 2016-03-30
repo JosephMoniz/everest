@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_SEMIGROUP
-#define TRAITOROUS_TRAITS_SEMIGROUP 1
 
 #include <functional>
 
@@ -90,7 +89,5 @@ constexpr inline R operator+(const T& lhs, const U& rhs) noexcept {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop

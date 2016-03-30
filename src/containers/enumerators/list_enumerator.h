@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_CONTAINERS_ENUMERATORS_LIST_ENUMERATOR_H_H
-#define TRAITOROUS_CONTAINERS_ENUMERATORS_LIST_ENUMERATOR_H_H
+#pragma once
 
 #include <containers/list.h>
 #include <traits/unlawful/enumerator.h>
@@ -38,18 +37,16 @@ public:
 
   static constexpr bool exists = true;
 
-  static const LocalOption<T> Next(const T& enumerator) noexcept {
+  static const Option<T> Next(const T& enumerator) noexcept {
     if (enumerator._next != nullptr) {
       auto result      = enumerator._next;
       enumerator._next = enumerator._next->Next();
-      return LocalOption<T>(result);
+      return Option<T>(result);
     } else {
-      return LocalOption<T>();
+      return Option<T>();
     }
   }
 
 };
 
 }
-
-#endif

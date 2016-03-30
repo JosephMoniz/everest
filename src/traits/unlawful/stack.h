@@ -1,5 +1,4 @@
-#ifndef TRAITOROUS_TRAITS_UNLAWFUL_STACK_H
-#define TRAITOROUS_TRAITS_UNLAWFUL_STACK_H
+#pragma once
 
 namespace traitorous {
 
@@ -45,4 +44,3 @@ constexpr auto Top(const T& stack) noexcept -> decltype(Stack<T>::Pop(stack)) {
 
 }
 
-#endif

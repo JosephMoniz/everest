@@ -1,7 +1,6 @@
+#pragma once
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
-#ifndef TRAITOROUS_TRAITS_CONTAINABLE
-#define TRAITOROUS_TRAITS_CONTAINABLE 1
 
 #include "containers/option.h"
 
@@ -28,7 +27,5 @@ inline bool Contains(const T& n, const F& f) {
 }
 
 }
-
-#endif
 
 #pragma clang diagnostic pop
