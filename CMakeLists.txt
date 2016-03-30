@@ -135,7 +135,9 @@ set(SOURCE_FILES
         src/containers/memory.h
         src/types/size.h
         src/containers/mutable/mutable_map.h
-        src/containers/mutable/mutable_vector.h)
+        src/containers/mutable/mutable_vector.h
+        src/containers/list.h
+        src/traitorous_specs/containers/list_spec.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}
