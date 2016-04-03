@@ -29,12 +29,12 @@ Memory Management
 Function Types
 --------------
 
-  + Function<T, R>
-  + BiFunction<T, U, R>
-  + Predicate<T>
-  + Supplier<R>
-  + Consumer<T>
-  + Thunk
+  + [Function<T, R>](https://github.com/JosephMoniz/everest/blob/master/src/everest/functions/types.h)
+  + [BiFunction<T, U, R>](https://github.com/JosephMoniz/everest/blob/master/src/everest/functions/types.h)
+  + [Predicate<T>](https://github.com/JosephMoniz/everest/blob/master/src/everest/functions/types.h)
+  + [Supplier<R>](https://github.com/JosephMoniz/everest/blob/master/src/everest/functions/types.h)
+  + [Consumer<T>](https://github.com/JosephMoniz/everest/blob/master/src/everest/functions/types.h)
+  + [Thunk](https://github.com/JosephMoniz/everest/blob/master/src/everest/functions/types.h)
   
 Containers
 ----------
