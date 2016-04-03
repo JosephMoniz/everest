@@ -2,7 +2,7 @@
 
 #include <everest/traits/lawful/foldable.h>
 #include <everest/containers/array.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

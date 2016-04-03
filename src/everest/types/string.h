@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <utility>
 
-#include <everest/containers/mutable/mutable_memory.h>
+#include <everest/memory/mutable_memory.h>
 #include <everest/traits/unlawful/one.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/eq.h>

@@ -2,7 +2,7 @@
 
 #include <everest/traits/unlawful/container.h>
 #include <everest/containers/list.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

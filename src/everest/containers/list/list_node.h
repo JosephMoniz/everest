@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

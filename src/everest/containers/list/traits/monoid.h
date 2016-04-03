@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 #include <everest/traits/lawful/monoid.h>
 #include <everest/containers/list.h>
 

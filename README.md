@@ -24,7 +24,9 @@ Currently, this is still a heavy work in progress. Expect much to change.
 Memory Management
 -----------------
 
-  + [`Shared<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/shared.h)
+  + [`Memory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/mutable_memory.h)
+  + [`MutableMemory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/mutable_memory.h)
+  + [`Shared<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/shared.h)
   
 Function Types
 --------------
@@ -41,9 +43,10 @@ Containers
 
 ### Immutable Containers
 
+  + [`Array<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/array.h)
   + [`Checked<E, S>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/checked.h)
-  + [`Option<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/option.h)
   + [`List<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/list.h)
+  + [`Option<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/option.h)
 
 ### Immutable CRDTs
 
@@ -58,7 +61,6 @@ Containers
 ### Mutable Containers
 
   + [`MutableArray<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_array.h)
-  + [`MutableMemory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_memory.h)
   + [`MutableVector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_vector.h)
   + [`MutableMap<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_map.h)
 

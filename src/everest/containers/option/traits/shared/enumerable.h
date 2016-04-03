@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/containers/option.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 #include <everest/containers/enumerators/option_enumerator.h>
 #include <everest/traits/unlawful/enumerable.h>
 

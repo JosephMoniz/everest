@@ -3,7 +3,7 @@
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/ord.h>
 #include <everest/containers/list.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

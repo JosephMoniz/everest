@@ -64,7 +64,7 @@ set(SOURCE_FILES
         src/everest/containers/option/traits/monad_plus.h
         src/everest/containers/option/traits/unwrappable.h
         src/everest/containers/option/traits/shows.h
-        src/everest/containers/shared.h
+        src/everest/memory/shared.h
         src/everest/containers/option.h
         src/everest/containers/option/traits/shared/containable.h
         src/everest/containers/option/traits/shared/container.h
@@ -159,7 +159,7 @@ set(SOURCE_FILES
         src/everest/concurrency/conveyor.h
         src/everest/concurrency/box.h
         src/everest/specs/concurrency/box_spec.h
-        src/everest/containers/mutable/mutable_memory.h
+        src/everest/memory/mutable_memory.h
         src/everest/types/size.h
         src/everest/containers/mutable/mutable_map.h
         src/everest/containers/mutable/mutable_vector.h
@@ -214,8 +214,8 @@ set(SOURCE_FILES
         src/everest/containers/monoids/min/traits/zero.h
         src/everest/containers/monoids/min/traits/semigroup.h
         src/everest/containers/monoids/min/traits/monoid.h
-        src/everest/containers/memory.h
-        src/everest/containers/array.h src/everest/containers/vector.h src/everest/containers/shared/shared_container.h)
+        src/everest/memory/memory.h
+        src/everest/containers/array.h src/everest/containers/vector.h src/everest/memory/shared/shared_container.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}

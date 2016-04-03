@@ -1,7 +1,7 @@
 #pragma once
 
 #include <initializer_list>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

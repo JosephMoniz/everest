@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 #include <everest/containers/list.h>
 
 namespace everest {

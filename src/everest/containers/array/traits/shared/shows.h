@@ -3,7 +3,7 @@
 #include <everest/containers/array.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/takeable.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 #include <everest/types/string.h>
 
 namespace everest {

@@ -2,7 +2,7 @@
 
 #include <everest/containers/array.h>
 #include <everest/traits/lawful/functor.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

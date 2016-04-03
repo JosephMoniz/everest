@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/functions/types.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 

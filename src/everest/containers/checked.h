@@ -3,7 +3,7 @@
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
 #include <everest/meta/max.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 #include <everest/containers/checked/checked_type.h>
 
 namespace everest {

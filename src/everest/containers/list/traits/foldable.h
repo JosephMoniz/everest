@@ -4,7 +4,7 @@
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/containers/list.h>
-#include <everest/containers/shared.h>
+#include <everest/memory/shared.h>
 
 namespace everest {
 
