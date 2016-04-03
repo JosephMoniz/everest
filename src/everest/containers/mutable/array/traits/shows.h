@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/mutable/mutable_array.h>
+#include <everest/containers/array.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/takeable.h>
 #include <everest/traits/lawful/semigroup.h>
@@ -18,9 +18,10 @@ public:
   static constexpr bool exists = true;
 
   static const String Show(const MutableArray<T, S>& array) noexcept {
-    auto out = String("MutableArray(");
+    auto out     = String("MutableArray(");
+    auto pointer = array.Pointer();
     for (size_t i = 0; i < S; i ++) {
-      out = out + Shows<T>::Show(array.Pointer()[i]) + String(", ");
+      out = out + Shows<T>::Show(pointer[i]) + String(", ");
     }
     return Take(out, out.Length() - 2) + String(")");
   }

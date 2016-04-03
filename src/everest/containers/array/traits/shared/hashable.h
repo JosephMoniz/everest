@@ -7,16 +7,16 @@
 namespace everest {
 
 template<class T, size_t S>
-using SharedMutableArray = Shared<MutableArray<T, S>>;
+using SharedArray = Shared<Array<T, S>>;
 
 template <class T, size_t S>
-class Hashable<SharedMutableArray<T, S>> {
+class Hashable<SharedArray<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const SharedMutableArray<T, S>& array) noexcept {
-    Hashable<MutableArray<T, S>>::Hash(*array.Pointer());
+  static int Hash(const SharedArray<T, S>& array) noexcept {
+    Hashable<Array<T, S>>::Hash(*array.Pointer());
   }
 
 };

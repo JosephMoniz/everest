@@ -6,16 +6,16 @@
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template<class T, size_t S>
-class Ord<MutableArray<T, S>> {
+class Ord<Array<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
-  static Ordering Compare(const MutableArray<T, S> &lhs,
-                          const MutableArray<T, S> &rhs) noexcept
+  static Ordering Compare(const Array<T, S> &lhs,
+                          const Array<T, S> &rhs) noexcept
   {
     auto lhsPointer = lhs.Pointer();
     auto rhsPointer = rhs.Pointer();
@@ -30,24 +30,24 @@ public:
   }
 
   template<size_t Rs>
-  static constexpr Ordering Compare(const MutableArray<T, S> &lhs,
-                                    const MutableArray<T, Rs> &rhs) noexcept
+  static constexpr Ordering Compare(const Array<T, S> &lhs,
+                                    const Array<T, Rs> &rhs) noexcept
   {
     return (S > Rs)
        ? Ordering::GREATER
        : Ordering::LESS;
   }
 
-  static constexpr const MutableArray<T, S>& Min(const MutableArray<T, S> &lhs,
-                                                 const MutableArray<T, S> &rhs) noexcept
+  static constexpr const Array<T, S>& Min(const Array<T, S> &lhs,
+                                          const Array<T, S> &rhs) noexcept
   {
     return (Compare(lhs, rhs) == Ordering::GREATER)
        ? rhs
        : lhs;
   }
 
-  static constexpr const MutableArray<T, S>& Max(const MutableArray<T, S> &lhs,
-                                                 const MutableArray<T, S> &rhs) noexcept
+  static constexpr const Array<T, S>& Max(const Array<T, S> &lhs,
+                                          const Array<T, S> &rhs) noexcept
   {
     return (Compare(lhs, rhs) == Ordering::LESS)
        ? rhs

@@ -86,8 +86,9 @@ set(SOURCE_FILES
         src/everest/containers/mutable/mutable_array.h
         src/everest/specs/containers/checked_spec.h
         src/everest/specs/containers/shared_checked_spec.h
-        src/everest/specs/containers/shared_array_spec.h
-        src/everest/specs/containers/array_spec.h
+        src/everest/specs/containers/mutable/mutable_shared_array_spec.h
+        src/everest/specs/containers/mutable/mutable_array_spec.h
+        src/everest/containers/mutable/mutable_array.h
         src/everest/containers/mutable/array/traits/shows.h
         src/everest/containers/mutable/array/traits/eq.h
         src/everest/containers/mutable/array/traits/ord.h
@@ -108,6 +109,31 @@ set(SOURCE_FILES
         src/everest/containers/mutable/array/traits/shared/zero.h
         src/everest/containers/mutable/array/traits/shared/monoid.h
         src/everest/containers/mutable/array/traits/shared/hashable.h
+        src/everest/containers/array.h
+        src/everest/specs/containers/shared_array_spec.h
+        src/everest/specs/containers/array_spec.h
+        src/everest/containers/array/traits/shows.h
+        src/everest/containers/array/traits/eq.h
+        src/everest/containers/array/traits/ord.h
+        src/everest/containers/array/traits/functor.h
+        src/everest/containers/array/traits/foldable.h
+        src/everest/containers/array/traits/containable.h
+        src/everest/containers/array/traits/container.h
+        src/everest/containers/array/traits/semigroup.h
+        src/everest/containers/array/traits/zero.h
+        src/everest/containers/array/traits/monoid.h
+        src/everest/containers/array/traits/hashable.h
+        src/everest/containers/array/traits/shared/shows.h
+        src/everest/containers/array/traits/shared/eq.h
+        src/everest/containers/array/traits/shared/ord.h
+        src/everest/containers/array/traits/shared/functor.h
+        src/everest/containers/array/traits/shared/foldable.h
+        src/everest/containers/array/traits/shared/containable.h
+        src/everest/containers/array/traits/shared/container.h
+        src/everest/containers/array/traits/shared/semigroup.h
+        src/everest/containers/array/traits/shared/zero.h
+        src/everest/containers/array/traits/shared/monoid.h
+        src/everest/containers/array/traits/shared/hashable.h
         src/everest/containers/enumerators/option_enumerator.h
         src/everest/containers/enumerators/array_enumerator.h
         src/everest/containers/enumerators/list_enumerator.h
@@ -143,7 +169,53 @@ set(SOURCE_FILES
         src/everest/containers/crdt/counters/gcounter.h
         src/everest/containers/crdt/counters/pncounter.h
         src/everest/containers/monoids/max_monoid.h
-        src/everest/containers/monoids/min_monoid.h src/everest/specs/types/uint64_spec.h src/everest/containers/option/option_type.h src/everest/containers/list/list_node.h src/everest/containers/checked/checked_type.h src/everest/containers/checked/traits/shows.h src/everest/containers/checked/traits/eq.h src/everest/containers/checked/traits/ord.h src/everest/containers/checked/traits/containable.h src/everest/containers/checked/traits/container.h src/everest/containers/checked/traits/functor.h src/everest/containers/checked/traits/alternative.h src/everest/containers/checked/traits/monad.h src/everest/containers/checked/traits/semigroup.h src/everest/containers/checked/traits/zero.h src/everest/containers/checked/traits/monoid.h src/everest/containers/checked/traits/hashable.h src/everest/containers/checked/traits/foldable.h src/everest/containers/checked/traits/unwrappable.h src/everest/containers/checked/traits/shared/shows.h src/everest/containers/checked/traits/shared/ord.h src/everest/containers/checked/traits/shared/eq.h src/everest/containers/checked/traits/shared/containable.h src/everest/containers/checked/traits/shared/container.h src/everest/containers/checked/traits/shared/functor.h src/everest/containers/checked/traits/shared/alternative.h src/everest/containers/checked/traits/shared/monad.h src/everest/containers/checked/traits/shared/semigroup.h src/everest/containers/checked/traits/shared/zero.h src/everest/containers/checked/traits/shared/monoid.h src/everest/containers/checked/traits/shared/hashable.h src/everest/containers/checked/traits/shared/foldable.h src/everest/containers/checked/traits/shared/unwrappable.h src/everest/containers/monoids/max/traits/shows.h src/everest/containers/monoids/max/traits/eq.h src/everest/containers/monoids/max/traits/ord.h src/everest/containers/monoids/max/traits/zero.h src/everest/containers/monoids/max/traits/semigroup.h src/everest/containers/monoids/max/traits/monoid.h src/everest/containers/monoids/min/traits/shows.h src/everest/containers/monoids/min/traits/eq.h src/everest/containers/monoids/min/traits/ord.h src/everest/containers/monoids/min/traits/zero.h src/everest/containers/monoids/min/traits/semigroup.h src/everest/containers/monoids/min/traits/monoid.h)
+        src/everest/containers/monoids/min_monoid.h
+        src/everest/specs/types/uint64_spec.h
+        src/everest/containers/option/option_type.h
+        src/everest/containers/list/list_node.h
+        src/everest/containers/checked/checked_type.h
+        src/everest/containers/checked/traits/shows.h
+        src/everest/containers/checked/traits/eq.h
+        src/everest/containers/checked/traits/ord.h
+        src/everest/containers/checked/traits/containable.h
+        src/everest/containers/checked/traits/container.h
+        src/everest/containers/checked/traits/functor.h
+        src/everest/containers/checked/traits/alternative.h
+        src/everest/containers/checked/traits/monad.h
+        src/everest/containers/checked/traits/semigroup.h
+        src/everest/containers/checked/traits/zero.h
+        src/everest/containers/checked/traits/monoid.h
+        src/everest/containers/checked/traits/hashable.h
+        src/everest/containers/checked/traits/foldable.h
+        src/everest/containers/checked/traits/unwrappable.h
+        src/everest/containers/checked/traits/shared/shows.h
+        src/everest/containers/checked/traits/shared/ord.h
+        src/everest/containers/checked/traits/shared/eq.h
+        src/everest/containers/checked/traits/shared/containable.h
+        src/everest/containers/checked/traits/shared/container.h
+        src/everest/containers/checked/traits/shared/functor.h
+        src/everest/containers/checked/traits/shared/alternative.h
+        src/everest/containers/checked/traits/shared/monad.h
+        src/everest/containers/checked/traits/shared/semigroup.h
+        src/everest/containers/checked/traits/shared/zero.h
+        src/everest/containers/checked/traits/shared/monoid.h
+        src/everest/containers/checked/traits/shared/hashable.h
+        src/everest/containers/checked/traits/shared/foldable.h
+        src/everest/containers/checked/traits/shared/unwrappable.h
+        src/everest/containers/monoids/max/traits/shows.h
+        src/everest/containers/monoids/max/traits/eq.h
+        src/everest/containers/monoids/max/traits/ord.h
+        src/everest/containers/monoids/max/traits/zero.h
+        src/everest/containers/monoids/max/traits/semigroup.h
+        src/everest/containers/monoids/max/traits/monoid.h
+        src/everest/containers/monoids/min/traits/shows.h
+        src/everest/containers/monoids/min/traits/eq.h
+        src/everest/containers/monoids/min/traits/ord.h
+        src/everest/containers/monoids/min/traits/zero.h
+        src/everest/containers/monoids/min/traits/semigroup.h
+        src/everest/containers/monoids/min/traits/monoid.h
+        src/everest/containers/memory.h
+        src/everest/containers/array.h src/everest/containers/vector.h src/everest/containers/shared/shared_container.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}

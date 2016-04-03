@@ -6,17 +6,17 @@
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template<class T, size_t S>
-class Functor<MutableArray<T, S>> {
+class Functor<Array<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  static SharedMutableArray <B, S> Map(F f, const MutableArray<T, S>& array) noexcept {
-    auto newArray = MakeSharedMutableArray<B, S>();
+  static SharedArray <B, S> Map(F f, const Array<T, S>& array) noexcept {
+    auto newArray = MakeSharedArray<B, S>();
     auto pointer  = array.Pointer();
     for (size_t i = 0; i < S; i++) {
       newArray->_array[i] = f(pointer[i]);

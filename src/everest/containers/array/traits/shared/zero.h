@@ -7,16 +7,16 @@
 namespace everest {
 
 template<class T, size_t S>
-using SharedMutableArray = Shared<MutableArray<T, S>>;
+using SharedArray = Shared<Array<T, S>>;
 
 template<class T, size_t S>
-class ZeroVal<SharedMutableArray<T, S>> {
+class ZeroVal<SharedArray<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr SharedMutableArray<T, S> Zero() noexcept {
-    return MakeSharedMutableArray<T, S>({});
+  static constexpr SharedArray<T, S> Zero() noexcept {
+    return MakeSharedArray<T, S>({});
   }
 
 };

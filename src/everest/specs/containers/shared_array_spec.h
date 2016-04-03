@@ -2,10 +2,12 @@
 
 #include <everest/test/bdd.h>
 #include <everest/containers/mutable/mutable_array.h>
+#include <everest/traits/unlawful/multiply.h>
+#include <everest/functions/identity.h>
 
 namespace everest {
 
-void SharedMutableArraySpecification() {
+void SharedArraySpecification() {
   Describe("An SharedArray type", []() {
     It("Should render the correct string when called with Shows()", []{
       auto expected = String("SharedArray(1, 2, 3)");

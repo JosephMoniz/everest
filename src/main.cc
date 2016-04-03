@@ -9,13 +9,15 @@
 #include <everest/specs/types/string_spec.h>
 #include <everest/specs/containers/option_spec.h>
 #include <everest/specs/containers/shared_option_spec.h>
-#include <everest/specs/containers/array_spec.h>
-#include <everest/specs/containers/shared_array_spec.h>
 #include <everest/specs/containers/list_spec.h>
 #include <everest/specs/containers/checked_spec.h>
 #include <everest/specs/containers/shared_checked_spec.h>
 #include <everest/specs/concurrency/box_spec.h>
 #include <everest/specs/types/uint64_spec.h>
+#include <everest/specs/containers/mutable/mutable_array_spec.h>
+#include <everest/specs/containers/mutable/mutable_shared_array_spec.h>
+#include <everest/specs/containers/array_spec.h>
+#include <everest/specs/containers/shared_array_spec.h>
 
 using namespace everest;
 
@@ -33,12 +35,17 @@ int main(int argc, char **argv) {
   Uint64Specification();
   StringSpecification();
 
-  // Container specifications
+  // Mutable container specifications
   //
-  OptionSpecification();
-  SharedOptionSpecification();
   MutableArraySpecification();
   SharedMutableArraySpecification();
+
+  // Immutable container specifications
+  //
+  ArraySpecification();
+  SharedArraySpecification();
+  OptionSpecification();
+  SharedOptionSpecification();
   ListSpecification();
   CheckedSpecification();
   SharedCheckSpecification();

@@ -1,96 +1,70 @@
 #pragma once
 
-#include <stddef.h>
 #include <utility>
+#include <everest/containers/shared/shared_container.h>
 
 namespace everest {
 
 template<class T>
 class Shared final {
 
-  size_t* _count;
-
-  T* _pointer;
+  SharedContainer<T>* _container;
 
 public:
 
-  Shared(T* external) : _pointer(external) {
-    if (_pointer != nullptr) {
-      _count = new size_t;
-      *_count = 1;
-    } else {
-      _count = nullptr;
+  Shared(SharedContainer<T>* container) noexcept : _container(container) { }
+
+  Shared(const Shared<T>& other) noexcept : _container(other._container) {
+    if (_container != nullptr) {
+      _container->Ref();
     }
   }
 
-  Shared(T* external, size_t* count) : _pointer(external), _count(count) {
-    if (_count != nullptr) {
-      (*_count)++;
-    }
+  Shared(Shared<T>&& other) noexcept : _container(std::move(other._container)) {
+    other._container = nullptr;
   }
 
-  Shared(const Shared<T>& other) : _count(other._count), _pointer(other._pointer) {
-    if (_count != nullptr) {
-      (*_count)++;
-    }
-  }
-
-  Shared(Shared<T>&& other) : _count(std::move(other._count)), _pointer(std::move(other._pointer)) {
-    other._count   = nullptr;
-    other._pointer = nullptr;
-  }
-
-  Shared& operator=(const Shared<T>& other) {
-    _count   = other._count;
-    _pointer = other._pointer;
-    if (_count != nullptr) {
-      (*_count)++;
+  Shared& operator=(const Shared<T>& other) noexcept {
+    _container = other._container;
+    if (_container != nullptr) {
+      _container->Ref();
     }
     return *this;
   }
 
-  Shared& operator=(Shared<T>&& other) {
-    _count         = other._count;
-    _pointer       = other._pointer;
-    other._count   = nullptr;
-    other._pointer = nullptr;
+  Shared& operator=(Shared<T>&& other) noexcept {
+    _container       = other._container;
+    other._container = nullptr;
     return *this;
   }
 
-  ~Shared() {
-    if (_count != nullptr && --(*_count) == 0) {
-      delete _pointer;
-      delete _count;
+  ~Shared() noexcept {
+    if (_container != nullptr && _container->UnRef() == 0) {
+      delete _container;
     }
   }
 
   T* operator->() const noexcept {
-    return _pointer;
+    return _container != nullptr
+      ? _container->Data()
+      : nullptr;
   }
 
   T& operator*() const noexcept {
-    return *_pointer;
+    return *_container->Data();
   }
 
   T* Pointer() const noexcept {
-    return _pointer;
-  }
-
-  size_t* Counter() const noexcept {
-    return _count;
+    return _container != nullptr
+      ? _container->Data()
+      : nullptr;
   }
 
 };
 
 template<class T, class ...As>
-Shared<T> MakeShared(As&&... args) {
-  return Shared<T>(new T(std::forward<As>(args)...));
+Shared<T> MakeShared(const As&... args) {
+  return Shared<T>(new SharedContainer<T>(args...));
 }
-
-template<class T, class U>
-Shared<U> DynamicSharedCast(const Shared<T>& shared) {
-  U* internal = dynamic_cast<U*>(shared.Pointer());
-  return Shared<U>(internal, shared.Counter());
-};
 
 }

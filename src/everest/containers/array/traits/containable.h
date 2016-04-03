@@ -1,26 +1,27 @@
 #pragma once
 
 #include <everest/containers/array.h>
-#include <everest/traits/unlawful/hashable.h>
+#include <everest/traits/unlawful/containable.h>
 
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template <class T, size_t S>
-class Hashable<MutableArray<T, S>> {
+class Containable<Array<T, S>, T> {
 public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const MutableArray<T, S>& array) noexcept {
-    int result   = 37;
+  static bool Contains(const T& n, const Array<T, S>& array) noexcept {
     auto pointer = array.Pointer();
     for (size_t i = 0; i < S; i++) {
-      result = 37 * result + Hash(pointer[i]);
+      if (pointer[i] == n) {
+        return true;
+      }
     }
-    return result;
+    return false;
   }
 
 };

@@ -45,15 +45,15 @@ public:
 };
 
 template<class T, size_t S>
-using SharedArray = Shared<MutableArray<T, S>>;
+using SharedMutableArray = Shared<MutableArray<T, S>>;
 
 template<class T, size_t S>
-SharedArray<T, S> MakeSharedArray(std::initializer_list<T> list) {
+SharedMutableArray<T, S> MakeSharedMutableArray(std::initializer_list<T> list) {
   return MakeShared<MutableArray<T, S>>(list);
 }
 
 template<class T, size_t S>
-SharedArray<T, S> MakeSharedArray() {
+SharedMutableArray<T, S> MakeSharedMutableArray() {
   return MakeShared<MutableArray<T, S>>();
 }
 

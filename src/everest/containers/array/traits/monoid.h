@@ -6,10 +6,10 @@
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template<class T, size_t S>
-class Monoid<MutableArray<T, S>> {
+class Monoid<Array<T, S>> {
 public:
   static constexpr bool exists = true;
 };

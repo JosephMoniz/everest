@@ -6,22 +6,22 @@
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template <class T, size_t S>
-class Semigroup<MutableArray<T, S>> {
+class Semigroup<Array<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
   template <size_t Rs, size_t Ns = S + Rs>
-  static constexpr SharedMutableArray<T, S + Rs> Add(const MutableArray<T, S>& lhs,
-                                                     const MutableArray<T, Rs>& rhs) noexcept
+  static constexpr SharedArray<T, S + Rs> Add(const Array<T, S>& lhs,
+                                              const Array<T, Rs>& rhs) noexcept
   {
-    auto newArray   = MakeSharedMutableArray<T, Ns>();
+    auto newArray   = MakeSharedArray<T, Ns>();
     auto lhsPointer = lhs.Pointer();
     auto rhsPointer = rhs.Pointer();
-    auto newPointer = newArray->MutablePointer();
+    auto newPointer = newArray->MutablePointerAnnoyingHack();
     for (size_t i = 0; i < S; i++) {
       newPointer[i] = lhsPointer[i];
     }

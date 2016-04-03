@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/mutable/mutable_array.h>
+#include <everest/containers/array.h>
 #include <everest/traits/unlawful/containable.h>
 
 namespace everest {
@@ -15,8 +15,9 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const MutableArray<T, S>& array) noexcept {
+    auto pointer = array.Pointer();
     for (size_t i = 0; i < S; i++) {
-      if (array.Pointer()[i] == n) {
+      if (pointer[i] == n) {
         return true;
       }
     }

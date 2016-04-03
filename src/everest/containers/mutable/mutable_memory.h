@@ -6,7 +6,12 @@
 namespace everest {
 
 template<class T>
+class Memory;
+
+template<class T>
 class MutableMemory final {
+
+  friend class Memory<T>;
 
   T*_pointer;
 
@@ -36,7 +41,9 @@ public:
     copyInit(pointer, length);
   }
 
-  MutableMemory(const MutableMemory<T>& other) noexcept : MutableMemory(other._pointer, other._length) { }
+  MutableMemory(const MutableMemory<T>& other) noexcept {
+    copyInit(other._pointer, other._length);
+  }
 
   MutableMemory(MutableMemory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
                                                      _length(std::move(other._length))
@@ -85,10 +92,10 @@ public:
 };
 
 template<class T>
-using SharedMemory = Shared<MutableMemory<T>>;
+using SharedMutableMemory = Shared<MutableMemory<T>>;
 
 template<class T>
-SharedMemory<T> MakeSharedMemory(const T *pointer, size_t length) {
+SharedMutableMemory<T> MakeSharedMutableMemory(const T* pointer, size_t length) {
   return MakeShared<MutableMemory<T>>(pointer, length);
 }
 

@@ -7,16 +7,16 @@
 namespace everest {
 
 template<class T, size_t S>
-using SharedMutableArray = Shared<MutableArray<T, S>>;
+using SharedArray = Shared<Array<T, S>>;
 
 template <class T, size_t S>
-class Containable<SharedMutableArray<T, S>, T> {
+class Containable<SharedArray<T, S>, T> {
 public:
 
   static constexpr bool exists = true;
 
-  static bool Contains(const T& n, const SharedMutableArray<T, S>& array) noexcept {
-    return Containable<MutableArray<T, S>, T>::Contains(n, *array.Pointer());
+  static bool Contains(const T& n, const SharedArray<T, S>& array) noexcept {
+    return Containable<Array<T, S>, T>::Contains(n, *array.Pointer());
   }
 
 };

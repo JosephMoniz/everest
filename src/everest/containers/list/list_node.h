@@ -34,23 +34,20 @@ class LocalListNode final {
 
 public:
 
-  LocalListNode(const T& item) noexcept : _item(item), _next(nullptr) {
-    //
-  }
+  LocalListNode(const T& item) noexcept : _item(item),
+                                          _next(nullptr) { }
 
-  LocalListNode(const T& item, const ListNode <T>& next) noexcept : _item(item), _next(next) {
-    //
-  }
+  LocalListNode(const T& item, const ListNode <T>& next) noexcept : _item(item),
+                                                                    _next(next) { }
 
-  LocalListNode(const LocalListNode<T>& other) : _item(other.Item()), _next(other._next) {
-    //
-  }
+  LocalListNode(const LocalListNode<T>& other) : _item(other.Item()),
+                                                 _next(other._next) { }
 
   const T& Item() const noexcept {
     return _item;
   }
 
-  const ListNode <T> Next() const noexcept {
+  const ListNode<T> Next() const noexcept {
     return _next;
   }
 

@@ -6,15 +6,15 @@
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template <class T, size_t S>
-class Hashable<MutableArray<T, S>> {
+class Hashable<Array<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const MutableArray<T, S>& array) noexcept {
+  static int Hash(const Array<T, S>& array) noexcept {
     int result   = 37;
     auto pointer = array.Pointer();
     for (size_t i = 0; i < S; i++) {

@@ -6,16 +6,16 @@
 namespace everest {
 
 template <class T, size_t S>
-class MutableArray;
+class Array;
 
 template<class T, size_t S>
-class ZeroVal<MutableArray<T, S>> {
+class ZeroVal<Array<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr MutableArray<T, S> Zero() noexcept {
-    return MutableArray<T, S>({});
+  static constexpr Array<T, S> Zero() noexcept {
+    return Array<T, S>({});
   }
 
 };
