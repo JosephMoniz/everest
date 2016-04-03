@@ -15,9 +15,9 @@ class LocalList final {
 
 public:
 
-  LocalList(const size_t& length, const ListNode<T>& head) noexcept : _length(length), _head(head) {
-    //
-  }
+  LocalList(const size_t& length,
+            const ListNode<T>& head) noexcept : _length(length),
+                                                _head(head) { }
 
   constexpr size_t Length() const noexcept {
     return _length;

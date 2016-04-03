@@ -24,7 +24,7 @@ Currently, this is still a heavy work in progress. Expect much to change.
 Memory Management
 -----------------
 
-  + Shared<T>
+  + [`Shared<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/shared.h)
   
 Function Types
 --------------
@@ -41,80 +41,80 @@ Containers
 
 ### Immutable Containers
 
-  + Checked<E, S>
-  + Option<T>
-  + List<T>
+  + [`Checked<E, S>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/checked.h)
+  + [`Option<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/option.h)
+  + [`List<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/list.h)
 
 ### Immutable CRDTs
 
-  + GCounter<T>
-  + PNCounter<T>
+  + [`GCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/gcounter.h)
+  + [`PNCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/pncounter.h)
   
 ### Immutable Monoids
 
-  + MaxMonoid<T>
-  + MinMonoid<T>
+  + [`MaxMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/max_monoid.h)
+  + [`MinMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/min_monoid.h)
   
 ### Mutable Containers
 
-  + MutableArray<T>
-  + MutableMemory<T>
-  + MutableVector<T>
-  + MutableMap<K, V>
+  + [`MutableArray<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_array.h)
+  + [`MutableMemory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_memory.h)
+  + [`MutableVector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_vector.h)
+  + [`MutableMap<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_map.h)
 
 Concurrency
 -----------
 
 ### FRP Concurrency Primitives
 
-  + Box<E, S>
-  + Conveyor<E, S>
+  + [`Box<E, S>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/concurrency/box.h)
+  + [`Conveyor<E, S>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/concurrency/conveyor.h)
 
 Traits
 ------
 
 ### Lawful Traits
 
-  + Semigroup<T>
-  + Monoid<T>
-  + Functor<T>
-  + Alternative<T>
-  + Monad<T>
-  + Foldable<T>
-  + MonadPlus<T>
+  + [`Semigroup<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/semigroup.h)
+  + [`Monoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/monoid.h)
+  + [`Functor<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/functor.h)
+  + [`Alternative<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/alternative.h)
+  + [`Monad<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/monad.h)
+  + [`Foldable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/foldable.h)
+  + [`MonadPlus<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/lawful/monad_plus.h)
 
 ### Unlawful Traits
 
-  + BitAnd<T>
-  + BitOr<T>
-  + BitXor<T>
-  + Bounded<T>
-  + Containable<T>
-  + Container<T>
-  + Disjoinable<T>
-  + Divide<T>
-  + Droppable<T>
-  + Enumerable<T>
-  + Enumerator<T>
-  + Eq<T>
-  + Filterable<T>
-  + Hashable<T>
-  + Hexable<T>
-  + Intersectable<T>
-  + Multiply<T>
-  + Negate<T>
-  + One<T>
-  + Ord<T>
-  + Queue<T>
-  + Remainder<T>
-  + ShiftLeft<T>
-  + ShiftRight<T>
-  + Show<T>
-  + Stack<T>
-  + Subtract<T>
-  + Takeable<T>
-  + Unwrappable<T>
-  + Zero<T>
+  + [`BitAnd<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/bit_and.h)
+  + [`BitOr<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/bit_or.h)
+  + [`BitXor<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/bit_xor.h)
+  + [`Bounded<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/bounded.h)
+  + [`Containable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/containable.h)
+  + [`Container<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/container.h)
+  + [`Disjoinable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/disjoinable.h)
+  + [`Divide<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/divide.h)
+  + [`Droppable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/droppable.h)
+  + [`Enumerable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/enumerable.h)
+  + [`Enumerator<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/enumerator.h)
+  + [`Eq<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/eq.h)
+  + [`Filterable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/filterable.h)
+  + [`Hashable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/hashable.h)
+  + [`Hexable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/hexable.h)
+  + [`Intersectable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/intersectable.h)
+  + [`Multiply<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/multiply.h)
+  + [`Negate<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/negate.h)
+  + [`One<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/one.h)
+  + [`Ord<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/ord.h)
+  + [`Queue<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/queue.h)
+  + [`Remainder<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/remainder.h)
+  + [`ShiftLeft<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/shift_left.h)
+  + [`ShiftRight<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/shift_right.h)
+  + [`Show<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/show.h)
+  + [`Stack<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/stack.h)
+  + [`Subtract<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/subtract.h)
+  + [`Takeable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/takeable.h)
+  + [`Unwrappable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/unwrappable.h)
+  + [`Zero<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/zero.h)
   
 Todo
 ----
