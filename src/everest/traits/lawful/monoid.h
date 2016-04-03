@@ -4,7 +4,7 @@
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/lawful/semigroup.h>
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class Monoid : public ZeroVal<T>, public Semigroup<T> {

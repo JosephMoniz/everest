@@ -4,7 +4,7 @@
 #include <everest/test/bdd.h>
 #include <everest/types/int8.h>
 
-namespace traitorous {
+namespace everest {
 
 void Int8Specification() {
   int8_t zero_n    = 0;
@@ -82,6 +82,18 @@ void Int8Specification() {
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
+    });
+    It("should serialize to the correct value when called with Show()", [=]() {
+      auto expected = String("-42");
+      auto result   = Show((int8_t) -fortytwo);
+      auto failure  = "Show(-42) did not return '-42'";
+      AssertEquals(failure, expected, result);
+    });
+    It("should convert to the correct hex value when called with ToHex()", [=]() {
+      auto expected = String("2a");
+      auto result   = ToHex(fortytwo);
+      auto failure  = "ToHex(42) did not return '2a'";
+      AssertEquals(failure, expected, result);
     });
   });
 }

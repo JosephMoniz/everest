@@ -1,10 +1,9 @@
 #pragma once
 
-#include <algorithm>
-#include <everest/containers/shared.h>
 #include <stddef.h>
+#include <everest/containers/shared.h>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 class Memory final {

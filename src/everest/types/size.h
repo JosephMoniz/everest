@@ -2,10 +2,11 @@
 
 #include <stddef.h>
 #include <everest/traits/unlawful/show.h>
+#include <everest/traits/unlawful/hexable.h>
 #include <everest/types/string.h>
 #include <everest/containers/memory.h>
 
-namespace traitorous {
+namespace everest {
 
 // TODO: this seems pretty sketch, should ensure it aligns
 //       with the correct size of the systems size_t

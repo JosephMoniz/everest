@@ -5,7 +5,7 @@
 #include <everest/traits/lawful/functor.h>
 #include <everest/traits/unlawful/zero.h>
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class Alternative {

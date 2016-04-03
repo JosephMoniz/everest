@@ -2,7 +2,7 @@
 
 #include <everest/functions/types.h>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 T Identity(const T &n) {

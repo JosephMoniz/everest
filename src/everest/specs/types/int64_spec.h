@@ -4,7 +4,7 @@
 #include <everest/test/bdd.h>
 #include <everest/types/int64.h>
 
-namespace traitorous {
+namespace everest {
 
 void Int64Specification() {
   int64_t zero_n    = 0;
@@ -16,7 +16,7 @@ void Int64Specification() {
   int64_t five      = 5;
   int64_t nine      = 9;
   int64_t twelve    = 12;
-  Describe("A type int8", [=]() {
+  Describe("A type int64", [=]() {
     It("should have a zero value of zero_n", [=]() {
       AssertEquals(zero_n, Zero<int64_t>());
     });
@@ -82,6 +82,18 @@ void Int64Specification() {
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
+    });
+    It("should serialize to the correct value when called with Show()", [=]() {
+      auto expected = String("-42");
+      auto result = Show((int64_t) -fortytwo);
+      auto failure = "Show(-42) did not return '-42'";
+      AssertEquals(failure, expected, result);
+    });
+    It("should convert to the correct hex value when called with ToHex()", [=]() {
+      auto expected = String("4242424242424242");
+      auto result   = ToHex((int64_t) 4774451407313060418);
+      auto failure  = "ToHex(4774451407313060418) did not return '4242424242424242'";
+      AssertEquals(failure, expected, result);
     });
   });
 }

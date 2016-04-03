@@ -18,9 +18,10 @@
 #include <everest/traits/unlawful/bit_xor.h>
 #include <everest/traits/unlawful/hashable.h>
 #include <everest/traits/unlawful/show.h>
+#include <everest/traits/unlawful/hexable.h>
 #include <everest/containers/memory.h>
 
-namespace traitorous {
+namespace everest {
 
 template <>
 class ZeroVal<uint64_t> : public DefaultZeroVal<uint64_t> {};
@@ -94,24 +95,24 @@ public:
   static constexpr bool exists = true;
 
   static size_t NumDigits(uint64_t number) noexcept {
-    if (number < 10u)                   return 1;
-    if (number < 100u)                  return 2;
-    if (number < 1000u)                 return 3;
-    if (number < 10000u)                return 4;
-    if (number < 100000u)               return 5;
-    if (number < 1000000u)              return 6;
-    if (number < 10000000u)             return 7;
-    if (number < 100000000u)            return 8;
-    if (number < 1000000000u)           return 9;
-    if (number < 10000000000u)          return 10;
-    if (number < 100000000000u)         return 11;
-    if (number < 1000000000000u)        return 12;
-    if (number < 10000000000000u)       return 13;
-    if (number < 100000000000000u)      return 14;
-    if (number < 1000000000000000u)     return 15;
-    if (number < 10000000000000000u)    return 16;
-    if (number < 100000000000000000u)   return 17;
-    if (number < 1000000000000000000u)  return 18;
+    if (number < 10u) return 1;
+    if (number < 100u) return 2;
+    if (number < 1000u) return 3;
+    if (number < 10000u) return 4;
+    if (number < 100000u) return 5;
+    if (number < 1000000u) return 6;
+    if (number < 10000000u) return 7;
+    if (number < 100000000u) return 8;
+    if (number < 1000000000u) return 9;
+    if (number < 10000000000u) return 10;
+    if (number < 100000000000u) return 11;
+    if (number < 1000000000000u) return 12;
+    if (number < 10000000000000u) return 13;
+    if (number < 100000000000000u) return 14;
+    if (number < 1000000000000000u) return 15;
+    if (number < 10000000000000000u) return 16;
+    if (number < 100000000000000000u) return 17;
+    if (number < 1000000000000000000u) return 18;
     if (number < 10000000000000000000u) return 19;
     return 20;
   }
@@ -128,6 +129,18 @@ public:
     };
     pointer[capacity - 1] = '\0';
     return String(std::move(memory), size);
+  }
+
+};
+
+template<>
+class Hexable<uint64_t> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String ToHex(uint64_t value) noexcept {
+    return ToHexFromLittleEndianBytePointer((unsigned char*) &value, sizeof(uint64_t));
   }
 
 };

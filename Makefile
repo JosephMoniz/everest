@@ -15,7 +15,7 @@ CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 
 INCLUDES = -I$(SRCDIR)
 
-$(BUILDDIR)/traitorous: $(BUILDDIR)/main.o
+$(BUILDDIR)/everest: $(BUILDDIR)/main.o
 	$(CXX) $(CFLAGS_DEBUG) -o $@ $^
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cc
@@ -25,7 +25,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.cc
 test:
 	$(MAKE) clean
 	$(MAKE)
-	./build/traitorous
+	./build/everest
 
 dep:
 	$(CXX) -MM $(SRCDIR)/*.cc $(INCLUDES)

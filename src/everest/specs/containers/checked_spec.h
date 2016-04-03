@@ -4,7 +4,7 @@
 #include <everest/containers/checked.h>
 #include <everest/functions/identity.h>
 
-namespace traitorous {
+namespace everest {
 
 void CheckedSpecification() {
   Describe("A Checked type", []() {

@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 
-namespace traitorous {
+namespace everest {
 
 template <size_t X, size_t... Xs>
 struct meta_max {};

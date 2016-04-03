@@ -2,7 +2,7 @@
 
 #include <everest/types/string.h>
 
-namespace traitorous {
+namespace everest {
 
 String Black(const String & str) noexcept {
   return String("\033[0;30") + str + String("\033[0m");

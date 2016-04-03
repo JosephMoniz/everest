@@ -6,7 +6,7 @@
 #include <everest/concurrency/conveyor.h>
 #include <everest/meta/nth_arg.h>
 
-namespace traitorous {
+namespace everest {
 
 template<class E, class T>
 class LocalBox {

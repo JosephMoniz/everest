@@ -4,7 +4,7 @@
 #include <everest/test/bdd.h>
 #include <everest/types/uint16.h>
 
-namespace traitorous {
+namespace everest {
 
 void Uint16Specification() {
   uint16_t zero_n    = 0;
@@ -16,7 +16,7 @@ void Uint16Specification() {
   uint16_t five      = 5;
   uint16_t nine      = 9;
   uint16_t twelve    = 12;
-  Describe("A type int8", [=]() {
+  Describe("A type uint16", [=]() {
     It("should have a zero value of zero_n", [=]() {
       AssertEquals(zero_n, Zero<uint16_t>());
     });
@@ -82,6 +82,12 @@ void Uint16Specification() {
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
+    });
+    It("should convert to the correct hex value when called with ToHex()", [=]() {
+      auto expected = String("1092");
+      auto result   = ToHex((int16_t) 4242);
+      auto failure  = "ToHex(4242) did not return '1092'";
+      AssertEquals(failure, expected, result);
     });
   });
 }

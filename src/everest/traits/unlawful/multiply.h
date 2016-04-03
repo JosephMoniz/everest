@@ -4,7 +4,7 @@
 
 #include <everest/functions/types.h>
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class Multipliable {

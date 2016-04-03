@@ -3,7 +3,7 @@
 #include <everest/test/bdd.h>
 #include <everest/types/bool.h>
 
-namespace traitorous {
+namespace everest {
 
 void BoolSpecification() {
   Describe("A type bool", []() {

@@ -3,7 +3,7 @@
 #include <everest/test/bdd.h>
 #include <everest/containers/option.h>
 
-namespace traitorous {
+namespace everest {
 
 void SharedOptionSpecification() {
   Describe("A SharedOption type", []() {

@@ -2,7 +2,7 @@
 
 #include <tuple>
 
-namespace traitorous {
+namespace everest {
 
 template <typename> struct tuplify;
 

@@ -12,7 +12,7 @@
 #include <everest/types/string.h>
 #include <everest/types/size.h>
 
-namespace traitorous {
+namespace everest {
 
 uint32_t __traitorous_test_indent = 0;
 uint32_t __traitorous_test_total  = 0;

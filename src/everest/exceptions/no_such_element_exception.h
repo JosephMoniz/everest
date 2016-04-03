@@ -2,7 +2,7 @@
 
 #include <exception>
 
-namespace traitorous {
+namespace everest {
 
 class NoSuchElementException: public std::exception {
 

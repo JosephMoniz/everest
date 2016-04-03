@@ -4,7 +4,7 @@
 #include <everest/concurrency/box.h>
 #include <everest/traits/unlawful/multiply.h>
 
-namespace traitorous {
+namespace everest {
 
 void BoxSpecification() {
   Describe("A type Box", []() {

@@ -5,7 +5,7 @@
 #include <everest/types/string.h>
 #include <everest/traits/unlawful/show.h>
 
-namespace traitorous {
+namespace everest {
 
 enum class Ordering {
   LESS,

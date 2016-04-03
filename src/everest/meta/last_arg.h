@@ -1,6 +1,6 @@
 #pragma once
 
-namespace traitorous {
+namespace everest {
 
 template <class>
 struct last_arg;

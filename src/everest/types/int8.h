@@ -18,10 +18,11 @@
 #include <everest/traits/unlawful/bit_xor.h>
 #include <everest/traits/unlawful/hashable.h>
 #include <everest/traits/unlawful/show.h>
+#include <everest/traits/unlawful/hexable.h>
 #include <everest/containers/memory.h>
 
 
-namespace traitorous {
+namespace everest {
 
 template <>
 class ZeroVal<int8_t> : public DefaultZeroVal<int8_t> {};
@@ -110,7 +111,8 @@ public:
     auto capacity  = size + 1;
     auto memory    = Memory<char>(capacity);
     auto pointer   = memory.MutablePointer();
-    auto unsignedN = number & 0x7FFFFFFF;
+    auto mask      = number >> 7;
+    auto unsignedN = (mask ^ number) - mask;
     for (size_t i = size; i - signSpace; i--) {
       pointer[--offset] = (char) (unsignedN % 10) + '0';
       unsignedN /= 10;
@@ -120,6 +122,18 @@ public:
     }
     pointer[capacity - 1] = '\0';
     return String(std::move(memory), size);
+  }
+
+};
+
+template<>
+class Hexable<int8_t> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String ToHex(int8_t value) noexcept {
+    return ToHexFromBigEndianBytePointer((unsigned char*) &value, sizeof(int8_t));
   }
 
 };

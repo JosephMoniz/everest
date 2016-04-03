@@ -5,7 +5,7 @@
 #include <everest/functions/identity.h>
 #include <everest/types/int32.h>
 
-namespace traitorous {
+namespace everest {
 
 void ListSpecification() {
   Describe("A List type", []() {

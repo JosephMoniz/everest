@@ -4,7 +4,7 @@
 
 #include <everest/types/string.h>
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class Shows {

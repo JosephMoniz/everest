@@ -5,7 +5,7 @@
 #include "everest/test/bdd.h"
 #include "everest/types/string.h"
 
-namespace traitorous {
+namespace everest {
 
 void StringSpecification() {
   Describe("A type string", []() {

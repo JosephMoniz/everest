@@ -5,7 +5,7 @@
 
 #include <stddef.h>
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class Container {

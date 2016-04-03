@@ -7,8 +7,9 @@
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/lawful/monoid.h>
 #include <everest/traits/lawful/semigroup.h>
+#include <everest/traits/unlawful/negate.h>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 class PNCounter {
@@ -32,7 +33,7 @@ public:
   }
 
   PNCounter(const GCounter<T>& positive,
-            const GCounter<T>& negative) noexcept : _postive(positive),
+            const GCounter<T>& negative) noexcept : _positive(positive),
                                                     _negative(negative) { }
 
   PNCounter<T> Increment() const noexcept {
@@ -52,7 +53,7 @@ public:
   }
 
   T Value() const noexcept {
-    return _positive.Number() - _negative.Number();
+    return _positive.Value() - _negative.Value();
   }
 
 };

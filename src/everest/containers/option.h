@@ -1,30 +1,10 @@
 #pragma once
 
-#include <type_traits>
+#include <utility>
 #include <everest/containers/shared.h>
-#include <everest/types/string.h>
+#include <everest/containers/option/option_type.h>
 
-namespace traitorous {
-
-enum class OptionType {
-  SOME,
-  NONE
-};
-
-template<>
-class Shows<OptionType> {
-public:
-
-  static constexpr bool exists = true;
-
-  static String Show(OptionType n) noexcept {
-    switch(n) {
-      case OptionType::SOME: return String("SOME");
-      case OptionType::NONE: return String("NONE");
-    }
-  }
-
-};
+namespace everest {
 
 template<class T>
 class Option final {
@@ -102,37 +82,37 @@ constexpr R Match(const SharedOption<T>& o, N n, S s) noexcept {
 
 }
 
-#include "everest/containers/shared_option/containable.h"
-#include "everest/containers/shared_option/container.h"
-#include "everest/containers/shared_option/alternative.h"
-#include "everest/containers/shared_option/eq.h"
-#include "everest/containers/shared_option/foldable.h"
-#include "everest/containers/shared_option/functor.h"
-#include "everest/containers/shared_option/hashable.h"
-#include "everest/containers/shared_option/monad.h"
-#include "everest/containers/shared_option/semigroup.h"
-#include "everest/containers/shared_option/zero.h"
-#include "everest/containers/shared_option/monoid.h"
-#include "everest/containers/shared_option/filterable.h"
-#include "everest/containers/shared_option/ord.h"
-#include "everest/containers/shared_option/monad_plus.h"
-#include "everest/containers/shared_option/unwrappable.h"
-#include "everest/containers/shared_option/shows.h"
-#include "everest/containers/shared_option/enumerable.h"
+#include "everest/containers/option/traits/containable.h"
+#include "everest/containers/option/traits/container.h"
+#include "everest/containers/option/traits/alternative.h"
+#include "everest/containers/option/traits/eq.h"
+#include "everest/containers/option/traits/foldable.h"
+#include "everest/containers/option/traits/functor.h"
+#include "everest/containers/option/traits/hashable.h"
+#include "everest/containers/option/traits/monad.h"
+#include "everest/containers/option/traits/semigroup.h"
+#include "everest/containers/option/traits/zero.h"
+#include "everest/containers/option/traits/monoid.h"
+#include "everest/containers/option/traits/filterable.h"
+#include "everest/containers/option/traits/ord.h"
+#include "everest/containers/option/traits/monad_plus.h"
+#include "everest/containers/option/traits/unwrappable.h"
+#include "everest/containers/option/traits/shows.h"
 
-#include "everest/containers/option/containable.h"
-#include "everest/containers/option/container.h"
-#include "everest/containers/option/alternative.h"
-#include "everest/containers/option/eq.h"
-#include "everest/containers/option/foldable.h"
-#include "everest/containers/option/functor.h"
-#include "everest/containers/option/hashable.h"
-#include "everest/containers/option/monad.h"
-#include "everest/containers/option/semigroup.h"
-#include "everest/containers/option/zero.h"
-#include "everest/containers/option/monoid.h"
-#include "everest/containers/option/filterable.h"
-#include "everest/containers/option/ord.h"
-#include "everest/containers/option/monad_plus.h"
-#include "everest/containers/option/unwrappable.h"
-#include "everest/containers/option/shows.h"
+#include "everest/containers/option/traits/shared/containable.h"
+#include "everest/containers/option/traits/shared/container.h"
+#include "everest/containers/option/traits/shared/alternative.h"
+#include "everest/containers/option/traits/shared/eq.h"
+#include "everest/containers/option/traits/shared/foldable.h"
+#include "everest/containers/option/traits/shared/functor.h"
+#include "everest/containers/option/traits/shared/hashable.h"
+#include "everest/containers/option/traits/shared/monad.h"
+#include "everest/containers/option/traits/shared/semigroup.h"
+#include "everest/containers/option/traits/shared/zero.h"
+#include "everest/containers/option/traits/shared/monoid.h"
+#include "everest/containers/option/traits/shared/filterable.h"
+#include "everest/containers/option/traits/shared/ord.h"
+#include "everest/containers/option/traits/shared/monad_plus.h"
+#include "everest/containers/option/traits/shared/unwrappable.h"
+#include "everest/containers/option/traits/shared/shows.h"
+#include "everest/containers/option/traits/shared/enumerable.h"

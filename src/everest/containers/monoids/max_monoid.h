@@ -1,13 +1,8 @@
 #pragma once
 
-#include <everest/traits/unlawful/show.h>
-#include <everest/traits/unlawful/eq.h>
-#include <everest/traits/unlawful/ord.h>
-#include <everest/traits/unlawful/zero.h>
-#include <everest/traits/lawful/monoid.h>
-#include <everest/traits/lawful/semigroup.h>
+#include <utility>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 class MaxMonoid {
@@ -28,66 +23,11 @@ public:
 
 };
 
-template<class T>
-class Shows<MaxMonoid<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static String Show(const MaxMonoid<T>& monoid) noexcept {
-    return String("MaxMonoid(") + Shows<T>::Show(monoid) + String(")");
-  }
-
-};
-
-template<class T>
-class Eq<MaxMonoid<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Equals(const MaxMonoid<T>& lhs, const MaxMonoid<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
-  }
-
-};
-
-template <class T>
-class ZeroVal<MaxMonoid<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr MaxMonoid<T> Zero() {
-    return Bounded<MaxMonoid<T>>::MinValue();
-  }
-
-};
-
-template <class T>
-class Semigroup<MaxMonoid<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr MaxMonoid<T> Add(const MaxMonoid<T>& lhs,
-                                    const MaxMonoid<T>& rhs) noexcept
-  {
-    switch (Ord<T>::Compare(lhs.Value(), rhs.Value)) {
-      case Ordering::LESS:    return rhs;
-      case Ordering::GREATER: return lhs;
-      case Ordering::EQUAL:   return lhs;
-    }
-  }
-
-};
-
-template<class T>
-class Monoid<MaxMonoid<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-};
-
 }
+
+#include "everest/containers/monoids/max/traits/eq.h"
+#include "everest/containers/monoids/max/traits/monoid.h"
+#include "everest/containers/monoids/max/traits/ord.h"
+#include "everest/containers/monoids/max/traits/semigroup.h"
+#include "everest/containers/monoids/max/traits/shows.h"
+#include "everest/containers/monoids/max/traits/zero.h"

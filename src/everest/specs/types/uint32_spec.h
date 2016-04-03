@@ -4,7 +4,7 @@
 #include <everest/test/bdd.h>
 #include <everest/types/uint32.h>
 
-namespace traitorous {
+namespace everest {
 
 void Uint32Specification() {
   uint32_t zero_n    = 0;
@@ -16,7 +16,7 @@ void Uint32Specification() {
   uint32_t five      = 5;
   uint32_t nine      = 9;
   uint32_t twelve    = 12;
-  Describe("A type int8", [=]() {
+  Describe("A type uint32", [=]() {
     It("should have a zero value of zero_n", [=]() {
       AssertEquals(zero_n, Zero<uint32_t>());
     });
@@ -82,6 +82,12 @@ void Uint32Specification() {
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
+    });
+    It("should convert to the correct hex value when called with ToHex()", [=]() {
+      auto expected = String("42424242");
+      auto result   = ToHex((uint32_t) 1111638594);
+      auto failure  = "ToHex(1111638594) did not return '42424242'";
+      AssertEquals(failure, expected, result);
     });
   });
 }

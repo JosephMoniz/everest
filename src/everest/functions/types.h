@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace traitorous {
+namespace everest {
 
 template<class T, class R>
 using Function = std::function<R(T)>;

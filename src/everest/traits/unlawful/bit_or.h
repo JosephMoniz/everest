@@ -2,7 +2,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class BitOr {

@@ -5,7 +5,7 @@
 #include <everest/types/int32.h>
 #include <everest/functions/identity.h>
 
-namespace traitorous {
+namespace everest {
 
 void OptionSpecification() {
   Describe("A Option type", []() {

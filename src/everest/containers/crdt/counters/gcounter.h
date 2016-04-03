@@ -6,8 +6,9 @@
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/lawful/monoid.h>
 #include <everest/traits/lawful/semigroup.h>
+#include <everest/traits/unlawful/bounded.h>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 class GCounter {
@@ -17,6 +18,10 @@ class GCounter {
 public:
 
   GCounter(const T& number) noexcept : _value(number) { }
+
+  GCounter(const GCounter<T>& other) noexcept : _value(other._value) { }
+
+  GCounter(GCounter<T>&& other) noexcept : _value(std::move(other._value)) { }
 
   GCounter<T> Increment() const noexcept {
     return GCounter(_value + OneVal<T>::One());

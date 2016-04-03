@@ -15,8 +15,9 @@
 #include <everest/specs/containers/checked_spec.h>
 #include <everest/specs/containers/shared_checked_spec.h>
 #include <everest/specs/concurrency/box_spec.h>
+#include <everest/specs/types/uint64_spec.h>
 
-using namespace traitorous;
+using namespace everest;
 
 int main(int argc, char **argv) {
   // Type specifications
@@ -29,6 +30,7 @@ int main(int argc, char **argv) {
   Uint8Specification();
   Uint16Specification();
   Uint32Specification();
+  Uint64Specification();
   StringSpecification();
 
   // Container specifications

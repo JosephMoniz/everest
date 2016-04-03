@@ -4,7 +4,7 @@
 #include <everest/test/bdd.h>
 #include <everest/types/uint8.h>
 
-namespace traitorous {
+namespace everest {
 
 void Uint8Specification() {
   uint8_t zero_n    = 0;
@@ -16,7 +16,7 @@ void Uint8Specification() {
   uint8_t five      = 5;
   uint8_t nine      = 9;
   uint8_t twelve    = 12;
-  Describe("A type int8", [=]() {
+  Describe("A type uint8", [=]() {
     It("should have a zero value of zero_n", [=]() {
       AssertEquals(zero_n, Zero<uint8_t>());
     });
@@ -82,6 +82,12 @@ void Uint8Specification() {
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
+    });
+    It("should convert to the correct hex value when called with ToHex()", [=]() {
+      auto expected = String("2a");
+      auto result   = ToHex(fortytwo);
+      auto failure  = "ToHex(42) did not return '2a'";
+      AssertEquals(failure, expected, result);
     });
   });
 }

@@ -1,13 +1,12 @@
 #pragma once
 
 #include <stddef.h>
-#include <algorithm>
+#include <utility>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 class Shared final {
-private:
 
   size_t* _count;
 

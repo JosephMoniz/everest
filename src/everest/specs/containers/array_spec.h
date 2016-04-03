@@ -3,7 +3,7 @@
 #include <everest/test/bdd.h>
 #include <everest/containers/array.h>
 
-namespace traitorous {
+namespace everest {
 
 void ArraySpecification() {
   Describe("An Array type", []() {

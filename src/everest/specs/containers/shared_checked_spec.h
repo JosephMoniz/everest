@@ -3,7 +3,7 @@
 #include <everest/test/bdd.h>
 #include <everest/containers/checked.h>
 
-namespace traitorous {
+namespace everest {
 
 void SharedCheckSpecification() {
   Describe("A SharedChecked type", []() {

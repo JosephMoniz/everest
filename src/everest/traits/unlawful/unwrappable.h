@@ -4,7 +4,7 @@
 
 #include <functional>
 
-namespace traitorous {
+namespace everest {
 
 template <class T>
 class Unwrappable {

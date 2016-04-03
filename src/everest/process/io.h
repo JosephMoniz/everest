@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <everest/types/string.h>
 
-namespace traitorous {
+namespace everest {
 
 void Print(const String& string) noexcept {
   write(1, string.CString(), string.Capacity());

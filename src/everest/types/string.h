@@ -9,7 +9,7 @@
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/takeable.h>
 
-namespace traitorous {
+namespace everest {
 
 class String {
 

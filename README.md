@@ -1,8 +1,8 @@
-Traitorous
-==========
-[![Build Status](https://travis-ci.org/JosephMoniz/traitorous.svg?branch=master)](https://travis-ci.org/JosephMoniz/traitorous)
+Everest
+=======
+[![Build Status](https://travis-ci.org/JosephMoniz/everest.svg?branch=master)](https://travis-ci.org/JosephMoniz/everest)
 
-Traitorous is an almost complete divorcement from C++'s standard template
+Everest is an almost complete divorcement from C++'s standard template
 library. The idea is to explore alternative methods for expressing
 computation in C++ while sneaking in some additional composability through
 the side door. Immutability and other general functional programming
@@ -24,8 +24,14 @@ Currently, this is still a heavy work in progress. Expect much to change.
 Todo
 ----
 
-  + An asserting library for the test suite
-  + Make SharedString into a Rope implementation
-  + Implement `Map<K, V>` as a 32 way HAMT
+  + Make String into a Rope implementation
+  + Implement `Vector<T>` as an immutable 32 way HAMT
+  + Implement `Map<K, V>` as an immutable 32 way HAMT
   + A free list based `Pool<T>` container
+  + RAII Concurrency utils such as `Mutex`
+  + Implement thread pools
+  + Implement `ConcurrentShared<T>`
   + An IO Abstraction suite around `kqueue()`
+  + An thread based facade to `mlock`/`munlock` for async `mmap`
+  + Trait for converting things to hex strings
+  + Crypto primitives (md5/sha1)

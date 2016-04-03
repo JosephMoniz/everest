@@ -3,7 +3,7 @@
 #include <everest/containers/option.h>
 #include <everest/traits/unlawful/enumerator.h>
 
-namespace traitorous {
+namespace everest {
 
 template<class T>
 class OptionEnumerator {

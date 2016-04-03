@@ -18,9 +18,10 @@
 #include <everest/traits/unlawful/bit_xor.h>
 #include <everest/traits/unlawful/hashable.h>
 #include <everest/traits/unlawful/show.h>
+#include <everest/traits/unlawful/hexable.h>
 #include <everest/containers/memory.h>
 
-namespace traitorous {
+namespace everest {
 
 template <>
 class ZeroVal<uint8_t> : public DefaultZeroVal<uint8_t> {};
@@ -94,8 +95,8 @@ public:
   static constexpr bool exists = true;
 
   static size_t NumDigits(uint8_t number) noexcept {
-    if (number < 10u)         return 1;
-    if (number < 100u)        return 2;
+    if (number < 10u) return 1;
+    if (number < 100u) return 2;
     return 3;
   }
 
@@ -111,6 +112,18 @@ public:
     };
     pointer[capacity - 1] = '\0';
     return String(std::move(memory), size);
+  }
+
+};
+
+template<>
+class Hexable<uint8_t> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String ToHex(uint8_t value) noexcept {
+    return ToHexFromLittleEndianBytePointer((unsigned char*) &value, sizeof(uint8_t));
   }
 
 };

@@ -2,59 +2,9 @@
 
 #include <stddef.h>
 #include <everest/containers/shared.h>
+#include <everest/containers/list/list_node.h>
 
-namespace traitorous {
-
-template<class T>
-class LocalListNode;
-
-template<class T>
-using ListNode = Shared<LocalListNode<T>>;
-
-template<class T>
-class LocalList;
-
-template<class T>
-using List = Shared<LocalList<T>>;
-
-template<class T>
-class LocalListNode final {
-
-  friend class Functor<List<T>>;
-  friend class Semigroup<List<T>>;
-
-  T _item;
-
-  ListNode<T> _next;
-
-  ListNode<T> setNext(const ListNode<T>& next) {
-    _next = next;
-    return next;
-  }
-
-public:
-
-  LocalListNode(const T& item) noexcept : _item(item), _next(nullptr) {
-    //
-  }
-
-  LocalListNode(const T& item, const ListNode<T>& next) noexcept : _item(item), _next(next) {
-    //
-  }
-
-  LocalListNode(const LocalListNode<T>& other): _item(other.Item()), _next(other._next) {
-    //
-  }
-
-  const T& Item() const noexcept {
-    return _item;
-  }
-
-  const ListNode<T> Next() const noexcept {
-    return _next;
-  }
-
-};
+namespace everest {
 
 template<class T>
 class LocalList final {
@@ -104,13 +54,13 @@ ListNode<T> Cons(const T& item, const ListNode<T>& next) {
 
 }
 
-#include "everest/containers/list/containable.h"
-#include "everest/containers/list/container.h"
-#include "everest/containers/list/eq.h"
-#include "everest/containers/list/foldable.h"
-#include "everest/containers/list/functor.h"
-#include "everest/containers/list/monoid.h"
-#include "everest/containers/list/ord.h"
-#include "everest/containers/list/semigroup.h"
-#include "everest/containers/list/shows.h"
-#include "everest/containers/list/zero.h"
+#include "everest/containers/list/traits/containable.h"
+#include "everest/containers/list/traits/container.h"
+#include "everest/containers/list/traits/eq.h"
+#include "everest/containers/list/traits/foldable.h"
+#include "everest/containers/list/traits/functor.h"
+#include "everest/containers/list/traits/monoid.h"
+#include "everest/containers/list/traits/ord.h"
+#include "everest/containers/list/traits/semigroup.h"
+#include "everest/containers/list/traits/shows.h"
+#include "everest/containers/list/traits/zero.h"
