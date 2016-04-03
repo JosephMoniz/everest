@@ -3,20 +3,20 @@
 #include <everest/traits/lawful/foldable.h>
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 
 namespace everest {
 
 template <class T, size_t S>
-class Array;
+class MutableArray;
 
 template <class T, size_t S>
-class Foldable<Array<T, S>> {
+class Foldable<MutableArray<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Fold(const Array<T, S>& array) noexcept {
+  static constexpr T Fold(const MutableArray<T, S>& array) noexcept {
     T memo = ZeroVal<T>::Zero();
     for (size_t i = 0; i < S; i++) {
       memo = Semigroup<T>::Add(memo, array.Pointer()[i]);
@@ -26,7 +26,7 @@ public:
 
   template <class Fn,
     class M = typename std::result_of<Fn(T)>::type>
-  static constexpr M FoldMap(Fn f, const Array<T, S>& array) noexcept {
+  static constexpr M FoldMap(Fn f, const MutableArray<T, S>& array) noexcept {
     auto memo = ZeroVal<T>::Zero();
     for (size_t i = 0; i < S; i++) {
       memo = Semigroup<T>::Add(memo, f(array.Pointer()[i]));
@@ -37,7 +37,7 @@ public:
   template <class Fn, class B>
   static constexpr B FoldR(Fn f,
                            const B& init,
-                           const Array<T, S>& array) noexcept
+                           const MutableArray<T, S>& array) noexcept
   {
     auto memo = init;
     for (size_t i = S - 1; i != 0; i--) {
@@ -52,7 +52,7 @@ public:
   template <class Fn, class B>
   static constexpr B FoldL(Fn f,
                            const B& init,
-                           const Array<T, S>& array) noexcept
+                           const MutableArray<T, S>& array) noexcept
   {
     auto memo = init;
     for (size_t i = 0; i < S; i++) {

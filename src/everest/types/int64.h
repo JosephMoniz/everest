@@ -19,7 +19,7 @@
 #include <everest/traits/unlawful/hashable.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/hexable.h>
-#include <everest/containers/memory.h>
+#include <everest/containers/mutable/mutable_memory.h>
 
 namespace everest {
 
@@ -140,7 +140,7 @@ public:
     auto size      = NumDigits(number);
     auto offset    = size;
     auto capacity  = size + 1;
-    auto memory    = Memory<char>(capacity);
+    auto memory    = MutableMemory<char>(capacity);
     auto pointer   = memory.MutablePointer();
     auto mask      = number >> 63;
     auto unsignedN = (mask ^ number) - mask;

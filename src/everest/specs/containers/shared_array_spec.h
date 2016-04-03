@@ -1,11 +1,11 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 
 namespace everest {
 
-void SharedArraySpecification() {
+void SharedMutableArraySpecification() {
   Describe("An SharedArray type", []() {
     It("Should render the correct string when called with Shows()", []{
       auto expected = String("SharedArray(1, 2, 3)");

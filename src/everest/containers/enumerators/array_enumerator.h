@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include "mutable_array.h"
 #include <everest/traits/unlawful/enumerator.h>
 #include <everest/containers/option.h>
 

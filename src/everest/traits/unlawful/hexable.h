@@ -29,7 +29,7 @@ String ToHex(const T& hashable) noexcept {
 String ToHexFromBigEndianBytePointer(unsigned char* pointer, size_t bytes) {
   auto nibbleToHex = "0123456789abcdef";
   auto length      = bytes * 2;
-  auto memory      = Memory<char>(length + 1);
+  auto memory      = MutableMemory<char>(length + 1);
   auto destination = memory.MutablePointer();
   for (size_t i = 0; i < bytes; i++) {
     auto offset = 2 * i;
@@ -44,7 +44,7 @@ String ToHexFromBigEndianBytePointer(unsigned char* pointer, size_t bytes) {
 String ToHexFromLittleEndianBytePointer(unsigned char* pointer, size_t bytes) {
   auto nibbleToHex = "0123456789abcdef";
   auto length      = bytes * 2;
-  auto memory      = Memory<char>(length + 1);
+  auto memory      = MutableMemory<char>(length + 1);
   auto destination = memory.MutablePointer();
   for (size_t i = 0; i < bytes; i++) {
     auto offset = length - (2 * i) - 2;

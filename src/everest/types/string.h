@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <utility>
 
-#include <everest/containers/memory.h>
+#include <everest/containers/mutable/mutable_memory.h>
 #include <everest/traits/unlawful/one.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/eq.h>
@@ -15,7 +15,7 @@ class String {
 
   friend class Semigroup<String>;
 
-  Memory<char> _memory;
+  MutableMemory<char> _memory;
 
   size_t _length;
 
@@ -30,14 +30,14 @@ public:
       }
     }
     _length = length;
-    _memory = Memory<char>(str, capacity + 1);
+    _memory = MutableMemory<char>(str, capacity + 1);
   }
 
-  String(Memory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
-                                                          _length(length) { }
+  String(MutableMemory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
+                                                                 _length(length) { }
 
   String(const String& other) noexcept : _length(other._length) {
-    _memory = Memory<char>(other._memory.Pointer(), other._memory.Length());
+    _memory = MutableMemory<char>(other._memory.Pointer(), other._memory.Length());
   }
 
   String(String&& other) noexcept : _memory(std::move(other._memory)),
@@ -116,7 +116,7 @@ public:
     } else {
       auto string = inString.CString();
       if (inString.IsByteAligned()) {
-        auto memory = Memory<char>(string, size + 1);
+        auto memory = MutableMemory<char>(string, size + 1);
         memory.MutablePointer()[size] = '\0';
         return String(std::move(memory), size);
       } else {
@@ -127,7 +127,7 @@ public:
             length++;
           }
         }
-        auto memory = Memory<char>(string, ++capacity);
+        auto memory = MutableMemory<char>(string, ++capacity);
         memory.MutablePointer()[length] = '\0';
         return String(std::move(memory), length);
       }
@@ -149,7 +149,7 @@ public:
   static const String Add(const String& lhs, const String& rhs) noexcept {
     auto lCapacity  = lhs.Capacity() - 1;
     auto capacity   = lCapacity + rhs.Capacity();
-    auto memory     = Memory<char>(capacity);
+    auto memory     = MutableMemory<char>(capacity);
     auto lPointer   = lhs._memory.Pointer();
     auto rPointer   = rhs._memory.Pointer();
     auto srcPointer = memory.MutablePointer();

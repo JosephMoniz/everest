@@ -37,8 +37,8 @@ int main(int argc, char **argv) {
   //
   OptionSpecification();
   SharedOptionSpecification();
-  ArraySpecification();
-  SharedArraySpecification();
+  MutableArraySpecification();
+  SharedMutableArraySpecification();
   ListSpecification();
   CheckedSpecification();
   SharedCheckSpecification();

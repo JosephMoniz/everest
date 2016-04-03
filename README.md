@@ -21,6 +21,101 @@ library leveraging `concepts` as the backbone instead.
 
 Currently, this is still a heavy work in progress. Expect much to change.
 
+Memory Management
+-----------------
+
+  + Shared<T>
+  
+Function Types
+--------------
+
+  + Function<T, R>
+  + BiFunction<T, U, R>
+  + Predicate<T>
+  + Supplier<R>
+  + Consumer<T>
+  + Thunk
+  
+Containers
+----------
+
+### Immutable Containers
+
+  + Checked<E, S>
+  + Option<T>
+  + List<T>
+
+### Immutable CRDTs
+
+  + GCounter<T>
+  + PNCounter<T>
+  
+### Immutable Monoids
+
+  + MaxMonoid<T>
+  + MinMonoid<T>
+  
+### Mutable Containers
+
+  + MutableArray<T>
+  + MutableMemory<T>
+  + MutableVector<T>
+  + MutableMap<K, V>
+
+Concurrency
+-----------
+
+### FRP Concurrency Primitives
+
+  + Box<E, S>
+  + Conveyor<E, S>
+
+Traits
+------
+
+### Lawful Traits
+
+  + Semigroup<T>
+  + Monoid<T>
+  + Functor<T>
+  + Alternative<T>
+  + Monad<T>
+  + Foldable<T>
+  + MonadPlus<T>
+
+### Unlawful Traits
+
+  + BitAnd<T>
+  + BitOr<T>
+  + BitXor<T>
+  + Bounded<T>
+  + Containable<T>
+  + Container<T>
+  + Disjoinable<T>
+  + Divide<T>
+  + Droppable<T>
+  + Enumerable<T>
+  + Enumerator<T>
+  + Eq<T>
+  + Filterable<T>
+  + Hashable<T>
+  + Hexable<T>
+  + Intersectable<T>
+  + Multiply<T>
+  + Negate<T>
+  + One<T>
+  + Ord<T>
+  + Queue<T>
+  + Remainder<T>
+  + ShiftLeft<T>
+  + ShiftRight<T>
+  + Show<T>
+  + Stack<T>
+  + Subtract<T>
+  + Takeable<T>
+  + Unwrappable<T>
+  + Zero<T>
+  
 Todo
 ----
 

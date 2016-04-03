@@ -6,7 +6,7 @@
 namespace everest {
 
 template<class T>
-class Memory final {
+class MutableMemory final {
 
   T*_pointer;
 
@@ -22,30 +22,30 @@ class Memory final {
 
 public:
 
-  Memory() noexcept {
+  MutableMemory() noexcept {
     _pointer = nullptr;
     _length  = 0;
   }
 
-  Memory(size_t length) noexcept {
+  MutableMemory(size_t length) noexcept {
     _pointer = new T[length];
     _length  = length;
   }
 
-  Memory(const T* pointer, size_t length) noexcept {
+  MutableMemory(const T* pointer, size_t length) noexcept {
     copyInit(pointer, length);
   }
 
-  Memory(const Memory<T>& other) noexcept : Memory(other._pointer, other._length) { }
+  MutableMemory(const MutableMemory<T>& other) noexcept : MutableMemory(other._pointer, other._length) { }
 
-  Memory(Memory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
-                                       _length(std::move(other._length))
+  MutableMemory(MutableMemory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
+                                                     _length(std::move(other._length))
   {
     other._pointer = nullptr;
     other._length  = 0;
   }
 
-  Memory& operator=(const Memory<T>& other) noexcept {
+  MutableMemory& operator=(const MutableMemory<T>& other) noexcept {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -53,7 +53,7 @@ public:
     return *this;
   }
 
-  Memory& operator=(Memory<T>&& other) noexcept {
+  MutableMemory& operator=(MutableMemory<T>&& other) noexcept {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -64,7 +64,7 @@ public:
     return *this;
   }
 
-  ~Memory() {
+  ~MutableMemory() {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -85,11 +85,11 @@ public:
 };
 
 template<class T>
-using SharedMemory = Shared<Memory<T>>;
+using SharedMemory = Shared<MutableMemory<T>>;
 
 template<class T>
 SharedMemory<T> MakeSharedMemory(const T *pointer, size_t length) {
-  return MakeShared<Memory<T>>(pointer, length);
+  return MakeShared<MutableMemory<T>>(pointer, length);
 }
 
 }
