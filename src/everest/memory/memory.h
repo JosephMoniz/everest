@@ -9,7 +9,7 @@ namespace everest {
 template<class T>
 class Memory final {
 
-  T*_pointer;
+  T* _pointer;
 
   size_t _length;
 
@@ -22,6 +22,8 @@ class Memory final {
   }
 
 public:
+
+  Memory() noexcept : _pointer(nullptr), _length(0) { }
 
   Memory(const T* pointer, size_t length) noexcept {
     copyInit(pointer, length);

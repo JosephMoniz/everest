@@ -34,24 +34,24 @@ public:
                                     const Array<T, Rs> &rhs) noexcept
   {
     return (S > Rs)
-       ? Ordering::GREATER
-       : Ordering::LESS;
+      ? Ordering::GREATER
+      : Ordering::LESS;
   }
 
   static constexpr const Array<T, S>& Min(const Array<T, S> &lhs,
                                           const Array<T, S> &rhs) noexcept
   {
     return (Compare(lhs, rhs) == Ordering::GREATER)
-       ? rhs
-       : lhs;
+      ? rhs
+      : lhs;
   }
 
   static constexpr const Array<T, S>& Max(const Array<T, S> &lhs,
                                           const Array<T, S> &rhs) noexcept
   {
     return (Compare(lhs, rhs) == Ordering::LESS)
-       ? rhs
-       : lhs;
+      ? rhs
+      : lhs;
   }
 
 };

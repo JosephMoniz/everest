@@ -1,5 +1,7 @@
 #pragma once
 
+#include <everest/containers/option.h>
+
 namespace everest {
 
 template <class T>
@@ -21,7 +23,7 @@ public:
   }
 
   template <class U>
-  static U Top(const T& stack) noexcept {
+  static Option<const U&> Top(const T& stack) noexcept {
     return Base::Top(stack);
   }
 

@@ -215,7 +215,7 @@ set(SOURCE_FILES
         src/everest/containers/monoids/min/traits/semigroup.h
         src/everest/containers/monoids/min/traits/monoid.h
         src/everest/memory/memory.h
-        src/everest/containers/array.h src/everest/containers/vector.h src/everest/memory/shared/shared_container.h)
+        src/everest/containers/array.h src/everest/containers/vector.h src/everest/memory/shared/shared_container.h src/everest/memory/unique.h src/everest/specs/containers/vector.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}

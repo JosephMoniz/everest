@@ -15,26 +15,25 @@ public:
 
   static constexpr bool exists = false;
 
-  template <class T>
-  static constexpr inline T Drop(const T& n, unsigned int s) noexcept {
-    return Base::Drop(n, s);
+  static constexpr inline T Drop(size_t s, const T& n) noexcept {
+    return Base::Drop(s, n);
   }
 
-  template <template <class> class F, class T>
-  static constexpr inline F<T> DropWhile(const F<T>& n, Predicate<const T&> p) noexcept {
-    return Base::DropWhile(n, p);
+  template <template <class> class F>
+  static constexpr inline F<T> DropWhile(Predicate<const T&> p, const F<T>& n) noexcept {
+    return Base::DropWhile(p, n);
   }
 
 };
 
 template <class T>
-constexpr inline T Drop(const T& n, unsigned int s) noexcept {
-  return Droppable<T>::Drop(n, s);
+constexpr inline T Drop(size_t s, const T& n) noexcept {
+  return Droppable<T>::Drop(s, n);
 }
 
 template <template <class> class F, class T>
-constexpr inline F<T> DropWhile(const F<T>& n, Predicate<const T&> p) noexcept {
-  return Droppable<F<T>>::DropWhile(n, p);
+constexpr inline F<T> DropWhile(Predicate<const T&> p, const F<T>& n) noexcept {
+  return Droppable<F<T>>::DropWhile(p, n);
 }
 
 }

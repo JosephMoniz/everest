@@ -18,6 +18,7 @@
 #include <everest/specs/containers/mutable/mutable_shared_array_spec.h>
 #include <everest/specs/containers/array_spec.h>
 #include <everest/specs/containers/shared_array_spec.h>
+#include <everest/specs/containers/vector.h>
 
 using namespace everest;
 
@@ -50,6 +51,7 @@ int main(int argc, char **argv) {
   CheckedSpecification();
   SharedCheckSpecification();
   BoxSpecification();
+  VectorSpecification();
 
 
   // Print and return the final test results

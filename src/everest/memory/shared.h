@@ -46,8 +46,8 @@ public:
 
   T* operator->() const noexcept {
     return _container != nullptr
-      ? _container->Data()
-      : nullptr;
+           ? _container->Data()
+           : nullptr;
   }
 
   T& operator*() const noexcept {
@@ -56,8 +56,8 @@ public:
 
   T* Pointer() const noexcept {
     return _container != nullptr
-      ? _container->Data()
-      : nullptr;
+           ? _container->Data()
+           : nullptr;
   }
 
 };

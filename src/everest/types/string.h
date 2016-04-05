@@ -8,6 +8,7 @@
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/takeable.h>
+#include <everest/memory/memory.h>
 
 namespace everest {
 
@@ -15,7 +16,7 @@ class String {
 
   friend class Semigroup<String>;
 
-  MutableMemory<char> _memory;
+  Memory<char> _memory;
 
   size_t _length;
 
@@ -30,21 +31,24 @@ public:
       }
     }
     _length = length;
-    _memory = MutableMemory<char>(str, capacity + 1);
+    _memory = Memory<char>(str, capacity + 1);
   }
 
   String(MutableMemory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
                                                                  _length(length) { }
 
+  String(Memory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
+                                                          _length(length) { }
+
   String(const String& other) noexcept : _length(other._length) {
-    _memory = MutableMemory<char>(other._memory.Pointer(), other._memory.Length());
+    _memory = Memory<char>(other._memory.Pointer(), other._memory.Length());
   }
 
   String(String&& other) noexcept : _memory(std::move(other._memory)),
                                     _length(std::move(other._length)) { }
 
   String& operator=(const String& other) noexcept {
-    _memory = other._memory;
+    _memory = Memory<char>(other._memory.Pointer(), other._memory.Length());
     _length = other._length;
     return *this;
   }
@@ -110,7 +114,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static const String Take(const String& inString, size_t size) noexcept {
+  static const String Take(size_t size, const String& inString) noexcept {
     if (inString.Length() <= size) {
       return inString;
     } else {
@@ -134,8 +138,16 @@ public:
     }
   }
 
-  static const String TakeWhile(const String& n, Predicate<char> p) noexcept {
-    return String("TODO"); // TODO
+  static const String TakeWhile(Predicate<char> predicate, const String& string) noexcept {
+    size_t offset = 0;
+    size_t length = string.Length();
+    auto pointer  = string.CString();
+    while (offset < length && predicate(pointer[offset])) {
+      offset++;
+    }
+    auto memory = MutableMemory<char>(pointer, offset + 1);
+    memory.MutablePointer()[length] = '\0';
+    return String(std::move(memory), length);
   }
 
 };

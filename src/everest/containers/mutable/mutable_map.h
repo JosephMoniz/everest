@@ -38,7 +38,7 @@ public:
     _next = next;
   }
 
-  MutableMapEntry* Next() const noexcept {
+  MutableMapEntry<K, V>* Next() const noexcept {
     return _next;
   }
 
@@ -62,19 +62,42 @@ class MutableMap {
       _entries[i] = 0;
     }
     for (auto i = 0; i < previousCapacity; i++) {
-      if (oldEntries[i] != nullptr) {
-        auto old   = oldEntries[i];
-        auto entry = old;
+      for (auto entry = oldEntries[i]; entry != nullptr; entry = entry->Next()) {
+        Put(entry->Key(), entry->Value());
+      }
+    }
+    FreeMapEntries(oldEntries, previousCapacity);
+  }
+
+  void FreeMapEntries(MutableMapEntry<K, V>** entries, size_t capacity) noexcept {
+    for (auto i = 0; i < capacity; i++) {
+      if (entries[i] != nullptr) {
+        MutableMapEntry* previous = nullptr;
+        MutableMapEntry* entry    = entries[i];
         while (entry != nullptr) {
-          Put(entry->Key(), entry->Value());
-          old   = entry;
-          entry = entry->Next();
-          delete old;
+          previous = entry;
+          entry    = entry->Next();
+          delete previous;
         }
       }
     }
-    delete[] oldEntries;
+    delete[] entries;
   }
+
+  MutableMapEntry<K, V>** FindBucket(const K& key) const noexcept {
+    return FindBucketFromHash(Hash(key));
+  };
+
+  MutableMapEntry<K, V>** FindBucketFromHash(int hash) const noexcept {
+    return &_entries[hash % _capacity];
+  };
+
+  MutableMapEntry<K, V>* FindNearestEntryInBucket(MutableMapEntry<K, V>* entry, const K& key) const noexcept {
+    while(entry->Next() != nullptr && entry->Value() != key) {
+      entry = entry->Next();
+    }
+    return entry;
+  };
 
 public:
 
@@ -88,28 +111,15 @@ public:
   }
 
   ~MutableMap() {
-    for (auto i = 0; i < _capacity; i++) {
-      if (_entries[i] != nullptr) {
-        MutableMapEntry* previous = nullptr;
-        MutableMapEntry* entry    = _entries[i];
-        while (entry != nullptr) {
-          previous = entry;
-          entry    = entry->Next();
-          delete previous;
-        }
-      }
-    }
-    delete[] _entries;
+    FreeMapEntries(_entries, _capacity);
   }
 
   Option<V&> Get(const K& key) const noexcept {
-    auto hash = Hash(key) % _capacity;
-    if (_entries[hash] != nullptr) {
-      auto entry = _entries[hash];
-      while(entry != nullptr && entry->Key() != key) {
-        entry = entry->Next();
-      }
-      if (entry != nullptr) {
+    auto bucket = FindBucket(key);
+    auto entry  = *bucket;
+    if (entry != nullptr) {
+      auto closest = FindNearestEntryInBucket(entry, key);
+      if (closest->Key() != key) {
         return Some(entry->Value());
       } else {
         return None();
@@ -120,19 +130,18 @@ public:
   }
 
   void Put(const K& key, const V& value) noexcept {
-    auto hash = Hash(key) % _capacity;
-    if (_entries[hash] == nullptr) {
+    auto hash   = Hash(key) % _capacity;
+    auto bucket = FindBucket(hash);
+    auto entry  = *bucket;
+    if (entry == nullptr) {
       _entries[hash] = new MutableMapEntry(key, value);
       _size++;
     } else {
-      auto entry = _entries[hash];
-      while(entry->Next() != nullptr) {
-        entry = entry->Next();
-      }
-      if (entry->Key() == key) {
-        entry->SetValue(value);
+      auto closest = FindNearestEntryInBucket(entry, key);
+      if (closest->Key() == key) {
+        closest->SetValue(value);
       } else {
-        entry->SetNext(new MutableMapEntry(key, value));
+        closest->SetNext(new MutableMapEntry(key, value));
         _size++;
       }
     }
@@ -142,10 +151,11 @@ public:
   }
 
   void Remove(const K& key) noexcept {
-    auto hash = Hash(key) % _capacity;
-    if (_entries[hash] != nullptr) {
+    auto hash   = Hash(key) % _capacity;
+    auto bucket = FindBucketFromHash(key);
+    auto entry  = *bucket;
+    if (entry != nullptr) {
       MutableMapEntry<K, V>* previous = nullptr;
-      auto entry = _entries[hash];
       while(entry != nullptr && entry->Key() != key) {
         previous = entry;
         entry    = entry->Next();

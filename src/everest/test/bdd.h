@@ -6,7 +6,6 @@
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/functions/types.h>
 #include <everest/cli/color.h>
 #include <everest/process/io.h>
 #include <everest/types/string.h>
@@ -122,13 +121,15 @@ void PrintForTraitorousTest(const String& str) {
   PrintLn(str);
 }
 
-void Describe(const String& str, std::function<void()> description) noexcept {
+template<class Thunk>
+void Describe(const String& str, Thunk description) noexcept {
   PrintForTraitorousTest(str);
   __traitorous_test_indent++;
   description();
   __traitorous_test_indent--;
 }
 
+template<class Thunk>
 void It(const String& str, Thunk test) noexcept {
   try {
     test();

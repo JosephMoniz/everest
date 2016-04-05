@@ -19,7 +19,7 @@ void CheckedSpecification() {
         auto expected = CheckedType::OK;
         auto result   = Ok<bool, int>(42).GetType();
         auto failure  = "Ok(42).GetType() did not return CheckedType::OK";
-          AssertEquals(failure, expected, result);
+        AssertEquals(failure, expected, result);
       });
       It("should evalute the Ok case when calling Match()", []() {
         auto result = Match(Ok<bool, int>(42),
@@ -115,67 +115,132 @@ void CheckedSpecification() {
         AssertEquals(failure, expected, result);
       });
       It("should return the sum of values when called with + and a value", []() {
-        AssertEquals(Ok<bool, int>(48), Ok<bool, int>(42) + Ok<bool, int>(6));
+        auto expected = Ok<bool, int>(48);
+        auto result   = Ok<bool, int>(42) + Ok<bool, int>(6);
+        auto failure  = "Ok(42) + Ok(6) did not evaluate to Ok(48)";
+        AssertEquals(failure, expected, result);
       });
       It("should return GREATER when called with Compare() and an error", []() {
-        AssertEquals(Ordering::GREATER, Compare(Ok<bool, int>(42), Error<bool, int>(false)));
+        auto expected = Ordering::GREATER;
+        auto result   = Compare(Ok<bool, int>(42), Error<bool, int>(false));
+        auto failure  = "Compare(Ok(42), Error(false)) did not return Ordering::GREATER";
+        AssertEquals(failure, expected, result);
       });
       It("should return GREATER when called with Compare() and a lesser Ok()", []() {
-        AssertEquals(Ordering::GREATER, Compare(Ok<bool, int>(42), Ok<bool, int>(8)));
+        auto expected = Ordering::GREATER;
+        auto result   = Compare(Ok<bool, int>(42), Ok<bool, int>(8));
+        auto failure  = "Compare(Ok(42), Ok(8)) did not return Ordering::GREATER";
+        AssertEquals(failure, expected, result);
       });
       It("should return EQUAL when called with Compare() and an equal Ok()", []() {
-        AssertEquals(Ordering::EQUAL, Compare(Ok<bool, int>(42), Ok<bool, int>(42)));
+        auto expected = Ordering::EQUAL;
+        auto result   = Compare(Ok<bool, int>(42), Ok<bool, int>(42));
+        auto failure  = "Compare(Ok(42), Ok(42)) did not return Ordering::EQUAL";
+        AssertEquals(failure, expected, result);
       });
       It("should return LESS when called with Compare() and a greater Ok()", []() {
-        AssertEquals(Ordering::LESS, Compare(Ok<bool, int>(42), Ok<bool, int>(100)));
+        auto expected = Ordering::LESS;
+        auto result   = Compare(Ok<bool, int>(42), Ok<bool, int>(100));
+        auto failure  = "Compare(Ok(42), Ok(100)) did not return Ordering::LESS";
+        AssertEquals(failure, expected, result);
       });
       It("should return n * 2 when called with Map(*2)", []() {
-        AssertEquals(Ok<bool, int>(84), Map(Multiply(2), Ok<bool, int>(42)));
+        auto expected = Ok<bool, int>(84);
+        auto result   = Map(Multiply(2), Ok<bool, int>(42));
+        auto failure  = "Map(Multiply(2), Ok(42)) did not return Ok(84)";
+        AssertEquals(failure, expected, result);
       });
       It("should return itself when called with Alt() and another Ok()", []() {
-        AssertEquals(Ok<bool, int>(42), Alt(Ok<bool, int>(42), Ok<bool, int>(12)));
+        auto expected = Ok<bool, int>(42);
+        auto result   = Alt(Ok<bool, int>(42), Ok<bool, int>(12));
+        auto failure  = "Alt(Ok(42), Ok(12)) did not return Ok(42)";
+        AssertEquals(failure, expected, result);
       });
       It("should return itself when called with Alt() and a Error()", []() {
-        AssertEquals(Ok<bool, int>(42), Alt(Ok<bool, int>(42), Error<bool, int>(false)));
+        auto expected = Ok<bool, int>(42);
+        auto result   = Alt(Ok<bool, int>(42), Error<bool, int>(false));
+        auto failure  = "Alt(Ok(42), Error(false)) did not return Ok(42)";
+        AssertEquals(failure, expected, result);
       });
       It("should return itself when compared with || and another Ok()", []() {
-        AssertEquals(Ok<bool, int>(42), Ok<bool, int>(42) || Ok<bool, int>(12));
+        auto expected = Ok<bool, int>(42);
+        auto result   = Ok<bool, int>(42) || Ok<bool, int>(12);
+        auto failure  = "Ok(42) || Ok(12) did not evaluate to Ok(42)";
+        AssertEquals(failure, expected, result);
       });
       It("should return itself when compared with || and Error()", []() {
-        AssertEquals(Ok<bool, int>(42), Ok<bool, int>(42) || Error<bool, int>(false));
+        auto expected = Ok<bool, int>(42);
+        auto result   = Ok<bool, int>(42) || Error<bool, int>(false);
+        auto failure  = "Ok(42) || Error(false) did not evaluate to Ok(42)";
+        AssertEquals(failure, expected, result);
       });
       It("should return none when called with FlatMap() and a function -> none", []() {
-        AssertEquals(Error<bool, int>(false), FlatMap([](auto n) { return Error<bool, int>(false); }, Ok<bool, int>(42)));
+        auto expected = Error<bool, int>(false);
+        auto mapper   = [](auto n) { return Error<bool, int>(false); };
+        auto result   = FlatMap(mapper, Ok<bool, int>(42));
+        auto failure  = "FlatMap((n) { return Error(false); }) did not return Error(false)";
+        AssertEquals(failure, expected, result);
       });
       It("should return n * 2 when called with flat_map and a function -> *2", []() {
-        AssertEquals(Ok<bool, int>(84), FlatMap([](auto n) { return Ok<bool, int>(n * 2); }, Ok<bool, int>(42)));
+        auto expected = Ok<bool, int>(84);
+        auto mapper   = [](auto n) { return Ok<bool, int>(n * 2); };
+        auto result   = FlatMap(mapper, Ok<bool, int>(42));
+        auto failure  = "FlatMap((n) { return Ok(n * 2); }) did not return Ok(84)";
+        AssertEquals(failure, expected, result);
       });
       It("should return the next Ok(n) when called with Then()", []() {
-        AssertEquals(Ok<bool, int>(42), Then(Ok<bool, int>(12), Ok<bool, int>(42)));
+        auto expected = Ok<bool, int>(42);
+        auto result   = Then(Ok<bool, int>(12), Ok<bool, int>(42));
+        auto failure  = "Then(Ok(12), Ok(42)) did not return Ok(42)";
+        AssertEquals(failure, expected, result);
       });
       It("should return the error when called with Then() and an error", []() {
-        AssertEquals(Error<bool, int>(false), Then(Ok<bool, int>(42), Error<bool, int>(false)));
+        auto expected = Error<bool, int>(false);
+        auto result   = Then(Ok<bool, int>(42), Error<bool, int>(false));
+        auto failure  = "Then(Ok(42), Error(false)) did not return Error(false)";
+        AssertEquals(failure, expected, result);
       });
       It("should return the inner value when called with Fold()", []() {
-        AssertEquals(42, Fold(Ok<bool, int>(42)));
+        auto expected = 42;
+        auto result   = Fold(Ok<bool, int>(42));
+        auto failure  = "Fold(Ok(42)) did not return 42";
+        AssertEquals(failure, expected, result);
       });
       It("should return the inner value mapped when called with FoldMap()", []() {
-        AssertEquals(42, FoldMap(Identity<int>(), Ok<bool, int>(42)));
+        auto expected = 42;
+        auto result   = FoldMap(Identity<int>(), Ok<bool, int>(42));
+        auto failure  = "FoldMap(Identity(), Ok(42)) did not return 42";
+        AssertEquals(failure, expected, result);
       });
       It("should return the folded value when called with FoldR()", []() {
-        AssertEquals(54, FoldR(Add<int>(), 12, Ok<bool, int>(42)));
+        auto expected = 54;
+        auto result   = FoldR(Add<int>(), 12, Ok<bool, int>(42));
+        auto failure  = "FoldR(Add(), 12, Ok(42)) did not return 54";
+        AssertEquals(failure, expected, result);
       });
       It("should return the folded value when called with FoldL()", []() {
-        AssertEquals(54, FoldL(Add<int>(), 12, Ok<bool, int>(42)));
+        auto expected = 54;
+        auto result   = FoldL(Add<int>(), 12, Ok<bool, int>(42));
+        auto failure  = "FoldL(Add(), 12, Ok(42)) did not return 54";
+        AssertEquals(failure, expected, result);
       });
       It("should return the inner value when called with GetOrElse()", []() {
-        AssertEquals(42, GetOrElse([]() { return 12; }, Ok<bool, int>(42)));
+        auto expected = 42;
+        auto result   = GetOrElse([]() { return 12; }, Ok<bool, int>(42));
+        auto failure  = "GetOrElse(() { return 12; }, Ok(42)) did not return 42";
+        AssertEquals(failure, expected, result);
       });
       It("should return the inner value when called with GetOrDefault()", []() {
-        AssertEquals(42, GetOrDefault(12, Ok<bool, int>(42)));
+        auto expected = 42;
+        auto result   = GetOrDefault(12, Ok<bool, int>(42));
+        auto failure  = "GetOrDefault(12, Ok(42)) did not return 42";
+        AssertEquals(failure, expected, result);
       });
       It("should return the string 'Ok(n)' when called with Show()", []() {
-        AssertEquals(String("Ok(42)"), Show(Ok<bool, int>(42)));
+        auto expected = String("Ok(42)");
+        auto result   = Show(Ok<bool, int>(42));
+        auto failure  = "Show(Ok(42)) did not return 'Ok(42)'";
+        AssertEquals(failure, expected, result);
       });
     });
     Describe("in the case of type Error", []() {

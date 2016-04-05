@@ -16,7 +16,7 @@ public:
 
   Array() noexcept { }
 
-  Array(std::initializer_list<T> list) {
+  Array(std::initializer_list<T> list) noexcept {
     size_t i = 0;
     auto it  = list.begin();
     for (; it != list.end(); it++, i++) {

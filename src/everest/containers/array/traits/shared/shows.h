@@ -23,7 +23,7 @@ public:
     for (size_t i = 0; i < S; i ++) {
       out = out + Shows<T>::Show(pointer[i]) + String(", ");
     }
-    return Take(out, out.Length() - 2) + String(")");
+    return Take(out.Length() - 2, out) + String(")");
   }
 
 };

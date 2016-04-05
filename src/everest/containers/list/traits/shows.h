@@ -22,7 +22,7 @@ public:
     for (auto current = list->Head(); current.Pointer() != nullptr; current = current->Next()) {
       out = out + Shows<T>::Show(current->Item()) + String(", ");
     }
-    return Take(out, out.Length() - 2) + String(")");
+    return Take(out.Length() - 2, out) + String(")");
   }
 
 };

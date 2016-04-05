@@ -57,7 +57,7 @@ constexpr inline bool Equals(int16_t lhs, int16_t rhs) noexcept {
   return Eq<int16_t>::Equals(lhs, rhs);
 }
 
-inline Predicate<int16_t> Equals(int16_t lhs) noexcept {
+Predicate<int16_t> Equals(int16_t lhs) noexcept {
   return [=](int16_t rhs) {
     return Eq<int16_t>::Equals(lhs, rhs);
   };
