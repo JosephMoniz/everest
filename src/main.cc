@@ -20,6 +20,7 @@
 #include <everest/specs/containers/shared_array_spec.h>
 #include <everest/specs/containers/vector.h>
 #include <everest/specs/containers/monoids/max_monoid_spec.h>
+#include <everest/specs/containers/monoids/min_monoid_spec.h.h>
 
 using namespace everest;
 
@@ -57,6 +58,7 @@ int main(int argc, char **argv) {
   // Monoid specifications
   //
   MaxMonoidSpecification();
+  MinMonoidSpecification();
 
 
   // Print and return the final test results

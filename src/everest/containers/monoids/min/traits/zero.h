@@ -10,11 +10,11 @@ template <class T>
 class ZeroVal<MinMonoid<T>> {
 public:
 
-static constexpr bool exists = true;
+  static constexpr bool exists = true;
 
-static constexpr MinMonoid<T> Zero() {
-  return Bounded<MinMonoid<T>>::MaxValue();
-}
+  static constexpr MinMonoid<T> Zero() {
+    return MinMonoid<T>(Bounded<T>::MaxValue());
+  }
 
 };
 
