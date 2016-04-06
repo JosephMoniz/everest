@@ -47,6 +47,7 @@ Containers
   + [`Checked<E, S>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/checked.h)
   + [`List<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/list.h)
   + [`Option<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/option.h)
+  + [`Vector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/vector.h)
 
 ### Immutable CRDTs
 

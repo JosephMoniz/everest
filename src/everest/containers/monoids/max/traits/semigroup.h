@@ -15,7 +15,7 @@ public:
   static constexpr MaxMonoid<T> Add(const MaxMonoid<T>& lhs,
                                     const MaxMonoid<T>& rhs) noexcept
   {
-    switch (Ord<T>::Compare(lhs.Value(), rhs.Value)) {
+    switch (Ord<T>::Compare(lhs.Value(), rhs.Value())) {
       case Ordering::LESS:    return rhs;
       case Ordering::GREATER: return lhs;
       case Ordering::EQUAL:   return lhs;

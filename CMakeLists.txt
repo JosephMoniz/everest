@@ -137,7 +137,6 @@ set(SOURCE_FILES
         src/everest/containers/enumerators/option_enumerator.h
         src/everest/containers/enumerators/array_enumerator.h
         src/everest/containers/enumerators/list_enumerator.h
-        src/everest/exceptions/no_such_element_exception.h
         src/everest/traits/unlawful/enumerable.h
         src/everest/containers/option/traits/shared/enumerable.h
         src/everest/traits/unlawful/enumerator.h
@@ -215,7 +214,30 @@ set(SOURCE_FILES
         src/everest/containers/monoids/min/traits/semigroup.h
         src/everest/containers/monoids/min/traits/monoid.h
         src/everest/memory/memory.h
-        src/everest/containers/array.h src/everest/containers/vector.h src/everest/memory/shared/shared_container.h src/everest/memory/unique.h src/everest/specs/containers/vector.h)
+        src/everest/containers/array.h
+        src/everest/containers/vector.h
+        src/everest/memory/shared/shared_container.h
+        src/everest/memory/unique.h
+        src/everest/specs/containers/vector.h
+        src/everest/containers/vector/containable.h
+        src/everest/containers/vector/container.h
+        src/everest/containers/vector/eq.h
+        src/everest/containers/vector/foldable.h
+        src/everest/containers/vector/functor.h
+        src/everest/containers/vector/monad.h
+        src/everest/containers/vector/hashable.h
+        src/everest/containers/vector/monoid.h
+        src/everest/containers/vector/ord.h
+        src/everest/containers/vector/semigroup.h
+        src/everest/containers/vector/show.h
+        src/everest/containers/vector/hexable.h
+        src/everest/containers/vector/zero.h
+        src/everest/containers/vector/takeable.h
+        src/everest/containers/vector/droppable.h
+        src/everest/containers/vector/stack.h
+        src/everest/containers/vector/queue.h
+        src/everest/containers/vector/filterable.h
+        src/everest/concurrency/mutex.h src/everest/concurrency/mutex/mutex_lock.h src/everest/concurrency/thread.h src/everest/specs/containers/monoids/max_monoid_spec.h src/everest/specs/containers/monoids/min_monoid_spec.h.h)
 
 add_executable(traitorous_og
         ${SOURCE_FILES}
