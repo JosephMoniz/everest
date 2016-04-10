@@ -1,5 +1,6 @@
 BUILDDIR=build
 SRCDIR=src
+TESTDIR=tests
 
 CFLAGS += -Wall
 CFLAGS += -Wextra
@@ -13,22 +14,20 @@ CFLAGS_FAST = $(CFLAGS) -O3
 CFLAGS_TEST = $(CFLAGS) -O0
 CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 
-INCLUDES = -I$(SRCDIR)
+INCLUDES = -I$(SRCDIR) -I$(TESTDIR)
 
 $(BUILDDIR)/everest: $(BUILDDIR)/main.o
 	$(CXX) $(CFLAGS_DEBUG) -o $@ $^
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cc
+$(BUILDDIR)/%.o: $(TESTDIR)/%.cc
 	mkdir -p `dirname $@`
 	$(CXX) $(CFLAGS_DEBUG) $(INCLUDES) -c $< -o $@
 
 test:
 	$(MAKE) clean
 	$(MAKE)
+	cp -R ./tests/fixtures ./build
 	./build/everest
-
-dep:
-	$(CXX) -MM $(SRCDIR)/*.cc $(INCLUDES)
 
 clean:
 	rm -rf build

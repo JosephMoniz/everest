@@ -3,7 +3,7 @@ project(traitorous_og)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-return-type -Wno-unknown-pragmas -ftemplate-backtrace-limit=0")
 
-include_directories(src)
+include_directories(src tests)
 
 set(SOURCE_FILES
         src/everest/cli/color.h
@@ -54,7 +54,7 @@ set(SOURCE_FILES
         src/everest/types/uint32.h
         src/everest/types/uint64.h
         src/everest/types/uint8.h
-        src/main.cc
+        tests/main.cc
         src/everest/containers/option/traits/hashable.h
         src/everest/containers/option/traits/zero.h
         src/everest/containers/option/traits/semigroup.h
@@ -75,7 +75,7 @@ set(SOURCE_FILES
         src/everest/containers/option/traits/shared/hashable.h
         src/everest/containers/option/traits/shared/monad.h
         src/everest/containers/option/traits/shared/semigroup.h
-        src/everest/specs/containers/shared_option_spec.h
+        tests/everest/containers/shared_option_spec.h
         src/everest/containers/option/traits/shared/zero.h
         src/everest/containers/option/traits/shared/monoid.h
         src/everest/containers/option/traits/shared/filterable.h
@@ -84,10 +84,10 @@ set(SOURCE_FILES
         src/everest/containers/option/traits/shared/unwrappable.h
         src/everest/containers/option/traits/shared/shows.h
         src/everest/containers/mutable/mutable_array.h
-        src/everest/specs/containers/checked_spec.h
-        src/everest/specs/containers/shared_checked_spec.h
-        src/everest/specs/containers/mutable/mutable_shared_array_spec.h
-        src/everest/specs/containers/mutable/mutable_array_spec.h
+        tests/everest/containers/checked_spec.h
+        tests/everest/containers/shared_checked_spec.h
+        tests/everest/containers/mutable/mutable_shared_array_spec.h
+        tests/everest/containers/mutable/mutable_array_spec.h
         src/everest/containers/mutable/mutable_array.h
         src/everest/containers/mutable/array/traits/shows.h
         src/everest/containers/mutable/array/traits/eq.h
@@ -110,8 +110,8 @@ set(SOURCE_FILES
         src/everest/containers/mutable/array/traits/shared/monoid.h
         src/everest/containers/mutable/array/traits/shared/hashable.h
         src/everest/containers/array.h
-        src/everest/specs/containers/shared_array_spec.h
-        src/everest/specs/containers/array_spec.h
+        tests/everest/containers/shared_array_spec.h
+        tests/everest/containers/array_spec.h
         src/everest/containers/array/traits/shows.h
         src/everest/containers/array/traits/eq.h
         src/everest/containers/array/traits/ord.h
@@ -157,19 +157,19 @@ set(SOURCE_FILES
         src/everest/containers/checked.h
         src/everest/concurrency/conveyor.h
         src/everest/concurrency/box.h
-        src/everest/specs/concurrency/box_spec.h
+        tests/everest/concurrency/box_spec.h
         src/everest/memory/mutable_memory.h
         src/everest/types/size.h
         src/everest/containers/mutable/mutable_map.h
         src/everest/containers/mutable/mutable_vector.h
         src/everest/containers/list.h
-        src/everest/specs/containers/list_spec.h
-        src/everest/process/io.h
+        tests/everest/containers/list_spec.h
+        src/everest/io/process.h
         src/everest/containers/crdt/counters/gcounter.h
         src/everest/containers/crdt/counters/pncounter.h
         src/everest/containers/monoids/max_monoid.h
         src/everest/containers/monoids/min_monoid.h
-        src/everest/specs/types/uint64_spec.h
+        tests/everest/types/uint64_spec.h
         src/everest/containers/option/option_type.h
         src/everest/containers/list/list_node.h
         src/everest/containers/checked/checked_type.h
@@ -218,7 +218,7 @@ set(SOURCE_FILES
         src/everest/containers/vector.h
         src/everest/memory/shared/shared_container.h
         src/everest/memory/unique.h
-        src/everest/specs/containers/vector.h
+        tests/everest/containers/vector_spec.h
         src/everest/containers/vector/containable.h
         src/everest/containers/vector/container.h
         src/everest/containers/vector/eq.h
@@ -237,20 +237,25 @@ set(SOURCE_FILES
         src/everest/containers/vector/stack.h
         src/everest/containers/vector/queue.h
         src/everest/containers/vector/filterable.h
-        src/everest/concurrency/mutex.h src/everest/concurrency/mutex/mutex_lock.h src/everest/concurrency/thread.h src/everest/specs/containers/monoids/max_monoid_spec.h src/everest/specs/containers/monoids/min_monoid_spec.h.h)
+        src/everest/concurrency/mutex.h
+        src/everest/concurrency/mutex/mutex_lock.h
+        src/everest/concurrency/thread.h
+        tests/everest/containers/monoids/max_monoid_spec.h
+        tests/everest/containers/monoids/min_monoid_spec.h
+        src/everest/io/file.h src/everest/io/file/file_open_error.h tests/everest/io/file_spec.h)
 
-add_executable(traitorous_og
+add_executable(everest
         ${SOURCE_FILES}
-        src/everest/specs/types/bool_spec.h
-        src/everest/specs/types/int8_spec.h
-        src/everest/specs/types/int16_spec.h
-        src/everest/specs/types/int32_spec.h
-        src/everest/specs/types/int64_spec.h
-        src/everest/specs/types/uint8_spec.h
-        src/everest/specs/types/uint16_spec.h
-        src/everest/specs/types/uint32_spec.h
-        src/everest/specs/types/string_spec.h
-        src/everest/specs/containers/option_spec.h
+        tests/everest/types/bool_spec.h
+        tests/everest/types/int8_spec.h
+        tests/everest/types/int16_spec.h
+        tests/everest/types/int32_spec.h
+        tests/everest/types/int64_spec.h
+        tests/everest/types/uint8_spec.h
+        tests/everest/types/uint16_spec.h
+        tests/everest/types/uint32_spec.h
+        tests/everest/types/string_spec.h
+        tests/everest/containers/option_spec.h
         src/everest/functions/identity.h
         src/everest/functions/types.h
         src/everest/meta/last_arg.h

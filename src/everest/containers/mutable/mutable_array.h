@@ -2,6 +2,7 @@
 
 #include <initializer_list>
 #include <everest/memory/shared.h>
+#include <everest/traits/lawful/functor.h>
 
 namespace everest {
 

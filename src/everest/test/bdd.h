@@ -7,9 +7,9 @@
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/cli/color.h>
-#include <everest/process/io.h>
 #include <everest/types/string.h>
 #include <everest/types/size.h>
+#include <everest/io/process.h>
 
 namespace everest {
 

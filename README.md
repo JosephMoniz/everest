@@ -27,6 +27,7 @@ Memory Management
   + [`Memory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/mutable_memory.h)
   + [`MutableMemory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/mutable_memory.h)
   + [`Shared<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/shared.h)
+  + [`Unique<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/unique.h)
   
 Function Types
 --------------
@@ -122,14 +123,9 @@ Traits
 Todo
 ----
 
-  + Make String into a Rope implementation
-  + Implement `Vector<T>` as an immutable 32 way HAMT
-  + Implement `Map<K, V>` as an immutable 32 way HAMT
   + A free list based `Pool<T>` container
-  + RAII Concurrency utils such as `Mutex`
   + Implement thread pools
   + Implement `ConcurrentShared<T>`
   + An IO Abstraction suite around `kqueue()`
   + An thread based facade to `mlock`/`munlock` for async `mmap`
-  + Trait for converting things to hex strings
   + Crypto primitives (md5/sha1)

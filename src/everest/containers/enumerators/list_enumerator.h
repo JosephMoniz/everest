@@ -16,13 +16,9 @@ class ListEnumerator {
 
 public:
 
-  ListEnumerator(const List<T>& list) noexcept : _next(list->Head()) {
-    //
-  }
+  ListEnumerator(const List<T>& list) noexcept : _next(list->Head()) { }
 
-  ListEnumerator(const ListEnumerator<T>& other) noexcept : _next(other._next) {
-    //
-  }
+  ListEnumerator(const ListEnumerator<T>& other) noexcept : _next(other._next) { }
 
 
   ListEnumerator<T>& operator=(const ListEnumerator<T>& enumerator) noexcept {
