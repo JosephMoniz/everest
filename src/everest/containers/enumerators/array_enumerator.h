@@ -38,11 +38,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static const Option<T> Next(const T& enumerator) noexcept {
+  static constexpr Option<T> Next(const T& enumerator) noexcept {
     if (enumerator._position >= enumerator._array->Size()) {
-      return Option<T>(enumerator._array->pointer()[enumerator._position++]);
+      return Some(enumerator._array->pointer()[enumerator._position++]);
     } else {
-      return Option<T>();
+      return None<T>();
     }
   }
 

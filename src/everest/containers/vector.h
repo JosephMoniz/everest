@@ -44,6 +44,12 @@ public:
     _memory = memory;
   }
 
+  Vector(const Vector<T>& other) = delete;
+
+  Vector(Vector<T>&& other) noexcept : _length(std::move(other._length)),
+                                       _memory(std::move(other._memory)) {}
+    
+
   Vector(Memory<T>&& memory) noexcept : _length(memory.Length()),
                                         _memory(std::move(memory)) { }
 

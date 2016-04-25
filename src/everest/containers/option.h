@@ -13,7 +13,7 @@ class Option final {
 
   const OptionType _tag;
 
-  data_t _value;
+  T _value;
 
 public:
 
@@ -24,7 +24,7 @@ public:
   }
 
   Option(T&& value) noexcept : _tag(OptionType::SOME) {
-    _value = std::move(value);
+    new (&_value) T(std::move(value));
   }
 
   ~Option() noexcept {
@@ -47,8 +47,13 @@ template<class T>
 using SharedOption = Shared<Option<T>>;
 
 template<class T>
-const Option<T> Some(const T &o) {
-  return Option<T>(o);
+const Option<T> Some(const T& option) {
+  return Option<T>(option);
+}
+
+template<class T>
+const Option<T> Some(T&& option) {
+  return Option<T>(std::move(option));
 }
 
 template<class T>

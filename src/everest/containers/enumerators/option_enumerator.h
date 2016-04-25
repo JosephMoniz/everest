@@ -15,16 +15,10 @@ class OptionEnumerator {
 public:
 
   OptionEnumerator(const SharedOption<T>& option) noexcept : _done(false),
-                                                             _option(option)
-  {
-    //
-  }
+                                                             _option(option) { }
 
   OptionEnumerator(const OptionEnumerator<T>& other) noexcept : _done(other._done),
-                                                                _option(other._option)
-  {
-    //
-  }
+                                                                _option(other._option) { }
 
   OptionEnumerator<T>& operator=(const OptionEnumerator<T>& enumerator) noexcept {
     _done   = enumerator._done;
@@ -43,9 +37,9 @@ public:
   static const Option<T> Next(const T& enumerator) noexcept {
     if (!enumerator._done && enumerator._option->GetType() == OptionType::SOME) {
       enumerator._done = true;
-      return Option<T>(enumerator._option->Get());
+      return Some(enumerator._option->Get());
     } else {
-      return Option<T>();
+      return None<T>();
     }
   }
 

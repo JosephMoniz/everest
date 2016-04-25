@@ -34,13 +34,13 @@ public:
 
   static constexpr bool exists = true;
 
-  static const Option<T> Next(const T& enumerator) noexcept {
+  static constexpr Option<T> Next(const T& enumerator) noexcept {
     if (enumerator._next != nullptr) {
       auto result      = enumerator._next;
       enumerator._next = enumerator._next->Next();
-      return Option<T>(result);
+      return Some(result);
     } else {
-      return Option<T>();
+      return None<T>();
     }
   }
 

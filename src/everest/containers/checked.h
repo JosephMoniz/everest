@@ -28,7 +28,7 @@ public:
   }
 
   Checked(const CheckedType& tag, T&& value) noexcept : _tag(tag) {
-    _value = std::move(value);
+    new (&_value) T(std::move(value));
   }
 
   Checked(const CheckedType& tag, const E& value) noexcept : _tag(tag) {
@@ -36,7 +36,7 @@ public:
   }
 
   Checked(const CheckedType& tag, E&& value) noexcept : _tag(tag) {
-    _value = std::move(value);
+    new (&_value) E(std::move(value));
   }
 
   ~Checked() noexcept {
@@ -55,8 +55,16 @@ public:
     return *reinterpret_cast<const T*>(&_value);
   }
 
+  T&& GetMovable() const noexcept {
+    return std::move(*reinterpret_cast<T*>((data_t*)&_value));
+  }
+
   const E& GetError() const noexcept {
     return *reinterpret_cast<const E*>(&_value);
+  }
+
+  E&& GetMovableError() const noexcept {
+    return std::move(*reinterpret_cast<E*>((data_t*)&_value));
   }
 
   constexpr bool IsOk() const noexcept {
@@ -73,13 +81,23 @@ template <class E, class T>
 using SharedChecked = Shared<Checked<E, T>>;
 
 template<class E, class T>
-const Checked<E, T> Error(const E &error) {
+const Checked<E, T> Error(const E& error) {
   return Checked<E, T>(CheckedType::ERROR, error);
 }
 
 template<class E, class T>
-const Checked<E, T> Ok(const T &ok) {
+const Checked<E, T> Error(E&& error) {
+  return Checked<E, T>(CheckedType::ERROR, std::move(error));
+}
+
+template<class E, class T>
+const Checked<E, T> Ok(const T& ok) {
   return Checked<E, T>(CheckedType::OK, ok);
+}
+
+template<class E, class T>
+const Checked<E, T> Ok(T&& ok) {
+  return Checked<E, T>(CheckedType::OK, std::move(ok));
 }
 
 template<class E, class T>

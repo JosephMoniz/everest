@@ -242,7 +242,10 @@ set(SOURCE_FILES
         src/everest/concurrency/thread.h
         tests/everest/containers/monoids/max_monoid_spec.h
         tests/everest/containers/monoids/min_monoid_spec.h
-        src/everest/io/file.h src/everest/io/file/file_open_error.h tests/everest/io/file_spec.h)
+        src/everest/io/file.h
+        src/everest/io/memory_mapped_file.h
+        src/everest/io/file/stat.h
+        tests/everest/io/file_spec.h)
 
 add_executable(everest
         ${SOURCE_FILES}
