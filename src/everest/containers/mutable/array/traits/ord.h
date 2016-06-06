@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/unlawful/ord.h>
 
 namespace everest {

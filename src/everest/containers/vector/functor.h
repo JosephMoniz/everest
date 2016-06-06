@@ -6,6 +6,9 @@
 namespace everest {
 
 template<class T>
+class Vector;
+
+template<class T>
 class Functor<Vector<T>> {
 public:
 
@@ -13,14 +16,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static Vector<B> Map(F f, const Vector<T>& vector) noexcept {
-    auto length = vector.Length();
-    auto memory = MutableMemory<B>(length);
-    auto source = vector.Pointer();
-    auto dest   = memory.MutablePointer();
-    for (size_t i = 0; i < length; i++) {
-      dest[i] = f(source[i]);
-    }
-    return Vector<T>(Memory<T>(memory));
+    return Functor<MutableVector<T>>::Map(f, vector._wrapped);
   }
 
 };

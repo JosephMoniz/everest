@@ -23,12 +23,12 @@ public:
 };
 
 template <class T>
-constexpr inline T Alt(const T& a, const T& b) noexcept {
+constexpr T Alt(const T& a, const T& b) noexcept {
   return Alternative<T>::Alt(a, b);
 }
 
 template <class T>
-constexpr inline T operator||(const T& lhs, const T& rhs) noexcept {
+constexpr T operator||(const T& lhs, const T& rhs) noexcept {
   return Alternative<T>::Alt(lhs, rhs);
 }
 

@@ -2,15 +2,20 @@
 
 #include <utility>
 #include <everest/memory/shared/shared_container.h>
+#include <everest/traits/unlawful/Pointable.h>
 
 namespace everest {
 
 template<class T>
 class Shared final {
 
+  friend class Pointable<Shared<T>>;
+
   SharedContainer<T>* _container;
 
 public:
+
+  Shared() noexcept : _container(nullptr) { }
 
   Shared(SharedContainer<T>* container) noexcept : _container(container) { }
 
@@ -25,16 +30,32 @@ public:
   }
 
   Shared& operator=(const Shared<T>& other) noexcept {
+    bool wasSet = false;
+    SharedContainer<T>* tmp = _container;
+    if (_container != nullptr) {
+      wasSet = true;
+    }
     _container = other._container;
     if (_container != nullptr) {
       _container->Ref();
+    }
+    if (wasSet) {
+      tmp->UnRef();
     }
     return *this;
   }
 
   Shared& operator=(Shared<T>&& other) noexcept {
+    bool wasSet = false;
+    SharedContainer<T>* tmp = _container;
+    if (_container != nullptr) {
+      wasSet = true;
+    }
     _container       = other._container;
     other._container = nullptr;
+    if (wasSet) {
+      tmp->UnRef();
+    }
     return *this;
   }
 
@@ -54,17 +75,25 @@ public:
     return *_container->Data();
   }
 
-  T* Pointer() const noexcept {
-    return _container != nullptr
-           ? _container->Data()
-           : nullptr;
-  }
-
 };
 
 template<class T, class ...As>
 Shared<T> MakeShared(const As&... args) {
   return Shared<T>(new SharedContainer<T>(args...));
 }
+
+template <class T>
+class Pointable<Shared<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const T* Pointer(const Shared<T>& memory) noexcept {
+    return memory._container != nullptr
+      ? memory._container->Data()
+      : nullptr;
+  }
+
+};
 
 }

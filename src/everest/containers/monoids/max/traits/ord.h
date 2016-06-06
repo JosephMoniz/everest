@@ -6,6 +6,9 @@
 namespace everest {
 
 template<class T>
+class MaxMonoid;
+
+template<class T>
 class Ord<MaxMonoid<T>> {
 public:
 

@@ -18,7 +18,7 @@ public:
   static Ordering Compare(const List<T> &lhs, const List<T> &rhs) noexcept {
     if (lhs->Length() == rhs->Length()) {
       for (auto lCurrent = lhs->Head(), rCurrent = rhs->Head();
-           lCurrent.Pointer() != nullptr && rCurrent.Pointer() != nullptr;
+           Pointer(lCurrent) != nullptr && Pointer(rCurrent) != nullptr;
            lCurrent = lCurrent->Next(), rCurrent = rCurrent->Next())
       {
         auto result = Ord<T>::Compare(lCurrent->Item(), rCurrent->Item());

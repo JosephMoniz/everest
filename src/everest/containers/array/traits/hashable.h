@@ -16,7 +16,7 @@ public:
 
   static int Hash(const Array<T, S>& array) noexcept {
     int result   = 37;
-    auto pointer = array.Pointer();
+    auto pointer = Pointer(array);
     for (size_t i = 0; i < S; i++) {
       result = 37 * result + Hash(pointer[i]);
     }

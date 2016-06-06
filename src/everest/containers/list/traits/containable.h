@@ -17,7 +17,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const List<T>& list) noexcept {
-    for (auto it = list->Head(); it.Pointer() != nullptr; it = it->Next()) {
+    for (auto it = list->Head(); Pointer(it) != nullptr; it = it->Next()) {
       if (Eq<T>::Equals(it->Item(), n)) {
         return true;
       }

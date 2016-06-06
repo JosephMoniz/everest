@@ -7,6 +7,9 @@
 namespace everest {
 
 template<class T>
+class MinMonoid;
+
+template<class T>
 class Shows<MinMonoid<T>> {
 public:
 

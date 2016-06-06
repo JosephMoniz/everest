@@ -16,11 +16,11 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const SharedArray<T, S>& o) noexcept {
-    return Container<Array<T, S>>::Length(*o.Pointer());
+    return Container<Array<T, S>>::Length(*o);
   }
 
   static constexpr bool IsEmpty(const SharedArray<T, S>& o) noexcept {
-    return Container<Array<T, S>>::IsEmpty(*o.Pointer());
+    return Container<Array<T, S>>::IsEmpty(*o);
   }
 
 };

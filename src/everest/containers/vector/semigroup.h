@@ -7,25 +7,16 @@
 namespace everest {
 
 template<class T>
+class Vector;
+
+template<class T>
 class Semigroup<Vector<T>> {
 public:
 
   static constexpr bool exists = true;
 
   static constexpr Vector<T> Add(const Vector<T>& lhs, const Vector<T>& rhs) noexcept {
-    auto lhsLength   = lhs.Length();
-    auto rhsLength   = rhs.Length();
-    auto memory      = MutableMemory<T>(lhsLength + rhsLength);
-    auto destPointer = memory.MutablePointer();
-    auto lhsPointer  = lhs.Pointer();
-    auto rhsPointer  = rhs.Pointer();
-    for (size_t i = 0; i < lhsLength; i++) {
-      destPointer[i] = lhsPointer[i];
-    }
-    for (size_t i = 0; i < rhsLength; i++) {
-      destPointer[i + lhsLength] = rhsPointer[i];
-    }
-    return Vector<T>(Memory<T>(memory));
+    return Vector<T>(Semigroup<MutableVector<T>>::Add(lhs._wrapped, rhs._wrapped));
   }
 
 };

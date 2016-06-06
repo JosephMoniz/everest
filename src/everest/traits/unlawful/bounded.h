@@ -16,12 +16,12 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U MinValue() noexcept {
+  static constexpr U MinValue() noexcept {
     return Base::MinValue();
   }
 
   template <class U>
-  static constexpr inline U MaxValue() noexcept {
+  static constexpr U MaxValue() noexcept {
     return Base::MaxValue();
   }
 
@@ -44,12 +44,12 @@ public:
 };
 
 template <class T>
-constexpr inline T MinValue() noexcept {
+constexpr T MinValue() noexcept {
   return Bounded<T>::MinValue();
 }
 
 template <class T>
-constexpr inline T MaxValue() noexcept {
+constexpr T MaxValue() noexcept {
   return Bounded<T>::MaxValue();
 }
 

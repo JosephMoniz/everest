@@ -15,15 +15,17 @@ public:
 
   static constexpr bool exists = true;
 
-  static Ordering Compare(const SharedArray<T, S> &lhs, const SharedArray<T, S> &rhs) noexcept {
-    return Ord<Array<T, S>>::Compare(*lhs.Pointer(), *rhs.Pointer());
+  static Ordering Compare(const SharedArray<T, S> &lhs,
+                          const SharedArray<T, S> &rhs) noexcept
+  {
+    return Ord<Array<T, S>>::Compare(*lhs, *rhs);
   }
 
   template<size_t Rs>
   static constexpr Ordering Compare(const SharedArray<T, S> &lhs,
                                     const SharedArray<T, Rs> &rhs) noexcept
   {
-    return Ord<Array<T, S>>::Compare(*lhs.Pointer(), *rhs.Pointer());
+    return Ord<Array<T, S>>::Compare(*lhs, *rhs);
   }
 
   static constexpr const SharedArray<T, S>& Min(const SharedArray<T, S> &lhs,

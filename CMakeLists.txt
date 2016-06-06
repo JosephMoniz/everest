@@ -88,7 +88,9 @@ set(SOURCE_FILES
         tests/everest/containers/shared_checked_spec.h
         tests/everest/containers/mutable/mutable_shared_array_spec.h
         tests/everest/containers/mutable/mutable_array_spec.h
-        src/everest/containers/mutable/mutable_array.h
+        tests/everest/containers/mutable/mutable_vector_spec.h
+        src/everest/containers/mutable/mutable_bitset.h
+        src/everest/containers/mutable/mutable_set.h
         src/everest/containers/mutable/array/traits/shows.h
         src/everest/containers/mutable/array/traits/eq.h
         src/everest/containers/mutable/array/traits/ord.h
@@ -136,6 +138,7 @@ set(SOURCE_FILES
         src/everest/containers/array/traits/shared/hashable.h
         src/everest/containers/enumerators/option_enumerator.h
         src/everest/containers/enumerators/array_enumerator.h
+        src/everest/containers/bitset.h
         src/everest/containers/enumerators/list_enumerator.h
         src/everest/traits/unlawful/enumerable.h
         src/everest/containers/option/traits/shared/enumerable.h
@@ -169,6 +172,8 @@ set(SOURCE_FILES
         src/everest/containers/crdt/counters/pncounter.h
         src/everest/containers/monoids/max_monoid.h
         src/everest/containers/monoids/min_monoid.h
+        src/everest/containers/monoids/average_monoid.h
+        src/everest/containers/monoids/std_deviation_monoid.h
         tests/everest/types/uint64_spec.h
         src/everest/containers/option/option_type.h
         src/everest/containers/list/list_node.h
@@ -237,15 +242,16 @@ set(SOURCE_FILES
         src/everest/containers/vector/stack.h
         src/everest/containers/vector/queue.h
         src/everest/containers/vector/filterable.h
-        src/everest/concurrency/mutex.h
-        src/everest/concurrency/mutex/mutex_lock.h
-        src/everest/concurrency/thread.h
         tests/everest/containers/monoids/max_monoid_spec.h
         tests/everest/containers/monoids/min_monoid_spec.h
         src/everest/io/file.h
         src/everest/io/memory_mapped_file.h
         src/everest/io/file/stat.h
-        tests/everest/io/file_spec.h)
+        tests/everest/io/file_spec.h
+        src/everest/traits/unlawful/pointable.h
+        src/everest/containers/array/traits/pointable.h
+        src/everest/containers/array/traits/shared/pointable.h
+        src/everest/containers/vector/pointable.h src/everest/traits/unlawful/square_root.h src/everest/traits/unlawful/mutable/mutable_filter.h src/everest/traits/unlawful/mutable/mutable_pointer.h src/everest/traits/unlawful/mutable/mutable_stack.h src/everest/traits/unlawful/mutable/mutable_drop.h)
 
 add_executable(everest
         ${SOURCE_FILES}

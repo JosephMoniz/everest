@@ -14,14 +14,14 @@ public:
   static constexpr bool exists = false;
 
   template <class T>
-  static constexpr inline T Intersect(const T& a, const T& b) noexcept {
+  static constexpr T Intersect(const T& a, const T& b) noexcept {
     return Base::Intersect(a, b);
   }
 
 };
 
 template <class T>
-constexpr inline T Intersect(const T& a, const T& b) noexcept {
+constexpr T Intersect(const T& a, const T& b) noexcept {
   return Intersectable<T>::Intersect(a, b);
 }
 

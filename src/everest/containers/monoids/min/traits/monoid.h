@@ -6,6 +6,9 @@
 namespace everest {
 
 template<class T>
+class MinMonoid;
+
+template<class T>
 class Monoid<MinMonoid<T>> {
 public:
 

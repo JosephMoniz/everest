@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/unlawful/containable.h>
 #include <everest/memory/shared.h>
 
@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const SharedMutableArray<T, S>& array) noexcept {
-    return Containable<MutableArray<T, S>, T>::Contains(n, *array.Pointer());
+    return Containable<MutableArray<T, S>, T>::Contains(n, *array);
   }
 
 };

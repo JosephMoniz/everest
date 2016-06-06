@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U Modulo(const U& lhs, const U& rhs) noexcept {
+  static constexpr U Modulo(const U& lhs, const U& rhs) noexcept {
     return Base::Modulo(lhs, rhs);
   }
 
@@ -33,7 +33,7 @@ public:
 };
 
 template <class T>
-constexpr inline T Remainder(const T& lhs, const T& rhs) noexcept {
+constexpr T Remainder(const T& lhs, const T& rhs) noexcept {
   return Modulus<T>::Modulo(lhs, rhs);
 }
 

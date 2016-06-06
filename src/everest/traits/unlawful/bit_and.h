@@ -32,7 +32,7 @@ public:
 };
 
 template <class T>
-constexpr inline T BinaryAnd(const T& lhs, const T& rhs) noexcept {
+constexpr T BinaryAnd(const T& lhs, const T& rhs) noexcept {
   return BitAnd<T>::BinaryAnd(lhs, rhs);
 }
 

@@ -20,7 +20,7 @@ public:
 };
 
 template<class F, class T>
-inline bool Contains(const T& n, const F& f) {
+bool Contains(const T& n, const F& f) {
   return Containable<F, T>::Contains(n, f);
 }
 

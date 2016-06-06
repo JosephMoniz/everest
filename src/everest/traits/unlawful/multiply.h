@@ -16,12 +16,12 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U Multiply(const U& lhs, const U& rhs) noexcept {
+  static constexpr U Multiply(const U& lhs, const U& rhs) noexcept {
     return Base::Multiply(lhs, rhs);
   }
 
   template <class U>
-  static constexpr inline Function<const U&, U> Multiply(const U& lhs) noexcept {
+  static constexpr Function<const U&, U> Multiply(const U& lhs) noexcept {
     return [&](const U& rhs) {
       return Base::Multiply(lhs, rhs);
     };
@@ -42,19 +42,19 @@ public:
 };
 
 template <class T>
-constexpr inline T Multiply(const T& lhs, const T& rhs) noexcept {
+constexpr T Multiply(const T& lhs, const T& rhs) noexcept {
   return Multipliable<T>::Multiply(lhs, rhs);
 }
 
 template <class T>
-constexpr inline Function<const T&, T> Multiply(const T& lhs) noexcept {
+constexpr Function<const T&, T> Multiply(const T& lhs) noexcept {
   return [&](const T& rhs) {
     return Multipliable<T>::Multiply(lhs, rhs);
   };
 }
 
 template <class T>
-constexpr inline T operator*(const T& lhs, const T& rhs) noexcept {
+constexpr T operator*(const T& lhs, const T& rhs) noexcept {
   return Multipliable<T>::Multiply(lhs, rhs);
 }
 

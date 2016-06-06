@@ -5,7 +5,7 @@
 namespace everest {
 
 template <class T>
-struct Stack {
+class Stack {
 
   typedef Stack<T> Base;
 

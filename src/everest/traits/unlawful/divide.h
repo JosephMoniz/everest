@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U Divide(const U& lhs, const U& rhs) noexcept {
+  static constexpr U Divide(const U& lhs, const U& rhs) noexcept {
     return Base::Divide(lhs, rhs);
   }
 
@@ -33,12 +33,12 @@ public:
 };
 
 template <class T>
-constexpr inline T Divide(const T& lhs, const T& rhs) noexcept {
+constexpr T Divide(const T& lhs, const T& rhs) noexcept {
   return Dividable<T>::Divide(lhs, rhs);
 }
 
 template <class T>
-constexpr inline T operator/(const T& lhs, const T& rhs) noexcept {
+constexpr T operator/(const T& lhs, const T& rhs) noexcept {
   return Dividable<T>::Divide(lhs, rhs);
 }
 

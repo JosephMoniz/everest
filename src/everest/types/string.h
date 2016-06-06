@@ -9,11 +9,13 @@
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/takeable.h>
 #include <everest/memory/memory.h>
+#include <everest/traits/unlawful/container.h>
 
 namespace everest {
 
 class String {
 
+  friend class Container<String>;
   friend class Semigroup<String>;
 
   Memory<char> _memory;
@@ -41,14 +43,14 @@ public:
                                                           _length(length) { }
 
   String(const String& other) noexcept : _length(other._length) {
-    _memory = Memory<char>(other._memory.Pointer(), other._memory.Length());
+    _memory = Memory<char>(Pointer(other._memory), Length(other._memory));
   }
 
   String(String&& other) noexcept : _memory(std::move(other._memory)),
                                     _length(std::move(other._length)) { }
 
   String& operator=(const String& other) noexcept {
-    _memory = Memory<char>(other._memory.Pointer(), other._memory.Length());
+    _memory = Memory<char>(Pointer(other._memory), Length(other._memory));
     _length = other._length;
     return *this;
   }
@@ -61,19 +63,15 @@ public:
   }
 
   const char* CString() const noexcept {
-    return _memory.Pointer();
-  }
-
-  size_t Length() const noexcept {
-    return _length;
+    return Pointer(_memory);
   }
 
   size_t Capacity() const noexcept {
-    return _memory.Length();
+    return Length(_memory);
   }
 
   bool IsByteAligned() const noexcept {
-    return Length() == (Capacity() - 1);
+    return _length == (Capacity() - 1);
   }
 
 };
@@ -84,6 +82,22 @@ SharedString MakeSharedString(const char* pointer) {
   return MakeShared<String>(pointer);
 }
 
+template <>
+class Container<String> {
+public:
+
+static constexpr bool exists = true;
+
+static constexpr size_t Length(const String& string) noexcept {
+  return string._length;
+}
+
+static constexpr bool IsEmpty(const String& string) noexcept {
+  return string._length == 0;
+}
+
+};
+
 template<>
 class Eq<String> {
 public:
@@ -91,7 +105,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const String& lhs, const String& rhs) noexcept {
-    if (lhs.Length() != rhs.Length() || lhs.Capacity() != rhs.Capacity()) {
+    if (Length(lhs) != Length(rhs) || lhs.Capacity() != rhs.Capacity()) {
       return false;
     } else {
       auto lPointer = lhs.CString();
@@ -115,13 +129,13 @@ public:
   static constexpr bool exists = true;
 
   static const String Take(size_t size, const String& inString) noexcept {
-    if (inString.Length() <= size) {
+    if (Length(inString) <= size) {
       return inString;
     } else {
       auto string = inString.CString();
       if (inString.IsByteAligned()) {
         auto memory = MutableMemory<char>(string, size + 1);
-        memory.MutablePointer()[size] = '\0';
+        MutablePointer(memory)[size] = '\0';
         return String(std::move(memory), size);
       } else {
         size_t length   = 0;
@@ -132,7 +146,7 @@ public:
           }
         }
         auto memory = MutableMemory<char>(string, ++capacity);
-        memory.MutablePointer()[length] = '\0';
+        MutablePointer(memory)[length] = '\0';
         return String(std::move(memory), length);
       }
     }
@@ -140,13 +154,13 @@ public:
 
   static const String TakeWhile(Predicate<char> predicate, const String& string) noexcept {
     size_t offset = 0;
-    size_t length = string.Length();
+    size_t length = Length(string);
     auto pointer  = string.CString();
     while (offset < length && predicate(pointer[offset])) {
       offset++;
     }
     auto memory = MutableMemory<char>(pointer, offset + 1);
-    memory.MutablePointer()[length] = '\0';
+    MutablePointer(memory)[length] = '\0';
     return String(std::move(memory), length);
   }
 
@@ -162,9 +176,9 @@ public:
     auto lCapacity  = lhs.Capacity() - 1;
     auto capacity   = lCapacity + rhs.Capacity();
     auto memory     = MutableMemory<char>(capacity);
-    auto lPointer   = lhs._memory.Pointer();
-    auto rPointer   = rhs._memory.Pointer();
-    auto srcPointer = memory.MutablePointer();
+    auto lPointer   = Pointer(lhs._memory);
+    auto rPointer   = Pointer(rhs._memory);
+    auto srcPointer = MutablePointer(memory);
     for (size_t i = 0; i < lCapacity; i++) {
       srcPointer[i] = lPointer[i];
     }

@@ -39,17 +39,17 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline Ordering Compare(const U& lhs, const U& rhs) noexcept {
+  static constexpr Ordering Compare(const U& lhs, const U& rhs) noexcept {
     return Base::Compare(lhs, rhs);
   }
 
   template <class U>
-  static constexpr inline U Min(const U& lhs, const U& rhs) noexcept {
+  static constexpr U Min(const U& lhs, const U& rhs) noexcept {
     return Base::Min(lhs, rhs);
   }
 
   template <class U>
-  static constexpr inline U Max(const U& lhs, const U& rhs) noexcept {
+  static constexpr U Max(const U& lhs, const U& rhs) noexcept {
     return Base::Max(lhs, rhs);
   }
 
@@ -84,54 +84,54 @@ public:
 // These are for the case of comparing the same types
 //
 template <class T>
-constexpr inline Ordering Compare(const T& lhs, const T& rhs) noexcept {
+constexpr Ordering Compare(const T& lhs, const T& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs);
 }
 
 template <class T>
-constexpr inline T Min(const T& lhs, const T& rhs) noexcept {
+constexpr T Min(const T& lhs, const T& rhs) noexcept {
   return Ord<T>::Min(lhs, rhs);
 }
 
 template <class T>
-constexpr inline T Max(const T& lhs, const T& rhs) noexcept {
+constexpr T Max(const T& lhs, const T& rhs) noexcept {
   return Ord<T>::Max(lhs, rhs);
 }
 
 template <class T>
-constexpr inline bool operator<(const T& lhs, const T& rhs) noexcept {
+constexpr bool operator<(const T& lhs, const T& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs) == Ordering::LESS;
 }
 
 template <class T>
-constexpr inline bool operator>(const T& lhs, const T& rhs) noexcept {
+constexpr bool operator>(const T& lhs, const T& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs) == Ordering::GREATER;
 }
 
 // These are the cases for comparing different types
 //
 template <class T, class U>
-constexpr inline Ordering Compare(const T& lhs, const U& rhs) noexcept {
+constexpr Ordering Compare(const T& lhs, const U& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs);
 }
 
 template <class T, class U>
-constexpr inline T Min(const T& lhs, const U& rhs) noexcept {
+constexpr T Min(const T& lhs, const U& rhs) noexcept {
   return Ord<T>::Min(lhs, rhs);
 }
 
 template <class T, class U>
-constexpr inline T Max(const T& lhs, const U& rhs) noexcept {
+constexpr T Max(const T& lhs, const U& rhs) noexcept {
   return Ord<T>::Max(lhs, rhs);
 }
 
 template <class T, class U>
-constexpr inline bool operator<(const T& lhs, const U& rhs) noexcept {
+constexpr bool operator<(const T& lhs, const U& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs) == Ordering::LESS;
 }
 
 template <class T, class U>
-constexpr inline bool operator>(const T& lhs, const U& rhs) noexcept {
+constexpr bool operator>(const T& lhs, const U& rhs) noexcept {
   return Ord<T>::Compare(lhs, rhs) == Ordering::GREATER;
 }
 

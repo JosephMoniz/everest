@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/mutable/mutable_array.h>
+#include <everest/containers/array.h>
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
 

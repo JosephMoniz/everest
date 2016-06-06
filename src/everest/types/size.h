@@ -111,7 +111,7 @@ public:
     auto offset   = size;
     auto capacity = size + 1;
     auto memory   = MutableMemory<char>(capacity);
-    auto pointer  = memory.MutablePointer();
+    auto pointer  = MutablePointer(memory);
     for (auto i = size; i; i--) {
       pointer[--offset] = (char) (number % 10) + '0';
       number /= 10;

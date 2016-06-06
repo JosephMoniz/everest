@@ -19,11 +19,11 @@ public:
 
   static const String Show(const SharedArray<T, S>& array) noexcept {
     auto out     = String("SharedArray(");
-    auto pointer = array->Pointer();
+    auto pointer = Pointer(*array);
     for (size_t i = 0; i < S; i ++) {
       out = out + Shows<T>::Show(pointer[i]) + String(", ");
     }
-    return Take(out.Length() - 2, out) + String(")");
+    return Take(Length(out) - 2, out) + String(")");
   }
 
 };

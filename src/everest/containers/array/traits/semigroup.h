@@ -19,8 +19,8 @@ public:
                                               const Array<T, Rs>& rhs) noexcept
   {
     auto newArray   = MakeSharedArray<T, Ns>();
-    auto lhsPointer = lhs.Pointer();
-    auto rhsPointer = rhs.Pointer();
+    auto lhsPointer = Pointer(lhs);
+    auto rhsPointer = Pointer(rhs);
     auto newPointer = newArray->MutablePointerAnnoyingHack();
     for (size_t i = 0; i < S; i++) {
       newPointer[i] = lhsPointer[i];

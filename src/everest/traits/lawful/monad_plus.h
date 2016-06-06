@@ -20,7 +20,7 @@ public:
 };
 
 template <class M>
-constexpr inline M MPlus(const M& a, const M& b) noexcept {
+constexpr M MPlus(const M& a, const M& b) noexcept {
   return MonadPlus<M>::MPlus(a, b);
 }
 

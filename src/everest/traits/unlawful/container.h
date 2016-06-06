@@ -14,6 +14,8 @@ class Container {
 
 public:
 
+  static constexpr bool exists = false;
+
   static constexpr size_t Length(const T& n) {
     return Base::Length(n);
   }
@@ -22,16 +24,15 @@ public:
     return Base::IsEmpty(n);
   }
 
-  static constexpr bool exists = false;
 };
 
 template<class T>
-constexpr inline size_t Length(const T& n) noexcept {
+constexpr size_t Length(const T& n) noexcept {
   return Container<T>::Length(n);
 }
 
 template<class T>
-constexpr inline bool IsEmpty(const T& n) noexcept {
+constexpr bool IsEmpty(const T& n) noexcept {
   return Container<T>::IsEmpty(n);
 }
 

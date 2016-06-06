@@ -3,7 +3,7 @@
 namespace everest {
 
 template <class T>
-struct shift_left {
+class shift_left {
   // T shift()
   static constexpr bool exists = false;
 };

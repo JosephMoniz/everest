@@ -18,8 +18,8 @@ public:
   static List<T> Add(const List<T>& lhs, const List<T>& rhs) noexcept {
     ListNode<T> head    = nullptr;
     ListNode<T> current = nullptr;
-    for (auto it = lhs->Head(); it.Pointer() != nullptr; it = it->Next()) {
-      if (current.Pointer() == nullptr) {
+    for (auto it = lhs->Head(); Pointer(it) != nullptr; it = it->Next()) {
+      if (Pointer(current) == nullptr) {
         head    = MakeShared<LocalListNode<T>>(it->Item());
         current = head;
       } else {

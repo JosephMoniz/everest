@@ -3,7 +3,7 @@
 #include <everest/traits/lawful/foldable.h>
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 
 namespace everest {
 

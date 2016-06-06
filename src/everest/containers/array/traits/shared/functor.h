@@ -17,7 +17,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static SharedArray<B, S> Map(F f, const SharedArray<T, S>& array) noexcept {
-    return Functor<Array<T, S>>::Map(f, *array.Pointer());
+    return Functor<Array<T, S>>::Map(f, *array);
   }
 
 };

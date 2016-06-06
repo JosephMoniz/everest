@@ -14,14 +14,14 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U One() noexcept {
+  static constexpr U One() noexcept {
     return Base::One();
   }
 
 };
 
 template <class T>
-constexpr inline T One() noexcept {
+constexpr T One() noexcept {
   return OneVal<T>::One();
 }
 

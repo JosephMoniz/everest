@@ -2,6 +2,10 @@
 
 #include <stddef.h>
 #include <everest/memory/shared.h>
+#include <everest/traits/unlawful/pointable.h>
+#include <everest/traits/unlawful/container.h>
+#include <everest/traits/unlawful/eq.h>
+#include <everest/traits/unlawful/mutable/mutable_pointer.h>
 
 namespace everest {
 
@@ -12,8 +16,11 @@ template<class T>
 class MutableMemory final {
 
   friend class Memory<T>;
+  friend class Pointable<MutableMemory<T>>;
+  friend class Container<MutableMemory<T>>;
+  friend class MutablePointable<MutableMemory<T>>;
 
-  T*_pointer;
+  T* _pointer;
 
   size_t _length;
 
@@ -27,10 +34,7 @@ class MutableMemory final {
 
 public:
 
-  MutableMemory() noexcept {
-    _pointer = nullptr;
-    _length  = 0;
-  }
+  MutableMemory() noexcept : _pointer(nullptr), _length(0) { }
 
   MutableMemory(size_t length) noexcept {
     _pointer = new T[length];
@@ -77,18 +81,6 @@ public:
     }
   }
 
-  const T* Pointer() const noexcept {
-    return _pointer;
-  };
-
-  T* MutablePointer() const noexcept {
-    return _pointer;
-  };
-
-  size_t Length() const noexcept {
-    return _length;
-  }
-
 };
 
 template<class T>
@@ -98,5 +90,89 @@ template<class T>
 SharedMutableMemory<T> MakeSharedMutableMemory(const T* pointer, size_t length) {
   return MakeShared<MutableMemory<T>>(pointer, length);
 }
+
+template<class T>
+class Pointable<MutableMemory<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const T* Pointer(const MutableMemory<T>& memory) noexcept {
+    return (const T*) memory._pointer;
+  }
+
+};
+
+template<class T>
+class MutablePointable<MutableMemory<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static T* Pointer(MutableMemory<T>& memory) noexcept {
+    return (T*) memory._pointer;
+  }
+
+};
+
+template <class T>
+class Container<MutableMemory<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr size_t Length(const MutableMemory<T>& memory) noexcept {
+    return memory._length;
+  }
+
+  static constexpr bool IsEmpty(const MutableMemory<T>& memory) noexcept {
+    return memory._length == 0;
+  }
+
+};
+
+template<class T>
+class Eq<MutableMemory<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static bool Equals(const MutableMemory<T>& lhs, const MutableMemory<T>* rhs) noexcept {
+    return Equals(&lhs, rhs);
+  }
+
+  static bool Equals(const MutableMemory<T>* lhs, const MutableMemory<T>& rhs) noexcept {
+    return Equals(lhs, &rhs);
+  }
+
+  static bool Equals(const MutableMemory<T>& lhs, const MutableMemory<T>& rhs) noexcept {
+    return Equals(&lhs, &rhs);
+  }
+
+  static bool Equals(const MutableMemory<T>* lhs, const MutableMemory<T>* rhs) noexcept {
+    if (lhs == nullptr) {
+      return rhs == nullptr || Pointer(*rhs) == nullptr;
+    } else {
+      if (rhs == nullptr) {
+        return Pointer(*lhs) == nullptr;
+      } else {
+        auto leftLength = Length(*lhs);
+        if (leftLength == Length(*rhs)) {
+          auto lhsPointer = Pointer(*lhs);
+          auto rhsPointer = Pointer(*rhs);
+          for (size_t i = 0; i < leftLength; i++) {
+            if (lhsPointer[i] != rhsPointer[i]) {
+              return false;
+            }
+          }
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+  }
+
+};
 
 }

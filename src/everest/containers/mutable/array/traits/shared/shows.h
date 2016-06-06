@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/takeable.h>
 #include <everest/memory/shared.h>
@@ -23,7 +23,7 @@ public:
     for (size_t i = 0; i < S; i ++) {
       out = out + Shows<T>::Show(pointer[i]) + String(", ");
     }
-    return Take(out.Length() - 2, out) + String(")");
+    return Take(Length(out) - 2, out) + String(")");
   }
 
 };

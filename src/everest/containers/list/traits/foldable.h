@@ -19,7 +19,7 @@ public:
 
   static constexpr T Fold(const List<T>& list) noexcept {
     T memo = ZeroVal<T>::Zero();
-    for (auto it = list->Head(); it.Pointer() != nullptr; it = it->Next()) {
+    for (auto it = list->Head(); Pointer(it) != nullptr; it = it->Next()) {
       memo = Semigroup<T>::Add(memo, it->Item());
     }
     return memo;
@@ -29,7 +29,7 @@ public:
     class M = typename std::result_of<Fn(T)>::type>
   static constexpr M FoldMap(Fn f, const List<T>& list) noexcept {
     T memo = ZeroVal<T>::Zero();
-    for (auto it = list->Head(); it.Pointer() != nullptr; it = it->Next()) {
+    for (auto it = list->Head(); Pointer(it) != nullptr; it = it->Next()) {
       memo = Semigroup<T>::Add(memo, f(it->Item()));
     }
     return memo;
@@ -55,7 +55,7 @@ public:
                            const List<T>& list) noexcept
   {
     B memo = init;
-    for (auto it = list->Head(); it.Pointer() != nullptr; it = it->Next()) {
+    for (auto it = list->Head(); Pointer(it) != nullptr; it = it->Next()) {
       memo = f(memo, it->Item());
     }
     return memo;

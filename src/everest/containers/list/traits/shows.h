@@ -19,10 +19,10 @@ public:
 
   static const String Show(const List<T>& list) noexcept {
     auto out = String("List(");
-    for (auto current = list->Head(); current.Pointer() != nullptr; current = current->Next()) {
+    for (auto current = list->Head(); Pointer(current) != nullptr; current = current->Next()) {
       out = out + Shows<T>::Show(current->Item()) + String(", ");
     }
-    return Take(out.Length() - 2, out) + String(")");
+    return Take(Length(out) - 2, out) + String(")");
   }
 
 };

@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr bool Contains(const T& n, const SharedOption<T>& option) noexcept {
-    return Containable<Option<T>, T>::Contains(n, *option.Pointer());
+    return Containable<Option<T>, T>::Contains(n, *option);
   }
 
 };

@@ -19,8 +19,8 @@ public:
   static constexpr List<B> Map(F f, const List<T>& list) noexcept {
     ListNode<B> head    = nullptr;
     ListNode<B> current = nullptr;
-    for (auto it = list->Head(); it.Pointer() != nullptr; it = it->Next()) {
-      if (current.Pointer() == nullptr) {
+    for (auto it = list->Head(); Pointer(it) != nullptr; it = it->Next()) {
+      if (Pointer(current) == nullptr) {
         head    = MakeShared<LocalListNode<T>>(f(it->Item()));
         current = head;
       } else {

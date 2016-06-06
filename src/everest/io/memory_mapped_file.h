@@ -3,10 +3,14 @@
 #include <sys/mman.h>
 #include <everest/io/file.h>
 #include <everest/io/file/stat.h>
+#include <everest/containers/checked.h>
+#include <everest/traits/unlawful/Pointable.h>
 
 namespace everest {
 
 class MemoryMappedFile final {
+
+  friend class Pointable<MemoryMappedFile>;
 
   File _file;
 
@@ -56,8 +60,16 @@ public:
     return _size;
   }
 
-  void* Pointer() const noexcept {
-    return _pointer;
+};
+
+template <>
+class Pointable<MemoryMappedFile> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const void* Pointer(const MemoryMappedFile& file) noexcept {
+    return (const void*) file._pointer;
   }
 
 };

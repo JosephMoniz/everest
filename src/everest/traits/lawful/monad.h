@@ -26,12 +26,12 @@ public:
 };
 
 template <class Fn, class F>
-constexpr inline auto FlatMap(Fn f, const F& m) noexcept {
+constexpr auto FlatMap(Fn f, const F& m) noexcept {
   return Monad<F>::FlatMap(f, m);
 }
 
 template <class F, class B>
-constexpr inline B Then(const F& a, const B& b) noexcept {
+constexpr B Then(const F& a, const B& b) noexcept {
   return Monad<F>::Then(a, b);
 }
 

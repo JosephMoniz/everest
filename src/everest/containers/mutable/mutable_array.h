@@ -26,13 +26,9 @@ public:
   }
 
   MutableArray(const T* pointer, size_t length) noexcept {
-    for (auto i = 0; i < length; i++) {
+    for (size_t i = 0; i < length; i++) {
       _array[i] = pointer[i];
     }
-  }
-
-  size_t Size() const noexcept {
-    return S;
   }
 
   const T* Pointer() const noexcept {

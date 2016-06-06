@@ -9,8 +9,6 @@ namespace everest {
 template<class T>
 class Option final {
 
-  using data_t = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
-
   const OptionType _tag;
 
   T _value;
@@ -39,6 +37,10 @@ public:
 
   const T& Get() const noexcept {
     return *reinterpret_cast<const T*>(&_value);
+  }
+
+  T&& GetMovable() const noexcept {
+    return std::move(*reinterpret_cast<T*>((T*)&_value));
   }
 
 };

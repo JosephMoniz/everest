@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const SharedArray<T, S>& array) noexcept {
-    return Containable<Array<T, S>, T>::Contains(n, *array.Pointer());
+    return Containable<Array<T, S>, T>::Contains(n, *array);
   }
 
 };

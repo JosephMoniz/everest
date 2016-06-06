@@ -6,30 +6,25 @@
 
 namespace everest {
 
+template<class T>
+class Vector;
+
 template <class T>
-struct Stack<Vector<T>> {
+class Stack<Vector<T>> {
 public:
 
   static constexpr bool exists = true;
 
   static Vector<T> Push(const T& item, const Vector<T>& vector) noexcept {
-    auto capacity = vector.Length() + 1;
-    auto memory   = MutableMemory<T>(vector.Pointer(), capacity);
-    memory.MutablePointer()[capacity] = item;
-    return Vector<T>(Memory<T>(memory));
+    return Vector<T>(Stack<MutableVector<T>>::Push(item, vector));
   }
 
   static Vector<T> Pop(const Vector<T>& vector) noexcept {
-    return Vector<T>(Memory<T>(vector.Pointer(), Max(vector.Length() - 1, 0)));
+    return Vector<T>(Stack<MutableVector<T>>::Pop(vector));
   }
 
   static Option<const T&> Top(const Vector<T>& vector) noexcept {
-    auto length = vector.Length();
-    if (length > 0) {
-      return Some(vector.Pointer()[length - 1]);
-    } else {
-      return None<const T&>();
-    }
+    return Stack<MutableVector<T>>::Top(vector);
   }
 
 };

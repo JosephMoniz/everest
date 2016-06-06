@@ -17,8 +17,8 @@ public:
   static Ordering Compare(const Array<T, S> &lhs,
                           const Array<T, S> &rhs) noexcept
   {
-    auto lhsPointer = lhs.Pointer();
-    auto rhsPointer = rhs.Pointer();
+    auto lhsPointer = Pointer(lhs);
+    auto rhsPointer = Pointer(rhs);
     for (size_t i = 0; i < S; i ++) {
       switch(Ord<T>::Compare(lhsPointer[i], rhsPointer[i])) {
         case Ordering::LESS:    return Ordering::LESS;

@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const SharedArray<T, S>& lhs, const SharedArray<T, S>& rhs) noexcept {
-    return Eq<Array<T, S>>::Equals(*lhs.Pointer(), *rhs.Pointer());
+    return Eq<Array<T, S>>::Equals(*lhs, *rhs);
   }
 
   template<size_t Rs>

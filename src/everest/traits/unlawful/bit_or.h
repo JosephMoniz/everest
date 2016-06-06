@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U BinaryOr(const U& lhs, const U& rhs) noexcept {
+  static constexpr U BinaryOr(const U& lhs, const U& rhs) noexcept {
     return Base::BinaryOr(lhs, rhs);
   }
 
@@ -33,7 +33,7 @@ public:
 };
 
 template <class T>
-constexpr inline T BinaryOr(const T& lhs, const T& rhs) noexcept {
+constexpr T BinaryOr(const T& lhs, const T& rhs) noexcept {
   return BitOr<T>::BinaryOr(lhs, rhs);
 }
 

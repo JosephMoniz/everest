@@ -12,6 +12,7 @@
 #include <everest/traits/unlawful/negate.h>
 #include <everest/traits/unlawful/bounded.h>
 #include <everest/traits/unlawful/eq.h>
+#include <everest/traits/unlawful/square_root.h>
 #include <everest/traits/unlawful/ord.h>
 #include <everest/traits/unlawful/bit_and.h>
 #include <everest/traits/unlawful/bit_or.h>
@@ -52,6 +53,9 @@ class Bounded<uint32_t> : public DefaultBounded<uint32_t> {};
 
 template <>
 class Eq<uint32_t> : public DefaultEq<uint32_t> {};
+
+template <>
+class SquareRoot<uint32_t> : public DefaultSquareRoot<uint32_t> {};
 
 constexpr inline bool Equals(uint32_t lhs, uint32_t rhs) noexcept {
   return Eq<uint32_t>::Equals(lhs, rhs);
@@ -112,7 +116,7 @@ public:
     auto offset   = size;
     auto capacity = size + 1;
     auto memory   = MutableMemory<char>(capacity);
-    auto pointer  = memory.MutablePointer();
+    auto pointer  = MutablePointer(memory);
     for (auto i = size; i; i--) {
       pointer[--offset] = (char) (number % 10) + '0';
       number /= 10;

@@ -10,6 +10,7 @@
 #include <everest/types/string_spec.h>
 #include <everest/containers/mutable/mutable_array_spec.h>
 #include <everest/containers/mutable/mutable_shared_array_spec.h>
+#include <everest/containers/mutable/mutable_vector_spec.h>
 #include <everest/containers/array_spec.h>
 #include <everest/containers/shared_array_spec.h>
 #include <everest/containers/option_spec.h>
@@ -64,6 +65,8 @@ int main(int argc, char **argv) {
 
   // IO Specifications
   FileSpecification();
+
+  MutableVectorSpecification();
 
 
   // Print and return the final test results

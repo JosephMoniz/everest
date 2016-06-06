@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/lawful/functor.h>
 #include <everest/memory/shared.h>
 
@@ -17,7 +17,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static SharedMutableArray<B, S> Map(F f, const SharedMutableArray<T, S>& array) noexcept {
-    return Functor<MutableArray<T, S>>::Map(f, *array.Pointer());
+    return Functor<MutableArray<T, S>>::Map(f, *array);
   }
 
 };

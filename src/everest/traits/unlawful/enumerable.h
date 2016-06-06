@@ -4,7 +4,7 @@ namespace everest {
 
 
 template<class T>
-struct Enumerable {
+class Enumerable {
 
   typedef Enumerable<T> Base;
 

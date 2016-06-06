@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U BinaryXor(const U& lhs, const U& rhs) noexcept {
+  static constexpr U BinaryXor(const U& lhs, const U& rhs) noexcept {
     return Base::BinaryXor(lhs, rhs);
   }
 
@@ -33,7 +33,7 @@ public:
 };
 
 template <class T>
-constexpr inline T BinaryXor(const T& lhs, const T& rhs) noexcept {
+constexpr T BinaryXor(const T& lhs, const T& rhs) noexcept {
   return BitXor<T>::BinaryXor(lhs, rhs);
 }
 

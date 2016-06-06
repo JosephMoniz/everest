@@ -18,7 +18,7 @@ public:
 
   static constexpr T Fold(const Array<T, S>& array) noexcept {
     auto memo    = ZeroVal<T>::Zero();
-    auto pointer = array.Pointer();
+    auto pointer = Pointer(array);
     for (size_t i = 0; i < S; i++) {
       memo = Semigroup<T>::Add(memo, pointer[i]);
     }
@@ -29,7 +29,7 @@ public:
     class M = typename std::result_of<Fn(T)>::type>
   static constexpr M FoldMap(Fn f, const Array<T, S>& array) noexcept {
     auto memo    = ZeroVal<T>::Zero();
-    auto pointer = array.Pointer();
+    auto pointer = Pointer(array);
     for (size_t i = 0; i < S; i++) {
       memo = Semigroup<T>::Add(memo, f(pointer[i]));
     }
@@ -42,7 +42,7 @@ public:
                            const Array<T, S>& array) noexcept
   {
     auto memo    = init;
-    auto pointer = array.Pointer();
+    auto pointer = Pointer(array);
     for (size_t i = S - 1; i; i--) {
       memo = f(memo, pointer[i]);
     }
@@ -58,7 +58,7 @@ public:
                            const Array<T, S>& array) noexcept
   {
     auto memo    = init;
-    auto pointer = array.Pointer();
+    auto pointer = Pointer(array);
     for (size_t i = 0; i < S; i++) {
       memo = f(memo, pointer[i]);
     }

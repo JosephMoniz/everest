@@ -3,11 +3,15 @@
 #include <stddef.h>
 #include <utility>
 #include <everest/memory/mutable_memory.h>
+#include <everest/traits/unlawful/Pointable.h>
 
 namespace everest {
 
 template<class T>
 class Memory final {
+
+  friend class Pointable<Memory<T>>;
+  friend class Container<Memory<T>>;
 
   T* _pointer;
 
@@ -41,7 +45,7 @@ public:
   }
 
   Memory(const MutableMemory<T>& other) noexcept {
-    copyInit(other.Pointer(), other.Length());
+    copyInit(Pointer(other), Length(other));
   }
 
   Memory(MutableMemory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
@@ -68,14 +72,6 @@ public:
     }
   }
 
-  const T* Pointer() const noexcept {
-    return _pointer;
-  };
-
-  size_t Length() const noexcept {
-    return _length;
-  }
-
 };
 
 template<class T>
@@ -85,5 +81,33 @@ template<class T>
 SharedMemory<T> MakeSharedMemory(const T* pointer, size_t length) {
   return MakeShared<Memory<T>>(pointer, length);
 }
+
+template <class T>
+class Pointable<Memory<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const T* Pointer(const Memory<T>& memory) noexcept {
+    return (const T*) memory._pointer;
+  }
+
+};
+
+template <class T>
+class Container<Memory<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr size_t Length(const Memory<T>& memory) noexcept {
+    return memory._length;
+  }
+
+  static constexpr bool IsEmpty(const Memory<T>& memory) noexcept {
+    return memory._length == 0;
+  }
+
+};
 
 }

@@ -122,7 +122,6 @@ Traits
   
 Todo
 ----
-
   + A free list based `Pool<T>` container
   + Implement thread pools
   + Implement `ConcurrentShared<T>`

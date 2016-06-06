@@ -52,7 +52,7 @@ void FileSpecification() {
         auto mapped   = MemoryMappedFile::of(file.GetMovable());
         auto map      = mapped.GetMovable();
         auto expected = "file content here";
-        auto pointer  = (char *) map.Pointer();
+        auto pointer  = (char *) Pointer(map);
         for (size_t i = 0; i < map.Size(); i++) {
           AssertEquals("Unexpected file content", expected[i], pointer[i]);
         }

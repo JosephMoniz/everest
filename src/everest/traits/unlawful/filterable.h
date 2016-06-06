@@ -7,7 +7,7 @@
 namespace everest {
 
 template <class T>
-struct Filterable {
+class Filterable {
 
   typedef Filterable<T> Base;
 
@@ -16,14 +16,14 @@ public:
   static constexpr bool exists = false;
 
   template <class F, class P>
-  static constexpr inline F Filter(P p, const F& n) noexcept {
+  static constexpr F Filter(P p, const F& n) noexcept {
     return Base::Filter(p, n);
   }
 
 };
 
 template <class F, class P>
-constexpr inline F Filter(P p, const F& n) noexcept {
+constexpr F Filter(P p, const F& n) noexcept {
   return Filterable<F>::Filter(p, n);
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/memory/shared.h>
 
@@ -15,12 +15,16 @@ public:
 
   static constexpr bool exists = true;
 
-  static bool Equals(const SharedMutableArray<T, S>& lhs, const SharedMutableArray<T, S>& rhs) noexcept {
-    return Eq<MutableArray<T, S>>::Equals(*lhs.Pointer(), *rhs.Pointer());
+  static bool Equals(const SharedMutableArray<T, S>& lhs,
+                     const SharedMutableArray<T, S>& rhs) noexcept
+  {
+    return Eq<MutableArray<T, S>>::Equals(*lhs, *rhs);
   }
 
   template<size_t Rs>
-  static bool Equals(const SharedMutableArray<T, S>& lhs, const SharedMutableArray<T, Rs>& rhs) noexcept {
+  static bool Equals(const SharedMutableArray<T, S>& lhs,
+                     const SharedMutableArray<T, Rs>& rhs) noexcept
+  {
     return false;
   }
 

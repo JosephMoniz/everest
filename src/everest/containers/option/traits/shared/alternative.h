@@ -15,7 +15,9 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr SharedOption<T> Alt(const SharedOption<T>& lhs, const SharedOption<T>& rhs) noexcept {
+  static constexpr SharedOption<T> Alt(const SharedOption<T>& lhs,
+                                       const SharedOption<T>& rhs) noexcept
+  {
     return Match(lhs,
       [&rhs]()           { return rhs; },
       [&lhs](const T& n) { return lhs; }

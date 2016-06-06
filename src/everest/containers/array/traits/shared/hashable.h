@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static int Hash(const SharedArray<T, S>& array) noexcept {
-    Hashable<Array<T, S>>::Hash(*array.Pointer());
+    Hashable<Array<T, S>>::Hash(*array);
   }
 
 };

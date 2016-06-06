@@ -2,12 +2,15 @@
 
 #include <initializer_list>
 #include <everest/memory/shared.h>
+#include <everest/traits/lawful/functor.h>
+#include <everest/traits/unlawful/Pointable.h>
 
 namespace everest {
 
 template<class T, size_t S>
 class Array final {
 
+  friend class Pointable<Array<T, S>>;
   friend class Functor<Array<T, S>>;
 
   T _array[S];
@@ -29,14 +32,6 @@ public:
       _array[i] = pointer[i];
     }
   }
-
-  size_t Size() const noexcept {
-    return S;
-  }
-
-  const T* Pointer() const noexcept {
-    return (const T*) &_array;
-  };
 
   T* MutablePointerAnnoyingHack() const noexcept {
     return (T*) &_array;
@@ -64,6 +59,7 @@ SharedArray<T, S> MakeSharedArray() {
 
 }
 
+#include "everest/containers/array/traits/pointable.h"
 #include "everest/containers/array/traits/shows.h"
 #include "everest/containers/array/traits/eq.h"
 #include "everest/containers/array/traits/ord.h"
@@ -76,6 +72,7 @@ SharedArray<T, S> MakeSharedArray() {
 #include "everest/containers/array/traits/hashable.h"
 #include "everest/containers/array/traits/foldable.h"
 
+#include "everest/containers/array/traits/shared/pointable.h"
 #include "everest/containers/array/traits/shared/shows.h"
 #include "everest/containers/array/traits/shared/eq.h"
 #include "everest/containers/array/traits/shared/ord.h"

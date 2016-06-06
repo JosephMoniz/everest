@@ -37,27 +37,27 @@ public:
 };
 
 template <class F>
-constexpr inline auto Fold(const F& container) noexcept {
+constexpr auto Fold(const F& container) noexcept {
   return Foldable<F>::Fold(container);
 }
 
 template <class Fn, class F>
-constexpr inline auto FoldMap(Fn f, const F& container) noexcept {
+constexpr auto FoldMap(Fn f, const F& container) noexcept {
   return Foldable<F>::FoldMap(f, container);
 }
 
 template <class F, class Fn, class B>
-constexpr inline B FoldR(Fn f,
-                         const B& init,
-                         const F& container) noexcept
+constexpr B FoldR(Fn f,
+                  const B& init,
+                  const F& container) noexcept
 {
   return Foldable<F>::FoldR(f, init, container);
 }
 
 template <class F, class Fn, class B>
-constexpr inline B FoldL(Fn f,
-                         const B& init,
-                         const F& container) noexcept
+constexpr B FoldL(Fn f,
+                  const B& init,
+                  const F& container) noexcept
 {
   return Foldable<F>::FoldL(f, init, container);
 }

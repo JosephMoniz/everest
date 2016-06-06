@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/memory/shared.h>
 
@@ -19,7 +19,7 @@ public:
   static constexpr SharedMutableArray<T, S + Rs> Add(const SharedMutableArray<T, S>& lhs,
                                                      const SharedMutableArray<T, Rs>& rhs) noexcept
   {
-    return Semigroup<MutableArray<T, S>>::Add(*lhs.Pointer(), *rhs.Pointer());
+    return Semigroup<MutableArray<T, S>>::Add(*lhs, *rhs);
   }
 
 };

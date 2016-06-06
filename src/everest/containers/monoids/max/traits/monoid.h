@@ -6,10 +6,13 @@
 namespace everest {
 
 template<class T>
+class MaxMonoid;
+
+template<class T>
 class Monoid<MaxMonoid<T>> {
 public:
 
-static constexpr bool exists = true;
+  static constexpr bool exists = true;
 
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/unlawful/hashable.h>
 #include <everest/memory/shared.h>
 
@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static int Hash(const SharedMutableArray<T, S>& array) noexcept {
-    Hashable<MutableArray<T, S>>::Hash(*array.Pointer());
+    Hashable<MutableArray<T, S>>::Hash(*array);
   }
 
 };

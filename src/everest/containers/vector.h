@@ -6,73 +6,70 @@
 #include <everest/memory/memory.h>
 #include <everest/containers/option.h>
 #include <everest/containers/mutable/mutable_vector.h>
-#include <everest/traits/unlawful/droppable.h>
-#include <everest/traits/unlawful/stack.h>
-#include <everest/traits/unlawful/queue.h>
+#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/container.h>
 
 namespace everest {
-
+  
 template<class T>
 class Vector final {
 
-  size_t _length;
+  friend class Pointable<Vector<T>>;
+  friend class Container<Vector<T>>;
+  friend class Containable<Vector<T>, T>;
+  friend class Droppable<Vector<T>>;
+  friend class Eq<Vector<T>>;
+  friend class Filterable<Vector<T>>;
+  friend class Foldable<Vector<T>>;
+  friend class Functor<Vector<T>>;
+  friend class Hashable<Vector<T>>;
+  friend class Monad<Vector<T>>;
+  friend class Ord<Vector<T>>;
+  friend class Queue<Vector<T>>;
+  friend class Semigroup<Vector<T>>;
+  friend class Stack<Vector<T>>;
+  friend class Takeable<Vector<T>>;
 
-  Memory<T> _memory;
+  MutableVector<T> _wrapped;
 
 public:
 
-  Vector() noexcept : _memory(Memory<T>()) { }
+  Vector() noexcept : _wrapped() { }
 
   Vector(std::initializer_list<T> list) noexcept {
     auto memory  = MutableMemory<T>(list.size());
-    auto pointer = memory.MutablePointer();
+    auto pointer = MutablePointer(memory);
     auto offset  = 0;
     for (auto it = list.begin(); it != list.end(); it++) {
       pointer[offset++] = *it;
     }
-    _length = list.size();
-    _memory = memory;
+    _wrapped = MutableVector<T>(std::move(memory));
   }
 
   Vector(const T* src, size_t length) noexcept {
     auto memory  = MutableMemory<T>(length);
-    auto pointer = memory.MutablePointer();
+    auto pointer = MutablePointer(memory);
     for (auto i = 0; i < length; i++) {
       src[i] = pointer[i];
     }
-    _length = length;
-    _memory = memory;
+    _wrapped = MutableVector<T>(std::move(memory));
   }
 
   Vector(const Vector<T>& other) = delete;
 
-  Vector(Vector<T>&& other) noexcept : _length(std::move(other._length)),
-                                       _memory(std::move(other._memory)) {}
-    
+  Vector(Vector<T>&& other) noexcept : _wrapped(std::move(other._wrapped)) {}
 
-  Vector(Memory<T>&& memory) noexcept : _length(memory.Length()),
+  // TODO: You should be able to construct an immutable vector from immutable memory
+  /*
+  Vector(Memory<T>&& memory) noexcept : _length(Length(memory)),
                                         _memory(std::move(memory)) { }
+  */
 
-  Vector(MutableVector<T>&& vector) noexcept : _length(vector.Length()),
-                                               _memory(std::move(vector._memory)) { }
-
-  Vector(MutableVector<T>&& vector, size_t length) noexcept : _length(length),
-                                                              _memory(std::move(vector._memory)) { }
-
-  Vector(Vector<T>&& vector, size_t length) noexcept : _length(length),
-                                                       _memory(std::move(vector._memory)) { }
-
-  size_t Length() const noexcept {
-    return _length;
-  }
-
-  const T* Pointer() const noexcept {
-    return _memory.Pointer();
-  }
+  Vector(MutableVector<T>&& vector) noexcept : _wrapped(std::move(vector)) { }
 
   Option<const T&> At(size_t offset) const noexcept {
-    if (offset < _length) {
-      return Some(_memory.Pointer()[offset]);
+    if (offset < Length(_wrapped)) {
+      return Some(Pointer(_wrapped)[offset]);
     } else {
       return None<const T&>();
     }
@@ -82,8 +79,9 @@ public:
 
 }
 
-#include "everest/containers/vector/containable.h"
+#include "everest/containers/vector/pointable.h"
 #include "everest/containers/vector/container.h"
+#include "everest/containers/vector/containable.h"
 #include "everest/containers/vector/droppable.h"
 #include "everest/containers/vector/eq.h"
 #include "everest/containers/vector/filterable.h"

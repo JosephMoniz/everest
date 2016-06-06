@@ -6,6 +6,9 @@
 namespace everest {
 
 template<class T>
+class Vector;
+
+template<class T>
 class Monoid<Vector<T>> {
 public:
   static constexpr bool exists = true;

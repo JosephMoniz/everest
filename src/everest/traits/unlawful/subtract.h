@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr inline U Subtract(const U& lhs, const U& rhs) noexcept {
+  static constexpr U Subtract(const U& lhs, const U& rhs) noexcept {
     return Base::Subtract(lhs, rhs);
   }
 
@@ -33,12 +33,12 @@ public:
 };
 
 template <class T>
-constexpr inline T Subtract(const T& lhs, const T& rhs) noexcept {
+constexpr T Subtract(const T& lhs, const T& rhs) noexcept {
   return Subtractable<T>::Subtract(lhs, rhs);
 }
 
 template <class T>
-constexpr inline T operator-(const T& lhs, const T& rhs) noexcept {
+constexpr T operator-(const T& lhs, const T& rhs) noexcept {
   return Subtractable<T>::Subtract(lhs, rhs);
 }
 

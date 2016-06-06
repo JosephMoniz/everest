@@ -36,48 +36,48 @@ public:
 // These are the same type Eq cases
 //
 template <class T>
-constexpr inline bool Equals(const T& lhs, const T& rhs) noexcept {
+constexpr bool Equals(const T& lhs, const T& rhs) noexcept {
   return Eq<T>::Equals(lhs, rhs);
 }
 
 template <class T>
-constexpr inline Predicate<const T&> Equals(const T& lhs) noexcept {
+constexpr Predicate<const T&> Equals(const T& lhs) noexcept {
   return [&](const T& rhs) {
     return Eq<T>::Equals(lhs, rhs);
   };
 }
 
 template <class T>
-constexpr inline bool operator==(const T& lhs, const T& rhs) noexcept {
+constexpr bool operator==(const T& lhs, const T& rhs) noexcept {
   return Eq<T>::Equals(lhs, rhs);
 }
 
 template <class T>
-constexpr inline bool operator!=(const T& lhs, const T& rhs) noexcept {
+constexpr bool operator!=(const T& lhs, const T& rhs) noexcept {
   return !Eq<T>::Equals(lhs, rhs);
 }
 
 // These are the cases for Eq for comparing different types
 //
 template <class T, class U>
-constexpr inline bool Equals(const T& lhs, const U& rhs) noexcept {
+constexpr bool Equals(const T& lhs, const U& rhs) noexcept {
   return Eq<T>::Equals(lhs, rhs);
 }
 
 template <class T, class U>
-constexpr inline Predicate<const U&> Equals(const T& lhs) noexcept {
+constexpr Predicate<const U&> Equals(const T& lhs) noexcept {
   return [&](const U& rhs) {
     return Eq<T>::Equals(lhs, rhs);
   };
 }
 
 template <class T, class U>
-constexpr inline bool operator==(const T& lhs, const U& rhs) noexcept {
+constexpr bool operator==(const T& lhs, const U& rhs) noexcept {
   return Eq<T>::Equals(lhs, rhs);
 }
 
 template <class T, class U>
-constexpr inline bool operator!=(const T& lhs, const U& rhs) noexcept {
+constexpr bool operator!=(const T& lhs, const U& rhs) noexcept {
   return !Eq<T>::Equals(lhs, rhs);
 }
 

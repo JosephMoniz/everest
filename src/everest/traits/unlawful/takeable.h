@@ -17,24 +17,24 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr inline T Take(size_t s, const T& n) noexcept {
+  static constexpr T Take(size_t s, const T& n) noexcept {
     return Base::Take(s, n);
   }
 
   template <class F, class N>
-  static constexpr inline F TakeWhile(Predicate<const N&> p, const F& n) noexcept {
+  static constexpr F TakeWhile(Predicate<const N&> p, const F& n) noexcept {
     return Base::TakeWhile(p, n);
   }
 
 };
 
 template <class T>
-constexpr inline T Take(size_t s, const T& n) noexcept {
+constexpr T Take(size_t s, const T& n) noexcept {
   return Takeable<T>::Take(s, n);
 }
 
 template <class F, class T>
-constexpr inline F TakeWhile(Predicate<const T&> p, const F& n) noexcept {
+constexpr F TakeWhile(Predicate<const T&> p, const F& n) noexcept {
   return Takeable<F>::TakeWhile(p, n);
 }
 

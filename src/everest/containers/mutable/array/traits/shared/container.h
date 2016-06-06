@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/containers/array.h>
+#include <everest/containers/mutable/mutable_array.h>
 #include <everest/traits/unlawful/container.h>
 #include <everest/memory/shared.h>
 
@@ -16,11 +16,11 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const SharedMutableArray<T, S>& o) noexcept {
-    return Container<MutableArray<T, S>>::Length(*o.Pointer());
+    return Container<MutableArray<T, S>>::Length(*o);
   }
 
   static constexpr bool IsEmpty(const SharedMutableArray<T, S>& o) noexcept {
-    return Container<MutableArray<T, S>>::IsEmpty(*o.Pointer());
+    return Container<MutableArray<T, S>>::IsEmpty(*o);
   }
 
 };
