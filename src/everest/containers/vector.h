@@ -36,15 +36,7 @@ public:
 
   Vector() noexcept : _wrapped() { }
 
-  Vector(std::initializer_list<T> list) noexcept {
-    auto memory  = MutableMemory<T>(list.size());
-    auto pointer = MutablePointer(memory);
-    auto offset  = 0;
-    for (auto it = list.begin(); it != list.end(); it++) {
-      pointer[offset++] = *it;
-    }
-    _wrapped = MutableVector<T>(std::move(memory));
-  }
+  Vector(std::initializer_list<T> list) noexcept : _wrapped(list) { }
 
   Vector(const T* src, size_t length) noexcept {
     auto memory  = MutableMemory<T>(length);

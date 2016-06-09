@@ -48,6 +48,18 @@ constexpr Predicate<const T&> Equals(const T& lhs) noexcept {
 }
 
 template <class T>
+constexpr bool NotEquals(const T& lhs, const T& rhs) noexcept {
+  return !Eq<T>::Equals(lhs, rhs);
+}
+
+template <class T>
+constexpr Predicate<const T&> NotEquals(const T& lhs) noexcept {
+  return [&](const T& rhs) {
+    return !Eq<T>::Equals(lhs, rhs);
+  };
+}
+
+template <class T>
 constexpr bool operator==(const T& lhs, const T& rhs) noexcept {
   return Eq<T>::Equals(lhs, rhs);
 }

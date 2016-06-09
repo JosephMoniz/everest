@@ -65,31 +65,31 @@ void VectorSpecification() {
       auto failure  = "Compare(Vector(1, 2, 3), Vector(1, 2, 3)) did not return Ordering::EQUAL";
       AssertEquals(failure, expected, result);
     });
-    It("Should return LESS when passing an appropriate shared_array through Compare()", []() {
+    It("Should return LESS when passing an appropriate vector through Compare()", []() {
       auto expected = Ordering::LESS;
       auto result   = Compare(Vector<int>({1, 1, 3}), Vector<int>({1, 2, 3}));
       auto failure  = "Compare(Vector(1, 1, 3), Vector(1, 2, 3)) did not return Ordering::LESS";
       AssertEquals(failure, expected, result);
     });
-    It("Should return GREATER when passing an appropriate shared_array through Compare()", []() {
+    It("Should return GREATER when passing an appropriate vector through Compare()", []() {
       auto expected = Ordering::GREATER;
       auto result   = Compare(Vector<int>({1, 3}), Vector<int>({1, 2}));
       auto failure  = "Compare(Vector(1, 3), Vector(1, 2)) did not return Ordering::GREATER";
       AssertEquals(failure, expected, result);
     });
-    It("Should return LESS when passing a shorter shared_array through Compare()", []() {
+    It("Should return LESS when passing a shorter vector through Compare()", []() {
       auto expected = Ordering::LESS;
       auto result   = Compare(Vector<int>({1, 2}), Vector<int>({1, 2, 3}));
       auto failure  = "Compare(Vector(1, 2), Vector(1, 2, 3)) did not return Ordering::LESS";
       AssertEquals(failure, expected, result);
     });
-    It("Should return GREATER when passing a longer shared_array through Compare()", []() {
+    It("Should return GREATER when passing a longer vector through Compare()", []() {
       auto expected = Ordering::GREATER;
       auto result   = Compare(Vector<int>({1, 2, 3}), Vector<int>({1, 2}));
       auto failure  = "Compare(Vector(1, 2, 3), Vector(1, 2)) did not return Ordering::GREATER";
       AssertEquals(failure, expected, result);
     });
-    It("Should return the mapped shared_array when called with Map(Add(2))", [](){
+    It("Should return the mapped vector when called with Map(Add(2))", [](){
       auto expected = Vector<int>({2, 4, 6});
       auto result   = Map(Multiply(2), Vector<int>({1, 2, 3}));
       auto failure  = "Map(Multiply(2), Vector(1, 2, 3)) did not return Vector(2, 4, 6)";
@@ -105,53 +105,53 @@ void VectorSpecification() {
       auto failure = "Contains(6, Vector(1, 2, 3)) did not evaluate to false";
       AssertFalse(failure, result);
     });
-    It("Should return 3 when calling Length() an shared_array w/ 3 elements", [](){
+    It("Should return 3 when calling Length() an vector w/ 3 elements", [](){
       auto expected = (size_t) 3;
       auto result   = Length(Vector<int>({1, 2, 3}));
       auto failure  = "Length(Vector(1, 2, 3)) did not return 3";
       AssertEquals(failure, expected, result);
     });
-    It("Should return false when IsEmpty() is called on a non empty shared_array", []() {
+    It("Should return false when IsEmpty() is called on a non empty vector", []() {
       auto result  = IsEmpty(Vector<int>({1, 2, 3}));
       auto failure = "IsEmpty(Vector(1, 2, 3)) evaluated to true";
       AssertFalse(failure, result);
     });
-    It("Should return true when IsEmpty() is called on an empty shared_array", []() {
+    It("Should return true when IsEmpty() is called on an empty vector", []() {
       auto result  = IsEmpty(Vector<int>({}));
       auto failure = "IsEmpty(Vector()) evaluated to false";
       AssertTrue(failure, result);
     });
-    It("Should return a new merged shared_array when calling Add() w/ two arrays", []() {
+    It("Should return a new merged vector when calling Add() w/ two arrays", []() {
       auto expected = Vector<int>({1, 2, 3, 4, 5});
       auto result   = Add(Vector<int>({1, 2, 3}), Vector<int>({4, 5}));
       auto failure  = "Add(Vector(1, 2, 3), Vector(4, 5)) did not return Vector(1, 2, 3, 4, 5)";
       AssertEquals(failure, expected, result);
     });
-    It("Should return return an empty shared_array when calling Zero()", []() {
+    It("Should return return an empty vector when calling Zero()", []() {
       auto expected = Vector<int>({});
       auto result   = Zero<Vector<int>>();
       auto failure  = "Zero<Vector<int, 0>>() did not return Vector()";
       AssertEquals(failure, expected, result);
     });
-    It("Should return the sum of the shared_array when called with Fold()", []() {
+    It("Should return the sum of the vector when called with Fold()", []() {
       auto expected = 6;
       auto result   = Fold(Vector<int>({1, 2, 3}));
       auto failure  = "Fold(Vector(1, 2, 3)) did not return 6";
       AssertEquals(failure, expected, result);
     });
-    It("Should return the sum of the shared_array when called with FoldMap() w/ Identity()", []() {
+    It("Should return the sum of the vector when called with FoldMap() w/ Identity()", []() {
       auto expected = 6;
       auto result   = FoldMap(Identity<int>(), Vector<int>({1, 2, 3}));
       auto failure  = "FoldMap(Identity, Vector(1, 2, 3)) did not return 6";
       AssertEquals(failure, expected, result);
     });
-    It("Should return the sum of the shared_array when called with FoldR() w/ Add()", []() {
+    It("Should return the sum of the vector when called with FoldR() w/ Add()", []() {
       auto expected = 6;
       auto result   = FoldR(Add<int>(), 0, Vector<int>({1, 2, 3}));
       auto failure  = "FoldR(Add(), 0, Vector(1, 2, 3)) did not return 6";
       AssertEquals(failure, expected, result);
     });
-    It("Should return the sum of the shared_array when called with FoldL() w/ Add()", []() {
+    It("Should return the sum of the vector when called with FoldL() w/ Add()", []() {
       auto expected = 6;
       auto result   = FoldL(Add<int>(), 0, Vector<int>({1, 2, 3}));
       auto failure  = "FoldL(Add(), 0, Vector(1, 2, 3)) did not return 6";

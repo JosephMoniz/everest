@@ -3,8 +3,6 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
-#include <functional>
-
 namespace everest {
 
 template <class T>

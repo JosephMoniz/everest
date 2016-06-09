@@ -23,6 +23,7 @@
 #include <everest/containers/monoids/max_monoid_spec.h>
 #include <everest/containers/monoids/min_monoid_spec.h>
 #include <everest/io/file_spec.h>
+#include <everest/containers/mutable/mutable_set_spec.h>
 
 
 using namespace everest;
@@ -67,6 +68,7 @@ int main(int argc, char **argv) {
   FileSpecification();
 
   MutableVectorSpecification();
+  MutableSetSpecification();
 
 
   // Print and return the final test results

@@ -45,9 +45,7 @@ public:
     copyInit(pointer, length);
   }
 
-  MutableMemory(const MutableMemory<T>& other) noexcept {
-    copyInit(other._pointer, other._length);
-  }
+  MutableMemory(const MutableMemory<T>& other) = delete;
 
   MutableMemory(MutableMemory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
                                                      _length(std::move(other._length))
@@ -56,15 +54,9 @@ public:
     other._length  = 0;
   }
 
-  MutableMemory& operator=(const MutableMemory<T>& other) noexcept {
-    if (_pointer != nullptr) {
-      delete _pointer;
-    }
-    copyInit(other._pointer, other._length);
-    return *this;
-  }
+  MutableMemory<T>& operator=(const MutableMemory<T>& other) = delete;
 
-  MutableMemory& operator=(MutableMemory<T>&& other) noexcept {
+  MutableMemory<T>& operator=(MutableMemory<T>&& other) noexcept {
     if (_pointer != nullptr) {
       delete _pointer;
     }
@@ -77,7 +69,7 @@ public:
 
   ~MutableMemory() {
     if (_pointer != nullptr) {
-      delete _pointer;
+      delete[] _pointer;
     }
   }
 
@@ -110,7 +102,7 @@ public:
   static constexpr bool exists = true;
 
   static T* Pointer(MutableMemory<T>& memory) noexcept {
-    return (T*) memory._pointer;
+    return memory._pointer;
   }
 
 };

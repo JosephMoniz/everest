@@ -7,7 +7,7 @@
 namespace everest {
 
 template<class K, class V>
-class MutableMapEntry {
+class MutableMapEntry final {
 
   K _key;
 
@@ -35,7 +35,7 @@ public:
 };
 
 template<class K, class V>
-class MutableMap {
+class MutableMap final {
 
   MutableSet<MutableMapEntry<K, V>> _set;
 

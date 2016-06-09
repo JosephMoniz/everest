@@ -6,7 +6,7 @@
 
 namespace everest {
 
-class MutableBitSet {
+class MutableBitSet final {
 
   MutableMemory<uint8_t> _bits;
 
