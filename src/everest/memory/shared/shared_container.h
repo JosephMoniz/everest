@@ -17,8 +17,8 @@ class SharedContainer {
 public:
 
   template<class ...As>
-  SharedContainer(const As&... args) noexcept : _count(1) {
-    new (&_data) T(args...);
+  SharedContainer(As&&... args) noexcept : _count(1) {
+    new (&_data) T(std::forward<As>(args)...);
   }
 
   void Ref() noexcept {

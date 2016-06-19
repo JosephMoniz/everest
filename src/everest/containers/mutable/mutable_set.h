@@ -2,10 +2,12 @@
 
 #include <everest/memory/mutable_memory.h>
 #include <everest/containers/mutable/mutable_vector.h>
+#include <everest/traits/unlawful/iteration.h>
+#include <everest/traits/unlawful/copyable.h>
+#include <everest/traits/unlawful/subtract.h>
 #include <everest/traits/unlawful/mutable/mutable_pointer.h>
 #include <everest/traits/unlawful/mutable/mutable_remove.h>
 #include <everest/traits/unlawful/mutable/mutable_add.h>
-#include <everest/traits/unlawful/iteration.h>
 
 namespace everest {
 
@@ -14,10 +16,11 @@ class MutableSet final {
 
   friend class Container<MutableSet<T>>;
   friend class MutableAdd<MutableSet<T>>;
-  friend class Containable<MutableSet<T>, T>;
+  friend class Containable<MutableSet<T>>;
   friend class MutableRemove<MutableSet<T>>;
   friend class Iteration<MutableSet<T>>;
   friend class MutableFilter<MutableSet<T>>;
+  friend class Eq<MutableSet<T>>;
 
   MutableMemory<MutableVector<T>> _memory;
 
@@ -69,6 +72,15 @@ public:
   MutableSet(size_t capacity) : _memory(capacity),
                                 _size(0) { }
 
+  MutableSet(std::initializer_list<T> list) noexcept : _memory(128),
+                                                       _size(0)
+
+  {
+    for (auto it = list.begin(); it != list.end(); it++) {
+      AddInPlace(*it, *this);
+    }
+  }
+
   MutableSet(const MutableSet<T>& other) = delete;
 
   MutableSet(MutableSet<T>&& other) noexcept : _memory(std::move(other._memory)),
@@ -88,260 +100,22 @@ public:
 
 };
 
-template <class T>
-class Containable<MutableSet<T>, T> {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Contains(const T& item, const MutableSet<T>& set) noexcept {
-    return Containable<MutableVector<T>, T>::Contains(item, *set.GetConstBucket(item));
-  }
-
-};
-
-template <class T>
-class Container<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr size_t Length(const MutableSet<T>& set) noexcept {
-    return set._size;
-  }
-
-  static constexpr bool IsEmpty(const MutableSet<T>& set) noexcept {
-    return set._size == 0;
-  }
-
-};
-
-template <class T>
-class Filterable<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  template<class Predicate>
-  static MutableSet<T> Filter(Predicate predicate, const MutableSet<T>& set) noexcept {
-    auto results = MutableSet<T>();
-    ForEach(set, [&](const T& item) {
-      if (predicate(item)) {
-        PushInPlace(item, results);
-      }
-    });
-    return results;
-  }
-
-};
-
-template<class T>
-class Functor<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  template <class F, class B = typename std::result_of<F(T)>::type>
-  static MutableSet<B> Map(F f, const MutableSet<T>& set) noexcept {
-    auto result = MutableSet<B>();
-    ForEach(set, [&](const T& item) {
-      PushInPlace(f(item), result);
-    });
-    return result;
-  }
-
-};
-
-template <class T>
-class Hashable<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static int Hash(const MutableSet<T>& set) noexcept {
-    int result = 37;
-    ForEach(set, [&](const T& item) {
-      result = 37 * result + Hashable<T>::Hash(item);
-    });
-    return result;
-  }
-
-};
-
-template<class T>
-class Monad<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  static constexpr MutableSet<B> FlatMap(F f, const MutableSet<T>& set) noexcept {
-    auto results = MutableSet<T>();
-    ForEach(set, [&](const T& item) {
-      ForEach(f(item), [&](const T& inner) {
-        PushInPlace(inner, results);
-      });
-    });
-    return results;
-  }
-
-  template <class B>
-  static constexpr MutableSet<B> Then(const MutableSet<T>& first, const MutableSet<B>& second) noexcept {
-    return second;
-  }
-
-};
-
-template<class T>
-class Monoid<MutableSet<T>> {
-public:
-  static constexpr bool exists = true;
-};
-
-template <class T>
-class MutableFilter<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  template<class Predicate>
-  static MutableSet<T>& FilterInPlace(Predicate predicate, MutableSet<T>& set) noexcept {
-    auto memorySize    = Length(set._memory);
-    auto memoryPointer = Pointer(set._memory);
-    for (size_t i = 0; i < memorySize; i++) {
-      FilterInPlace(predicate, memoryPointer[i]);
-    }
-    return set;
-  }
-
-};
-
-template<class T>
-class Semigroup<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr MutableSet<T> Add(const MutableSet<T>& lhs, const MutableSet<T>& rhs) noexcept {
-    auto results = MutableSet<T>();
-    ForEach(lhs, [&](const T& item) {
-      PushInPlace(item, results);
-    });
-    ForEach(rhs, [&](const T& item) {
-      PushInPlace(item, results);
-    });
-    return results;
-  }
-
-};
-
-template <class T>
-class Shows<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static const String Show(const MutableSet<T>& vector) noexcept {
-    auto out = String("MutableSet(");
-    ForEach(vector, [&](const T& item) {
-      out = out + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(Length(out) - 2, out) + String(")");
-  }
-
-};
-
-template<class T>
-class ZeroVal<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr MutableSet<T> Zero() noexcept {
-    return MutableSet<T>();
-  }
-
-};
-
-template <class T>
-class Iteration<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  template <class F>
-  static void ForEach(const MutableSet <T>& container, const F& function) noexcept {
-    auto memorySize    = Length(container._memory);
-    auto memoryPointer = Pointer(container._memory);
-    for (size_t i = 0; i < memorySize; i++) {
-      ForEach(memoryPointer[i], [&](const T& item) {
-        function(item);
-      });
-    }
-  }
-
-};
-
-template <class T>
-class MutableRemove<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableSet<T>& RemoveInPlace(const T& item, MutableSet<T>& set) noexcept {
-    auto bucket = set.GetAllocatedBucket(item);
-    set.RedactBucketSize(bucket);
-    FilterInPlace(NotEquals(item), *bucket);
-    set.AddBucketSize(bucket);
-    return set;
-  }
-
-  static MutableSet<T>& RemoveInPlace(const MutableSet<T>& source, MutableSet<T>& set) noexcept {
-    ForEach(set, [&](const T& item) {
-      RemoveInPlace(item, set);
-    });
-  }
-
-};
-
-template<class T>
-class MutableAdd<MutableSet<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableSet<T>& AddInPlace(const T& source, MutableSet<T>& destination) noexcept {
-    auto bucket = destination.GetAllocatedBucket(source);
-    destination.RedactBucketSize(bucket);
-    FilterInPlace(NotEquals(source), *bucket);
-    PushInPlace(source, *bucket);
-    destination.AddBucketSize(bucket);
-    return destination.ResizeIfNecessary();
-  }
-
-  static MutableSet<T>& AddInPlace(T&& source, MutableSet<T>& destination) noexcept {
-    auto bucket = destination.GetAllocatedBucket(source);
-    destination.RedactBucketSize(bucket);
-    FilterInPlace(NotEquals(source), *bucket);
-    PushInPlace(std::move(source), *bucket);
-    destination.AddBucketSize(bucket);
-    return destination.ResizeIfNecessary();
-  }
-
-  static MutableSet<T>& AddInPlace(const MutableSet<T>& source, MutableSet<T>& destination) noexcept {
-    ForEach(source, [&](const T& item) {
-      AddInPlace(item, destination);
-    });
-    return destination;
-  }
-
-  static MutableSet<T>& AddInPlace(MutableSet<T>&& source, MutableSet<T>& destination) noexcept {
-    ForEach(source, [&](T&& item) {
-      AddInPlace(std::move(item), destination);
-    });
-    return destination;
-  }
-
-};
-
 }
+
+#include <everest/containers/mutable/set/containable.h>
+#include <everest/containers/mutable/set/container.h>
+#include <everest/containers/mutable/set/copyable.h>
+#include <everest/containers/mutable/set/eq.h>
+#include <everest/containers/mutable/set/filterable.h>
+#include <everest/containers/mutable/set/functor.h>
+#include <everest/containers/mutable/set/hashable.h>
+#include <everest/containers/mutable/set/iteration.h>
+#include <everest/containers/mutable/set/monad.h>
+#include <everest/containers/mutable/set/monoid.h>
+#include <everest/containers/mutable/set/mutable_add.h>
+#include <everest/containers/mutable/set/mutable_filter.h>
+#include <everest/containers/mutable/set/mutable_remove.h>
+#include <everest/containers/mutable/set/semigroup.h>
+#include <everest/containers/mutable/set/shows.h>
+#include <everest/containers/mutable/set/subtract.h>
+#include <everest/containers/mutable/set/zero.h>

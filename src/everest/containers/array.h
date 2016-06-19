@@ -12,6 +12,7 @@ class Array final {
 
   friend class Pointable<Array<T, S>>;
   friend class Functor<Array<T, S>>;
+  friend class Iteration<Array<T, S>>;
 
   T _array[S];
 
@@ -56,6 +57,21 @@ template<class T, size_t S>
 SharedArray<T, S> MakeSharedArray() {
   return MakeShared<Array<T, S>>();
 }
+
+template <class T, size_t S>
+class Iteration<Array<T, S>> {
+public:
+
+  static constexpr bool exists = true;
+
+  template <class F>
+  static void ForEach(const Array<T, S>& container, const F& function) noexcept {
+    for (auto i = 0; i < S; i++) {
+      function(container._array[i]);
+    }
+  }
+
+};
 
 }
 

@@ -9,7 +9,7 @@ template <class T, size_t S>
 class Array;
 
 template <class T, size_t S>
-class Containable<Array<T, S>, T> {
+class Containable<Array<T, S>> {
 public:
 
   static constexpr bool exists = true;

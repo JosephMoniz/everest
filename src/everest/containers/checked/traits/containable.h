@@ -9,7 +9,7 @@ template <class E, class T>
 class Checked;
 
 template <class E, class T>
-class Containable<Checked<E, T>, T> {
+class Containable<Checked<E, T>> {
 public:
 
   static constexpr bool exists = true;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <everest/containers/crdt/counters/gcounter.h>
+#include <everest/types/string.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/ord.h>
@@ -21,6 +22,8 @@ class PNCounter {
   GCounter<T> _negative;
 
 public:
+
+  PNCounter() noexcept : _positive(), _negative() { }
 
   PNCounter(const T& number) noexcept {
     if (number >= 0) {
@@ -103,7 +106,7 @@ public:
   static constexpr PNCounter<T> Add(const PNCounter<T>& lhs,
                                     const PNCounter<T>& rhs) noexcept
   {
-    return PNCounter(lhs._positive + rhs._positive, lhs._negative + rhs._negative);
+    return PNCounter(Ord<T>::Max(lhs._positive, rhs._positive), Ord<T>::Max(lhs._negative, rhs._negative));
   }
 
 };

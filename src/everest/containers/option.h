@@ -17,7 +17,8 @@ public:
 
   Option() noexcept : _tag(OptionType::NONE) {}
 
-  Option(const T& value) noexcept : _tag(OptionType::SOME) {
+  template<class U = T>
+  Option(T value, typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(OptionType::SOME) {
     new (&_value) T(value);
   }
 
@@ -86,6 +87,21 @@ constexpr R Match(const SharedOption<T>& o, N n, S s) noexcept {
     ? n()
     : s(o->Get());
 }
+
+template <class T>
+class Iteration<Option<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  template <class F>
+  static void ForEach(const Option<T>& container, const F& function) noexcept {
+    if (container.GetType() == OptionType::SOME) {
+      function(container.Get());
+    }
+  }
+
+};
 
 }
 

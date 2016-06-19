@@ -6,6 +6,7 @@
 #include <everest/traits/unlawful/container.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/mutable/mutable_pointer.h>
+#include "memory.h"
 
 namespace everest {
 
@@ -53,6 +54,8 @@ public:
     other._pointer = nullptr;
     other._length  = 0;
   }
+
+  MutableMemory(Memory<T>&& other) noexcept : MutableMemory(std::move(other._wrapped)) { }
 
   MutableMemory<T>& operator=(const MutableMemory<T>& other) = delete;
 

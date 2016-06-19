@@ -1,6 +1,7 @@
 #pragma once
 
 #include <everest/types/string.h>
+#include <everest/traits/unlawful/show.h>
 
 namespace everest {
 

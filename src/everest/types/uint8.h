@@ -21,6 +21,8 @@
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/hexable.h>
 #include <everest/memory/mutable_memory.h>
+#include <everest/traits/unlawful/copyable.h>
+#include <everest/traits/unlawful/fundamental.h>
 
 namespace everest {
 
@@ -89,6 +91,24 @@ public:
   static constexpr bool exists = true;
 
   static constexpr uint8_t One() noexcept { return 1; }
+
+};
+
+template<>
+class Fundamental<uint8_t> {
+public:
+  static constexpr bool exists = true;
+};
+
+template<>
+class Copyable<uint8_t> {
+public:
+
+  static constexpr bool exists = true;
+
+  static uint8_t Copy(uint8_t n) noexcept {
+    return n;
+  }
 
 };
 

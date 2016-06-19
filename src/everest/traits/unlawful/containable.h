@@ -4,24 +4,25 @@
 
 namespace everest {
 
-template <class F, class T>
+template <class T>
 class Containable {
 
-  typedef Containable<F, T> Base;
+  typedef Containable<T> Base;
 
 public:
 
   static constexpr bool exists = false;
 
-  static constexpr bool Contains(const T& n, const F& f) {
+  template<class U>
+  static constexpr bool Contains(const U& n, const T& f) {
     return Base::Contains(n, f);
   }
 
 };
 
-template<class F, class T>
-bool Contains(const T& n, const F& f) {
-  return Containable<F, T>::Contains(n, f);
+template<class U, class T>
+bool Contains(const U& n, const T& f) {
+  return Containable<T>::Contains(n, f);
 }
 
 }

@@ -24,6 +24,16 @@
 #include <everest/containers/monoids/min_monoid_spec.h>
 #include <everest/io/file_spec.h>
 #include <everest/containers/mutable/mutable_set_spec.h>
+#include <everest/containers/mutable/mutable_map_spec.h>
+#include <everest/containers/set_spec.h.h>
+#include <everest/crypto/hash/md5_spec.h>
+#include <everest/crypto/hash/sha1_spec.h>
+#include <everest/crypto/hash/sha256_spec.h>
+#include <everest/crypto/hash/sha512_spec.h>
+#include <everest/crypto/hmac/hmac_md5_spec.h>
+#include <everest/crypto/hmac/hmac_sha1_spec.h>
+#include <everest/crypto/hmac/hmac_sha256_spec.h>
+#include <everest/crypto/hmac/hmac_sha512_spec.h>
 
 
 using namespace everest;
@@ -42,11 +52,6 @@ int main(int argc, char **argv) {
   Uint64Specification();
   StringSpecification();
 
-  // Mutable container specifications
-  //
-  MutableArraySpecification();
-  SharedMutableArraySpecification();
-
   // Immutable container specifications
   //
   ArraySpecification();
@@ -58,6 +63,7 @@ int main(int argc, char **argv) {
   SharedCheckSpecification();
   BoxSpecification();
   VectorSpecification();
+  SetSpecification();
 
   // Monoid specifications
   //
@@ -65,11 +71,29 @@ int main(int argc, char **argv) {
   MinMonoidSpecification();
 
   // IO Specifications
+  //
   FileSpecification();
 
+  // Mutable container specifications
+  //
+  MutableArraySpecification();
+  SharedMutableArraySpecification();
   MutableVectorSpecification();
   MutableSetSpecification();
+  MutableMapSpecification();
 
+  // Hash Specifications
+  //
+  Md5HashSpecification();
+  Sha1HashSpecification();
+  Sha256HashSpecification();
+  Sha512HashSpecification();
+
+  // Hmac Specifications
+  HmacMd5HashSpecification();
+  HmacSha1HashSpecification();
+  HmacSha256HashSpecification();
+  HmacSha512HashSpecification();
 
   // Print and return the final test results
   //

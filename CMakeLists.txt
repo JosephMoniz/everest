@@ -3,7 +3,7 @@ project(traitorous_og)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-return-type -Wno-unknown-pragmas -ftemplate-backtrace-limit=0")
 
-include_directories(src tests)
+include_directories(src tests deps/http-parser deps/openssl/include)
 
 set(SOURCE_FILES
         src/everest/cli/color.h
@@ -251,7 +251,62 @@ set(SOURCE_FILES
         src/everest/traits/unlawful/pointable.h
         src/everest/containers/array/traits/pointable.h
         src/everest/containers/array/traits/shared/pointable.h
-        src/everest/containers/vector/pointable.h src/everest/traits/unlawful/square_root.h src/everest/traits/unlawful/mutable/mutable_filter.h src/everest/traits/unlawful/mutable/mutable_pointer.h src/everest/traits/unlawful/mutable/mutable_stack.h src/everest/traits/unlawful/mutable/mutable_drop.h src/everest/containers/mutable/vector/pointable.h src/everest/containers/mutable/vector/container.h src/everest/containers/mutable/vector/containable.h src/everest/containers/mutable/vector/droppable.h src/everest/containers/mutable/vector/mutable_drop.h src/everest/containers/mutable/vector/takeable.h src/everest/containers/mutable/vector/eq.h src/everest/containers/mutable/vector/foldable.h src/everest/containers/mutable/vector/functor.h src/everest/containers/mutable/vector/monad.h src/everest/containers/mutable/vector/monoid.h src/everest/containers/mutable/vector/ord.h src/everest/containers/mutable/vector/hashable.h src/everest/containers/mutable/vector/hexable.h src/everest/containers/mutable/vector/mutable_stack.h src/everest/containers/mutable/vector/filterable.h src/everest/containers/mutable/vector/mutable_filter.h src/everest/containers/mutable/vector/queue.h src/everest/containers/mutable/vector/semigroup.h src/everest/containers/mutable/vector/stack.h src/everest/containers/mutable/vector/shows.h src/everest/containers/mutable/vector/zero.h tests/everest/containers/mutable/mutable_set_spec.h src/everest/traits/unlawful/mutable/mutable_add.h src/everest/containers/mutable/vector/mutable_add.h src/everest/traits/unlawful/mutable/mutable_remove.h src/everest/traits/unlawful/iteration.h)
+        src/everest/containers/vector/pointable.h
+        src/everest/traits/unlawful/square_root.h
+        src/everest/traits/unlawful/mutable/mutable_filter.h
+        src/everest/traits/unlawful/mutable/mutable_pointer.h
+        src/everest/traits/unlawful/mutable/mutable_stack.h
+        src/everest/traits/unlawful/mutable/mutable_drop.h
+        src/everest/containers/mutable/vector/pointable.h
+        src/everest/containers/mutable/vector/container.h
+        src/everest/containers/mutable/vector/containable.h
+        src/everest/containers/mutable/vector/droppable.h
+        src/everest/containers/mutable/vector/mutable_drop.h
+        src/everest/containers/mutable/vector/takeable.h
+        src/everest/containers/mutable/vector/eq.h
+        src/everest/containers/mutable/vector/foldable.h
+        src/everest/containers/mutable/vector/functor.h
+        src/everest/containers/mutable/vector/monad.h
+        src/everest/containers/mutable/vector/monoid.h
+        src/everest/containers/mutable/vector/ord.h
+        src/everest/containers/mutable/vector/hashable.h
+        src/everest/containers/mutable/vector/hexable.h
+        src/everest/containers/mutable/vector/mutable_stack.h
+        src/everest/containers/mutable/vector/filterable.h
+        src/everest/containers/mutable/vector/mutable_filter.h
+        src/everest/containers/mutable/vector/queue.h
+        src/everest/containers/mutable/vector/semigroup.h
+        src/everest/containers/mutable/vector/stack.h
+        src/everest/containers/mutable/vector/shows.h
+        src/everest/containers/mutable/vector/zero.h
+        tests/everest/containers/mutable/mutable_set_spec.h
+        src/everest/traits/unlawful/mutable/mutable_add.h
+        src/everest/containers/mutable/vector/mutable_add.h
+        src/everest/traits/unlawful/mutable/mutable_remove.h
+        src/everest/traits/unlawful/iteration.h
+        src/everest/containers/mutable/set/containable.h
+        src/everest/containers/mutable/set/container.h
+        src/everest/containers/mutable/set/filterable.h
+        src/everest/containers/mutable/set/functor.h
+        src/everest/containers/mutable/set/hashable.h
+        src/everest/containers/mutable/set/monad.h
+        src/everest/containers/mutable/set/monoid.h
+        src/everest/containers/mutable/set/mutable_filter.h
+        src/everest/containers/mutable/set/semigroup.h
+        src/everest/containers/mutable/set/shows.h
+        src/everest/containers/mutable/set/zero.h
+        src/everest/containers/mutable/set/iteration.h
+        src/everest/containers/mutable/set/mutable_remove.h
+        src/everest/containers/mutable/set/mutable_add.h
+        src/everest/containers/set.h
+        src/everest/containers/crdt/sets/gset.h
+        src/everest/traits/unlawful/mutable/mutable_find.h
+        tests/everest/containers/mutable/mutable_map_spec.h
+        src/everest/traits/unlawful/anyable.h
+        src/everest/containers/probabilistic/bloom_filter.h
+        src/everest/containers/crdt/counters/gacounter.h
+        src/everest/traits/unlawful/mutable/mutable_associative.h
+        src/everest/containers/map.h src/everest/traits/unlawful/copyable.h tests/everest/containers/set_spec.h.h src/everest/traits/unlawful/fundamental.h src/everest/traits/unlawful/associative.h src/everest/containers/crdt/counters/pnacounter.h src/everest/containers/crdt/sets/tpset.h src/everest/containers/crdt/sets/mcset.h src/everest/containers/crdt/sets/orset.h src/everest/containers/crdt/sets/lwwset.h src/everest/containers/mutable/set/eq.h src/everest/containers/mutable/set/subtract.h src/everest/containers/mutable/set/copyable.h src/everest/containers/mutable/vector/iteration.h src/everest/containers/mutable/vector/mutable_find.h src/everest/containers/mutable/vector/anyable.h src/everest/containers/mutable/vector/copyable.h src/everest/containers/mutable/map/mutable_map_entry.h src/everest/containers/mutable/map/entry/eq.h src/everest/containers/mutable/map/entry/show.h src/everest/containers/mutable/map/traits/container.h src/everest/containers/mutable/map/traits/show.h src/everest/containers/mutable/map/traits/containable.h src/everest/containers/mutable/map/traits/eq.h src/everest/containers/mutable/map/traits/semigroup.h src/everest/containers/mutable/map/traits/iteration.h src/everest/containers/mutable/map/traits/mutable_associative.h src/everest/containers/mutable/map/traits/associative.h src/everest/containers/mutable/map/traits/mutable_remove.h src/everest/containers/mutable/map/traits/zero.h src/everest/containers/mutable/map/traits/copyable.h src/everest/containers/mutable/mutable_tuple.h src/everest/containers/mutable/tuple/eq.h src/everest/containers/mutable/tuple/show.h src/everest/containers/mutable/tuple/copyable.h src/everest/containers/mutable/tuple/monoid.h src/everest/containers/mutable/tuple/ord.h src/everest/containers/mutable/tuple/zero.h src/everest/containers/causality/actor_time.h src/everest/containers/causality/lamport_time.h src/everest/containers/causality/vector_time.h src/everest/containers/causality/mutable/mutable_vector_time.h src/everest/containers/causality/mutable/mutable_actor_time.h src/everest/containers/causality/mutable/mutable_lamport_time.h src/everest/crypto/hash/md5.h src/everest/crypto/hash/sha1.h src/everest/crypto/hash/sha256.h src/everest/crypto/hash/sha512.h tests/everest/crypto/hash/md5_spec.h tests/everest/crypto/hash/sha1_spec.h tests/everest/crypto/hash/sha256_spec.h tests/everest/crypto/hash/sha512_spec.h src/everest/crypto/hmac/hmac_md5.h src/everest/crypto/hmac/hmac_sha1.h src/everest/crypto/hmac/hmac_sha256.h src/everest/crypto/hmac/hmac_sha512.h tests/everest/crypto/hmac/hmac_md5_spec.h tests/everest/crypto/hmac/hmac_sha1_spec.h tests/everest/crypto/hmac/hmac_sha256_spec.h tests/everest/crypto/hmac/hmac_sha512_spec.h)
 
 add_executable(everest
         ${SOURCE_FILES}

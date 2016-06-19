@@ -17,9 +17,9 @@ public:
     Stat stats;
     auto result = stat(filePath, &stats._stats);
     if (result == 0) {
-      return Ok<int, Stat>(stats);
+      return Ok<int, Stat>(std::move(stats));
     } else {
-      return Error<int, Stat>(result);
+      return Error<int, Stat>(std::move(result));
     }
   }
 
@@ -31,9 +31,9 @@ public:
     Stat stats;
     auto result = fstat(file.Descriptor(), &stats._stats);
     if (result == 0) {
-        return Ok<int, Stat>(stats);
+        return Ok<int, Stat>(std::move(stats));
     } else {
-        return Error<int, Stat>(result);
+        return Error<int, Stat>(std::move(result));
     }
   }
 

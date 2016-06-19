@@ -9,13 +9,13 @@ template<class T>
 class Vector;
 
 template <class T>
-class Containable<Vector<T>, T> {
+class Containable<Vector<T>> {
 public:
 
   static constexpr bool exists = true;
 
   static constexpr bool Contains(const T& n, const Vector<T>& vector) noexcept {
-    return Containable<MutableVector<T>, T>::Contains(n, vector._wrapped);
+    return Containable<MutableVector<T>>::Contains(n, vector._wrapped);
   }
 
 };

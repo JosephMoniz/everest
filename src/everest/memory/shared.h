@@ -78,8 +78,8 @@ public:
 };
 
 template<class T, class ...As>
-Shared<T> MakeShared(const As&... args) {
-  return Shared<T>(new SharedContainer<T>(args...));
+Shared<T> MakeShared(As&&... args) {
+  return Shared<T>(new SharedContainer<T>(std::forward<As>(args)...));
 }
 
 template <class T>

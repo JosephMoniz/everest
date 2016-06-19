@@ -41,6 +41,19 @@ constexpr bool Equals(const T& lhs, const T& rhs) noexcept {
 }
 
 template <class T>
+constexpr bool Equals(const T* lhs, const T* rhs) noexcept {
+  if (lhs == nullptr) {
+    return rhs == nullptr;
+  } else {
+    if (rhs == nullptr) {
+      return false;
+    } else {
+      return Eq<T>::Equals(lhs, rhs);
+    }
+  }
+}
+
+template <class T>
 constexpr Predicate<const T&> Equals(const T& lhs) noexcept {
   return [&](const T& rhs) {
     return Eq<T>::Equals(lhs, rhs);
@@ -50,6 +63,19 @@ constexpr Predicate<const T&> Equals(const T& lhs) noexcept {
 template <class T>
 constexpr bool NotEquals(const T& lhs, const T& rhs) noexcept {
   return !Eq<T>::Equals(lhs, rhs);
+}
+
+template <class T>
+constexpr bool NotEquals(const T* lhs, const T* rhs) noexcept {
+  if (lhs == nullptr) {
+    return rhs != nullptr;
+  } else {
+    if (rhs == nullptr) {
+      return true;
+    } else {
+      return !Eq<T>::Equals(*lhs, *rhs);
+    }
+  }
 }
 
 template <class T>

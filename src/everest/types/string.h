@@ -3,17 +3,22 @@
 #include <stddef.h>
 #include <utility>
 
+#include <everest/memory/memory.h>
 #include <everest/memory/mutable_memory.h>
 #include <everest/traits/unlawful/one.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/takeable.h>
-#include <everest/memory/memory.h>
+#include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/container.h>
+#include <everest/traits/unlawful/iteration.h>
+#include <everest/traits/unlawful/pointable.h>
+#include <everest/traits/unlawful/hashable.h>
+#include <everest/traits/unlawful/copyable.h>
 
 namespace everest {
 
-class String {
+class String final {
 
   friend class Container<String>;
   friend class Semigroup<String>;
@@ -23,6 +28,9 @@ class String {
   size_t _length;
 
 public:
+
+  String() noexcept : _memory(),
+                      _length() { }
 
   String(const char* str) noexcept {
     size_t length   = 0;
@@ -189,6 +197,79 @@ public:
   }
 
 };
+
+template<>
+class Pointable<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const char* Pointer(const String& string) noexcept {
+    return string.CString();
+  }
+};
+
+
+template<>
+class Iteration<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  template <class F>
+  static void ForEach(const String& string, const F& function) noexcept {
+    auto length  = string.Capacity();
+    auto pointer = Pointer(string);
+    for (size_t i = 0; i < length; i++) {
+      function(pointer[i]);
+    }
+  }
+
+};
+
+template<>
+class Hashable<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static int Hash(const String& string) noexcept {
+    int result = 37;
+    ForEach(string, [&](char item) {
+      result = 37 * result + (int) item;
+    });
+    return result;
+  }
+
+};
+
+template <class T>
+class Shows;
+
+template <>
+class Shows<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static const String& Show(const String& string) noexcept {
+    return string;
+  }
+
+};
+
+template<>
+class Copyable<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String Copy(String string) noexcept {
+    return String(string);
+  }
+
+};
+
 
 }
 

@@ -9,7 +9,7 @@ template <class T>
 class Option;
 
 template <class T>
-class Containable<Option<T>, T> {
+class Containable<Option<T>> {
 public:
 
   static constexpr bool exists = true;

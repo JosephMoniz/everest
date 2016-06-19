@@ -6,6 +6,8 @@
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/hexable.h>
+#include <everest/traits/unlawful/copyable.h>
+#include <everest/traits/unlawful/fundamental.h>
 
 namespace everest {
 
@@ -50,6 +52,24 @@ public:
 
   static String Show(bool n) noexcept {
     return n ? String("true") : String("false");
+  }
+
+};
+
+template<>
+class Fundamental<bool> {
+public:
+  static constexpr bool exists = true;
+};
+
+template<>
+class Copyable<bool> {
+public:
+
+  static constexpr bool exists = true;
+
+  static bool Copy(bool n) noexcept {
+    return n;
   }
 
 };

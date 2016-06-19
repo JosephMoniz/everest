@@ -4,11 +4,14 @@
 #include <everest/containers/option.h>
 #include <everest/memory/mutable_memory.h>
 #include <everest/traits/unlawful/pointable.h>
+#include <everest/traits/unlawful/anyable.h>
 #include <everest/traits/unlawful/mutable/mutable_filter.h>
 #include <everest/traits/unlawful/mutable/mutable_stack.h>
 #include <everest/traits/unlawful/mutable/mutable_drop.h>
+#include <everest/traits/unlawful/mutable/mutable_find.h>
 
 #include <everest/traits/unlawful/iteration.h>
+#include <everest/traits/unlawful/copyable.h>
 
 
 namespace everest {
@@ -26,6 +29,7 @@ class MutableVector final {
   friend class MutableStack<MutableVector<T>>;
   friend class MutableDrop<MutableVector<T>>;
   friend class Iteration<MutableVector<T>>;
+  friend class MutableFind<MutableVector<T>>;
 
   size_t _length;
 
@@ -92,28 +96,12 @@ public:
 
 };
 
-// TODO: refactor vector typeclasses to use this where appropriate
-template <class T>
-class Iteration<MutableVector<T>> {
-public:
-
-  static constexpr bool exists = true;
-
-  template <class F>
-  static void ForEach(const MutableVector <T>& vector, const F& function) noexcept {
-    auto bucketSize    = Length(vector);
-    auto bucketPointer = Pointer(vector);
-    for (size_t i = 0; i < bucketSize; i++) {
-      function(bucketPointer[i]);
-    }
-  }
-
-};
-
 }
 
+#include <everest/containers/mutable/vector/anyable.h>
 #include <everest/containers/mutable/vector/containable.h>
 #include <everest/containers/mutable/vector/container.h>
+#include <everest/containers/mutable/vector/copyable.h>
 #include <everest/containers/mutable/vector/droppable.h>
 #include <everest/containers/mutable/vector/eq.h>
 #include <everest/containers/mutable/vector/filterable.h>
@@ -121,11 +109,13 @@ public:
 #include <everest/containers/mutable/vector/functor.h>
 #include <everest/containers/mutable/vector/hashable.h>
 #include <everest/containers/mutable/vector/hexable.h>
+#include <everest/containers/mutable/vector/iteration.h>
 #include <everest/containers/mutable/vector/monad.h>
 #include <everest/containers/mutable/vector/monoid.h>
 #include <everest/containers/mutable/vector/mutable_add.h>
 #include <everest/containers/mutable/vector/mutable_drop.h>
 #include <everest/containers/mutable/vector/mutable_filter.h>
+#include <everest/containers/mutable/vector/mutable_find.h>
 #include <everest/containers/mutable/vector/mutable_stack.h>
 #include <everest/containers/mutable/vector/ord.h>
 #include <everest/containers/mutable/vector/pointable.h>

@@ -6,17 +6,18 @@
 #include <everest/memory/memory.h>
 #include <everest/containers/option.h>
 #include <everest/containers/mutable/mutable_vector.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 #include <everest/traits/unlawful/container.h>
+#include <everest/traits/unlawful/iteration.h>
 
 namespace everest {
-  
+
 template<class T>
 class Vector final {
 
   friend class Pointable<Vector<T>>;
   friend class Container<Vector<T>>;
-  friend class Containable<Vector<T>, T>;
+  friend class Containable<Vector<T>>;
   friend class Droppable<Vector<T>>;
   friend class Eq<Vector<T>>;
   friend class Filterable<Vector<T>>;
@@ -29,6 +30,7 @@ class Vector final {
   friend class Semigroup<Vector<T>>;
   friend class Stack<Vector<T>>;
   friend class Takeable<Vector<T>>;
+  friend class Iteration<Vector<T>>;
 
   MutableVector<T> _wrapped;
 
@@ -51,11 +53,10 @@ public:
 
   Vector(Vector<T>&& other) noexcept : _wrapped(std::move(other._wrapped)) {}
 
-  // TODO: You should be able to construct an immutable vector from immutable memory
-  /*
-  Vector(Memory<T>&& memory) noexcept : _length(Length(memory)),
-                                        _memory(std::move(memory)) { }
-  */
+  // TODO: the following line should be doable
+  //Vector(Memory<T>&& memory) noexcept : _wrapped(std::move(memory._wrapped)) { }
+
+  Vector(MutableMemory<T>&& memory) noexcept : _wrapped(std::move(memory)) { }
 
   Vector(MutableVector<T>&& vector) noexcept : _wrapped(std::move(vector)) { }
 
@@ -65,6 +66,19 @@ public:
     } else {
       return None<const T&>();
     }
+  }
+
+};
+
+template <class T>
+class Iteration<Vector<T>> {
+public:
+
+  static constexpr bool exists = true;
+
+  template <class F>
+  static void ForEach(const Vector<T>& container, const F& function) noexcept {
+    Iteration<MutableVector<T>>::ForEach(container._wrapped, function);
   }
 
 };

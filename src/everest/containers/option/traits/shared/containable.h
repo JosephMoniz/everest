@@ -10,13 +10,13 @@ template<class T>
 using SharedOption = Shared<Option<T>>;
 
 template <class T>
-class Containable<SharedOption<T>, T> {
+class Containable<SharedOption<T>> {
 public:
 
   static constexpr bool exists = true;
 
   static constexpr bool Contains(const T& n, const SharedOption<T>& option) noexcept {
-    return Containable<Option<T>, T>::Contains(n, *option);
+    return Containable<Option<T>>::Contains(n, *option);
   }
 
 };

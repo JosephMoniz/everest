@@ -4,6 +4,7 @@
 
 #include <everest/meta/max.h>
 #include <everest/memory/shared.h>
+#include <everest/traits/unlawful/fundamental.h>
 #include <everest/containers/checked/checked_type.h>
 
 namespace everest {
@@ -23,7 +24,8 @@ class Checked final {
 
 public:
 
-  Checked(const CheckedType& tag, const T& value) noexcept : _tag(tag) {
+  template <class U = T>
+  Checked(const CheckedType& tag, const T value, typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(tag) {
     new (&_value) T(value);
   }
 
@@ -31,7 +33,8 @@ public:
     new (&_value) T(std::move(value));
   }
 
-  Checked(const CheckedType& tag, const E& value) noexcept : _tag(tag) {
+  template <class U = E>
+  Checked(const CheckedType& tag, const E value, typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(tag) {
     new (&_value) E(value);
   }
 
@@ -81,23 +84,23 @@ template <class E, class T>
 using SharedChecked = Shared<Checked<E, T>>;
 
 template<class E, class T>
-const Checked<E, T> Error(const E& error) {
-  return Checked<E, T>(CheckedType::ERROR, error);
-}
-
-template<class E, class T>
 const Checked<E, T> Error(E&& error) {
   return Checked<E, T>(CheckedType::ERROR, std::move(error));
 }
 
 template<class E, class T>
-const Checked<E, T> Ok(const T& ok) {
-  return Checked<E, T>(CheckedType::OK, ok);
+const Checked<E, T> Error(const E& error) {
+  return Checked<E, T>(CheckedType::ERROR, error);
 }
 
 template<class E, class T>
 const Checked<E, T> Ok(T&& ok) {
   return Checked<E, T>(CheckedType::OK, std::move(ok));
+}
+
+template<class E, class T>
+const Checked<E, T> Ok(const T& ok) {
+  return Checked<E, T>(CheckedType::OK, ok);
 }
 
 template<class E, class T>

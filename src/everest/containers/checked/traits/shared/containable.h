@@ -9,13 +9,13 @@ template <class E, class T>
 using SharedChecked = Shared<Checked<E, T>>;
 
 template <class E, class T>
-class Containable<SharedChecked<E, T>, T> {
+class Containable<SharedChecked<E, T>> {
 public:
 
   static constexpr bool exists = true;
 
   static constexpr bool Contains(const T& item, const SharedChecked<E, T>& checked) noexcept {
-    return Containable<Checked<E, T>, T>::Contains(item, *checked);
+    return Containable<Checked<E, T>>::Contains(item, *checked);
   }
 
 };

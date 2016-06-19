@@ -3,6 +3,8 @@
 #include <initializer_list>
 #include <everest/memory/shared.h>
 #include <everest/traits/lawful/functor.h>
+#include <everest/traits/unlawful/mutable/mutable_add.h>
+#include <everest/traits/unlawful/iteration.h>
 
 namespace everest {
 
@@ -10,6 +12,7 @@ template<class T, size_t S>
 class MutableArray final {
 
   friend class Functor<MutableArray<T, S>>;
+  friend class Iteration<MutableArray<T, S>>;
 
   T _array[S];
 
@@ -53,6 +56,21 @@ template<class T, size_t S>
 SharedMutableArray<T, S> MakeSharedMutableArray() {
   return MakeShared<MutableArray<T, S>>();
 }
+
+template <class T, size_t S>
+class Iteration<MutableArray<T, S>> {
+public:
+
+  static constexpr bool exists = true;
+
+  template <class F>
+  static void ForEach(const MutableArray<T, S>& container, const F& function) noexcept {
+    for (auto i = 0; i < S; i++) {
+      function(container._array[i]);
+    }
+  }
+
+};
 
 }
 

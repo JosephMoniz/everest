@@ -1,5 +1,6 @@
 #pragma once
 
+#include <everest/types/string.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/ord.h>
@@ -16,6 +17,8 @@ class GCounter {
   T _value;
 
 public:
+
+  GCounter() noexcept : _value(ZeroVal<T>::Zero()) { }
 
   GCounter(const T& number) noexcept : _value(number) { }
 

@@ -13,8 +13,7 @@ public:
 
   static constexpr bool exists = false;
 
-  template <class U>
-  static constexpr U Subtract(const U& lhs, const U& rhs) noexcept {
+  static constexpr T Subtract(const T& lhs, const T& rhs) noexcept {
     return Base::Subtract(lhs, rhs);
   }
 

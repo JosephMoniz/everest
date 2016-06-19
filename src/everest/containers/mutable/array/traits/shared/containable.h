@@ -10,13 +10,13 @@ template<class T, size_t S>
 using SharedMutableArray = Shared<MutableArray<T, S>>;
 
 template <class T, size_t S>
-class Containable<SharedMutableArray<T, S>, T> {
+class Containable<SharedMutableArray<T, S>> {
 public:
 
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const SharedMutableArray<T, S>& array) noexcept {
-    return Containable<MutableArray<T, S>, T>::Contains(n, *array);
+    return Containable<MutableArray<T, S>>::Contains(n, *array);
   }
 
 };

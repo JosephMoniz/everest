@@ -20,7 +20,7 @@ public:
     ListNode<T> head    = nullptr;
     ListNode<T> current = nullptr;
 
-    /// end of the linex
+    /// end of the line
     auto results = MutableVector<T>();
     auto pointer = Pointer(vector);
     auto length  = Length(vector);

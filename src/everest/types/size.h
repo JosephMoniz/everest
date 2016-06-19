@@ -17,6 +17,8 @@
 #include <everest/traits/unlawful/multiply.h>
 #include <everest/traits/unlawful/subtract.h>
 #include <everest/traits/lawful/monoid.h>
+#include <everest/traits/unlawful/copyable.h>
+#include <everest/traits/unlawful/fundamental.h>
 
 namespace everest {
 
@@ -82,6 +84,24 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t One() noexcept { return 1; }
+
+};
+
+template<>
+class Fundamental<size_t> {
+public:
+  static constexpr bool exists = true;
+};
+
+template<>
+class Copyable<size_t> {
+public:
+
+  static constexpr bool exists = true;
+
+  static size_t Copy(size_t n) noexcept {
+    return n;
+  }
 
 };
 

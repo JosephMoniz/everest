@@ -10,66 +10,27 @@ namespace everest {
 template<class T>
 class Memory final {
 
+  friend class MutableMemory<T>;
   friend class Pointable<Memory<T>>;
   friend class Container<Memory<T>>;
 
-  T* _pointer;
-
-  size_t _length;
-
-  void copyInit(const T* pointer, size_t length) noexcept {
-    _pointer = new T[length];
-    for (size_t i = 0; i < length; i++) {
-      _pointer[i] = pointer[i];
-    }
-    _length = length;
-  }
+  MutableMemory<T> _wrapped;
 
 public:
 
-  Memory() noexcept : _pointer(nullptr), _length(0) { }
+  Memory() noexcept : _wrapped() { }
 
-  Memory(const T* pointer, size_t length) noexcept {
-    copyInit(pointer, length);
-  }
+  Memory(const T* pointer, size_t length) noexcept : _wrapped(pointer, length) { }
 
-  Memory(const Memory<T>& other) noexcept {
-    copyInit(other._pointer, other._length);
-  }
+  Memory(const Memory<T>& other) = delete;
 
-  Memory(Memory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
-                                       _length(std::move(other._length))
-  {
-    other._pointer = nullptr;
-    other._length  = 0;
-  }
+  Memory(Memory<T>&& other) noexcept : _wrapped(std::move(other._wrapped)) { }
 
-  Memory(const MutableMemory<T>& other) noexcept {
-    copyInit(Pointer(other), Length(other));
-  }
-
-  Memory(MutableMemory<T>&& other) noexcept : _pointer(std::move(other._pointer)),
-                                              _length(std::move(other._length))
-  {
-    other._pointer = nullptr;
-    other._length  = 0;
-  }
+  Memory(MutableMemory<T>&& other) noexcept : _wrapped(std::move(other)) { }
 
   Memory& operator=(Memory<T>&& other) noexcept {
-    if (_pointer != nullptr) {
-      delete _pointer;
-    }
-    _pointer       = other._pointer;
-    _length        = other._length;
-    other._pointer = nullptr;
-    other._length  = 0;
+    _wrapped = std::move(other._wrapped);
     return *this;
-  }
-
-  ~Memory() {
-    if (_pointer != nullptr) {
-      delete[] _pointer;
-    }
   }
 
 };
@@ -89,7 +50,7 @@ public:
   static constexpr bool exists = true;
 
   static const T* Pointer(const Memory<T>& memory) noexcept {
-    return (const T*) memory._pointer;
+    return Pointable<MutableMemory<T>>::Pointer(memory._wrapped);
   }
 
 };
@@ -101,11 +62,11 @@ public:
   static constexpr bool exists = true;
 
   static constexpr size_t Length(const Memory<T>& memory) noexcept {
-    return memory._length;
+    return Container<MutableMemory<T>>::Length(memory._wrapped);
   }
 
   static constexpr bool IsEmpty(const Memory<T>& memory) noexcept {
-    return memory._length == 0;
+    return Container<MutableMemory<T>>::IsEmpty(memory._wrapped);
   }
 
 };

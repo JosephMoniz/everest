@@ -6,6 +6,8 @@
 
 namespace everest {
 
+class String;
+
 template <class T>
 class Shows {
 
@@ -24,6 +26,13 @@ public:
 template <class T>
 const String Show(const T& n) noexcept {
   return Shows<T>::Show(n);
+}
+
+template <class T>
+const String Show(const T* n) noexcept {
+  return n == nullptr
+    ? String("")
+    : Shows<T>::Show(*n);
 }
 
 }

@@ -3,6 +3,7 @@
 #include <everest/meta/nth_arg.h>
 #include <everest/containers/checked.h>
 #include <everest/traits/lawful/monad.h>
+#include <everest/traits/unlawful/copyable.h>
 
 namespace everest {
 

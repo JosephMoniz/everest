@@ -1,0 +1,6 @@
+[submodule "deps/openssl"]
+	path = deps/openssl
+	url = git@github.com:openssl/openssl.git
+[submodule "deps/http-parser"]
+	path = deps/http-parser
+	url = git@github.com:nodejs/http-parser.git

@@ -89,6 +89,13 @@ void AssertEquals(const T& lhs, const T& rhs) {
 }
 
 template<class T>
+void AssertEquals(const T* lhs, const T* rhs) {
+  if (NotEquals(lhs, rhs)) {
+    throw AssertionException(Show(lhs) + String(" doesn't equal ") + Show(rhs));
+  }
+}
+
+template<class T>
 void AssertNotEquals(const String& error, const T& lhs, const T& rhs) {
   if (lhs == rhs) {
     throw AssertionException(error);

@@ -14,13 +14,12 @@ public:
 
   static constexpr bool exists = false;
 
-  template <class F, class U>
-  static F& RemoveInPlace(const U& item, F& container) noexcept {
+  template <class U>
+  static T& RemoveInPlace(const U& item, T& container) noexcept {
     return Base::RemoveInPlace(item, container);
   }
 
-  template <class F>
-  static F& RemoveInPlace(const F& source, F& container) noexcept {
+  static T& RemoveInPlace(const T& source, T& container) noexcept {
     return Base::RemoveInPlace(source, container);
   }
 
