@@ -6,6 +6,7 @@ os:
 before_install:
   - brew update
   - brew install homebrew/versions/gcc5
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 script: make test
