@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string.h>
 #include <openssl/sha.h>
 #include <everest/types/string.h>
 #include <everest/traits/unlawful/hexable.h>
