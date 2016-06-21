@@ -16,13 +16,15 @@ CFLAGS_FAST = $(CFLAGS) -O3
 CFLAGS_TEST = $(CFLAGS) -O0
 CFLAGS_DEBUG = $(CFLAGS) -O0 -g
 
-DEPS = $(SSLDIR)/libcrypto.a       \
-       $(SSLDIR)/libssl.a          \
-       $(HTTPDIR)/libhttp_parser.a
+DEPS  = $(SSLDIR)/libcrypto.a
+DEPS += $(SSLDIR)/libssl.a
+DEPS += $(HTTPDIR)/libhttp_parser.a
 
-INCLUDES = -I$(SRCDIR) -I$(TESTDIR) -I$(SSLDIR)/include
+INCLUDES  = -I$(SRCDIR)
+INCLUDES += -I$(TESTDIR)
+INCLUDES += -I$(SSLDIR)/include
 
-$(BUILDDIR)/everest: $(BUILDDIR)/main.o $(DEPS)
+$(BUILDDIR)/everest: $(DEPS) $(BUILDDIR)/main.o
 	$(CXX) $(CFLAGS_DEBUG) -o $@ $^
 
 $(BUILDDIR)/%.o: $(TESTDIR)/%.cc
@@ -35,8 +37,12 @@ $(SSLDIR)/README:
 $(SSLDIR)/Makefile: $(SSLDIR)/README
 	cd $(SSLDIR); ./config no-shared
 
-$(SSLDIR)/libcrypto.a: $(SSLDIR)/Makefile
+$(SSLDIR)/include/openssl/opensslconf.h: $(SSLDIR)/Makefile
 	$(MAKE) -C $(SSLDIR)
+
+$(SSLDIR)/libcrypto.a: $(SSLDIR)/include/openssl/opensslconf.h
+
+$(SSLDIR)/libssl.a: $(SSLDIR)/include/openssl/opensslconf.h
 
 $(HTTPDIR)/Makefile:
 	git submodule update --init $(HTTPDIR)
