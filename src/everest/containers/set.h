@@ -120,12 +120,12 @@ public:
   static constexpr bool exists = true;
 
   template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  static constexpr Set<B> FlatMap(F f, const Set<T>& set) noexcept {
+  static Set<B> FlatMap(F f, const Set<T>& set) noexcept {
     return Monad<MutableSet<T>>::FlatMap(f, set._wrapped);
   }
 
   template <class B>
-  static constexpr Set<B> Then(const Set<T>& first, const Set<B>& second) noexcept {
+  static Set<B> Then(const Set<T>& first, const Set<B>& second) noexcept {
     return second;
   }
 
@@ -167,12 +167,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static const String Show(const Set<T>& set) noexcept {
+  static String Show(const Set<T>& set) noexcept {
     auto out = String("Set(");
     ForEach(set, [&](const T& item) {
       out = out + Shows<T>::Show(item) + String(", ");
     });
-    return Take(Length(out) - 2, out) + String(")");
+    return Take(Length(out) - 2, std::move(out)) + String(")");
   }
 
 };
@@ -183,7 +183,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Set<T> Zero() noexcept {
+  static Set<T> Zero() noexcept {
     return Set<T>();
   }
 

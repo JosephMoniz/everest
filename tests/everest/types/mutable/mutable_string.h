@@ -1,0 +1,8 @@
+//
+// Created by Joseph Moniz on 6/23/16.
+//
+
+#ifndef TRAITOROUS_OG_MUTABLE_STRING_H
+#define TRAITOROUS_OG_MUTABLE_STRING_H
+
+#endif //TRAITOROUS_OG_MUTABLE_STRING_H

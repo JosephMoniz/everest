@@ -18,12 +18,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static const String Show(const MutableMap<K, V>& map) noexcept {
+  static String Show(const MutableMap<K, V>& map) noexcept {
     auto out = String("MutableMap(");
     ForEach(map, [&](const MutableMapEntry<K, V>& entry) {
-      out = out + Shows<MutableMapEntry<K, V>>::Show(entry) + String(", ");
+      out = std::move(out) + Shows<MutableMapEntry<K, V>>::Show(entry) + String(", ");
     });
-    return Take(Length(out) - 2, out) + String(")");
+    return Take(Length(out) - 2, std::move(out)) + String(")");
   }
 
 };

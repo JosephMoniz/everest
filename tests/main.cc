@@ -9,16 +9,11 @@
 #include <everest/types/uint64_spec.h>
 #include <everest/types/string_spec.h>
 #include <everest/containers/mutable/mutable_array_spec.h>
-#include <everest/containers/mutable/mutable_shared_array_spec.h>
 #include <everest/containers/mutable/mutable_vector_spec.h>
 #include <everest/containers/array_spec.h>
-#include <everest/containers/shared_array_spec.h>
 #include <everest/containers/option_spec.h>
-#include <everest/containers/shared_option_spec.h>
-#include <everest/containers/list_spec.h>
 #include <everest/containers/checked_spec.h>
-#include <everest/containers/shared_checked_spec.h>
-#include <everest/concurrency/box_spec.h>
+//#include <everest/concurrency/box_spec.h>
 #include <everest/containers/vector_spec.h>
 #include <everest/containers/monoids/max_monoid_spec.h>
 #include <everest/containers/monoids/min_monoid_spec.h>
@@ -55,13 +50,9 @@ int main(int argc, char **argv) {
   // Immutable container specifications
   //
   ArraySpecification();
-  SharedArraySpecification();
   OptionSpecification();
-  SharedOptionSpecification();
-  ListSpecification();
   CheckedSpecification();
-  SharedCheckSpecification();
-  BoxSpecification();
+  //BoxSpecification();
   VectorSpecification();
   SetSpecification();
 
@@ -77,7 +68,6 @@ int main(int argc, char **argv) {
   // Mutable container specifications
   //
   MutableArraySpecification();
-  SharedMutableArraySpecification();
   MutableVectorSpecification();
   MutableSetSpecification();
   MutableMapSpecification();

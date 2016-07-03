@@ -26,6 +26,11 @@ constexpr bool Any(P p, const F& n) noexcept {
   return Anyable<F>::Any(p, n);
 }
 
+template <class F, class P>
+constexpr bool Any(P p, F&& n) noexcept {
+  return Anyable<F>::Any(p, std::forward<F>(n));
+}
+
 }
 
 #pragma clang diagnostic pop

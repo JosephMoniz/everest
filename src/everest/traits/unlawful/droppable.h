@@ -25,13 +25,13 @@ public:
 };
 
 template <class T>
-constexpr T Drop(size_t s, const T& n) noexcept {
-  return Droppable<T>::Drop(s, n);
+auto Drop(size_t s, T&& n) noexcept -> decltype(Droppable<T>::Drop(s, std::forward<T>(n))) {
+  return Droppable<T>::Drop(s, std::forward<T>(n));
 }
 
-template <template <class> class F, class T>
-constexpr F<T> DropWhile(Predicate<const T&> p, const F<T>& n) noexcept {
-  return Droppable<F<T>>::DropWhile(p, n);
+template <class Predicate, class T>
+auto DropWhile(Predicate p, T&& n) noexcept -> decltype(Droppable<T>::DropWhile(p, std::forward<T>(n))) {
+  return Droppable<T>::DropWhile(p, std::forward<T>(n));
 }
 
 }

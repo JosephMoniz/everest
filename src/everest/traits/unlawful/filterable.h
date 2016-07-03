@@ -16,15 +16,15 @@ public:
   static constexpr bool exists = false;
 
   template <class F, class P>
-  static constexpr F Filter(P p, const F& n) noexcept {
+  static T Filter(P p, const F& n) noexcept {
     return Base::Filter(p, n);
   }
 
 };
 
 template <class F, class P>
-constexpr F Filter(P p, const F& n) noexcept {
-  return Filterable<F>::Filter(p, n);
+auto Filter(P p, F&& n) noexcept -> decltype(Filterable<F>::Filter(p, std::forward<F>(n))) {
+  return Filterable<F>::Filter(p, std::forward<F>(n));
 }
 
 }

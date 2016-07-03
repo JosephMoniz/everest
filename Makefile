@@ -25,7 +25,7 @@ INCLUDES += -I$(TESTDIR)
 INCLUDES += -I$(SSLDIR)/include
 
 $(BUILDDIR)/everest: $(DEPS) $(BUILDDIR)/main.o
-	$(CXX) $(CFLAGS_DEBUG) -o $@ $^
+	$(CXX) $(CFLAGS_FAST) -o $@ $^
 
 $(BUILDDIR)/%.o: $(TESTDIR)/%.cc
 	mkdir -p `dirname $@`

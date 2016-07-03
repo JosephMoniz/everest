@@ -127,4 +127,3 @@ Todo
   + Implement `ConcurrentShared<T>`
   + An IO Abstraction suite around `kqueue()`
   + An thread based facade to `mlock`/`munlock` for async `mmap`
-  + Crypto primitives (md5/sha1)

@@ -15,7 +15,7 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T Add(const T& lhs, const T& rhs) {
+  static T Add(const T& lhs, const T& rhs) {
     return Base::Add(lhs, rhs);
   }
 
@@ -27,7 +27,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Add(const T& lhs, const T& rhs) noexcept {
+  static T Add(const T& lhs, const T& rhs) noexcept {
     return lhs + rhs;
   }
 
@@ -37,52 +37,62 @@ public:
 // These are the cases for adding two elements of the same type
 //
 template <class T>
-constexpr T Add(const T& lhs, const T& rhs) noexcept {
+T Add(T&& lhs, const T& rhs) noexcept {
+  return Semigroup<T>::Add(std::move(lhs), rhs);
+}
+
+template <class T>
+T Add(const T& lhs, const T& rhs) noexcept {
   return Semigroup<T>::Add(lhs, rhs);
 }
 
 template <class T>
-constexpr Function<const T&, T> Add(const T& lhs) noexcept {
+Function<const T&, T> Add(const T& lhs) noexcept {
   return [&](const T& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
 }
 
 template <class T>
-constexpr BiFunction<const T&, const T&, T> Add() noexcept {
+BiFunction<const T&, const T&, T> Add() noexcept {
   return [&](const T& lhs, const T& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
 }
 
 template <class T>
-constexpr T operator+(const T& lhs, const T& rhs) noexcept {
+T operator+(T&& lhs, const T& rhs) noexcept {
+  return Semigroup<T>::Add(std::move(lhs), rhs);
+}
+
+template <class T>
+T operator+(const T& lhs, const T& rhs) noexcept {
   return Semigroup<T>::Add(lhs, rhs);
 }
 
 // These are the cases for adding two elements of differing types
 //
 template <class T, class U>
-constexpr auto Add(const T& lhs, const U& rhs) noexcept {
+auto Add(const T& lhs, const U& rhs) noexcept {
   return Semigroup<T>::Add(lhs, rhs);
 }
 
 template <class T, class U, class R>
-constexpr Function<const U&, R> Add(const T& lhs) noexcept {
+Function<const U&, R> Add(const T& lhs) noexcept {
   return [&](const T& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
 }
 
 template <class T, class U, class R>
-constexpr BiFunction<const T&, const U&, R> Add() noexcept {
+BiFunction<const T&, const U&, R> Add() noexcept {
   return [&](const T& lhs, const U& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
 }
 
 template <class T, class U, class R>
-constexpr R operator+(const T& lhs, const U& rhs) noexcept {
+R operator+(const T& lhs, const U& rhs) noexcept {
   return Semigroup<T>::Add(lhs, rhs);
 }
 

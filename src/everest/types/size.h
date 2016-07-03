@@ -126,7 +126,7 @@ public:
     return 10;
   }
 
-  static const String Show(size_t number) noexcept {
+  static String Show(size_t number) noexcept {
     auto size     = NumDigits(number);
     auto offset   = size;
     auto capacity = size + 1;
@@ -137,7 +137,7 @@ public:
       number /= 10;
     };
     pointer[capacity - 1] = '\0';
-    return String(std::move(memory), size);
+    return String(std::move(memory), size, capacity);
   }
 
 };

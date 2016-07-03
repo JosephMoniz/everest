@@ -8,6 +8,9 @@
 
 namespace everest {
 
+template<class E, class S>
+class Checked;
+
 class File final {
 
   int _descriptor;
@@ -68,7 +71,7 @@ public:
   }
 
   static Checked<int, File> Open(String filePath, int flags) noexcept {
-    return Open(filePath.CString(), flags);
+    return Open(Pointer(filePath), flags);
   }
 
   static Checked<int, File> Open(const char* filePath) noexcept {
@@ -76,7 +79,7 @@ public:
   }
 
   static Checked<int, File> Open(const String& filePath) noexcept {
-    return Open(filePath.CString(), O_RDWR);
+    return Open(Pointer(filePath), O_RDWR);
   }
 
   static Checked<int, File> OpenForRead(const char* filePath) noexcept {
@@ -84,7 +87,7 @@ public:
   }
 
   static Checked<int, File> OpenForRead(const String& filePath) noexcept {
-    return Open(filePath.CString(), O_RDONLY);
+    return Open(Pointer(filePath), O_RDONLY);
   }
 
   static Checked<int, File> OpenForWrite(const char* filePath) noexcept {
@@ -92,7 +95,7 @@ public:
   }
 
   static Checked<int, File> OpenForWrite(const String& filePath) noexcept {
-    return Open(filePath.CString(), O_WRONLY);
+    return Open(Pointer(filePath), O_WRONLY);
   }
 
   static bool Touch(const char* filePath) noexcept {
@@ -100,7 +103,7 @@ public:
   }
 
   static bool Touch(const String& filePath) noexcept {
-    return Touch(filePath.CString());
+    return Touch(Pointer(filePath));
   }
 
   static bool Unlink(const char* filePath) noexcept {
@@ -108,7 +111,7 @@ public:
   }
 
   static bool Unlink(const String& filePath) noexcept {
-    return Unlink(filePath.CString());
+    return Unlink(Pointer(filePath));
   }
 
 };

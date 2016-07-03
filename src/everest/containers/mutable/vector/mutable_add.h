@@ -24,6 +24,7 @@ public:
   }
 
   static MutableVector<T>& AddInPlace(const MutableVector<T>& source, MutableVector<T>& destination) noexcept {
+    destination.ReserveAtLeast(Length(destination) + Length(source));
     ForEach(source, [&](const T& item) {
       PushInPlace(item, destination);
     });

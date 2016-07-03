@@ -141,7 +141,7 @@ public:
     return 20;
   }
 
-  static const String Show(uint64_t number) noexcept {
+  static String Show(uint64_t number) noexcept {
     auto size     = NumDigits(number);
     auto offset   = size;
     auto capacity = size + 1;
@@ -151,8 +151,8 @@ public:
       pointer[--offset] = (char) (number % 10) + '0';
       number /= 10;
     };
-    pointer[capacity - 1] = '\0';
-    return String(std::move(memory), size);
+    pointer[size] = '\0';
+    return String(std::move(memory), size, capacity);
   }
 
 };

@@ -128,7 +128,7 @@ public:
     return 3;
   }
 
-  static const String Show(int8_t number) noexcept {
+  static String Show(int8_t number) noexcept {
     auto signSpace = number < 0 ? 1 : 0;
     auto size      = NumDigits(number);
     auto offset    = size;
@@ -144,8 +144,8 @@ public:
     if (signSpace) {
       pointer[0] = '-';
     }
-    pointer[capacity - 1] = '\0';
-    return String(std::move(memory), size);
+    pointer[size] = '\0';
+    return String(std::move(memory), size, capacity);
   }
 
 };

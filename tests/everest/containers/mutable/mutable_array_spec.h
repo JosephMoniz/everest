@@ -91,7 +91,7 @@ void MutableArraySpecification() {
       AssertEquals(failure, expected, result);
     });
     It("Should return the mapped shared_array when called with Map(Add(2))", [](){
-      auto expected = MakeSharedMutableArray<int, 3>({2, 4, 6});
+      auto expected = MutableArray<int, 3>({2, 4, 6});
       auto result   = Map(Multiply(2), MutableArray<int, 3>({1, 2, 3}));
       auto failure  = "Map(Multiply(2), MutableArray(1, 2, 3)) did not return MutableArray(2, 4, 6)";
       AssertEquals(failure, expected, result);
@@ -123,7 +123,7 @@ void MutableArraySpecification() {
       AssertTrue(failure, result);
     });
     It("Should return a new merged shared_array when calling Add() w/ two arrays", []() {
-      auto expected = MakeSharedMutableArray<int, 5>({1, 2, 3, 4, 5});
+      auto expected = MutableArray<int, 5>({1, 2, 3, 4, 5});
       auto result   = Add(MutableArray<int, 3>({1, 2, 3}), MutableArray<int, 2>({4, 5}));
       auto failure  = "Add(MutableArray(1, 2, 3), MutableArray(4, 5)) did not return MutableArray(1, 2, 3, 4, 5)";
       AssertEquals(failure, expected, result);

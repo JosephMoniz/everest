@@ -33,13 +33,13 @@ public:
 };
 
 template <class F, class K, class V>
-F& Put(K&& key, V&& value, F& container) noexcept {
-  return Associative<F>::Put(std::move(key), std::move(value), container);
+F& Put(K&& key, V&& value, F&& container) noexcept {
+  return Associative<F>::Put(std::move(key), std::move(value), std::forward<F>(container));
 }
 
 template <class F>
-F& Put(F&& source, F& container) noexcept {
-  return Associative<F>::Put(std::move(source), container);
+F& Put(F&& source, F&& container) noexcept {
+  return Associative<F>::Put(std::move(source), std::forward<F>(container));
 }
 
 template <class K, class T>

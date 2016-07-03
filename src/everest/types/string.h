@@ -5,6 +5,7 @@
 
 #include <everest/memory/memory.h>
 #include <everest/memory/mutable_memory.h>
+#include <everest/types/mutable/mutable_string.h>
 #include <everest/traits/unlawful/one.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/eq.h>
@@ -15,185 +16,52 @@
 #include <everest/traits/unlawful/pointable.h>
 #include <everest/traits/unlawful/hashable.h>
 #include <everest/traits/unlawful/copyable.h>
+#include <everest/traits/unlawful/storable.h>
 
 namespace everest {
 
 class String final {
 
+  friend class Pointable<String>;
   friend class Container<String>;
   friend class Semigroup<String>;
+  friend class Eq<String>;
+  friend class Iteration<String>;
+  friend class Takeable<String>;
+  friend class Hashable<String>;
+  friend class Storable<String>;
 
-  Memory<char> _memory;
-
-  size_t _length;
+  MutableString _wrapped;
 
 public:
 
-  String() noexcept : _memory(),
-                      _length() { }
+  String() noexcept : _wrapped() { }
 
-  String(const char* str) noexcept {
-    size_t length   = 0;
-    size_t capacity = 0;
-    for (capacity = 0; str[capacity]; capacity++) {
-      if ((str[capacity] & 0b11000000) != 0b10000000) {
-        length++;
-      }
-    }
-    _length = length;
-    _memory = Memory<char>(str, capacity + 1);
-  }
+  String(const char* str) noexcept : _wrapped(str) { }
 
-  String(MutableMemory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
-                                                                 _length(length) { }
+  String(MutableMemory<char>&& memory,
+         size_t length,
+         size_t occupied) noexcept : _wrapped(std::move(memory), length, occupied) { }
 
-  String(Memory<char>&& memory, size_t length) noexcept : _memory(std::move(memory)),
-                                                          _length(length) { }
+  String(Memory<char>&& memory,
+         size_t length,
+         size_t occupied) noexcept : _wrapped(std::move(memory), length, occupied) { }
 
-  String(const String& other) noexcept : _length(other._length) {
-    _memory = Memory<char>(Pointer(other._memory), Length(other._memory));
-  }
+  String(const String& other) = delete;
 
-  String(String&& other) noexcept : _memory(std::move(other._memory)),
-                                    _length(std::move(other._length)) { }
+  String(String&& other) noexcept : _wrapped(std::move(other._wrapped)) { }
 
-  String& operator=(const String& other) noexcept {
-    _memory = Memory<char>(Pointer(other._memory), Length(other._memory));
-    _length = other._length;
-    return *this;
-  }
+  String(MutableString&& string) noexcept : _wrapped(std::move(string)) { }
+
+  String& operator=(const String& other) = delete;
 
   String& operator=(String&& other) noexcept {
-    _memory = std::move(other._memory);
-    _length = other._length;
-    other._length = 0;
+    _wrapped = std::move(other._wrapped);
     return *this;
-  }
-
-  const char* CString() const noexcept {
-    return Pointer(_memory);
-  }
-
-  size_t Capacity() const noexcept {
-    return Length(_memory);
   }
 
   bool IsByteAligned() const noexcept {
-    return _length == (Capacity() - 1);
-  }
-
-};
-
-using SharedString = Shared<String>;
-
-SharedString MakeSharedString(const char* pointer) {
-  return MakeShared<String>(pointer);
-}
-
-template <>
-class Container<String> {
-public:
-
-static constexpr bool exists = true;
-
-static constexpr size_t Length(const String& string) noexcept {
-  return string._length;
-}
-
-static constexpr bool IsEmpty(const String& string) noexcept {
-  return string._length == 0;
-}
-
-};
-
-template<>
-class Eq<String> {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Equals(const String& lhs, const String& rhs) noexcept {
-    if (Length(lhs) != Length(rhs) || lhs.Capacity() != rhs.Capacity()) {
-      return false;
-    } else {
-      auto lPointer = lhs.CString();
-      auto rPointer = rhs.CString();
-      auto capacity = lhs.Capacity();
-      for (size_t i = 0; i < capacity; i++) {
-        if (lPointer[i] != rPointer[i]) {
-          return false;
-        }
-      }
-      return true;
-    }
-  }
-
-};
-
-template<>
-class Takeable<String> {
-public:
-
-  static constexpr bool exists = true;
-
-  static const String Take(size_t size, const String& inString) noexcept {
-    if (Length(inString) <= size) {
-      return inString;
-    } else {
-      auto string = inString.CString();
-      if (inString.IsByteAligned()) {
-        auto memory = MutableMemory<char>(string, size + 1);
-        MutablePointer(memory)[size] = '\0';
-        return String(std::move(memory), size);
-      } else {
-        size_t length   = 0;
-        size_t capacity = 0;
-        for (capacity = 0; string[capacity] && length < size; capacity++) {
-          if ((string[capacity] & 0b11000000) != 0b10000000) {
-            length++;
-          }
-        }
-        auto memory = MutableMemory<char>(string, ++capacity);
-        MutablePointer(memory)[length] = '\0';
-        return String(std::move(memory), length);
-      }
-    }
-  }
-
-  static const String TakeWhile(Predicate<char> predicate, const String& string) noexcept {
-    size_t offset = 0;
-    size_t length = Length(string);
-    auto pointer  = string.CString();
-    while (offset < length && predicate(pointer[offset])) {
-      offset++;
-    }
-    auto memory = MutableMemory<char>(pointer, offset + 1);
-    MutablePointer(memory)[length] = '\0';
-    return String(std::move(memory), length);
-  }
-
-};
-
-template<>
-class Semigroup<String> {
-public:
-
-  static constexpr bool exists = true;
-
-  static const String Add(const String& lhs, const String& rhs) noexcept {
-    auto lCapacity  = lhs.Capacity() - 1;
-    auto capacity   = lCapacity + rhs.Capacity();
-    auto memory     = MutableMemory<char>(capacity);
-    auto lPointer   = Pointer(lhs._memory);
-    auto rPointer   = Pointer(rhs._memory);
-    auto srcPointer = MutablePointer(memory);
-    for (size_t i = 0; i < lCapacity; i++) {
-      srcPointer[i] = lPointer[i];
-    }
-    for (size_t i = lCapacity , j = 0; i < capacity; i++, j++) {
-      srcPointer[i] = rPointer[j];
-    }
-    return String(std::move(memory), capacity - 1);
+    return _wrapped.IsByteAligned();
   }
 
 };
@@ -205,8 +73,100 @@ public:
   static constexpr bool exists = true;
 
   static const char* Pointer(const String& string) noexcept {
-    return string.CString();
+    return Pointable<MutableString>::Pointer(string._wrapped);
   }
+};
+
+template<>
+class Copyable<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String Copy(const String& string) noexcept {
+    return String(Pointer(string));
+  }
+
+};
+
+template <>
+class Storable<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr size_t Capacity(const String& string) noexcept {
+    return Storable<MutableString>::Capacity(string._wrapped);
+  }
+
+  static constexpr size_t Occupied(const String& string) noexcept {
+    return Storable<MutableString>::Occupied(string._wrapped);
+  }
+
+};
+
+template <>
+class Container<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static constexpr size_t Length(const String& string) noexcept {
+    return Container<MutableString>::Length(string._wrapped);
+  }
+
+  static constexpr bool IsEmpty(const String& string) noexcept {
+    return Container<MutableString>::IsEmpty(string._wrapped);
+  }
+
+};
+
+template<>
+class Eq<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static bool Equals(const String& lhs, const String& rhs) noexcept {
+    return Eq<MutableString>::Equals(lhs._wrapped, rhs._wrapped);
+  }
+
+};
+
+template<>
+class Takeable<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String Take(size_t size, const String& inString) noexcept {
+    return String(Takeable<MutableString>::Take(size, inString._wrapped));
+  }
+
+  static String Take(size_t size, String&& inString) noexcept {
+    return String(Takeable<MutableString>::Take(size, std::move(inString._wrapped)));
+  }
+
+  static String TakeWhile(Predicate<char> predicate, const String& string) noexcept {
+    return String(Takeable<MutableString>::TakeWhile(predicate, string._wrapped));
+  }
+
+};
+
+template<>
+class Semigroup<String> {
+public:
+
+  static constexpr bool exists = true;
+
+  static String Add(const String& lhs, const String& rhs) noexcept {
+    return String(Semigroup<MutableString>::Add(lhs._wrapped, rhs._wrapped));
+  }
+
+  static String Add(String&& lhs, const String& rhs) noexcept {
+    return String(Semigroup<MutableString>::Add(std::move(lhs._wrapped), rhs._wrapped));
+  }
+
 };
 
 
@@ -218,11 +178,7 @@ public:
 
   template <class F>
   static void ForEach(const String& string, const F& function) noexcept {
-    auto length  = string.Capacity();
-    auto pointer = Pointer(string);
-    for (size_t i = 0; i < length; i++) {
-      function(pointer[i]);
-    }
+    Iteration<MutableString>::ForEach(string._wrapped, function);
   }
 
 };
@@ -234,11 +190,7 @@ public:
   static constexpr bool exists = true;
 
   static int Hash(const String& string) noexcept {
-    int result = 37;
-    ForEach(string, [&](char item) {
-      result = 37 * result + (int) item;
-    });
-    return result;
+    return Hashable<MutableString>::Hash(string._wrapped);
   }
 
 };
@@ -256,20 +208,11 @@ public:
     return string;
   }
 
-};
-
-template<>
-class Copyable<String> {
-public:
-
-  static constexpr bool exists = true;
-
-  static String Copy(String string) noexcept {
-    return String(string);
+  static String Show(String&& string) noexcept {
+    return std::move(string);
   }
 
 };
-
 
 }
 

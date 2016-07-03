@@ -23,7 +23,7 @@ public:
 };
 
 template<class T>
-constexpr T Copy(const T& n) noexcept {
+T Copy(const T& n) noexcept {
   return Copyable<T>::Copy(n);
 }
 

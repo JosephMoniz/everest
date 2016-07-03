@@ -1,12 +1,13 @@
 #pragma once
 
 #include <stddef.h>
+#include <string.h>
 #include <everest/memory/shared.h>
+#include <everest/memory/memory.h>
 #include <everest/traits/unlawful/pointable.h>
 #include <everest/traits/unlawful/container.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/mutable/mutable_pointer.h>
-#include "memory.h"
 
 namespace everest {
 
@@ -79,14 +80,6 @@ public:
 };
 
 template<class T>
-using SharedMutableMemory = Shared<MutableMemory<T>>;
-
-template<class T>
-SharedMutableMemory<T> MakeSharedMutableMemory(const T* pointer, size_t length) {
-  return MakeShared<MutableMemory<T>>(pointer, length);
-}
-
-template<class T>
 class Pointable<MutableMemory<T>> {
 public:
 
@@ -153,14 +146,7 @@ public:
       } else {
         auto leftLength = Length(*lhs);
         if (leftLength == Length(*rhs)) {
-          auto lhsPointer = Pointer(*lhs);
-          auto rhsPointer = Pointer(*rhs);
-          for (size_t i = 0; i < leftLength; i++) {
-            if (lhsPointer[i] != rhsPointer[i]) {
-              return false;
-            }
-          }
-          return true;
+          return memcmp(Pointer(*lhs), Pointer(*rhs), leftLength) == 0;
         } else {
           return false;
         }

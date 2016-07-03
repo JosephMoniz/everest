@@ -8,6 +8,9 @@
 
 namespace everest {
 
+template<class E, class S>
+class Checked;
+
 class MemoryMappedFile final {
 
   friend class Pointable<MemoryMappedFile>;

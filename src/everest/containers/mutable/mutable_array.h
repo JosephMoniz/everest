@@ -1,7 +1,6 @@
 #pragma once
 
 #include <initializer_list>
-#include <everest/memory/shared.h>
 #include <everest/traits/lawful/functor.h>
 #include <everest/traits/unlawful/mutable/mutable_add.h>
 #include <everest/traits/unlawful/iteration.h>
@@ -44,19 +43,6 @@ public:
 
 };
 
-template<class T, size_t S>
-using SharedMutableArray = Shared<MutableArray<T, S>>;
-
-template<class T, size_t S>
-SharedMutableArray<T, S> MakeSharedMutableArray(std::initializer_list<T> list) {
-  return MakeShared<MutableArray<T, S>>(list);
-}
-
-template<class T, size_t S>
-SharedMutableArray<T, S> MakeSharedMutableArray() {
-  return MakeShared<MutableArray<T, S>>();
-}
-
 template <class T, size_t S>
 class Iteration<MutableArray<T, S>> {
 public:
@@ -74,26 +60,14 @@ public:
 
 }
 
-#include "everest/containers/mutable/array/traits/shows.h"
-#include "everest/containers/mutable/array/traits/eq.h"
-#include "everest/containers/mutable/array/traits/ord.h"
-#include "everest/containers/mutable/array/traits/functor.h"
-#include "everest/containers/mutable/array/traits/containable.h"
-#include "everest/containers/mutable/array/traits/container.h"
-#include "everest/containers/mutable/array/traits/semigroup.h"
-#include "everest/containers/mutable/array/traits/zero.h"
-#include "everest/containers/mutable/array/traits/monoid.h"
-#include "everest/containers/mutable/array/traits/hashable.h"
-#include "everest/containers/mutable/array/traits/foldable.h"
-
-#include "everest/containers/mutable/array/traits/shared/shows.h"
-#include "everest/containers/mutable/array/traits/shared/eq.h"
-#include "everest/containers/mutable/array/traits/shared/ord.h"
-#include "everest/containers/mutable/array/traits/shared/functor.h"
-#include "everest/containers/mutable/array/traits/shared/containable.h"
-#include "everest/containers/mutable/array/traits/shared/container.h"
-#include "everest/containers/mutable/array/traits/shared/semigroup.h"
-#include "everest/containers/mutable/array/traits/shared/zero.h"
-#include "everest/containers/mutable/array/traits/shared/monoid.h"
-#include "everest/containers/mutable/array/traits/shared/hashable.h"
-#include "everest/containers/mutable/array/traits/shared/foldable.h"
+#include "everest/containers/mutable/array/shows.h"
+#include "everest/containers/mutable/array/eq.h"
+#include "everest/containers/mutable/array/ord.h"
+#include "everest/containers/mutable/array/functor.h"
+#include "everest/containers/mutable/array/containable.h"
+#include "everest/containers/mutable/array/container.h"
+#include "everest/containers/mutable/array/semigroup.h"
+#include "everest/containers/mutable/array/zero.h"
+#include "everest/containers/mutable/array/monoid.h"
+#include "everest/containers/mutable/array/hashable.h"
+#include "everest/containers/mutable/array/foldable.h"

@@ -38,7 +38,7 @@ String ToHexFromBigEndianBytePointer(unsigned char* pointer, size_t bytes) {
     destination[offset + 1] = nibbleToHex[byte & 0b00001111];
   }
   destination[length] = '\0';
-  return String(std::move(memory), length);
+  return String(std::move(memory), length, length + 1);
 }
 
 String ToHexFromLittleEndianBytePointer(unsigned char* pointer, size_t bytes) {
@@ -53,7 +53,7 @@ String ToHexFromLittleEndianBytePointer(unsigned char* pointer, size_t bytes) {
     destination[offset + 1] = nibbleToHex[byte & 0b00001111];
   }
   destination[length] = '\0';
-  return String(std::move(memory), length);
+  return String(std::move(memory), length, length + 1);
 }
 
 }

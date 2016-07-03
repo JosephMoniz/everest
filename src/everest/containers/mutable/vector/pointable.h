@@ -16,7 +16,7 @@ public:
 
   static const T* Pointer(const MutableVector<T>& vector) noexcept {
     return (vector._memory != nullptr)
-      ? Pointable<MutableMemory<T>>::Pointer(vector._memory)
+      ? Pointable<GrowableMemory<T>>::Pointer(vector._memory)
       : nullptr;
   }
 

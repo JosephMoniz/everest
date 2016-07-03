@@ -23,13 +23,13 @@ public:
 };
 
 template <class T>
-constexpr T Alt(const T& a, const T& b) noexcept {
-  return Alternative<T>::Alt(a, b);
+auto Alt(T&& a, T&& b) noexcept -> decltype(Alternative<T>::Alt(std::forward<T>(a), std::forward<T>(b))) {
+  return Alternative<T>::Alt(std::forward<T>(a), std::forward<T>(b));
 }
 
 template <class T>
-constexpr T operator||(const T& lhs, const T& rhs) noexcept {
-  return Alternative<T>::Alt(lhs, rhs);
+auto operator||(T&& lhs, T&& rhs) noexcept -> decltype(Alternative<T>::Alt(std::forward<T>(lhs), std::forward<T>(rhs))) {
+  return Alternative<T>::Alt(std::forward<T>(lhs), std::forward<T>(rhs));
 }
 
 }

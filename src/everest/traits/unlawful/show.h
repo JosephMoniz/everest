@@ -2,11 +2,12 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
+#include <utility>
 #include <everest/types/string.h>
+#include <everest/traits/unlawful/fundamental.h>
+
 
 namespace everest {
-
-class String;
 
 template <class T>
 class Shows {
@@ -17,19 +18,19 @@ public:
 
   static constexpr bool exists = false;
 
-  static String Show(const T& n) noexcept {
-    return Base::Show(n);
+  static auto Show(T&& n) noexcept {
+    return Base::Show(std::forward<T>(n));
   }
 
 };
 
 template <class T>
-const String Show(const T& n) noexcept {
+String Show(const T& n) noexcept {
   return Shows<T>::Show(n);
 }
 
 template <class T>
-const String Show(const T* n) noexcept {
+String Show(const T* n) noexcept {
   return n == nullptr
     ? String("")
     : Shows<T>::Show(*n);

@@ -91,7 +91,7 @@ void ArraySpecification() {
       AssertEquals(failure, expected, result);
     });
     It("Should return the mapped shared_array when called with Map(Add(2))", [](){
-      auto expected = MakeSharedArray<int, 3>({2, 4, 6});
+      auto expected = Array<int, 3>({2, 4, 6});
       auto result   = Map(Multiply(2), Array<int, 3>({1, 2, 3}));
       auto failure  = "Map(Multiply(2), Array(1, 2, 3)) did not return Array(2, 4, 6)";
       AssertEquals(failure, expected, result);
@@ -123,7 +123,7 @@ void ArraySpecification() {
       AssertTrue(failure, result);
     });
     It("Should return a new merged shared_array when calling Add() w/ two arrays", []() {
-      auto expected = MakeSharedArray<int, 5>({1, 2, 3, 4, 5});
+      auto expected = Array<int, 5>({1, 2, 3, 4, 5});
       auto result   = Add(Array<int, 3>({1, 2, 3}), Array<int, 2>({4, 5}));
       auto failure  = "Add(Array(1, 2, 3), Array(4, 5)) did not return Array(1, 2, 3, 4, 5)";
       AssertEquals(failure, expected, result);

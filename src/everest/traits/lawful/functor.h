@@ -21,8 +21,8 @@ public:
 };
 
 template <class Fn, class A>
-auto Map(Fn f, const A& n) noexcept -> decltype(Functor<A>::Map(f, n)) {
-  return Functor<A>::Map(f, n);
+auto Map(Fn f, A&& n) noexcept -> decltype(Functor<A>::Map(f, std::forward<A>(n))) {
+  return Functor<A>::Map(f, std::forward<A>(n));
 }
 
 }

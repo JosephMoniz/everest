@@ -38,7 +38,7 @@ class AssertionException {
 
 public:
 
-  AssertionException(const String& message) noexcept : _message(message) {}
+  AssertionException(const String& message) noexcept : _message(Copy(message)) {}
 
   AssertionException(String&& message) noexcept : _message(std::move(message)) {}
 

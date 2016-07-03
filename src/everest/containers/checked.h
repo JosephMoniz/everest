@@ -3,7 +3,6 @@
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
 #include <everest/meta/max.h>
-#include <everest/memory/shared.h>
 #include <everest/traits/unlawful/fundamental.h>
 #include <everest/containers/checked/checked_type.h>
 
@@ -18,7 +17,7 @@ class Checked final {
     meta_max<alignof(E), alignof(T)>::value
   >::type;
 
-  const CheckedType _tag;
+  CheckedType _tag;
 
   data_t _value;
 
@@ -80,83 +79,48 @@ public:
 
 };
 
-template <class E, class T>
-using SharedChecked = Shared<Checked<E, T>>;
-
 template<class E, class T>
-const Checked<E, T> Error(E&& error) {
-  return Checked<E, T>(CheckedType::ERROR, std::move(error));
-}
-
-template<class E, class T>
-const Checked<E, T> Error(const E& error) {
+Checked<E, T> Error(const E& error) {
   return Checked<E, T>(CheckedType::ERROR, error);
 }
 
 template<class E, class T>
-const Checked<E, T> Ok(T&& ok) {
-  return Checked<E, T>(CheckedType::OK, std::move(ok));
+Checked<E, T> Error(E&& error) {
+  return Checked<E, T>(CheckedType::ERROR, std::forward<E>(error));
 }
 
+
 template<class E, class T>
-const Checked<E, T> Ok(const T& ok) {
+Checked<E, T> Ok(const T& ok) {
   return Checked<E, T>(CheckedType::OK, ok);
 }
-
 template<class E, class T>
-const SharedChecked<E, T> MakeSharedError(const E &error) {
-  return MakeShared<Checked<E, T>>(CheckedType::ERROR, error);
-}
-
-template<class E, class T>
-const SharedChecked<E, T> MakeSharedOk(const T &ok) {
-  return MakeShared<Checked<E, T>>(CheckedType::OK, ok);
+Checked<E, T> Ok(T&& ok) {
+  return Checked<E, T>(CheckedType::OK, std::forward<T>(ok));
 }
 
 template <class E, class T, class Ef, class Of>
-constexpr auto Match(const Checked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked.Get())) {
+auto Match(const Checked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked.Get())) {
   return (checked.IsOk())
     ? ok(checked.Get())
     : error(checked.GetError());
 }
 
-template <class E, class T, class Ef, class Of>
-constexpr auto Match(const SharedChecked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked->Get())) {
-  return (checked->IsOk())
-    ? ok(checked->Get())
-    : error(checked->GetError());
 }
 
-}
-
-#include "everest/containers/checked/traits/alternative.h"
-#include "everest/containers/checked/traits/containable.h"
-#include "everest/containers/checked/traits/container.h"
-#include "everest/containers/checked/traits/eq.h"
-#include "everest/containers/checked/traits/foldable.h"
-#include "everest/containers/checked/traits/functor.h"
-#include "everest/containers/checked/traits/hashable.h"
-#include "everest/containers/checked/traits/monad.h"
-#include "everest/containers/checked/traits/monoid.h"
-#include "everest/containers/checked/traits/ord.h"
-#include "everest/containers/checked/traits/semigroup.h"
-#include "everest/containers/checked/traits/shows.h"
-#include "everest/containers/checked/traits/unwrappable.h"
-#include "everest/containers/checked/traits/zero.h"
-
-#include "everest/containers/checked/traits/shared/alternative.h"
-#include "everest/containers/checked/traits/shared/containable.h"
-#include "everest/containers/checked/traits/shared/container.h"
-#include "everest/containers/checked/traits/shared/eq.h"
-#include "everest/containers/checked/traits/shared/foldable.h"
-#include "everest/containers/checked/traits/shared/functor.h"
-#include "everest/containers/checked/traits/shared/hashable.h"
-#include "everest/containers/checked/traits/shared/monad.h"
-#include "everest/containers/checked/traits/shared/monoid.h"
-#include "everest/containers/checked/traits/shared/ord.h"
-#include "everest/containers/checked/traits/shared/semigroup.h"
-#include "everest/containers/checked/traits/shared/shows.h"
-#include "everest/containers/checked/traits/shared/unwrappable.h"
-#include "everest/containers/checked/traits/shared/zero.h"
+#include "everest/containers/checked/alternative.h"
+#include "everest/containers/checked/containable.h"
+#include "everest/containers/checked/container.h"
+#include "everest/containers/checked/eq.h"
+#include "everest/containers/checked/foldable.h"
+#include "everest/containers/checked/functor.h"
+#include "everest/containers/checked/hashable.h"
+#include "everest/containers/checked/monad.h"
+#include "everest/containers/checked/monoid.h"
+#include "everest/containers/checked/ord.h"
+#include "everest/containers/checked/semigroup.h"
+#include "everest/containers/checked/shows.h"
+#include "everest/containers/checked/unwrappable.h"
+#include "everest/containers/checked/zero.h"
 
 #pragma clang diagnostic pop

@@ -53,8 +53,7 @@ public:
 
   Vector(Vector<T>&& other) noexcept : _wrapped(std::move(other._wrapped)) {}
 
-  // TODO: the following line should be doable
-  //Vector(Memory<T>&& memory) noexcept : _wrapped(std::move(memory._wrapped)) { }
+  Vector(Memory<T>&& memory) noexcept : _wrapped(std::move(memory)) { }
 
   Vector(MutableMemory<T>&& memory) noexcept : _wrapped(std::move(memory)) { }
 

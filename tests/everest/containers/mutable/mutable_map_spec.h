@@ -142,7 +142,6 @@ void MutableMapSpecification() {
       It("Should render the correct string when called with Shows()", [&](){
         auto expected = String("MutableMap(three: 3, four: 4, two: 2, one: 1)");
         auto result   = Show(subject);
-        PrintLn(result);
         AssertEquals(expected, result);
       });
       It("Should return false when called with Contains('zero')", [&]() {

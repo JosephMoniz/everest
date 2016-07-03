@@ -6,13 +6,12 @@
 namespace everest {
 
 void Print(const String& string) noexcept {
-  write(1, string.CString(), string.Capacity());
+  write(1, Pointer(string), Occupied(string));
 }
 
 void PrintLn(const String& string) noexcept {
-  write(1, string.CString(), string.Capacity());
+  write(1, Pointer(string), Occupied(string));
   write(1, "\n", 1);
 }
 
 }
-

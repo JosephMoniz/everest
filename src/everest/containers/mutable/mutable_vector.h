@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <everest/containers/option.h>
 #include <everest/memory/mutable_memory.h>
+#include <everest/memory/growable_memory.h>
 #include <everest/traits/unlawful/pointable.h>
 #include <everest/traits/unlawful/anyable.h>
 #include <everest/traits/unlawful/mutable/mutable_filter.h>
@@ -33,7 +34,7 @@ class MutableVector final {
 
   size_t _length;
 
-  MutableMemory<T> _memory;
+  GrowableMemory<T> _memory;
 
 public:
 
@@ -52,8 +53,14 @@ public:
     }
   }
 
+  MutableVector(GrowableMemory<T>&& memory) noexcept : _length(Length(memory)),
+                                                       _memory(std::move(memory)) { }
+
   MutableVector(MutableMemory<T>&& memory) noexcept : _length(Length(memory)),
                                                       _memory(std::move(memory)) { }
+
+  MutableVector(Memory<T>&& memory) noexcept : _length(Length(memory)),
+                                               _memory(std::move(memory)) { }
 
   MutableVector(const MutableVector<T>& other) = delete;
 
@@ -72,18 +79,11 @@ public:
   }
 
   void Reserve(size_t size) noexcept {
-    if (_memory == nullptr) {
-      _memory = MutableMemory<T>((size == 0) ? 32 : size);
-    } else {
-      if (size > Length(_memory)) {
-        auto self = this;
-        auto old  = std::move(_memory);
-        _memory   = MutableMemory<T>(size);
-        ForEach(old, [&](T&& item) {
-          PushInPlace(std::move(item), *self);
-        });
-      }
-    }
+    _memory.Reserve(size);
+  }
+
+  void ReserveAtLeast(size_t size) noexcept {
+    _memory.ReserveAtLeast(size);
   }
 
   Option<T&> At(size_t offset) const noexcept {

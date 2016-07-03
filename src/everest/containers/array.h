@@ -3,7 +3,7 @@
 #include <initializer_list>
 #include <everest/memory/shared.h>
 #include <everest/traits/lawful/functor.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 
@@ -40,24 +40,6 @@ public:
 
 };
 
-template<class T, size_t S>
-using SharedArray = Shared<Array<T, S>>;
-
-template<class T, size_t S>
-SharedArray<T, S> MakeSharedArray(std::initializer_list<T> list) {
-  return MakeShared<Array<T, S>>(list);
-}
-
-template<class T, size_t S>
-SharedArray<T, S> MakeSharedArray(const T* pointer, size_t length) {
-  return MakeShared<Array<T, S>>(pointer, length);
-}
-
-template<class T, size_t S>
-SharedArray<T, S> MakeSharedArray() {
-  return MakeShared<Array<T, S>>();
-}
-
 template <class T, size_t S>
 class Iteration<Array<T, S>> {
 public:
@@ -75,28 +57,15 @@ public:
 
 }
 
-#include "everest/containers/array/traits/pointable.h"
-#include "everest/containers/array/traits/shows.h"
-#include "everest/containers/array/traits/eq.h"
-#include "everest/containers/array/traits/ord.h"
-#include "everest/containers/array/traits/functor.h"
-#include "everest/containers/array/traits/containable.h"
-#include "everest/containers/array/traits/container.h"
-#include "everest/containers/array/traits/semigroup.h"
-#include "everest/containers/array/traits/zero.h"
-#include "everest/containers/array/traits/monoid.h"
-#include "everest/containers/array/traits/hashable.h"
-#include "everest/containers/array/traits/foldable.h"
-
-#include "everest/containers/array/traits/shared/pointable.h"
-#include "everest/containers/array/traits/shared/shows.h"
-#include "everest/containers/array/traits/shared/eq.h"
-#include "everest/containers/array/traits/shared/ord.h"
-#include "everest/containers/array/traits/shared/functor.h"
-#include "everest/containers/array/traits/shared/containable.h"
-#include "everest/containers/array/traits/shared/container.h"
-#include "everest/containers/array/traits/shared/semigroup.h"
-#include "everest/containers/array/traits/shared/zero.h"
-#include "everest/containers/array/traits/shared/monoid.h"
-#include "everest/containers/array/traits/shared/hashable.h"
-#include "everest/containers/array/traits/shared/foldable.h"
+#include "everest/containers/array/pointable.h"
+#include "everest/containers/array/shows.h"
+#include "everest/containers/array/eq.h"
+#include "everest/containers/array/ord.h"
+#include "everest/containers/array/functor.h"
+#include "everest/containers/array/containable.h"
+#include "everest/containers/array/container.h"
+#include "everest/containers/array/semigroup.h"
+#include "everest/containers/array/zero.h"
+#include "everest/containers/array/monoid.h"
+#include "everest/containers/array/hashable.h"
+#include "everest/containers/array/foldable.h"

@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <everest/memory/mutable_memory.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 #include <everest/traits/unlawful/copyable.h>
 
 namespace everest {
