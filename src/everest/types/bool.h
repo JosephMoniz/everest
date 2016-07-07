@@ -14,7 +14,7 @@ namespace everest {
 using Bool = bool;
 
 template<>
-class Eq<bool> : public DefaultEq<bool> {};
+class Eq<bool> final : public DefaultEq<bool> {};
 
 constexpr inline bool Equals(bool lhs, bool rhs) noexcept {
   return Eq<bool>::Equals(lhs, rhs);
@@ -27,7 +27,7 @@ inline Function<bool, bool> Equals(bool lhs) noexcept {
 }
 
 template<>
-class ZeroVal<bool> {
+class ZeroVal<bool> final {
 public:
 
   static constexpr bool exists = true;
@@ -39,13 +39,13 @@ public:
 };
 
 template<>
-class Ord<bool> : public DefaultOrd<bool> {};
+class Ord<bool> final : public DefaultOrd<bool> {};
 
 template<>
-class Hashable<bool> : public DefaultHashable<bool> {};
+class Hashable<bool> final : public DefaultHashable<bool> {};
 
 template<>
-class Shows<bool> {
+class Shows<bool> final {
 public:
 
   static constexpr bool exists = true;
@@ -57,13 +57,13 @@ public:
 };
 
 template<>
-class Fundamental<bool> {
+class Fundamental<bool> final {
 public:
   static constexpr bool exists = true;
 };
 
 template<>
-class Copyable<bool> {
+class Copyable<bool> final {
 public:
 
   static constexpr bool exists = true;
@@ -75,7 +75,7 @@ public:
 };
 
 template<>
-class Hexable<bool> {
+class Hexable<bool> final {
 public:
 
   static constexpr bool exists = true;

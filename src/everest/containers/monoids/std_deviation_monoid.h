@@ -8,7 +8,7 @@
 namespace everest {
 
 template<class T>
-class StdDeviationMonoid {
+class StdDeviationMonoid final {
 
   T _sum;
 

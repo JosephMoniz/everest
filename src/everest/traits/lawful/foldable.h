@@ -7,7 +7,7 @@
 namespace everest {
 
 template <class T>
-class Foldable {
+class Foldable final {
 
     typedef Foldable<T> Base;
 

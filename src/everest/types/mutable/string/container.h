@@ -8,7 +8,7 @@ namespace everest {
 class MutableString;
 
 template <>
-class Container<MutableString> {
+class Container<MutableString> final {
 public:
 
   static constexpr bool exists = true;

@@ -3,7 +3,7 @@
 #include <cstddef>
 
 template<class T, size_t Size, size_t Hashes>
-class BloomFilter {
+class BloomFilter final {
 
   /*
   BloomFilter Add(const T& item) noexcept;

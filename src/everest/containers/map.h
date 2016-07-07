@@ -21,7 +21,7 @@ public:
 };
 
 template<class K, class V>
-class Containable<Map<K, V>> {
+class Containable<Map<K, V>> final {
 public:
 
   static constexpr bool exists = true;
@@ -33,7 +33,7 @@ public:
 };
 
 template <class K, class V>
-class Container<Map<K, V>> {
+class Container<Map<K, V>> final {
 public:
 
   static constexpr bool exists = true;
@@ -49,7 +49,7 @@ public:
 };
 
 template <class K, class V>
-class Shows<Map<K, V>> {
+class Shows<Map<K, V>> final {
 public:
 
   static constexpr bool exists = true;
@@ -65,7 +65,7 @@ public:
 };
 
 template <class K, class V>
-class MapEntry<K, V> {
+class MapEntry<K, V> final {
 
   const K& _key;
 
@@ -87,7 +87,7 @@ public:
 };
 
 template <class K, class V>
-class Iteration<Map<K, V>> {
+class Iteration<Map<K, V>> final {
 public:
 
   static constexpr bool exists = true;
@@ -102,7 +102,7 @@ public:
 };
 
 template<class K, class V>
-class ZeroVal<Map<K, V>> {
+class ZeroVal<Map<K, V>> final {
 public:
 
   static constexpr bool exists = true;

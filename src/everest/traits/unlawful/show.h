@@ -24,16 +24,16 @@ public:
 
 };
 
-template <class T>
-String Show(const T& n) noexcept {
-  return Shows<T>::Show(n);
+template <class T, class U = typename std::remove_const<typename std::remove_reference<T>::type>::type>
+String Show(T&& object) noexcept {
+  return Shows<U>::Show(std::forward<T>(object));
 }
 
 template <class T>
-String Show(const T* n) noexcept {
-  return n == nullptr
+String Show(const T* pointer) noexcept {
+  return pointer == nullptr
     ? String("")
-    : Shows<T>::Show(*n);
+    : Shows<T>::Show(*pointer);
 }
 
 }

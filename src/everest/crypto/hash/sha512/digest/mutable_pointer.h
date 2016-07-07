@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/crypto/hash/sha512/digest.h>
+#include <everest/crypto/hash/sha512/sha512_digest.h>
 #include <everest/traits/unlawful/mutable/mutable_pointer.h>
 
 namespace everest {
@@ -8,7 +8,7 @@ namespace everest {
 class Sha512Digest;
 
 template<>
-class MutablePointable<Sha512Digest> {
+class MutablePointable<Sha512Digest> final {
 public:
 
   static constexpr bool exists = true;

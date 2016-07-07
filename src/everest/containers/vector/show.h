@@ -10,7 +10,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Shows<Vector<T>> {
+class Shows<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

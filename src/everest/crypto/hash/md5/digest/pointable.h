@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/crypto/hash/md5/digest.h>
+#include <everest/crypto/hash/md5/md5_digest.h>
 #include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
@@ -8,7 +8,7 @@ namespace everest {
 class Md5Digest;
 
 template<>
-class Pointable<Md5Digest> {
+class Pointable<Md5Digest> final {
 public:
 
   static constexpr bool exists = true;

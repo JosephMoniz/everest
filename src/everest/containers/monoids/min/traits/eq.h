@@ -9,7 +9,7 @@ template<class T>
 class MinMonoid;
 
 template<class T>
-class Eq<MinMonoid<T>> {
+class Eq<MinMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -5,7 +5,7 @@
 namespace everest {
 
 template<class T>
-class MaxMonoid {
+class MaxMonoid final {
 
   friend class Eq<MaxMonoid<T>>;
 

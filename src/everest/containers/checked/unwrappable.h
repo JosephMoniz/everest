@@ -9,7 +9,7 @@ template <class E, class T>
 class Checked;
 
 template <class E, class T>
-class Unwrappable<Checked<E, T>> {
+class Unwrappable<Checked<E, T>> final {
 public:
 
   static constexpr bool exists = true;

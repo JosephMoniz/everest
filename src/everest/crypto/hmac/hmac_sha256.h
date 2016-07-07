@@ -2,7 +2,7 @@
 
 #include <string.h>
 #include <openssl/hmac.h>
-#include <everest/crypto/hmac/sha256/digest.h>
+#include <everest/crypto/hmac/sha256/hmac_sha256_digest.h>
 
 namespace everest {
 

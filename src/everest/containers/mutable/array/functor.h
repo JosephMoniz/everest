@@ -9,7 +9,7 @@ template <class T, size_t S>
 class MutableArray;
 
 template<class T, size_t S>
-class Functor<MutableArray<T, S>> {
+class Functor<MutableArray<T, S>> final {
 public:
 
   static constexpr bool exists = true;

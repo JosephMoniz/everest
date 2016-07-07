@@ -9,7 +9,7 @@ template <class T>
 class Option;
 
 template<class T>
-class Monoid<Option<T>> {
+class Monoid<Option<T>> final {
 public:
 
   static constexpr bool exists = true;

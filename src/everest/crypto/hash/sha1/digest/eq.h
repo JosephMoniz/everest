@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string.h>
-#include <everest/crypto/hash/sha1/digest.h>
+#include <everest/crypto/hash/sha1/sha1_digest.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/pointable.h>
 
@@ -10,7 +10,7 @@ namespace everest {
 class Sha1Digest;
 
 template<>
-class Eq<Sha1Digest> {
+class Eq<Sha1Digest> final {
 public:
 
   static constexpr bool exists = true;

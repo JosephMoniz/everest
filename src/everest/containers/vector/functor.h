@@ -9,7 +9,7 @@ template<class T>
 class Vector;
 
 template<class T>
-class Functor<Vector<T>> {
+class Functor<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -70,7 +70,7 @@ public:
 };
 
 template <class T>
-class Iteration<Vector<T>> {
+class Iteration<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -9,7 +9,7 @@ template<class T>
 class MaxMonoid;
 
 template<class T>
-class Monoid<MaxMonoid<T>> {
+class Monoid<MaxMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;

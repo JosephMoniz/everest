@@ -8,7 +8,7 @@ namespace everest {
 class MutableString;
 
 template<>
-class Pointable<MutableString> {
+class Pointable<MutableString> final {
 public:
 
   static constexpr bool exists = true;

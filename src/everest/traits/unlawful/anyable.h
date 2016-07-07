@@ -6,7 +6,7 @@
 namespace everest {
 
 template <class T>
-class Anyable {
+class Anyable final {
 
   typedef Anyable<T> Base;
 

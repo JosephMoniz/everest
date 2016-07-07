@@ -9,7 +9,7 @@ template<class T>
 class MutableVector;
 
 template <class T>
-class Droppable<MutableVector<T>> {
+class Droppable<MutableVector<T>> final {
 public:
 
   static constexpr bool exists = true;

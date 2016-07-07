@@ -9,7 +9,7 @@ template <class E, class T>
 class Checked;
 
 template <class E, class T>
-class Functor<Checked<E, T>> {
+class Functor<Checked<E, T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -80,7 +80,7 @@ public:
 };
 
 template <>
-class Storable<MutableString> {
+class Storable<MutableString> final {
 public:
 
   static constexpr bool exists = true;

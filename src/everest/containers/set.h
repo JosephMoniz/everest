@@ -35,7 +35,7 @@ public:
 };
 
 template <class T>
-class Containable<Set<T>> {
+class Containable<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -47,7 +47,7 @@ public:
 };
 
 template <class T>
-class Container<Set<T>> {
+class Container<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -63,7 +63,7 @@ public:
 };
 
 template <class T>
-class Filterable<Set<T>> {
+class Filterable<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -76,7 +76,7 @@ public:
 };
 
 template<class T>
-class Functor<Set<T>> {
+class Functor<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -89,7 +89,7 @@ public:
 };
 
 template <class T>
-class Hashable<Set<T>> {
+class Hashable<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -101,7 +101,7 @@ public:
 };
 
 template <class T>
-class Iteration<Set<T>> {
+class Iteration<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -114,7 +114,7 @@ public:
 };
 
 template<class T>
-class Monad<Set<T>> {
+class Monad<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -132,13 +132,13 @@ public:
 };
 
 template<class T>
-class Monoid<Set<T>> {
+class Monoid<Set<T>> final {
 public:
   static constexpr bool exists = true;
 };
 
 template<class T>
-class Semigroup<Set<T>> {
+class Semigroup<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -150,7 +150,7 @@ public:
 };
 
 template<class T>
-class Subtractable<Set<T>> {
+class Subtractable<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -162,7 +162,7 @@ public:
 };
 
 template <class T>
-class Shows<Set<T>> {
+class Shows<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -178,7 +178,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<Set<T>> {
+class ZeroVal<Set<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -190,7 +190,7 @@ public:
 };
 
 template<class T>
-class Eq<Set<T>> {
+class Eq<Set<T>> final {
 public:
 
   static constexpr bool exists = true;

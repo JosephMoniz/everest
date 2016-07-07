@@ -9,7 +9,7 @@ template<class T>
 class MutableSet;
 
 template<class T>
-class Subtractable<MutableSet<T>> {
+class Subtractable<MutableSet<T>> final {
 public:
 
   static constexpr bool exists = true;

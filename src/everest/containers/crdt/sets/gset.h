@@ -5,7 +5,7 @@
 namespace everest {
 
 template<class T>
-class GSet {
+class GSet final {
 
   Set<T> _set;
 
@@ -26,7 +26,7 @@ public:
 };
 
 template<class T>
-class Shows<GSet<T>> {
+class Shows<GSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -38,7 +38,7 @@ public:
 };
 
 template<class T>
-class Eq<GSet<T>> {
+class Eq<GSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -50,7 +50,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<GSet<T>> {
+class ZeroVal<GSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -62,7 +62,7 @@ public:
 };
 
 template<class T>
-class Semigroup<GSet<T>> {
+class Semigroup<GSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -74,7 +74,7 @@ public:
 };
 
 template<class T>
-class Monoid<GSet<T>> {
+class Monoid<GSet<T>> final {
 public:
 
   static constexpr bool exists = true;

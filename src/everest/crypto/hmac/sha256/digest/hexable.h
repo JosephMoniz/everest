@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/crypto/hmac/sha256/digest.h>
+#include <everest/crypto/hmac/sha256/hmac_sha256_digest.h>
 #include <everest/traits/unlawful/hexable.h>
 
 namespace everest {

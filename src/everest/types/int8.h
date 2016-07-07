@@ -28,37 +28,37 @@
 namespace everest {
 
 template <>
-class ZeroVal<int8_t> : public DefaultZeroVal<int8_t> {};
+class ZeroVal<int8_t> final : public DefaultZeroVal<int8_t> {};
 
 template <>
-class Semigroup<int8_t> : public DefaultSemigroup<int8_t> {};
+class Semigroup<int8_t> final : public DefaultSemigroup<int8_t> {};
 
 template <>
-class Monoid<int8_t> : public DefaultMonoid<int8_t> {};
+class Monoid<int8_t> final : public DefaultMonoid<int8_t> {};
 
 template <>
-class Subtractable<int8_t> : public DefaultSubtract<int8_t> {};
+class Subtractable<int8_t> final : public DefaultSubtract<int8_t> {};
 
 template <>
-class Multipliable<int8_t> : public DefaultMultipliable<int8_t> {};
+class Multipliable<int8_t> final : public DefaultMultipliable<int8_t> {};
 
 template <>
-class Dividable<int8_t> : public DefaultDividable<int8_t> {};
+class Dividable<int8_t> final : public DefaultDividable<int8_t> {};
 
 template <>
-class Modulus<int8_t> : public DefaultModulus<int8_t> {};
+class Modulus<int8_t> final : public DefaultModulus<int8_t> {};
 
 template <>
-class Negation<int8_t> : public DefaultNegation<int8_t> {};
+class Negation<int8_t> final : public DefaultNegation<int8_t> {};
 
 template <>
-class Bounded<int8_t> : public DefaultBounded<int8_t> {};
+class Bounded<int8_t> final : public DefaultBounded<int8_t> {};
 
 template <>
-class Eq<int8_t> : public DefaultEq<int8_t> {};
+class Eq<int8_t> final : public DefaultEq<int8_t> {};
 
 template <>
-class SquareRoot<int8_t> : public DefaultSquareRoot<int8_t> {};
+class SquareRoot<int8_t> final : public DefaultSquareRoot<int8_t> {};
 
 constexpr inline bool Equals(int8_t lhs, int8_t rhs) noexcept {
   return Eq<int8_t>::Equals(lhs, rhs);
@@ -71,22 +71,22 @@ inline Predicate<int8_t> Equals(int8_t lhs) noexcept {
 }
 
 template <>
-class Ord<int8_t> : public DefaultOrd<int8_t> {};
+class Ord<int8_t> final : public DefaultOrd<int8_t> {};
 
 template <>
-class BitAnd<int8_t> : public DefaultAnd<int8_t> {};
+class BitAnd<int8_t> final : public DefaultAnd<int8_t> {};
 
 template <>
-class BitOr<int8_t> : public DefaultOr<int8_t> {};
+class BitOr<int8_t> final : public DefaultOr<int8_t> {};
 
 template <>
-class BitXor<int8_t> : public DefaultXor<int8_t> {};
+class BitXor<int8_t> final : public DefaultXor<int8_t> {};
 
 template<>
-class Hashable<int8_t> : public DefaultHashable<int8_t> {};
+class Hashable<int8_t> final : public DefaultHashable<int8_t> {};
 
 template <>
-class OneVal<int8_t> {
+class OneVal<int8_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -96,13 +96,13 @@ public:
 };
 
 template<>
-class Fundamental<int8_t> {
+class Fundamental<int8_t> final {
 public:
   static constexpr bool exists = true;
 };
 
 template<>
-class Copyable<int8_t> {
+class Copyable<int8_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -114,7 +114,7 @@ public:
 };
 
 template <>
-class Shows<int8_t> {
+class Shows<int8_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -151,7 +151,7 @@ public:
 };
 
 template<>
-class Hexable<int8_t> {
+class Hexable<int8_t> final {
 public:
 
   static constexpr bool exists = true;

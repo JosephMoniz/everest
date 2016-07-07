@@ -12,7 +12,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Droppable<Vector<T>> {
+class Droppable<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

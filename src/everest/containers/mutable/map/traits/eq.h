@@ -9,7 +9,7 @@ template<class K, class V>
 class MutableMap;
 
 template<class K, class V>
-class Eq<MutableMap<K, V>> {
+class Eq<MutableMap<K, V>> final {
 public:
 
   static constexpr bool exists = true;

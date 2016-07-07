@@ -9,7 +9,7 @@ template<class T, class U>
 class MutableTuple;
 
 template<class T, class U>
-class Copyable<MutableTuple<T, U>> {
+class Copyable<MutableTuple<T, U>> final {
 public:
 
   static constexpr bool exists = true;

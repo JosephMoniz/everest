@@ -44,7 +44,7 @@ public:
 };
 
 template <class T, size_t S>
-class Iteration<MutableArray<T, S>> {
+class Iteration<MutableArray<T, S>> final {
 public:
 
   static constexpr bool exists = true;

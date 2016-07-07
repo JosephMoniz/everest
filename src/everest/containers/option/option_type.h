@@ -11,7 +11,7 @@ enum class OptionType {
 };
 
 template<>
-class Shows<OptionType> {
+class Shows<OptionType> final {
 public:
 
   static constexpr bool exists = true;

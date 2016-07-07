@@ -9,7 +9,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Containable<Vector<T>> {
+class Containable<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

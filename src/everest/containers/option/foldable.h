@@ -11,7 +11,7 @@ template <class T>
 class Option;
 
 template <class T>
-class Foldable<Option<T>> {
+class Foldable<Option<T>> final {
 public:
 
   static constexpr bool exists = true;

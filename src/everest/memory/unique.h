@@ -46,7 +46,7 @@ Unique<T> MakeUnique(const As&... args) {
 }
 
  template <class T>
-class Pointable<Unique<T>> {
+class Pointable<Unique<T>> final {
 public:
 
   static constexpr bool exists = true;

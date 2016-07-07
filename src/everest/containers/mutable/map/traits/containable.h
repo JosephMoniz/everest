@@ -9,7 +9,7 @@ template<class K, class V>
 class MutableMap;
 
 template<class K, class V>
-class Containable<MutableMap<K, V>> {
+class Containable<MutableMap<K, V>> final {
 public:
 
   static constexpr bool exists = true;

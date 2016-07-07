@@ -10,7 +10,7 @@ class MutableMap;
 
 
 template <class K, class V>
-class Iteration<MutableMap<K, V>> {
+class Iteration<MutableMap<K, V>> final {
 public:
 
   static constexpr bool exists = true;

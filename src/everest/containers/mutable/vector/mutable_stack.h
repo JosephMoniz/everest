@@ -9,7 +9,7 @@ template<class T>
 class MutableVector;
 
 template <class T>
-class MutableStack<MutableVector<T>> {
+class MutableStack<MutableVector<T>> final {
 public:
 
   static constexpr bool exists = true;

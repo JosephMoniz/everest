@@ -9,7 +9,7 @@ template <class T>
 class Option;
 
 template <class T>
-class Filterable<Option<T>> {
+class Filterable<Option<T>> final {
 public:
 
   static constexpr bool exists = true;

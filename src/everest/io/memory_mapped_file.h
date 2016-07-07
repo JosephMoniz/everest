@@ -66,7 +66,7 @@ public:
 };
 
 template <>
-class Pointable<MemoryMappedFile> {
+class Pointable<MemoryMappedFile> final {
 public:
 
   static constexpr bool exists = true;

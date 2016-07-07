@@ -13,7 +13,7 @@ template<class K, class V>
 class MutableMapEntry;
 
 template <class K, class V>
-class Shows<MutableMap<K, V>> {
+class Shows<MutableMap<K, V>> final {
 public:
 
   static constexpr bool exists = true;

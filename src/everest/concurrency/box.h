@@ -41,7 +41,7 @@ Box<E, T> MakeBoxWithError(const E& error) noexcept {
 };
 
 template<class E, class T>
-class Functor<Box<E, T>> {
+class Functor<Box<E, T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -59,7 +59,7 @@ public:
 };
 
 template<class E, class T>
-class Monad<Box<E, T>> {
+class Monad<Box<E, T>> final {
 public:
 
   static constexpr bool exists = true;

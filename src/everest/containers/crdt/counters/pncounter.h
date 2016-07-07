@@ -13,7 +13,7 @@
 namespace everest {
 
 template<class T>
-class PNCounter {
+class PNCounter final {
 
   friend class Semigroup<PNCounter<T>>;
 
@@ -62,7 +62,7 @@ public:
 };
 
 template<class T>
-class Shows<PNCounter<T>> {
+class Shows<PNCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -74,7 +74,7 @@ public:
 };
 
 template<class T>
-class Eq<PNCounter<T>> {
+class Eq<PNCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -86,7 +86,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<PNCounter<T>> {
+class ZeroVal<PNCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -98,7 +98,7 @@ public:
 };
 
 template<class T>
-class Semigroup<PNCounter<T>> {
+class Semigroup<PNCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -112,7 +112,7 @@ public:
 };
 
 template<class T>
-class Monoid<PNCounter<T>> {
+class Monoid<PNCounter<T>> final {
 public:
 
   static constexpr bool exists = true;

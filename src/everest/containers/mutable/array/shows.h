@@ -13,7 +13,7 @@ template <class T, size_t S>
 class MutableArray;
 
 template <class T, size_t S>
-class Shows<MutableArray<T, S>> {
+class Shows<MutableArray<T, S>> final {
 public:
 
   static constexpr bool exists = true;

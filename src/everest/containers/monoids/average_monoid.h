@@ -9,7 +9,7 @@
 namespace everest {
 
 template<class T>
-class AverageMonoid {
+class AverageMonoid final {
 
   friend class Semigroup<AverageMonoid<T>>;
 
@@ -37,7 +37,7 @@ public:
 };
 
 template<class T>
-class Eq<AverageMonoid<T>> {
+class Eq<AverageMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -49,7 +49,7 @@ public:
 };
 
 template<class T>
-class Monoid<AverageMonoid<T>> {
+class Monoid<AverageMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -57,7 +57,7 @@ public:
 };
 
 template<class T>
-class Ord<AverageMonoid<T>> {
+class Ord<AverageMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -87,7 +87,7 @@ public:
 };
 
 template<class T>
-class Semigroup<AverageMonoid<T>> {
+class Semigroup<AverageMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -101,7 +101,7 @@ public:
 };
 
 template<class T>
-class Shows<AverageMonoid<T>> {
+class Shows<AverageMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -113,7 +113,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<AverageMonoid<T>> {
+class ZeroVal<AverageMonoid<T>> final {
 public:
 
   static constexpr bool exists = true;

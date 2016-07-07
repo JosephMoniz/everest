@@ -83,7 +83,7 @@ Shared<T> MakeShared(As&&... args) {
 }
 
 template <class T>
-class Pointable<Shared<T>> {
+class Pointable<Shared<T>> final {
 public:
 
   static constexpr bool exists = true;

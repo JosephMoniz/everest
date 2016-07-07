@@ -14,7 +14,7 @@
 namespace everest {
 
 template<class T>
-class GACounter {
+class GACounter final {
 
   friend class Semigroup<GACounter<T>>;
 
@@ -54,7 +54,7 @@ public:
 };
 
 template<class T>
-class Shows<GACounter<T>> {
+class Shows<GACounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -66,7 +66,7 @@ public:
 };
 
 template<class T>
-class Eq<GACounter<T>> {
+class Eq<GACounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -78,7 +78,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<GACounter<T>> {
+class ZeroVal<GACounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -90,7 +90,7 @@ public:
 };
 
 template<class T>
-class Semigroup<GACounter<T>> {
+class Semigroup<GACounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -102,7 +102,7 @@ public:
 };
 
 template<class T>
-class Monoid<GACounter<T>> {
+class Monoid<GACounter<T>> final {
 public:
 
   static constexpr bool exists = true;

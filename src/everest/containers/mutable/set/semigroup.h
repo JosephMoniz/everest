@@ -9,7 +9,7 @@ template<class T>
 class MutableSet;
 
 template<class T>
-class Semigroup<MutableSet<T>> {
+class Semigroup<MutableSet<T>> final {
 public:
 
   static constexpr bool exists = true;

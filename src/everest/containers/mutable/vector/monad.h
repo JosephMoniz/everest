@@ -9,7 +9,7 @@ template<class T>
 class MutableVector;
 
 template<class T>
-class Monad<MutableVector<T>> {
+class Monad<MutableVector<T>> final {
 public:
 
   static constexpr bool exists = true;

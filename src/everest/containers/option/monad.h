@@ -10,7 +10,7 @@ template <class T>
 class Option;
 
 template <class T>
-class Monad<Option<T>> {
+class Monad<Option<T>> final {
 public:
 
   static constexpr bool exists = true;

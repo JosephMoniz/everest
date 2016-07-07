@@ -8,7 +8,7 @@
 namespace everest {
 
 template <class T>
-class Alternative {
+class Alternative final {
 
   typedef Alternative<T> Base;
 

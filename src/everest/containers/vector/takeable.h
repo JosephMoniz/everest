@@ -11,7 +11,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Takeable<Vector<T>> {
+class Takeable<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

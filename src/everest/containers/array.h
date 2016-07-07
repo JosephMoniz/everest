@@ -41,7 +41,7 @@ public:
 };
 
 template <class T, size_t S>
-class Iteration<Array<T, S>> {
+class Iteration<Array<T, S>> final {
 public:
 
   static constexpr bool exists = true;

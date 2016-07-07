@@ -8,7 +8,7 @@
 namespace everest {
 
 template <class T>
-class Associative {
+class Associative final {
 
   typedef Associative<T> Base;
 

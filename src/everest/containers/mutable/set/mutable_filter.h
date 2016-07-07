@@ -10,7 +10,7 @@ template<class T>
 class MutableSet;
 
 template <class T>
-class MutableFilter<MutableSet<T>> {
+class MutableFilter<MutableSet<T>> final {
 public:
 
   static constexpr bool exists = true;

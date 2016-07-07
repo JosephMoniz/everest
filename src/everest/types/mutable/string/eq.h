@@ -9,7 +9,7 @@ namespace everest {
 class MutableString;
 
 template<>
-class Eq<MutableString> {
+class Eq<MutableString> final {
 public:
 
   static constexpr bool exists = true;

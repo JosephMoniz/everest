@@ -10,7 +10,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Hashable<Vector<T>> {
+class Hashable<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

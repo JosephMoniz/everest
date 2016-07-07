@@ -6,7 +6,7 @@
 namespace everest {
 
 template<class T>
-class TPSet {
+class TPSet final {
 
   friend class Semigroup<TPSet<T>>;
 
@@ -41,7 +41,7 @@ public:
 };
 
 template<class T>
-class Shows<TPSet<T>> {
+class Shows<TPSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -53,7 +53,7 @@ public:
 };
 
 template<class T>
-class Eq<TPSet<T>> {
+class Eq<TPSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -65,7 +65,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<TPSet<T>> {
+class ZeroVal<TPSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -77,7 +77,7 @@ public:
 };
 
 template<class T>
-class Semigroup<TPSet<T>> {
+class Semigroup<TPSet<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -89,7 +89,7 @@ public:
 };
 
 template<class T>
-class Monoid<TPSet<T>> {
+class Monoid<TPSet<T>> final {
 public:
 
   static constexpr bool exists = true;

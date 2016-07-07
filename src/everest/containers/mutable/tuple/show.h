@@ -9,7 +9,7 @@ template<class T, class U>
 class MutableTuple;
 
 template<class T, class U>
-class Shows<MutableTuple<T, U>> {
+class Shows<MutableTuple<T, U>> final {
 public:
 
   static constexpr bool exists = true;

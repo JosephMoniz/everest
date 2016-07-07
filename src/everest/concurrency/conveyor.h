@@ -6,7 +6,7 @@
 namespace everest {
 
 template<class E, class T>
-class LocalConveyor {
+class LocalConveyor final {
 
   const Consumer<E> _error;
 

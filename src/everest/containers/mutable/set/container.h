@@ -9,7 +9,7 @@ template<class T>
 class MutableSet;
 
 template <class T>
-class Container<MutableSet<T>> {
+class Container<MutableSet<T>> final {
 public:
 
   static constexpr bool exists = true;

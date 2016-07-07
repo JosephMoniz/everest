@@ -23,34 +23,34 @@
 namespace everest {
 
 template <>
-class ZeroVal<size_t> : public DefaultZeroVal<size_t> {};
+class ZeroVal<size_t> final : public DefaultZeroVal<size_t> {};
 
 template <>
-class Semigroup<size_t> : public DefaultSemigroup<size_t> {};
+class Semigroup<size_t> final : public DefaultSemigroup<size_t> {};
 
 template <>
-class Monoid<size_t> : public DefaultMonoid<size_t> {};
+class Monoid<size_t> final : public DefaultMonoid<size_t> {};
 
 template <>
-class Subtractable<size_t> : public DefaultSubtract<size_t> {};
+class Subtractable<size_t> final : public DefaultSubtract<size_t> {};
 
 template <>
-class Multipliable<size_t> : public DefaultMultipliable<size_t> {};
+class Multipliable<size_t> final : public DefaultMultipliable<size_t> {};
 
 template <>
-class Dividable<size_t> : public DefaultDividable<size_t> {};
+class Dividable<size_t> final : public DefaultDividable<size_t> {};
 
 template <>
-class Modulus<size_t> : public DefaultModulus<size_t> {};
+class Modulus<size_t> final : public DefaultModulus<size_t> {};
 
 template <>
-class Negation<size_t> : public DefaultNegation<size_t> {};
+class Negation<size_t> final : public DefaultNegation<size_t> {};
 
 template <>
-class Bounded<size_t> : public DefaultBounded<size_t> {};
+class Bounded<size_t> final : public DefaultBounded<size_t> {};
 
 template <>
-class Eq<size_t> : public DefaultEq<size_t> {};
+class Eq<size_t> final : public DefaultEq<size_t> {};
 
 constexpr inline bool Equals(size_t lhs, size_t rhs) noexcept {
   return Eq<size_t>::Equals(lhs, rhs);
@@ -63,22 +63,22 @@ inline Predicate<size_t> Equals(size_t lhs) noexcept {
 }
 
 template <>
-class Ord<size_t> : public DefaultOrd<size_t> {};
+class Ord<size_t> final : public DefaultOrd<size_t> {};
 
 template <>
-class BitAnd<size_t> : public DefaultAnd<size_t> {};
+class BitAnd<size_t> final : public DefaultAnd<size_t> {};
 
 template <>
-class BitOr<size_t> : public DefaultOr<size_t> {};
+class BitOr<size_t> final : public DefaultOr<size_t> {};
 
 template <>
-class BitXor<size_t> : public DefaultXor<size_t> {};
+class BitXor<size_t> final : public DefaultXor<size_t> {};
 
 template<>
-class Hashable<size_t> : public DefaultHashable<size_t> {};
+class Hashable<size_t> final : public DefaultHashable<size_t> {};
 
 template <>
-class OneVal<size_t> {
+class OneVal<size_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -88,13 +88,13 @@ public:
 };
 
 template<>
-class Fundamental<size_t> {
+class Fundamental<size_t> final {
 public:
   static constexpr bool exists = true;
 };
 
 template<>
-class Copyable<size_t> {
+class Copyable<size_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -108,7 +108,7 @@ public:
 // TODO: this seems pretty sketch, should ensure it aligns
 //       with the correct size of the systems size_t
 template <>
-class Shows<size_t> {
+class Shows<size_t> final {
 public:
 
   static constexpr bool exists = true;

@@ -5,7 +5,7 @@
 namespace everest {
 
 template <class F>
-class Monad {
+class Monad final {
 
   typedef Monad<F> Base;
 

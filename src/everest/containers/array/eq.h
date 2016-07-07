@@ -9,7 +9,7 @@ template <class T, size_t S>
 class Array;
 
 template<class T, size_t S>
-class Eq<Array<T, S>> {
+class Eq<Array<T, S>> final {
 public:
 
   static constexpr bool exists = true;

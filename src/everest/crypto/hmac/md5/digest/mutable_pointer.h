@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/crypto/hmac/md5/digest.h>
+#include <everest/crypto/hmac/md5/hmac_md5_digest.h>
 #include <everest/traits/unlawful/mutable/mutable_pointer.h>
 
 namespace everest {
@@ -8,7 +8,7 @@ namespace everest {
 class HmacMd5Digest;
 
 template<>
-class MutablePointable<HmacMd5Digest> {
+class MutablePointable<HmacMd5Digest> final {
 public:
 
   static constexpr bool exists = true;

@@ -12,7 +12,7 @@
 namespace everest {
 
 template<class T>
-class GCounter {
+class GCounter final {
 
   T _value;
 
@@ -41,7 +41,7 @@ public:
 };
 
 template<class T>
-class Shows<GCounter<T>> {
+class Shows<GCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -53,7 +53,7 @@ public:
 };
 
 template<class T>
-class Eq<GCounter<T>> {
+class Eq<GCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -65,7 +65,7 @@ public:
 };
 
 template<class T>
-class ZeroVal<GCounter<T>> {
+class ZeroVal<GCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -77,7 +77,7 @@ public:
 };
 
 template<class T>
-class Semigroup<GCounter<T>> {
+class Semigroup<GCounter<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -89,7 +89,7 @@ public:
 };
 
 template<class T>
-class Monoid<GCounter<T>> {
+class Monoid<GCounter<T>> final {
 public:
 
   static constexpr bool exists = true;

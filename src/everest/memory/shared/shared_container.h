@@ -6,7 +6,7 @@
 namespace everest {
 
 template<class T>
-class SharedContainer {
+class SharedContainer final {
 
   using data_t = typename std::aligned_storage<sizeof(T), alignof(T)>::type;
 

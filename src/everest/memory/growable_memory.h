@@ -62,7 +62,7 @@ public:
 };
 
 template<class T>
-class MutablePointable<GrowableMemory<T>> {
+class MutablePointable<GrowableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -74,7 +74,7 @@ public:
 };
 
 template <class T>
-class Pointable<GrowableMemory<T>> {
+class Pointable<GrowableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -86,7 +86,7 @@ public:
 };
 
 template <class T>
-class Container<GrowableMemory<T>> {
+class Container<GrowableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -102,7 +102,7 @@ public:
 };
 
 template<class T>
-class Eq<GrowableMemory<T>> {
+class Eq<GrowableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;

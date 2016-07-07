@@ -10,7 +10,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Filterable<Vector<T>> {
+class Filterable<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

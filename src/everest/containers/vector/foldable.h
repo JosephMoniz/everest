@@ -10,7 +10,7 @@ template<class T>
 class Vector;
 
 template <class T>
-class Foldable<Vector<T>> {
+class Foldable<Vector<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -5,7 +5,7 @@
 namespace everest {
 
 template <class T>
-class BitAnd {
+class BitAnd final {
 
   typedef BitAnd<T> Base;
 

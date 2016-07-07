@@ -10,7 +10,7 @@ template <class T>
 class Option;
 
 template <class T>
-class Shows<Option<T>> {
+class Shows<Option<T>> final {
 public:
 
   static constexpr bool exists = true;

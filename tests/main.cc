@@ -29,6 +29,10 @@
 #include <everest/crypto/hmac/hmac_sha1_spec.h>
 #include <everest/crypto/hmac/hmac_sha256_spec.h>
 #include <everest/crypto/hmac/hmac_sha512_spec.h>
+#include <everest/crypto/hash/sha224_spec.h>
+#include <everest/crypto/hash/sha384_spec.h>
+#include <everest/crypto/hmac/hmac_sha224_spec.h>
+#include <everest/crypto/hmac/hmac_sha384_spec.h>
 
 
 using namespace everest;
@@ -76,13 +80,17 @@ int main(int argc, char **argv) {
   //
   Md5HashSpecification();
   Sha1HashSpecification();
+  Sha224HashSpecification();
   Sha256HashSpecification();
+  Sha384HashSpecification();
   Sha512HashSpecification();
 
   // Hmac Specifications
   HmacMd5HashSpecification();
   HmacSha1HashSpecification();
+  HmacSha224HashSpecification();
   HmacSha256HashSpecification();
+  HmacSha384HashSpecification();
   HmacSha512HashSpecification();
 
   // Print and return the final test results

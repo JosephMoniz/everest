@@ -9,7 +9,7 @@ template <class T>
 class Option;
 
 template <class T>
-class MonadPlus<Option<T>> {
+class MonadPlus<Option<T>> final {
 public:
 
   static constexpr bool exists = true;

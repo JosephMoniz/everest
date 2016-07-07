@@ -44,7 +44,7 @@ SharedMemory<T> MakeSharedMemory(const T* pointer, size_t length) {
 }
 
 template <class T>
-class Pointable<Memory<T>> {
+class Pointable<Memory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -56,7 +56,7 @@ public:
 };
 
 template <class T>
-class Container<Memory<T>> {
+class Container<Memory<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -67,7 +67,7 @@ public:
 };
 
 template<>
-class Pointable<String> {
+class Pointable<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -78,7 +78,7 @@ public:
 };
 
 template<>
-class Copyable<String> {
+class Copyable<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -90,7 +90,7 @@ public:
 };
 
 template <>
-class Storable<String> {
+class Storable<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -106,7 +106,7 @@ public:
 };
 
 template <>
-class Container<String> {
+class Container<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -122,7 +122,7 @@ public:
 };
 
 template<>
-class Eq<String> {
+class Eq<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -134,7 +134,7 @@ public:
 };
 
 template<>
-class Takeable<String> {
+class Takeable<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -154,7 +154,7 @@ public:
 };
 
 template<>
-class Semigroup<String> {
+class Semigroup<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -171,7 +171,7 @@ public:
 
 
 template<>
-class Iteration<String> {
+class Iteration<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -184,7 +184,7 @@ public:
 };
 
 template<>
-class Hashable<String> {
+class Hashable<String> final {
 public:
 
   static constexpr bool exists = true;
@@ -199,13 +199,13 @@ template <class T>
 class Shows;
 
 template <>
-class Shows<String> {
+class Shows<String> final {
 public:
 
   static constexpr bool exists = true;
 
-  static const String& Show(const String& string) noexcept {
-    return string;
+  static String Show(const String& string) noexcept {
+    return String(Pointer(string));
   }
 
   static String Show(String&& string) noexcept {

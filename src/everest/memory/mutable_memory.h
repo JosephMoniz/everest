@@ -80,7 +80,7 @@ public:
 };
 
 template<class T>
-class Pointable<MutableMemory<T>> {
+class Pointable<MutableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -92,7 +92,7 @@ public:
 };
 
 template<class T>
-class MutablePointable<MutableMemory<T>> {
+class MutablePointable<MutableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -104,7 +104,7 @@ public:
 };
 
 template <class T>
-class Container<MutableMemory<T>> {
+class Container<MutableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;
@@ -120,7 +120,7 @@ public:
 };
 
 template<class T>
-class Eq<MutableMemory<T>> {
+class Eq<MutableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -9,7 +9,7 @@ namespace everest {
 class MutableString;
 
 template<>
-class Semigroup<MutableString> {
+class Semigroup<MutableString> final {
 public:
 
   static constexpr bool exists = true;

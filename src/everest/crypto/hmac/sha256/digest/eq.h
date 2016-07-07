@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string.h>
-#include <everest/crypto/hmac/sha256/digest.h>
+#include <everest/crypto/hmac/sha256/hmac_sha256_digest.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/pointable.h>
 

@@ -27,37 +27,37 @@
 namespace everest {
 
 template <>
-class ZeroVal<uint32_t> : public DefaultZeroVal<uint32_t> {};
+class ZeroVal<uint32_t> final : public DefaultZeroVal<uint32_t> {};
 
 template <>
-class Semigroup<uint32_t> : public DefaultSemigroup<uint32_t> {};
+class Semigroup<uint32_t> final : public DefaultSemigroup<uint32_t> {};
 
 template <>
-class Monoid<uint32_t> : public DefaultMonoid<uint32_t> {};
+class Monoid<uint32_t> final : public DefaultMonoid<uint32_t> {};
 
 template <>
-class Subtractable<uint32_t> : public DefaultSubtract<uint32_t> {};
+class Subtractable<uint32_t> final : public DefaultSubtract<uint32_t> {};
 
 template <>
-class Multipliable<uint32_t> : public DefaultMultipliable<uint32_t> {};
+class Multipliable<uint32_t> final  : public DefaultMultipliable<uint32_t> {};
 
 template <>
-class Dividable<uint32_t> : public DefaultDividable<uint32_t> {};
+class Dividable<uint32_t> final : public DefaultDividable<uint32_t> {};
 
 template <>
-class Modulus<uint32_t> : public DefaultModulus<uint32_t> {};
+class Modulus<uint32_t> final : public DefaultModulus<uint32_t> {};
 
 template <>
-class Negation<uint32_t> : public DefaultNegation<uint32_t> {};
+class Negation<uint32_t> final : public DefaultNegation<uint32_t> {};
 
 template <>
-class Bounded<uint32_t> : public DefaultBounded<uint32_t> {};
+class Bounded<uint32_t> final : public DefaultBounded<uint32_t> {};
 
 template <>
-class Eq<uint32_t> : public DefaultEq<uint32_t> {};
+class Eq<uint32_t> final : public DefaultEq<uint32_t> {};
 
 template <>
-class SquareRoot<uint32_t> : public DefaultSquareRoot<uint32_t> {};
+class SquareRoot<uint32_t> final : public DefaultSquareRoot<uint32_t> {};
 
 constexpr inline bool Equals(uint32_t lhs, uint32_t rhs) noexcept {
   return Eq<uint32_t>::Equals(lhs, rhs);
@@ -70,22 +70,22 @@ inline Predicate<uint32_t> Equals(uint32_t lhs) noexcept {
 }
 
 template <>
-class Ord<uint32_t> : public DefaultOrd<uint32_t> {};
+class Ord<uint32_t> final : public DefaultOrd<uint32_t> {};
 
 template <>
-class BitAnd<uint32_t> : public DefaultAnd<uint32_t> {};
+class BitAnd<uint32_t> final : public DefaultAnd<uint32_t> {};
 
 template <>
-class BitOr<uint32_t> : public DefaultOr<uint32_t> {};
+class BitOr<uint32_t> final : public DefaultOr<uint32_t> {};
 
 template <>
-class BitXor<uint32_t> : public DefaultXor<uint32_t> {};
+class BitXor<uint32_t> final : public DefaultXor<uint32_t> {};
 
 template<>
-class Hashable<uint32_t> : public DefaultHashable<uint32_t> {};
+class Hashable<uint32_t> final : public DefaultHashable<uint32_t> {};
 
 template <>
-class OneVal<uint32_t> {
+class OneVal<uint32_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -95,13 +95,13 @@ public:
 };
 
 template<>
-class Fundamental<uint32_t> {
+class Fundamental<uint32_t> final {
 public:
   static constexpr bool exists = true;
 };
 
 template<>
-class Copyable<uint32_t> {
+class Copyable<uint32_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -113,7 +113,7 @@ public:
 };
 
 template <>
-class Shows<uint32_t> {
+class Shows<uint32_t> final {
 public:
 
   static constexpr bool exists = true;
@@ -148,7 +148,7 @@ public:
 };
 
 template<>
-class Hexable<uint32_t> {
+class Hexable<uint32_t> final {
 public:
 
   static constexpr bool exists = true;

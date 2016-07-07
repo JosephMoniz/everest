@@ -11,7 +11,7 @@ template<class K, class V>
 class MutableMap;
 
 template<class K, class V>
-class MutableAssociative<MutableMap<K, V>> {
+class MutableAssociative<MutableMap<K, V>> final {
 public:
 
   static constexpr bool exists = true;

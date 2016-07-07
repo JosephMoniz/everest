@@ -9,7 +9,7 @@ namespace everest {
 class MutableString;
 
 template<>
-class Hashable<MutableString> {
+class Hashable<MutableString> final {
 public:
 
   static constexpr bool exists = true;

@@ -9,7 +9,7 @@ template<class T>
 class MutableVector;
 
 template <class T>
-class Queue<MutableVector<T>> {
+class Queue<MutableVector<T>> final {
 public:
 
   static constexpr bool exists = true;

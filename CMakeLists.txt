@@ -306,14 +306,14 @@ set(SOURCE_FILES
         src/everest/types/mutable/string/semigroup.h
         src/everest/types/mutable/string/iteration.h
         src/everest/types/mutable/string/hashable.h
-        src/everest/crypto/hash/md5/digest.h
-        src/everest/crypto/hash/sha1/digest.h
-        src/everest/crypto/hash/sha256/digest.h
-        src/everest/crypto/hash/sha512/digest.h
-        src/everest/crypto/hmac/md5/digest.h
-        src/everest/crypto/hmac/sha1/digest.h
-        src/everest/crypto/hmac/sha256/digest.h
-        src/everest/crypto/hmac/sha512/digest.h
+        src/everest/crypto/hash/md5/md5_digest.h
+        src/everest/crypto/hash/sha1/sha1_digest.h
+        src/everest/crypto/hash/sha256/sha256_digest.h
+        src/everest/crypto/hash/sha512/sha512_digest.h
+        src/everest/crypto/hmac/md5/hmac_md5_digest.h
+        src/everest/crypto/hmac/sha1/hmac_sha1_digest.h
+        src/everest/crypto/hmac/sha256/hmac_sha256_digest.h
+        src/everest/crypto/hmac/sha512/hmac_sha512_digest.h
         src/everest/crypto/hash/md5/digest/pointable.h
         src/everest/crypto/hash/md5/digest/mutable_pointer.h
         src/everest/crypto/hash/md5/digest/eq.h
@@ -324,11 +324,21 @@ set(SOURCE_FILES
         src/everest/crypto/hash/sha1/digest/eq.h
         src/everest/crypto/hash/sha1/digest/hexable.h
         src/everest/crypto/hash/sha1/digest/shows.h
+        src/everest/crypto/hash/sha224/digest/pointable.h
+        src/everest/crypto/hash/sha224/digest/mutable_pointer.h
+        src/everest/crypto/hash/sha224/digest/eq.h
+        src/everest/crypto/hash/sha224/digest/hexable.h
+        src/everest/crypto/hash/sha224/digest/shows.h
         src/everest/crypto/hash/sha256/digest/pointable.h
         src/everest/crypto/hash/sha256/digest/mutable_pointer.h
         src/everest/crypto/hash/sha256/digest/eq.h
         src/everest/crypto/hash/sha256/digest/hexable.h
         src/everest/crypto/hash/sha256/digest/shows.h
+        src/everest/crypto/hash/sha384/digest/pointable.h
+        src/everest/crypto/hash/sha384/digest/mutable_pointer.h
+        src/everest/crypto/hash/sha384/digest/eq.h
+        src/everest/crypto/hash/sha384/digest/hexable.h
+        src/everest/crypto/hash/sha384/digest/shows.h
         src/everest/crypto/hash/sha512/digest/pointable.h
         src/everest/crypto/hash/sha512/digest/mutable_pointer.h
         src/everest/crypto/hash/sha512/digest/eq.h
@@ -344,18 +354,35 @@ set(SOURCE_FILES
         src/everest/crypto/hmac/sha1/digest/eq.h
         src/everest/crypto/hmac/sha1/digest/hexable.h
         src/everest/crypto/hmac/sha1/digest/shows.h
+        src/everest/crypto/hmac/sha224/digest/pointable.h
+        src/everest/crypto/hmac/sha224/digest/mutable_pointer.h
+        src/everest/crypto/hmac/sha224/digest/eq.h
+        src/everest/crypto/hmac/sha224/digest/hexable.h
+        src/everest/crypto/hmac/sha224/digest/shows.h
         src/everest/crypto/hmac/sha256/digest/pointable.h
         src/everest/crypto/hmac/sha256/digest/mutable_pointer.h
         src/everest/crypto/hmac/sha256/digest/eq.h
         src/everest/crypto/hmac/sha256/digest/hexable.h
         src/everest/crypto/hmac/sha256/digest/shows.h
+        src/everest/crypto/hmac/sha384/digest/pointable.h
+        src/everest/crypto/hmac/sha384/digest/mutable_pointer.h
+        src/everest/crypto/hmac/sha384/digest/eq.h
+        src/everest/crypto/hmac/sha384/digest/hexable.h
+        src/everest/crypto/hmac/sha384/digest/shows.h
         src/everest/crypto/hmac/sha512/digest/pointable.h
         src/everest/crypto/hmac/sha512/digest/mutable_pointer.h
         src/everest/crypto/hmac/sha512/digest/eq.h
         src/everest/crypto/hmac/sha512/digest/hexable.h
         src/everest/crypto/hmac/sha512/digest/shows.h
         src/everest/traits/unlawful/storable.h
-        )
+        src/everest/traits/unlawful/sink.h
+        src/everest/traits/unlawful/funnel.h
+        src/everest/crypto/hash/md5/md5_sink.h
+        src/everest/crypto/hash/md5/sink/sink.h
+        src/everest/crypto/hash/sha384.h
+        src/everest/crypto/hash/sha224.h
+        src/everest/crypto/hash/sha224/sha224_digest.h
+        src/everest/crypto/hash/sha384/sha384_digest.h tests/everest/crypto/hash/sha224_spec.h tests/everest/crypto/hash/sha384_spec.h src/everest/crypto/hmac/hmac_sha224.h src/everest/crypto/hmac/hmac_sha384.h src/everest/crypto/hmac/sha224/hmac_sha224_digest.h src/everest/crypto/hmac/sha384/hmac_sha384_digest.h tests/everest/crypto/hmac/hmac_sha224_spec.h tests/everest/crypto/hmac/hmac_sha384_spec.h src/everest/crypto/hash/sha1/sha1_sink.h src/everest/crypto/hash/sha1/sink/sink.h src/everest/crypto/hash/sha224/sha224_sink.h src/everest/crypto/hash/sha224/sink/sink.h src/everest/crypto/hash/sha256/sha256_sink.h src/everest/crypto/hash/sha256/sink/sink.h src/everest/crypto/hash/sha384/sha384_sink.h src/everest/crypto/hash/sha384/sink/sink.h src/everest/crypto/hash/sha512/sha512_sink.h src/everest/crypto/hash/sha512/sink/sink.h)
 
 add_executable(everest
         ${SOURCE_FILES}

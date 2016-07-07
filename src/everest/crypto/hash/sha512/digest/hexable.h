@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/crypto/hash/sha512/digest.h>
+#include <everest/crypto/hash/sha512/sha512_digest.h>
 #include <everest/traits/unlawful/hexable.h>
 
 namespace everest {
@@ -8,7 +8,7 @@ namespace everest {
 class Sha512Digest;
 
 template<>
-class Hexable<Sha512Digest> {
+class Hexable<Sha512Digest> final {
 public:
 
   static constexpr bool exists = true;

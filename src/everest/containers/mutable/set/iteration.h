@@ -10,7 +10,7 @@ template<class T>
 class MutableSet;
 
 template <class T>
-class Iteration<MutableSet<T>> {
+class Iteration<MutableSet<T>> final {
 public:
 
   static constexpr bool exists = true;

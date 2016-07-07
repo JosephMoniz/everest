@@ -9,7 +9,7 @@ template <class T, size_t S>
 class Array;
 
 template<class T, size_t S>
-class ZeroVal<Array<T, S>> {
+class ZeroVal<Array<T, S>> final {
 public:
 
   static constexpr bool exists = true;

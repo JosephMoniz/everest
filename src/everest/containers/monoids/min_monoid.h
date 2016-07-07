@@ -5,7 +5,7 @@
 namespace everest {
 
 template<class T>
-class MinMonoid {
+class MinMonoid final {
 
   friend class Eq<MinMonoid<T>>;
 

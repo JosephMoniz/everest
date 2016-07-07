@@ -5,7 +5,7 @@
 namespace everest {
 
 template <class F>
-class Functor {
+class Functor final {
 
   typedef Functor<F> Base;
 

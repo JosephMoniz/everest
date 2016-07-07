@@ -69,7 +69,7 @@ auto Match(const Option<T>& o, N n, S s) noexcept -> decltype(n()) {
 }
 
 template <class T>
-class Iteration<Option<T>> {
+class Iteration<Option<T>> final {
 public:
 
   static constexpr bool exists = true;
