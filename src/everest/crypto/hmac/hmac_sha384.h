@@ -3,6 +3,7 @@
 #include <string.h>
 #include <openssl/hmac.h>
 #include <everest/crypto/hmac/sha384/hmac_sha384_digest.h>
+#include <everest/crypto/hmac/sha384/hmac_sha384_sink.h>
 
 namespace everest {
 
@@ -19,6 +20,10 @@ HmacSha384Digest HmacSha384(const String& key, const String& input) noexcept {
     (unsigned int*) &size
   );
   return digest;
+}
+
+HmacSha384Sink HmacSha384(const String& key) noexcept {
+  return HmacSha384Sink(key);
 }
 
 }

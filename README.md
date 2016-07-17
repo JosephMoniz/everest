@@ -8,14 +8,14 @@ computation in C++ while sneaking in some additional composability through
 the side door. Immutability and other general functional programming
 practices have been important in the design process behind this library
 and will continue to be the moral compass behind it. That being said
-this library is not strictly FP and abides by clojures transient principal.
+this library is not strictly FP and abides by Clojure's transient principal.
 
 Those familiar with Haskell's or Rust's type class hierarchy shouldn't be
 to surprised by some of the `traits` present. The majority of them are
-shamelessy stolen and just ported to C++ via template specialization.
+shamelessly stolen and just ported to C++ via template specialization.
 
 At the time of creation for this library `C++ concepts` (type classes)
-have yet to be formaly standardized and implemented. Once they become
+have yet to be formally standardized and implemented. Once they become
 implemented in major compilers, it may be worth revisiting this
 library leveraging `concepts` as the backbone instead.
 
@@ -26,6 +26,7 @@ Memory Management
 
   + [`Memory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/mutable_memory.h)
   + [`MutableMemory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/mutable_memory.h)
+  + [`GrowableMemory<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/growable_memory.h)
   + [`Shared<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/shared.h)
   + [`Unique<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/memory/unique.h)
   
@@ -46,25 +47,31 @@ Containers
 
   + [`Array<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/array.h)
   + [`Checked<E, S>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/checked.h)
-  + [`List<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/list.h)
   + [`Option<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/option.h)
+  + [`Map<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/map.h)
   + [`Vector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/vector.h)
+  + [`Set<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/set.h)
 
-### Immutable CRDTs
-
-  + [`GCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/gcounter.h)
-  + [`PNCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/pncounter.h)
-  
-### Immutable Monoids
-
-  + [`MaxMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/max_monoid.h)
-  + [`MinMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/min_monoid.h)
-  
 ### Mutable Containers
 
   + [`MutableArray<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_array.h)
   + [`MutableVector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_vector.h)
   + [`MutableMap<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_map.h)
+  + [`MutableSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_set.h)
+
+### Immutable CRDTs
+
+  + [`GCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/gcounter.h)
+  + [`GACounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/gacounter.h)
+  + [`PNCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/pncounter.h)
+  + [`PNACounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/pnacounter.h)
+  
+### Immutable Monoids
+
+  + [`MaxMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/max_monoid.h)
+  + [`MinMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/min_monoid.h)
+  + [`AverageMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/average_monoid.h)
+  + [`StdDeviationMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/std_deviation_monoid.h)
 
 Concurrency
 -----------

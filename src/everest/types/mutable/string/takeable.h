@@ -2,6 +2,7 @@
 
 #include <everest/types/mutable/mutable_string.h>
 #include <everest/traits/unlawful/takeable.h>
+#include <everest/types/mutable/string/copyable.h>
 
 namespace everest {
 
@@ -14,10 +15,10 @@ public:
   static constexpr bool exists = true;
 
   static MutableString Take(size_t size, const MutableString& inString) noexcept {
-    if (Length(inString) <= size) {
+    if (inString.Length() <= size) {
       return Copy(inString);
     } else {
-      auto string = Pointer(inString);
+      auto string = inString.Pointer();
       if (inString.IsByteAligned()) {
         auto occupied = size + 1;
         auto memory   = MutableMemory<char>(string, occupied);
@@ -39,7 +40,7 @@ public:
   }
 
   static MutableString Take(size_t size, MutableString&& inString) noexcept {
-    if (Length(inString) <= size) {
+    if (inString.Length() <= size) {
       return std::move(inString);
     } else {
       if (inString.IsByteAligned()) {
@@ -48,7 +49,7 @@ public:
         inString._occupied                   = size + 1;
         return std::move(inString);
       } else {
-        auto string     = Pointer(inString);
+        auto string     = inString.Pointer();
         size_t length   = 0;
         size_t capacity = 0;
         for (capacity = 0; string[capacity] && length < size; capacity++) {
@@ -66,8 +67,8 @@ public:
 
   static MutableString TakeWhile(Predicate<char> predicate, const MutableString& string) noexcept {
     size_t offset = 0;
-    size_t length = Length(string);
-    auto pointer  = Pointer(string);
+    size_t length = string.Length();
+    auto pointer  = string.Pointer();
     while (offset < length && predicate(pointer[offset])) {
       offset++;
     }
@@ -80,7 +81,7 @@ public:
   static MutableString TakeWhile(Predicate<char> predicate, MutableString&& string) noexcept {
     size_t offset = 0;
     size_t length = 0;
-    size_t size   = Length(string);
+    size_t size   = string.Length();
     auto pointer  = MutablePointer(string._data);
     while (offset < size && predicate(pointer[offset])) {
       if (MutableString::IsLetterByte(pointer[offset])) {

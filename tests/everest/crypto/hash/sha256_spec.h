@@ -7,7 +7,7 @@ namespace everest {
 
 void Sha256HashSpecification() {
   Describe("The Sha256 functionality", []() {
-    Describe("Contains the Sha256() function that", []() {
+    Describe("Contains the Sha256(String) function that", []() {
       Describe("when called with the string 'lolwat'", []() {
         auto digest = Sha256("lolwat");
         It("should return the hash '9d4739ea8d2a9d26db59bf127163dc8a598b68df2cc6cd356d9cca8f77d72680'", [&]() {

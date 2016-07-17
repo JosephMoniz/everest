@@ -4,8 +4,6 @@
 
 #include <utility>
 #include <everest/types/string.h>
-#include <everest/traits/unlawful/fundamental.h>
-
 
 namespace everest {
 

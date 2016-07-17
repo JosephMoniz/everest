@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableString Copy(const MutableString& string) noexcept {
-    return MutableString(Pointer(string));
+    return MutableString(string.Pointer());
   }
 
   static MutableString Copy(MutableString&& string) noexcept {

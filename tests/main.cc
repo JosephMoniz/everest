@@ -33,6 +33,7 @@
 #include <everest/crypto/hash/sha384_spec.h>
 #include <everest/crypto/hmac/hmac_sha224_spec.h>
 #include <everest/crypto/hmac/hmac_sha384_spec.h>
+#include <everest/containers/mutable/mutable_bit_set_spec.h>
 
 
 using namespace everest;
@@ -69,13 +70,6 @@ int main(int argc, char **argv) {
   //
   FileSpecification();
 
-  // Mutable container specifications
-  //
-  MutableArraySpecification();
-  MutableVectorSpecification();
-  MutableSetSpecification();
-  MutableMapSpecification();
-
   // Hash Specifications
   //
   Md5HashSpecification();
@@ -92,6 +86,14 @@ int main(int argc, char **argv) {
   HmacSha256HashSpecification();
   HmacSha384HashSpecification();
   HmacSha512HashSpecification();
+
+  // Mutable container specifications
+  //
+  MutableArraySpecification();
+  MutableVectorSpecification();
+  MutableSetSpecification();
+  MutableMapSpecification();
+  MutableBitSetSpecification();
 
   // Print and return the final test results
   //

@@ -27,13 +27,13 @@ class MutableSet final {
   size_t _size;
 
   MutableVector<T>* GetBucket(const T& item) noexcept {
-    auto hash    = Hash(item) % Length(_memory);
+    auto hash    = Hash(item).Value() % Length(_memory);
     auto pointer = MutablePointable<MutableMemory<MutableVector<T>>>::Pointer(_memory);
     return &pointer[hash];
   }
 
   const MutableVector<T>* GetConstBucket(const T& item) const noexcept {
-    auto hash    = Hash(item) % Length(_memory);
+    auto hash    = Hash(item).Value() % Length(_memory);
     auto pointer = Pointable<MutableMemory<MutableVector<T>>>::Pointer(_memory);
     return &pointer[hash];
   }

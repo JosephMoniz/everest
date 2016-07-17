@@ -2,21 +2,15 @@
 
 #include <everest/memory/memory.h>
 #include <everest/memory/growable_memory.h>
-#include <everest/traits/unlawful/container.h>
-#include <everest/traits/unlawful/takeable.h>
-#include <everest/traits/unlawful/pointable.h>
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/traits/unlawful/storable.h>
+#include <everest/traits/unlawful/takeable.h>
 
 namespace everest {
 
 class MutableString final {
 
-  friend class Container<MutableString>;
   friend class Takeable<MutableString>;
   friend class Semigroup<MutableString>;
-  friend class Pointable<MutableString>;
-  friend class Storable<MutableString>;
 
   GrowableMemory<char> _data;
 
@@ -77,31 +71,51 @@ public:
     return _length == (_occupied - 1);
   }
 
-};
-
-template <>
-class Storable<MutableString> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr size_t Capacity(const MutableString& string) noexcept {
-    return Container<GrowableMemory<char>>::Length(string._data);
+  size_t Length() const noexcept {
+    return _length;
   }
 
-  static constexpr size_t Occupied(const MutableString& string) noexcept {
-    return string._occupied;
+  bool IsEmpty() const noexcept {
+    return _length == 0;
+  }
+
+  size_t Capacity() const noexcept {
+    return Container<GrowableMemory<char>>::Length(_data);
+  }
+
+  size_t Occupied() const noexcept {
+    return _occupied;
+  }
+
+  bool Equals(const MutableString& other) const noexcept {
+    if (_length != other.Length() || _occupied != other.Occupied()) {
+      return false;
+    } else {
+      return memcmp(Pointable<GrowableMemory<char>>::Pointer(_data), other.Pointer(), _occupied) == 0;
+    }
+  }
+
+  template <class F>
+  void ForEach(const F& function) const noexcept {
+    auto length  = _occupied;
+    auto pointer = Pointable<GrowableMemory<char>>::Pointer(_data);
+    for (size_t i = 0; i < length; i++) {
+      function(pointer[i]);
+    }
+  }
+
+  unsigned int Hash() const noexcept {
+    unsigned int result = 37;
+    this->ForEach([&](char item) {
+      result = 37 * result + (int) item;
+    });
+    return result;
+  }
+
+  const char* Pointer() const noexcept {
+    return Pointable<GrowableMemory<char>>::Pointer(_data);
   }
 
 };
 
 }
-
-#include <everest/types/mutable/string/pointable.h>
-#include <everest/types/mutable/string/container.h>
-#include <everest/types/mutable/string/copyable.h>
-#include <everest/types/mutable/string/eq.h>
-#include <everest/types/mutable/string/hashable.h>
-#include <everest/types/mutable/string/iteration.h>
-#include <everest/types/mutable/string/semigroup.h>
-#include <everest/types/mutable/string/takeable.h>

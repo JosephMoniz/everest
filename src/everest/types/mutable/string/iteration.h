@@ -16,11 +16,7 @@ public:
 
   template <class F>
   static void ForEach(const MutableString& string, const F& function) noexcept {
-    auto length  = Occupied(string);
-    auto pointer = Pointer(string);
-    for (size_t i = 0; i < length; i++) {
-      function(pointer[i]);
-    }
+    string.ForEach(function);
   }
 
 };

@@ -8,6 +8,22 @@
 
 namespace everest {
 
+template <class E, class T>
+class Box final {
+
+  std::function<void(E, T)>_open;
+
+public:
+
+  Box(std::function<void(E, T)> open) noexcept : _open(open) { }
+
+  void Open(const E& error, const T& convey) noexcept {
+    _open(error, convey);
+  }
+
+};
+
+/*
 template<class E, class T>
 class LocalBox final {
 public:
@@ -20,23 +36,19 @@ public:
 
 template<class E, class T>
 using Box = Shared<LocalBox<E, T>>;
+*/
 
-template<class E, class T>
-Box<E, T> MakeBox(const Consumer<Conveyor<E, T>>& open) noexcept {
-  return MakeShared<LocalBox<E, T>>(open);
-};
-
-template<class E, class T>
-Box<E, T> MakeBoxWithItem(const T& item) noexcept {
-  return MakeBox<E, T>([=](const Conveyor<E, T>& conveyor) {
-      conveyor->Convey(item);
+template <class E, class T, class V>
+Box<E, T> MakeBoxWithItem(const V& item) noexcept {
+  return Box<E, T>([=](const E& Error, const T& Convey) {
+      Convey(item);
   });
 };
 
-template<class E, class T>
-Box<E, T> MakeBoxWithError(const E& error) noexcept {
-  return MakeBox<E, T>([=](const Conveyor<E, T>& conveyor) {
-      conveyor->Error(error);
+template <class E, class T, class V>
+Box<E, T> MakeBoxWithError(const V& error) noexcept {
+  return Box<E, T>([=](const E& Error, const T& Convey) {
+      Error(error);
   });
 };
 
@@ -47,12 +59,12 @@ public:
   static constexpr bool exists = true;
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  static Box<E, B> Map(const F& f, const Box<E, T>& box) noexcept {
-    return MakeBox<E, B>([=](const Conveyor<E, B>& conveyor) {
-      box->Open(MakeConveyor<E, T>(
-        [=](const E& error) { conveyor->Error(error); },
-        [=](const T& item)  { conveyor->Convey(f(item)); }
-      ));
+  static Box<E, B> Map(const F& f, Box<E, T>& box) noexcept {
+    return Box<E, B>([=](const E& Error, const T& Convey) {
+      box.Open(
+        [=](const E& error) { Error(error); },
+        [=](const T& item)  { Convey(f(item)); }
+      );
     });
   }
 
@@ -65,32 +77,32 @@ public:
   static constexpr bool exists = true;
 
   template <class F, class B = nth_arg<nth_arg<typename std::result_of<F(T)>::type, 0>, 1>>
-  static Box<E, B> FlatMap(F f, const Box<E, T>& box) noexcept {
-    return MakeBox<E, B>([=](const Conveyor<E, T>& conveyor) {
-      box->Open(MakeConveyor<E, T>(
-        [=](const E& error) { conveyor->Error(error); },
+  static Box<E, B> FlatMap(F f, Box<E, T>& box) noexcept {
+    return Box<E, B>([=](const E& Error, const T& Convey) {
+      box.Open(
+        [=](const E& error) { Error(error); },
         [=](const T& item) {
-          f(item)->Open(MakeConveyor<E, B>(
-            [=](const E& nextError) { conveyor->Error(nextError); },
-            [=](const T& nextItem)  { conveyor->Convey(nextItem); }
-          ));
+          f(item).Open(
+            [=](const E& nextError) { Error(nextError); },
+            [=](const T& nextItem)  { Convey(nextItem); }
+          );
         }
-      ));
+      );
     });
   }
 
   template <class B>
-  static Box<E, B> Then(const Box<E, T>& first, const Box<E, B>& second) noexcept {
-    return MakeBox([=](const Conveyor<E, T>& conveyor) {
-      first->Open(MakeConveyor<E, T>(
-        [=](const E& error) { conveyor->Error(error); },
+  static Box<E, B> Then(Box<E, T>& first, Box<E, B>& second) noexcept {
+    return Box([=](const E& Error, const T& Convey) {
+      first.Open(
+        [=](const E& error) { Error(error); },
         [=](const T& item) {
-          second->Open(MakeConveyor<E, T>(
-            [=](const E& errorNext) { conveyor->Error(errorNext); },
-            [=](const T& itemNext)  { conveyor->Convey(itemNext); }
-          ));
+          second.Open(
+            [=](const E& errorNext) { Error(errorNext); },
+            [=](const T& itemNext)  { Convey(itemNext); }
+          );
         }
-      ));
+      );
     });
   }
 

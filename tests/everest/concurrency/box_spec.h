@@ -11,11 +11,11 @@ void BoxSpecification() {
     Describe("that gets an item passed through it", []() {
       It("Should correctly convey an item through itself", []() {
         auto result = 0;
-        auto box    = MakeBoxWithItem<bool, int>(42);
-        box->Open(MakeConveyor<bool, int>(
+        auto box    = MakeBoxWithItem(42);
+        box.Open(
           [](const bool& error) { },
           [&](const int& item)  { result = item; }
-        ));
+        );
         auto expected = 42;
         auto failure  = "Did not properly convey 42 on call to Open()";
         AssertEquals(failure, expected, result);

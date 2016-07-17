@@ -70,7 +70,7 @@ set(SOURCE_FILES
         tests/everest/containers/checked_spec.h
         tests/everest/containers/mutable/mutable_array_spec.h
         tests/everest/containers/mutable/mutable_vector_spec.h
-        src/everest/containers/mutable/mutable_bitset.h
+        src/everest/containers/mutable/mutable_bit_set.h
         src/everest/containers/mutable/mutable_set.h
         src/everest/containers/mutable/array/shows.h
         src/everest/containers/mutable/array/eq.h
@@ -382,7 +382,39 @@ set(SOURCE_FILES
         src/everest/crypto/hash/sha384.h
         src/everest/crypto/hash/sha224.h
         src/everest/crypto/hash/sha224/sha224_digest.h
-        src/everest/crypto/hash/sha384/sha384_digest.h tests/everest/crypto/hash/sha224_spec.h tests/everest/crypto/hash/sha384_spec.h src/everest/crypto/hmac/hmac_sha224.h src/everest/crypto/hmac/hmac_sha384.h src/everest/crypto/hmac/sha224/hmac_sha224_digest.h src/everest/crypto/hmac/sha384/hmac_sha384_digest.h tests/everest/crypto/hmac/hmac_sha224_spec.h tests/everest/crypto/hmac/hmac_sha384_spec.h src/everest/crypto/hash/sha1/sha1_sink.h src/everest/crypto/hash/sha1/sink/sink.h src/everest/crypto/hash/sha224/sha224_sink.h src/everest/crypto/hash/sha224/sink/sink.h src/everest/crypto/hash/sha256/sha256_sink.h src/everest/crypto/hash/sha256/sink/sink.h src/everest/crypto/hash/sha384/sha384_sink.h src/everest/crypto/hash/sha384/sink/sink.h src/everest/crypto/hash/sha512/sha512_sink.h src/everest/crypto/hash/sha512/sink/sink.h)
+        src/everest/crypto/hash/sha384/sha384_digest.h
+        tests/everest/crypto/hash/sha224_spec.h
+        tests/everest/crypto/hash/sha384_spec.h
+        src/everest/crypto/hmac/hmac_sha224.h
+        src/everest/crypto/hmac/hmac_sha384.h
+        src/everest/crypto/hmac/sha224/hmac_sha224_digest.h
+        src/everest/crypto/hmac/sha384/hmac_sha384_digest.h
+        tests/everest/crypto/hmac/hmac_sha224_spec.h
+        tests/everest/crypto/hmac/hmac_sha384_spec.h
+        src/everest/crypto/hash/sha1/sha1_sink.h
+        src/everest/crypto/hash/sha1/sink/sink.h
+        src/everest/crypto/hash/sha224/sha224_sink.h
+        src/everest/crypto/hash/sha224/sink/sink.h
+        src/everest/crypto/hash/sha256/sha256_sink.h
+        src/everest/crypto/hash/sha256/sink/sink.h
+        src/everest/crypto/hash/sha384/sha384_sink.h
+        src/everest/crypto/hash/sha384/sink/sink.h
+        src/everest/crypto/hash/sha512/sha512_sink.h
+        src/everest/crypto/hash/sha512/sink/sink.h
+        src/everest/crypto/hmac/md5/hmac_md5_sink.h
+        src/everest/crypto/hmac/md5/sink/sink.h
+        src/everest/crypto/hmac/sha1/hmac_sha1_sink.h
+        src/everest/crypto/hmac/sha1/sink/sink.h
+        src/everest/crypto/hmac/sha224/hmac_sha224_sink.h
+        src/everest/crypto/hmac/sha224/sink/sink.h
+        src/everest/crypto/hmac/sha256/hmac_sha256_sink.h
+        src/everest/crypto/hmac/sha256/sink/sink.h
+        src/everest/crypto/hmac/sha384/hmac_sha384_sink.h
+        src/everest/crypto/hmac/sha384/sink/sink.h
+        src/everest/crypto/hmac/sha512/hmac_sha512_sink.h
+        src/everest/crypto/hmac/sha512/sink/sink.h
+        tests/everest/containers/mutable/mutable_bit_set_spec.h
+        src/everest/containers/probabilistic/mutable/mutable_bloom_filter.h src/everest/deciders/binary_decider.h src/everest/types/expressive/simple_percentage.h src/everest/types/expressive/hash_value.h src/everest/types/mutable/string/storable.h src/everest/types/string/pointable.h src/everest/types/string/copyable.h src/everest/types/string/storable.h src/everest/types/string/container.h src/everest/types/string/eq.h src/everest/types/string/takeable.h src/everest/types/string/semigroup.h src/everest/types/string/iteration.h src/everest/types/string/hashable.h src/everest/types/string/show.h src/everest/types/string/all_traits.h src/everest/types/mutable/string/all_traits.h src/everest/types/expressive/hash_value/eq.h src/everest/types/expressive/hash_value/show.h src/everest/types/expressive/hash_value/all_traits.h)
 
 add_executable(everest
         ${SOURCE_FILES}

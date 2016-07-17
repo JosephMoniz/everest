@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = true;
 
   static const char* Pointer(const MutableString& string) noexcept {
-    return Pointable<GrowableMemory<char>>::Pointer(string._data);
+    return string.Pointer();
   }
 
 };

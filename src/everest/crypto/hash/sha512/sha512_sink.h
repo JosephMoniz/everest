@@ -26,7 +26,7 @@ public:
   }
 
   Sha512Sink& PushThrough(const String& input) noexcept {
-    SHA512_Update(&_context, (const unsigned char*)Pointer(input), Length(input));
+    SHA512_Update(&_context, (const unsigned char*)Pointer(input), Occupied(input));
     return *this;
   }
 
@@ -49,7 +49,7 @@ public:
 
   template <class T>
   Sha512Sink& PushThrough(const GrowableMemory<T>& input) noexcept {
-    SHA512_Update(&_context, (const unsigned char*)Pointer(input), Capacity(input));
+    SHA512_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Occupied(input));
     return *this;
   }
 

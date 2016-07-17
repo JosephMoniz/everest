@@ -282,7 +282,7 @@ void CheckedSpecification() {
         AssertTrue(Error<bool, int>(false) != Ok<bool, int>(42));
       });
       It("should return a hash value of 0 when called with hashable()", []() {
-        AssertEquals(0, Hash(Error<bool, int>(false)));
+        AssertEquals(HashValue(0u), Hash(Error<bool, int>(false)));
       });
       It("should return itself when called with Add() and another Error()", []() {
         AssertEquals(Error<bool, int>(false), Add(Error<bool, int>(false), Error<bool, int>(true)));

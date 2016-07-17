@@ -15,25 +15,25 @@ public:
   static constexpr bool exists = true;
 
   static MutableString Add(const MutableString& lhs, const MutableString& rhs) noexcept {
-    auto lOccupied   = Occupied(lhs) - 1;
-    auto occupied    = lOccupied + Occupied(rhs);
+    auto lOccupied   = lhs.Occupied() - 1;
+    auto occupied    = lOccupied + rhs.Occupied();
     auto memory      = MutableMemory<char>(occupied);
-    auto lPointer    = Pointer(lhs);
-    auto rPointer    = Pointer(rhs);
+    auto lPointer    = lhs.Pointer();
+    auto rPointer    = rhs.Pointer();
     auto destPointer = MutablePointer(memory);
     memcpy(destPointer, lPointer, lOccupied);
-    memcpy(&destPointer[lOccupied], rPointer, Occupied(rhs));
-    return MutableString(std::move(memory), Length(lhs) + Length(rhs), occupied);
+    memcpy(&destPointer[lOccupied], rPointer, rhs.Occupied());
+    return MutableString(std::move(memory), lhs.Length() + rhs.Length(), occupied);
   }
 
   static MutableString Add(MutableString&& lhs, const MutableString& rhs) noexcept {
-    auto lOccupied = Occupied(lhs) - 1;
-    auto occupied  = lOccupied + Occupied(rhs);
+    auto lOccupied = lhs.Occupied() - 1;
+    auto occupied  = lOccupied + rhs.Occupied();
     lhs._data.ReserveAtLeast(occupied);
     auto lPointer  = MutablePointer(lhs._data);
-    auto rPointer  = Pointer(rhs);
-    memcpy(&lPointer[lOccupied], rPointer, Occupied(rhs));
-    lhs._length   = Length(lhs) + Length(rhs);
+    auto rPointer  = rhs.Pointer();
+    memcpy(&lPointer[lOccupied], rPointer, rhs.Occupied());
+    lhs._length   = lhs.Length() + rhs.Length();
     lhs._occupied = occupied;
     return std::move(lhs);
   }

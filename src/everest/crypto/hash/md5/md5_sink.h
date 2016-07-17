@@ -26,7 +26,7 @@ public:
   }
 
   Md5Sink& PushThrough(const String& input) noexcept {
-    MD5_Update(&_context, (const unsigned char*)Pointer(input), Length(input));
+    MD5_Update(&_context, (const unsigned char*)Pointer(input), Occupied(input));
     return *this;
   }
 
@@ -49,7 +49,7 @@ public:
 
   template <class T>
   Md5Sink& PushThrough(const GrowableMemory<T>& input) noexcept {
-    MD5_Update(&_context, (const unsigned char*)Pointer(input), Capacity(input));
+    MD5_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Occupied(input));
     return *this;
   }
 

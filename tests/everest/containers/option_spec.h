@@ -4,6 +4,8 @@
 #include <everest/containers/option.h>
 #include <everest/types/int32.h>
 #include <everest/functions/identity.h>
+#include <everest/types/expressive/hash_value/eq.h>
+#include <everest/types/expressive/hash_value/show.h>
 
 namespace everest {
 
@@ -51,7 +53,7 @@ void OptionSpecification() {
         AssertTrue(None<int>() != Some(42));
       });
       It("should return a hash value of 0 when called with hashable()", []() {
-        AssertEquals(0, Hash(None<int>()));
+        AssertEquals(HashValue(0u), Hash(None<int>()));
       });
       It("should return none when called with Add() and another None()", []() {
         AssertEquals(None<int>(), Add(None<int>(), None<int>()));

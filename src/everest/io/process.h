@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 #include <everest/types/string.h>
+#include <everest/types/string/all_traits.h>
 
 namespace everest {
 

@@ -31,13 +31,13 @@ class MutableMap final {
   size_t _size;
 
   Bucket* GetBucket(const K& key) noexcept {
-    auto hash    = Hash(key) % Length(_memory);
+    auto hash    = Hash(key).Value() % Length(_memory);
     auto pointer = MutablePointer(_memory);
     return &pointer[hash];
   }
 
   const Bucket* GetConstBucket(const K& key) const noexcept {
-    auto hash    = Hash(key) % Length(_memory);
+    auto hash    = Hash(key).Value() % Length(_memory);
     auto pointer = Pointer(_memory);
     return &pointer[hash];
   }

@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const MutableString& lhs, const MutableString& rhs) noexcept {
-    if (Length(lhs) != Length(rhs) || Occupied(lhs) != Occupied(rhs)) {
-      return false;
-    } else {
-      return memcmp(Pointer(lhs), Pointer(rhs), Occupied(lhs)) == 0;
-    }
+    return lhs.Equals(rhs);
   }
 
 };

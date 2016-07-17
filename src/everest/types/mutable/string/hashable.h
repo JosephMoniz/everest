@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static int Hash(const MutableString& string) noexcept {
-    int result = 37;
-    ForEach(string, [&](char item) {
-      result = 37 * result + (int) item;
-    });
-    return result;
+    return string.Hash();
   }
 
 };
