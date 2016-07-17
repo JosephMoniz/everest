@@ -13,11 +13,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const String& string) noexcept {
+  static size_t Length(const String& string) noexcept {
     return string.Length();
   }
 
-  static constexpr bool IsEmpty(const String& string) noexcept {
+  static bool IsEmpty(const String& string) noexcept {
     return string.IsEmpty();
   }
 
