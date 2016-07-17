@@ -24,31 +24,15 @@ INCLUDES  = -I$(SRCDIR)
 INCLUDES += -I$(TESTDIR)
 INCLUDES += -I$(SSLDIR)/include
 
+# Main Build Section
+#
+
 $(BUILDDIR)/everest: $(DEPS) $(BUILDDIR)/main.o
 	$(CXX) $(CFLAGS_DEBUG) -o $@ $^
 
 $(BUILDDIR)/%.o: $(TESTDIR)/%.cc
 	mkdir -p `dirname $@`
 	$(CXX) $(CFLAGS_DEBUG) $(INCLUDES) -c $< -o $@
-
-$(SSLDIR)/README:
-	git submodule update --init $(SSLDIR)
-
-$(SSLDIR)/Makefile: $(SSLDIR)/README
-	cd $(SSLDIR); ./config no-shared
-
-$(SSLDIR)/include/openssl/opensslconf.h: $(SSLDIR)/Makefile
-	$(MAKE) -C $(SSLDIR)
-
-$(SSLDIR)/libcrypto.a: $(SSLDIR)/include/openssl/opensslconf.h
-
-$(SSLDIR)/libssl.a: $(SSLDIR)/include/openssl/opensslconf.h
-
-$(HTTPDIR)/Makefile:
-	git submodule update --init $(HTTPDIR)
-
-$(HTTPDIR)/libhttp_parser.a: $(HTTPDIR)/Makefile
-	$(MAKE) package -C $(HTTPDIR)
 
 test:
 	$(MAKE) clean-test
@@ -62,5 +46,30 @@ clean-test:
 clean: clean-test
 	$(MAKE) -C $(SSLDIR) clean
 	$(MAKE) -C $(HTTPDIR) clean
+
+# OpenSSL Build Section
+#
+
+$(SSLDIR)/README:
+	git submodule update --init $(SSLDIR)
+	cd $(SSLDIR); ./Configure darwin64-x86_64-cc no-shared enable-ec_nistp_64_gcc_128 no-comp
+	$(MAKE) -C $(SSLDIR) depend
+	$(MAKE) -C $(SSLDIR)
+
+$(SSLDIR)/libcrypto.a: $(SSLDIR)/README
+
+$(SSLDIR)/libssl.a: $(SSLDIR)/README
+
+# HTTP Parser Build Section
+#
+
+$(HTTPDIR)/Makefile:
+	git submodule update --init $(HTTPDIR)
+
+$(HTTPDIR)/libhttp_parser.a: $(HTTPDIR)/Makefile
+	$(MAKE) package -C $(HTTPDIR)
+
+# Them phonies
+#
 
 .PHONY: dep clean test
