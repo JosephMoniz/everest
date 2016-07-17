@@ -52,13 +52,15 @@ clean: clean-test
 
 $(SSLDIR)/README:
 	git submodule update --init $(SSLDIR)
+
+$(SSLDIR)/Makefile: $(SSLDIR)/README
 	cd $(SSLDIR); ./Configure darwin64-x86_64-cc no-shared enable-ec_nistp_64_gcc_128 no-comp
 	$(MAKE) -C $(SSLDIR) depend
 	$(MAKE) -C $(SSLDIR)
 
-$(SSLDIR)/libcrypto.a: $(SSLDIR)/README
+$(SSLDIR)/libcrypto.a: $(SSLDIR)/Makefile
 
-$(SSLDIR)/libssl.a: $(SSLDIR)/README
+$(SSLDIR)/libssl.a: $(SSLDIR)/Makefile
 
 # HTTP Parser Build Section
 #
