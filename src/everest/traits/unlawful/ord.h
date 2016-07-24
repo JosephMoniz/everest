@@ -76,7 +76,9 @@ public:
   }
 
   static constexpr int Max(const T& lhs, const T& rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::LESS) ? rhs : lhs;
+    return (Compare(lhs, rhs) == Ordering::LESS)
+      ? rhs
+      : lhs;
   }
 
 };

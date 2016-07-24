@@ -3,7 +3,7 @@ project(traitorous_og)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-return-type -Wno-unknown-pragmas -ftemplate-backtrace-limit=0")
 
-include_directories(src tests deps/http-parser deps/openssl/include)
+include_directories(src tests deps/http-parser deps/openssl/include deps/libuv/include)
 
 set(SOURCE_FILES
         src/everest/cli/color.h
@@ -414,7 +414,7 @@ set(SOURCE_FILES
         src/everest/crypto/hmac/sha512/hmac_sha512_sink.h
         src/everest/crypto/hmac/sha512/sink/sink.h
         tests/everest/containers/mutable/mutable_bit_set_spec.h
-        src/everest/containers/probabilistic/mutable/mutable_bloom_filter.h src/everest/deciders/binary_decider.h src/everest/types/expressive/simple_percentage.h src/everest/types/expressive/hash_value.h src/everest/types/mutable/string/storable.h src/everest/types/string/pointable.h src/everest/types/string/copyable.h src/everest/types/string/storable.h src/everest/types/string/container.h src/everest/types/string/eq.h src/everest/types/string/takeable.h src/everest/types/string/semigroup.h src/everest/types/string/iteration.h src/everest/types/string/hashable.h src/everest/types/string/show.h src/everest/types/string/all_traits.h src/everest/types/mutable/string/all_traits.h src/everest/types/expressive/hash_value/eq.h src/everest/types/expressive/hash_value/show.h src/everest/types/expressive/hash_value/all_traits.h)
+        src/everest/containers/probabilistic/mutable/mutable_bloom_filter.h src/everest/deciders/binary_decider.h src/everest/types/expressive/simple_percentage.h src/everest/types/expressive/hash_value.h src/everest/types/mutable/string/storable.h src/everest/types/string/pointable.h src/everest/types/string/copyable.h src/everest/types/string/storable.h src/everest/types/string/container.h src/everest/types/string/eq.h src/everest/types/string/takeable.h src/everest/types/string/semigroup.h src/everest/types/string/iteration.h src/everest/types/string/hashable.h src/everest/types/string/show.h src/everest/types/string/all_traits.h src/everest/types/mutable/string/all_traits.h src/everest/types/expressive/hash_value/eq.h src/everest/types/expressive/hash_value/show.h src/everest/types/expressive/hash_value/all_traits.h src/everest/containers/mutable/mutable_sorted_vector_set.h tests/everest/containers/mutable/mutable_sorted_vector_set_spec.h src/everest/traits/unlawful/mutable/mutable_insert.h src/everest/containers/mutable/vector/mutable_insert.h src/everest/traits/unlawful/mutable/mutable_remove_at.h src/everest/containers/mutable/vector/mutable_remove_at.h src/everest/deciders/multi_variant_decider.h)
 
 add_executable(everest
         ${SOURCE_FILES}

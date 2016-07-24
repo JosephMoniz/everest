@@ -15,35 +15,19 @@ public:
   static constexpr bool exists = true;
 
   static MutableSet<T>& AddInPlace(const T& source, MutableSet<T>& destination) noexcept {
-    auto bucket = destination.GetAllocatedBucket(source);
-    destination.RedactBucketSize(bucket);
-    FilterInPlace(NotEquals(source), *bucket);
-    PushInPlace(source, *bucket);
-    destination.AddBucketSize(bucket);
-    return destination.ResizeIfNecessary();
+    return destination.AddInPlace(source);
   }
 
   static MutableSet<T>& AddInPlace(T&& source, MutableSet<T>& destination) noexcept {
-    auto bucket = destination.GetAllocatedBucket(source);
-    destination.RedactBucketSize(bucket);
-    FilterInPlace(NotEquals(source), *bucket);
-    PushInPlace(std::move(source), *bucket);
-    destination.AddBucketSize(bucket);
-    return destination.ResizeIfNecessary();
+    return destination.AddInPlace(std::move(source));
   }
 
   static MutableSet<T>& AddInPlace(const MutableSet<T>& source, MutableSet<T>& destination) noexcept {
-    ForEach(source, [&](const T& item) {
-      AddInPlace(item, destination);
-    });
-    return destination;
+    return destination.AddInPlace(source);
   }
 
   static MutableSet<T>& AddInPlace(MutableSet<T>&& source, MutableSet<T>& destination) noexcept {
-    ForEach(source, [&](T&& item) {
-      AddInPlace(std::move(item), destination);
-    });
-    return destination;
+    return destination.AddInPlace(std::move(source));
   }
 
 };

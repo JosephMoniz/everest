@@ -59,11 +59,11 @@ class Eq<uint8_t> final : public DefaultEq<uint8_t> {};
 template <>
 class SquareRoot<uint8_t> final : public DefaultSquareRoot<uint8_t> {};
 
-constexpr inline bool Equals(uint8_t lhs, uint8_t rhs) noexcept {
+bool Equals(uint8_t lhs, uint8_t rhs) noexcept {
   return Eq<uint8_t>::Equals(lhs, rhs);
 }
 
-inline Predicate<uint8_t> Equals(uint8_t lhs) noexcept {
+Predicate<uint8_t> Equals(uint8_t lhs) noexcept {
   return [=](uint8_t rhs) {
     return Eq<uint8_t>::Equals(lhs, rhs);
   };

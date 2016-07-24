@@ -15,18 +15,12 @@ public:
   static constexpr bool exists = true;
 
   static MutableSet<T>& RemoveInPlace(const T& item, MutableSet<T>& set) noexcept {
-    auto bucket = set.GetAllocatedBucket(item);
-    set.RedactBucketSize(bucket);
-    FilterInPlace(NotEquals(item), *bucket);
-    set.AddBucketSize(bucket);
-    return set;
+    return set.RemoveInPlace(item);
   }
 
   template<class U, class = std::enable_if<Iteration<U>::exists>>
   static MutableSet<T>& RemoveInPlace(const U& source, MutableSet<T>& set) noexcept {
-    ForEach(source, [&](const T& item) {
-      RemoveInPlace(item, set);
-    });
+    return set.RemoveInPlace(source);
   }
 
 };

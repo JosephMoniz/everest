@@ -1,11 +1,12 @@
 #pragma once
 
 #include <everest/types/expressive/simple_percentage.h>
+#include <everest/containers/mutable/mutable_sorted_vector_set.h>
 
 namespace everest {
 
 template <class T>
-class BinaryDecider<T> final {
+class MutliVariantDecider<T> final {
 
   HashValue _seed;
 
@@ -13,8 +14,8 @@ class BinaryDecider<T> final {
 
 public:
 
-  BinaryDecider(const T& identifier, SimplePercentage percentage) noexcept : _seed(Hash(identifier)),
-                                                                             _percentage(percentage) { }
+  MutliVariantDecider(const T& identifier, SimplePercentage percentage) noexcept : _seed(Hash(identifier)),
+                                                                                   _percentage(percentage) { }
 
   template <class U>
   bool IsEnabled(const U& subject) const noexcept {

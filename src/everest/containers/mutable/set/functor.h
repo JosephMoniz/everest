@@ -8,7 +8,7 @@ namespace everest {
 template<class T>
 class MutableSet;
 
-template<class T>
+template <class T>
 class Functor<MutableSet<T>> final {
 public:
 
@@ -16,11 +16,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static MutableSet<B> Map(F f, const MutableSet<T>& set) noexcept {
-    auto result = MutableSet<B>();
-    ForEach(set, [&](const T& item) {
-      AddInPlace(f(item), result);
-    });
-    return result;
+    return set.Map(f);
   }
 
 };

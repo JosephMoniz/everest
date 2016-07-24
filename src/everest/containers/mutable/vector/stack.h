@@ -15,17 +15,14 @@ public:
   static constexpr bool exists = true;
 
   static MutableVector<T> Push(const T& item, const MutableVector<T>& vector) noexcept {
-    auto capacity = Length(vector) + 1;
-    auto memory   = MutableMemory<T>(Pointer(vector), capacity);
-    MutablePointer(memory)[capacity] = item;
-    return MutableVector<T>(memory);
+    return vector.Push(item);
   }
 
-  static MutableVector<T> Pop(const Vector<T>& vector) noexcept {
-    return MutableVector<T>(MutableMemory<T>(Pointer(vector), Max(Length(vector) - 1, 0)));
+  static MutableVector<T> Pop(const MutableVector<T>& vector) noexcept {
+    return vector.Pop();
   }
 
-  static Option<const T&> Top(const Vector<T>& vector) noexcept {
+  static Option<const T&> Top(const MutableVector<T>& vector) noexcept {
     return vector.At(Length(vector) - 1);
   }
 

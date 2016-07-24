@@ -16,14 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr bool Contains(const T& n, const MutableVector<T>& vector) noexcept {
-    auto pointer = Pointer(vector);
-    auto length  = Length(vector);
-    for (size_t i = 0; i < length; i++) {
-      if (pointer[i] == n) {
-        return true;
-      }
-    }
-    return false;
+    return vector.Contains(n);
   }
 
 };

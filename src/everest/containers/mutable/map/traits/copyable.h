@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableMap<K, V> Copy(const MutableMap<K, V>& map) noexcept {
-    auto copy = MutableMap<K, V>();
-    ForEach(map, [&](MutableMapEntry<K, V>& entry) {
-      PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()), copy);
-    });
-    return copy;
+    return map.Copy();
   }
 
 };

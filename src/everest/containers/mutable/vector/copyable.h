@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableVector<T> Copy(const MutableVector<T>& vector) noexcept {
-    auto copy = MutableVector<T>();
-    ForEach(vector, [&](const T& item) {
-      PushInPlace(Copyable<T>::Copy(item), copy);
-    });
-    return copy;
+    return vector.Copy();
   }
 
 };

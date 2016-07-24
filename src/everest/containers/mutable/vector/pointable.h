@@ -15,9 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static const T* Pointer(const MutableVector<T>& vector) noexcept {
-    return (vector._memory != nullptr)
-           ? Pointable<GrowableMemory<T>>::Pointer(vector._memory)
-           : nullptr;
+    return vector.Pointer();
   }
 
 };

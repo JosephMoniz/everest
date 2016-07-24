@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableSet<T> Copy(const MutableSet<T>& set) noexcept {
-    auto copy = MutableSet<T>();
-    ForEach(set, [&](const T& item) {
-      AddInPlace(Copyable<T>::Copy(item), copy);
-    });
-    return copy;
+    return set.Copy();
   }
 
 };

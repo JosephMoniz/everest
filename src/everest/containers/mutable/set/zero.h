@@ -14,8 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr MutableSet<T> Zero() noexcept {
-    return MutableSet<T>();
+  static MutableSet<T> Zero() noexcept {
+    return MutableSet<T>::Zero();
   }
 
 };

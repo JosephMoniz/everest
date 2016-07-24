@@ -14,12 +14,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const MutableVector<T>& vector) noexcept {
-    return vector._length;
+  static size_t Length(const MutableVector<T>& vector) noexcept {
+    return vector.Length();
   }
 
-  static constexpr bool IsEmpty(const MutableVector<T>& vector) noexcept {
-    return vector._length == 0;
+  static bool IsEmpty(const MutableVector<T>& vector) noexcept {
+    return vector.IsEmpty();
   }
 
 };

@@ -17,14 +17,7 @@ public:
 
   template<class Predicate>
   static MutableSet<T>& FilterInPlace(Predicate predicate, MutableSet<T>& set) noexcept {
-    auto memorySize    = Length(set._memory);
-    auto memoryPointer = MutablePointer(set._memory);
-    for (size_t i = 0; i < memorySize; i++) {
-      set.RedactBucketSize(&memoryPointer[i]);
-      MutableFilter<MutableVector<T>>::FilterInPlace(predicate, memoryPointer[i]);
-      set.AddBucketSize(&memoryPointer[i]);
-    }
-    return set;
+    return set.FilterInPlace(predicate);
   }
 
 };

@@ -27,7 +27,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Equals(const T& lhs, const T& rhs) noexcept {
+  static bool Equals(const T& lhs, const T& rhs) noexcept {
     return lhs == rhs;
   }
 

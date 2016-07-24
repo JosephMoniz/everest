@@ -15,19 +15,13 @@ public:
   static constexpr bool exists = true;
 
   template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  static constexpr MutableSet<B> FlatMap(F f, const MutableSet<T>& set) noexcept {
-    auto results = MutableSet<T>();
-    ForEach(set, [&](const T& item) {
-      ForEach(f(item), [&](const T& inner) {
-        AddInPlace(inner, results);
-      });
-    });
-    return results;
+  static MutableSet<B> FlatMap(F f, const MutableSet<T>& set) noexcept {
+    return set.FlatMap(f);
   }
 
   template <class B>
-  static constexpr MutableSet<B> Then(const MutableSet<T>& first, const MutableSet<B>& second) noexcept {
-    return second;
+  static MutableSet<B> Then(const MutableSet<T>& first, const MutableSet<B>& second) noexcept {
+    return first.Then(second);
   }
 
 };

@@ -23,7 +23,7 @@ public:
   }
 
   static bool Equals(const MutableVector<T>& lhs, const MutableVector<T>& rhs) noexcept {
-    return Eq<MutableVector<T>>::Equals(&lhs, &rhs);
+    return lhs.Equals(rhs);
   }
 
   static bool Equals(const MutableVector<T>* lhs, const MutableVector<T>* rhs) noexcept {
@@ -33,19 +33,7 @@ public:
       if (rhs == nullptr) {
         return Pointer(*lhs) == nullptr;
       } else {
-        auto leftLength = Length(*lhs);
-        if (leftLength == Length(*rhs)) {
-          auto lhsPointer = Pointer(*lhs);
-          auto rhsPointer = Pointer(*rhs);
-          for (size_t i = 0; i < leftLength; i++) {
-            if (lhsPointer[i] != rhsPointer[i]) {
-              return false;
-            }
-          }
-          return true;
-        } else {
-          return false;
-        }
+        return lhs->Equals(*rhs);
       }
     }
   }

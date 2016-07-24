@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr MutableVector<T> Zero() noexcept {
-    return MutableVector<T>();
+    return MutableVector<T>::Zero();
   }
 
 };

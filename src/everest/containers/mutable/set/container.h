@@ -14,12 +14,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const MutableSet<T>& set) noexcept {
-    return set._size;
+  static size_t Length(const MutableSet<T>& set) noexcept {
+    return set.Length();
   }
 
-  static constexpr bool IsEmpty(const MutableSet<T>& set) noexcept {
-    return set._size == 0;
+  static bool IsEmpty(const MutableSet<T>& set) noexcept {
+    return set.IsEmpty();
   }
 
 };

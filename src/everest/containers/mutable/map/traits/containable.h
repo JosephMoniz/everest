@@ -14,7 +14,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Contains(const K& key, const MutableMap<K, V>& map) noexcept {
+  static bool Contains(const K& key, const MutableMap<K, V>& map) noexcept {
     return Any([&](const MutableMapEntry<K, V>& e){ return e.ConstKey() == key; }, *map.GetConstBucket(key));
   }
 

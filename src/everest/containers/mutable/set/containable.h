@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& item, const MutableSet<T>& set) noexcept {
-    return Containable<MutableVector<T>>::Contains(item, *set.GetConstBucket(item));
+    return set.Contains(item);
   }
 
 };

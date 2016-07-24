@@ -59,7 +59,7 @@ class Eq<int16_t> final : public DefaultEq<int16_t> {};
 template <>
 class SquareRoot<int16_t> final : public DefaultSquareRoot<int16_t> {};
 
-constexpr inline bool Equals(int16_t lhs, int16_t rhs) noexcept {
+bool Equals(int16_t lhs, int16_t rhs) noexcept {
   return Eq<int16_t>::Equals(lhs, rhs);
 }
 

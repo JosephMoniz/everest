@@ -34,6 +34,7 @@
 #include <everest/crypto/hmac/hmac_sha224_spec.h>
 #include <everest/crypto/hmac/hmac_sha384_spec.h>
 #include <everest/containers/mutable/mutable_bit_set_spec.h>
+#include <everest/containers/mutable/mutable_sorted_vector_set_spec.h>
 
 
 using namespace everest;
@@ -94,6 +95,7 @@ int main(int argc, char **argv) {
   MutableSetSpecification();
   MutableMapSpecification();
   MutableBitSetSpecification();
+  MutableSortedVectorSetSpecification();
 
   // Print and return the final test results
   //

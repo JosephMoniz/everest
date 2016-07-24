@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static int Hash(const MutableSet<T>& set) noexcept {
-    int result = 37;
-    ForEach(set, [&](const T& item) {
-      result = 37 * result + Hashable<T>::Hash(item);
-    });
-    return result;
+    return set.Hash();
   }
 
 };

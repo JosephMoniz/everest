@@ -197,6 +197,69 @@ void MutableVectorSpecification() {
         AssertEquals(4, Pointer(subject)[1]);
       });
     });
+    Describe("of [1,2,3] called with InsertInPlace(0, 0)", []() {
+      It("Should return a vector of [0,1,2,3]", []() {
+        auto subject = MutableVector<int>({1, 2, 3});
+        InsertInPlace(0, 0, subject);
+        AssertEquals(MutableVector<int>({0, 1, 2, 3}), subject);
+      });
+    });
+    Describe("of [1,2,3,4] called with InsertInPlace(0, 1)", []() {
+      It("Should return a vector of [1,0,2,3]", []() {
+        auto subject = MutableVector<int>({1, 2, 3, 4});
+        InsertInPlace(0, 1, subject);
+        AssertEquals(MutableVector<int>({1, 0, 2, 3, 4}), subject);
+      });
+    });
+    Describe("of [1,2,3,4] called with InsertInPlace(0, 2)", []() {
+      It("Should return a vector of [1,2,0,3]", []() {
+        auto subject = MutableVector<int>({1, 2, 3, 4});
+        InsertInPlace(0, 2, subject);
+        AssertEquals(MutableVector<int>({1, 2, 0, 3, 4}), subject);
+      });
+    });
+    Describe("of [1,2,3,4] called with InsertInPlace(0, 3)", []() {
+      It("Should return a vector of [1,2,3,0]", []() {
+        auto subject = MutableVector<int>({1, 2, 3, 4});
+        InsertInPlace(0, 3, subject);
+        AssertEquals(MutableVector<int>({1, 2, 3, 0, 4}), subject);
+      });
+    });
+    Describe("of [1,2,3,4] called with InsertInPlace(0, 4)", []() {
+      It("Should return a vector of [1,2,3,0]", []() {
+        auto subject = MutableVector<int>({1, 2, 3, 4});
+        InsertInPlace(0, 4, subject);
+        AssertEquals(MutableVector<int>({1, 2, 3, 4, 0}), subject);
+      });
+    });
+    Describe("of [1,2,3] called with RemoveAtInPlace(0)", []() {
+      It("Should return a vector of [2,3]", []() {
+        auto subject = MutableVector<int>({1, 2, 3});
+        RemoveAtInPlace(0, subject);
+        AssertEquals(MutableVector<int>({2, 3}), subject);
+      });
+    });
+    Describe("of [1,2,3] called with RemoveAtInPlace(1)", []() {
+      It("Should return a vector of [1,3]", []() {
+        auto subject = MutableVector<int>({1, 2, 3});
+        RemoveAtInPlace(1, subject);
+        AssertEquals(MutableVector<int>({1, 3}), subject);
+      });
+    });
+    Describe("of [1,2,3] called with RemoveAtInPlace(2)", []() {
+      It("Should return a vector of [1,2]", []() {
+        auto subject = MutableVector<int>({1, 2, 3});
+        RemoveAtInPlace(2, subject);
+        AssertEquals(MutableVector<int>({1, 2}), subject);
+      });
+    });
+    Describe("of [1,2,3] called with RemoveAtInPlace(3)", []() {
+      It("Should return a vector of [1,2,3]", []() {
+        auto subject = MutableVector<int>({1, 2, 3});
+        RemoveAtInPlace(3, subject);
+        AssertEquals(MutableVector<int>({1, 2, 3}), subject);
+      });
+    });
   });
 }
 

@@ -16,26 +16,19 @@ public:
   static constexpr bool exists = true;
 
   static MutableVector<T>& AddInPlace(const T& source, MutableVector<T>& destination) noexcept {
-    return PushInPlace(source, destination);
+    return destination.AddInPlace(source);
   }
 
   static MutableVector<T>& AddInPlace(T&& source, MutableVector<T>& destination) noexcept {
-    return PushInPlace(std::move(source), destination);
+    return destination.AddInPlace(std::move(source));
   }
 
   static MutableVector<T>& AddInPlace(const MutableVector<T>& source, MutableVector<T>& destination) noexcept {
-    destination.ReserveAtLeast(Length(destination) + Length(source));
-    ForEach(source, [&](const T& item) {
-      PushInPlace(item, destination);
-    });
-    return destination;
+    return destination.AddInPlace(source);
   }
 
   static MutableVector<T>& AddInPlace(MutableVector<T>&& source, MutableVector<T>& destination) noexcept {
-    ForEach(source, [&](T&& item) {
-      PushInPlace(std::move(item), destination);
-    });
-    return destination;
+    return destination.AddInPlace(std::move(source));
   }
 
 };

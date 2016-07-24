@@ -15,12 +15,8 @@ public:
   static constexpr bool exists = true;
 
   template <class F>
-  static void ForEach(const MutableVector<T>& vector, const F& function) noexcept {
-    auto bucketSize    = Length(vector);
-    auto bucketPointer = Pointer(vector);
-    for (size_t i = 0; i < bucketSize; i++) {
-      function(bucketPointer[i]);
-    }
+  static void ForEach(const MutableVector<T>& vector, F function) noexcept {
+    vector.ForEach(function);
   }
 
 };

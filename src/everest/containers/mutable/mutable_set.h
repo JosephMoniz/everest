@@ -2,39 +2,25 @@
 
 #include <everest/memory/mutable_memory.h>
 #include <everest/containers/mutable/mutable_vector.h>
-#include <everest/traits/unlawful/iteration.h>
-#include <everest/traits/unlawful/copyable.h>
-#include <everest/traits/unlawful/subtract.h>
-#include <everest/traits/unlawful/mutable/mutable_pointer.h>
-#include <everest/traits/unlawful/mutable/mutable_remove.h>
-#include <everest/traits/unlawful/mutable/mutable_add.h>
 
 namespace everest {
 
 template<class T>
 class MutableSet final {
 
-  friend class Container<MutableSet<T>>;
-  friend class MutableAdd<MutableSet<T>>;
-  friend class Containable<MutableSet<T>>;
-  friend class MutableRemove<MutableSet<T>>;
-  friend class Iteration<MutableSet<T>>;
-  friend class MutableFilter<MutableSet<T>>;
-  friend class Eq<MutableSet<T>>;
-
   MutableMemory<MutableVector<T>> _memory;
 
   size_t _size;
 
   MutableVector<T>* GetBucket(const T& item) noexcept {
-    auto hash    = Hash(item).Value() % Length(_memory);
-    auto pointer = MutablePointable<MutableMemory<MutableVector<T>>>::Pointer(_memory);
+    auto hash    = Hashable<T>::Hash(item).Value() % _memory.Length();
+    auto pointer = _memory.MutablePointer();
     return &pointer[hash];
   }
 
   const MutableVector<T>* GetConstBucket(const T& item) const noexcept {
-    auto hash    = Hash(item).Value() % Length(_memory);
-    auto pointer = Pointable<MutableMemory<MutableVector<T>>>::Pointer(_memory);
+    auto hash    = Hashable<T>::Hash(item).Value() % _memory.Length();
+    auto pointer = _memory.Pointer();
     return &pointer[hash];
   }
 
@@ -45,21 +31,22 @@ class MutableSet final {
   }
 
   void RedactBucketSize(const MutableVector<T>* bucket) noexcept {
-    _size -= Length(*bucket);
+    _size -= bucket->Length();
   }
 
   void AddBucketSize(const MutableVector<T>* bucket) noexcept {
-    _size += Length(*bucket);
+    _size += bucket->Length();
   }
 
   MutableSet<T>& ResizeIfNecessary() noexcept {
-    if (_size == Length(_memory)) {
+    if (_size == _memory.Length()) {
       auto self = this;
       auto old  = std::move(_memory);
-      _memory   = MutableMemory<MutableVector<T>>(Length(old) * 2);
+      _memory   = MutableMemory<MutableVector<T>>(old.Length() * 2);
       _size     = 0;
-      ForEach(old, [&](T &&item) {
-        AddInPlace(std::move(item), *self);
+      ForEach([&](const T& item) {
+        // TODO: Figure out how to make this a move instead of a copy
+        self->AddInPlace(item);
       });
       return *this;
     }
@@ -77,7 +64,7 @@ public:
 
   {
     for (auto it = list.begin(); it != list.end(); it++) {
-      AddInPlace(*it, *this);
+      AddInPlace(*it);
     }
   }
 
@@ -96,6 +83,190 @@ public:
     _size         = other._size;
     other._size   = 0;
     return *this;
+  }
+
+  bool Contains(const T& item) const noexcept {
+    return GetConstBucket(item)->Contains(item);
+  }
+
+  size_t Length() const noexcept {
+    return _size;
+  }
+
+  bool IsEmpty() const noexcept {
+    return _size == 0;
+  }
+
+  template <class F>
+  void ForEach(F function) const noexcept {
+    auto memorySize    = _memory.Length();
+    auto memoryPointer = _memory.Pointer();
+    for (size_t i = 0; i < memorySize; i++) {
+      Iteration<MutableVector<T>>::ForEach(memoryPointer[i], function);
+    }
+  }
+
+  MutableSet<T> Copy() const noexcept {
+    auto copy = MutableSet<T>();
+    ForEach([&](const T& item) {
+      AddInPlace(Copyable<T>::Copy(item), copy);
+    });
+    return copy;
+  }
+
+  bool Equals(const MutableSet<T>& rhs) const noexcept {
+    if (_size == rhs.Length()) {
+      auto buckets = Pointer(_memory);
+      for (size_t i = 0; i < _size; i++) {
+        auto bucketLength  = buckets[i].Length();
+        auto bucketPointer = buckets[i].Pointer();
+        for (size_t j = 0; j < bucketLength; j++) {
+          if (!rhs.Contains(bucketPointer[j])) {
+            return false;
+          }
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  template<class Predicate>
+  MutableSet<T> Filter(Predicate predicate) const noexcept {
+    auto results = MutableSet<T>();
+    ForEach([&](const T& item) {
+      if (predicate(item)) {
+        AddInPlace(item, results);
+      }
+    });
+    return results;
+  }
+
+  template <class F, class B = typename std::result_of<F(T)>::type>
+  MutableSet<B> Map(F f) const noexcept {
+    auto result = MutableSet<B>();
+    ForEach([&](const T& item) {
+      result.AddInPlace(f(item));
+    });
+    return result;
+  }
+
+  int Hash() const noexcept {
+    int result = 37;
+    ForEach([&](const T& item) {
+      result = 37 * result + Hashable<T>::Hash(item);
+    });
+    return result;
+  }
+
+  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  MutableSet<B> FlatMap(F f) const noexcept {
+    auto results = MutableSet<T>();
+    ForEach([&](const T& item) {
+      f(item).ForEach([&](const T& inner) {
+        AddInPlace(inner, results);
+      });
+    });
+    return results;
+  }
+
+  template <class B>
+  MutableSet<B> Then(const MutableSet<B>& second) const noexcept {
+    return second;
+  }
+
+  MutableSet<T>& AddInPlace(const T& source) noexcept {
+    auto bucket = GetAllocatedBucket(source);
+    RedactBucketSize(bucket);
+    bucket->FilterInPlace(NotEquals(source));
+    bucket->PushInPlace(source);
+    AddBucketSize(bucket);
+    return ResizeIfNecessary();
+  }
+
+  MutableSet<T>& AddInPlace(T&& source) noexcept {
+    auto bucket = GetAllocatedBucket(source);
+    RedactBucketSize(bucket);
+    bucket->FilterInPlace(NotEquals(source));
+    bucket->PushInPlace(std::move(source));
+    AddBucketSize(bucket);
+    return ResizeIfNecessary();
+  }
+
+  MutableSet<T>& AddInPlace(const MutableSet<T>& source) noexcept {
+    source.ForEach([&](const T& item) {
+      AddInPlace(item);
+    });
+    return *this;
+  }
+
+  MutableSet<T>& AddInPlace(MutableSet<T>&& source) noexcept {
+    ForEach(source, [&](T&& item) {
+      AddInPlace(std::move(item));
+    });
+    return *this;
+  }
+
+  template<class Predicate>
+  MutableSet<T>& FilterInPlace(Predicate predicate) noexcept {
+    auto memorySize    = _memory.Length();
+    auto memoryPointer = _memory.MutablePointer();
+    for (size_t i = 0; i < memorySize; i++) {
+      RedactBucketSize(&memoryPointer[i]);
+      MutableFilter<MutableVector<T>>::FilterInPlace(predicate, memoryPointer[i]);
+      AddBucketSize(&memoryPointer[i]);
+    }
+    return *this;
+  }
+
+  MutableSet<T>& RemoveInPlace(const T& item) noexcept {
+    auto bucket = GetAllocatedBucket(item);
+    RedactBucketSize(bucket);
+    bucket->FilterInPlace(NotEquals(item));
+    AddBucketSize(bucket);
+    return *this;
+  }
+
+  template<class U, class = std::enable_if<Iteration<U>::exists>>
+  MutableSet<T>& RemoveInPlace(const U& source) noexcept {
+    source.ForEach([&](const T& item) {
+      RemoveInPlace(item);
+    });
+  }
+
+  MutableSet<T> Add(const MutableSet<T>& rhs) const noexcept {
+    auto results = MutableSet<T>();
+    ForEach([&](const T& item) {
+      AddInPlace(item, results);
+    });
+    rhs.ForEach([&](const T& item) {
+      AddInPlace(item, results);
+    });
+    return results;
+  }
+
+  String Show() const noexcept {
+    auto out = String("MutableSet(");
+    ForEach([&](const T& item) {
+      out = std::move(out) + Shows<T>::Show(item) + String(", ");
+    });
+    return Takeable<String>::Take(out.Length() - 2, std::move(out)) + String(")");
+  }
+
+  MutableSet<T> Subtract(const MutableSet<T>& rhs) const noexcept {
+    auto results = MutableSet<T>();
+    ForEach([&](const T& item) {
+      AddInPlace(item, results);
+    });
+    rhs.ForEach([&](const T& item) {
+      RemoveInPlace(item, results);
+    });
+    return results;
+  }
+
+  static MutableSet<T> Zero() noexcept {
+    return MutableSet<T>();
   }
 
 };

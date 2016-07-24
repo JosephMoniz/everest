@@ -18,9 +18,6 @@ template<class T>
 class MutableMemory final {
 
   friend class Memory<T>;
-  friend class Pointable<MutableMemory<T>>;
-  friend class Container<MutableMemory<T>>;
-  friend class MutablePointable<MutableMemory<T>>;
 
   T* _pointer;
 
@@ -77,6 +74,34 @@ public:
     }
   }
 
+  const T* Pointer() const noexcept {
+    return (const T*) _pointer;
+  }
+
+  T* MutablePointer() noexcept {
+    return _pointer;
+  }
+
+  size_t Length() const noexcept {
+    return _length;
+  }
+
+  bool IsEmpty() const noexcept {
+    return _length == 0;
+  }
+
+  bool Equals(const MutableMemory<T>& other) const noexcept {
+    if (other == nullptr) {
+      return _pointer == nullptr;
+    } else {
+      if (_length == other.Length()) {
+        return memcmp(_pointer, other.Pointer(), _length) == 0;
+      } else {
+        return false;
+      }
+    }
+  }
+
 };
 
 template<class T>
@@ -86,7 +111,7 @@ public:
   static constexpr bool exists = true;
 
   static const T* Pointer(const MutableMemory<T>& memory) noexcept {
-    return (const T*) memory._pointer;
+    return memory.Pointer();
   }
 
 };
@@ -98,7 +123,7 @@ public:
   static constexpr bool exists = true;
 
   static T* Pointer(MutableMemory<T>& memory) noexcept {
-    return memory._pointer;
+    return memory.MutablePointer();
   }
 
 };
@@ -109,12 +134,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const MutableMemory<T>& memory) noexcept {
-    return memory._length;
+  static size_t Length(const MutableMemory<T>& memory) noexcept {
+    return memory.Length();
   }
 
-  static constexpr bool IsEmpty(const MutableMemory<T>& memory) noexcept {
-    return memory._length == 0;
+  static bool IsEmpty(const MutableMemory<T>& memory) noexcept {
+    return memory.IsEmpty();
   }
 
 };
@@ -134,7 +159,7 @@ public:
   }
 
   static bool Equals(const MutableMemory<T>& lhs, const MutableMemory<T>& rhs) noexcept {
-    return Equals(&lhs, &rhs);
+    return lhs.Equals(rhs);
   }
 
   static bool Equals(const MutableMemory<T>* lhs, const MutableMemory<T>* rhs) noexcept {
@@ -144,12 +169,7 @@ public:
       if (rhs == nullptr) {
         return Pointer(*lhs) == nullptr;
       } else {
-        auto leftLength = Length(*lhs);
-        if (leftLength == Length(*rhs)) {
-          return memcmp(Pointer(*lhs), Pointer(*rhs), leftLength) == 0;
-        } else {
-          return false;
-        }
+        return lhs->Equals(*rhs);
       }
     }
   }

@@ -16,13 +16,7 @@ public:
 
   template<class Predicate>
   static MutableVector<T> Filter(Predicate predicate, const MutableVector<T>& vector) noexcept {
-    auto results = MutableVector<T>();
-    ForEach(vector, [&](const T& item) {
-      if (predicate(item)) {
-        PushInPlace(item, results);
-      }
-    });
-    return results;
+    return vector.Filter(predicate);
   }
 
 };

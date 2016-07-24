@@ -16,19 +16,7 @@ public:
 
   template<class Predicate>
   static MutableVector<T>& FilterInPlace(Predicate predicate, MutableVector<T>& vector) noexcept {
-    size_t passed = 0;
-    auto pointer  = MutablePointer(vector._memory);
-    auto length   = Length(vector);
-    for (size_t i = 0; i < length; i++) {
-      if (predicate(pointer[i])) {
-        if (i != passed) {
-          pointer[passed] = std::move(pointer[i]);
-        }
-        passed++;
-      }
-    }
-    vector._length = passed;
-    return vector;
+    return vector.FilterInPlace(predicate);
   }
 
 };

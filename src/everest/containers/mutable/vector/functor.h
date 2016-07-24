@@ -16,11 +16,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static MutableVector<B> Map(F f, const MutableVector<T>& vector) noexcept {
-    auto result = MutableVector<B>(Length(vector));
-    ForEach(vector, [&](const T& item) {
-      PushInPlace(f(item), result);
-    });
-    return result;
+    return vector.Map(f);
   }
 
 };

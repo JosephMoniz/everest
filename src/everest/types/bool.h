@@ -11,20 +11,66 @@
 
 namespace everest {
 
-using Bool = bool;
+class Bool final {
+
+  bool _value;
+
+public:
+
+  Bool(bool value) noexcept : _value(value) { }
+
+  bool Value() const noexcept {
+    return _value;
+  }
+
+  Bool Equals(const Bool& other) noexcept {
+    return Bool(_value == other.Value());
+  }
+
+  Ordering Compare(const Bool& other) const noexcept {
+    return (_value < other.Value())
+      ? Ordering::LESS
+      : (_value > other.Value())
+        ? Ordering::GREATER
+        : Ordering::EQUAL;
+  }
+
+  Bool Min(const Bool& other) const noexcept {
+    return (Compare(other) == Ordering::GREATER)
+      ? other
+      : *this;
+  }
+
+  Bool Max(const Bool& other) const noexcept {
+    return (Compare(other) == Ordering::LESS)
+      ? other
+      : *this;
+  }
+
+  String Show() const noexcept {
+    return _value
+      ? String("true")
+      : String("false");
+  }
+
+  Bool Copy() const noexcept {
+    return Bool(_value);
+  }
+
+  String ToHex() noexcept {
+    return _value
+      ? String("0")
+      : String("1");
+  }
+
+  static Bool zero() noexcept {
+    return Bool(false);
+  }
+
+};
 
 template<>
 class Eq<bool> final : public DefaultEq<bool> {};
-
-constexpr inline bool Equals(bool lhs, bool rhs) noexcept {
-  return Eq<bool>::Equals(lhs, rhs);
-}
-
-inline Function<bool, bool> Equals(bool lhs) noexcept {
-  return [&](bool rhs) {
-    return Eq<bool>::Equals(lhs, rhs);
-  };
-}
 
 template<>
 class ZeroVal<bool> final {
@@ -32,7 +78,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Zero() noexcept {
+  static bool Zero() noexcept {
     return false;
   }
 

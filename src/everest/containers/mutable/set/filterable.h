@@ -16,13 +16,7 @@ public:
 
   template<class Predicate>
   static MutableSet<T> Filter(Predicate predicate, const MutableSet<T>& set) noexcept {
-    auto results = MutableSet<T>();
-    ForEach(set, [&](const T& item) {
-      if (predicate(item)) {
-        AddInPlace(item, results);
-      }
-    });
-    return results;
+    return set.Filter(predicate);
   }
 
 };

@@ -15,14 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableSet<T> Subtract(const MutableSet<T>& lhs, const MutableSet<T>& rhs) noexcept {
-    auto results = MutableSet<T>();
-    ForEach(lhs, [&](const T& item) {
-      AddInPlace(item, results);
-    });
-    ForEach(rhs, [&](const T& item) {
-      RemoveInPlace(item, results);
-    });
-    return results;
+    return lhs.Subtract(rhs);
   }
 
 };

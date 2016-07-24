@@ -53,11 +53,11 @@ class Bounded<size_t> final : public DefaultBounded<size_t> {};
 template <>
 class Eq<size_t> final : public DefaultEq<size_t> {};
 
-constexpr inline bool Equals(size_t lhs, size_t rhs) noexcept {
+bool Equals(size_t lhs, size_t rhs) noexcept {
   return Eq<size_t>::Equals(lhs, rhs);
 }
 
-inline Predicate<size_t> Equals(size_t lhs) noexcept {
+Predicate<size_t> Equals(size_t lhs) noexcept {
   return [=](size_t rhs) {
     return Eq<size_t>::Equals(lhs, rhs);
   };

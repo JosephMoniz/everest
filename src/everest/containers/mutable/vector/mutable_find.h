@@ -16,14 +16,7 @@ public:
 
   template<class Predicate>
   static T* FindInPlace(Predicate predicate, MutableVector<T>& vector) noexcept {
-    auto pointer  = MutablePointer(vector._memory);
-    auto length   = Length(vector);
-    for (size_t i = 0; i < length; i++) {
-      if (predicate(pointer[i])) {
-        return &pointer[i];
-      }
-    }
-    return nullptr;
+    return vector.FindInPlace(predicate);
   }
 
 };

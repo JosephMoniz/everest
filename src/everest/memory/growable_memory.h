@@ -41,22 +41,46 @@ public:
     if (_memory == nullptr) {
       _memory = MutableMemory<T>((size == 0) ? 32 : size);
     } else {
-      if (size > Length(_memory)) {
+      if (size > _memory.Length()) {
         auto old        = std::move(_memory);
         _memory         = MutableMemory<T>(size);
-        auto oldPointer = Pointer(old);
-        auto newPointer = MutablePointer(_memory);
-        memcpy(newPointer, oldPointer, sizeof(T) * Length(old));
+        auto oldPointer = old.Pointer();
+        auto newPointer = _memory.MutablePointer();
+        memcpy(newPointer, oldPointer, sizeof(T) * old.Length());
       }
     }
   }
 
   void ReserveAtLeast(size_t size) noexcept {
-    auto allocatedSize = Length(_memory) > 0 ? Length(_memory) : 32;
+    auto allocatedSize = _memory.Length() > 0 ? _memory.Length() : 32;
     while (allocatedSize < size) {
       allocatedSize *= 1.5;
     }
     Reserve(allocatedSize);
+  }
+
+  const T* Pointer() const noexcept {
+    return _memory.Pointer();
+  }
+
+  T* MutablePointer() noexcept {
+    return _memory.MutablePointer();
+  }
+
+  size_t Length() const noexcept {
+    return Container<MutableMemory<T>>::Length(_memory);
+  }
+
+  bool IsEmpty() const noexcept {
+    return Container<MutableMemory<T>>::IsEmpty(_memory);
+  }
+
+  bool Equals(const GrowableMemory<T>& rhs) const noexcept {
+    if (Length() == rhs.Length()) {
+      return memcmp(Pointer(), rhs.Pointer(), Length()) == 0;
+    } else {
+      return false;
+    }
   }
 
 };
@@ -68,7 +92,7 @@ public:
   static constexpr bool exists = true;
 
   static T* Pointer(GrowableMemory<T>& memory) noexcept {
-    return MutablePointable<MutableMemory<T>>::Pointer(memory._memory);
+    return memory.MutablePointer();
   }
 
 };
@@ -80,7 +104,7 @@ public:
   static constexpr bool exists = true;
 
   static const T* Pointer(const GrowableMemory<T>& memory) noexcept {
-    return Pointable<MutableMemory<T>>::Pointer(memory._memory);
+    return memory.Pointer();
   }
 
 };
@@ -91,12 +115,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const GrowableMemory<T>& memory) noexcept {
-    return Container<MutableMemory<T>>::Length(memory._memory);
+  static size_t Length(const GrowableMemory<T>& memory) noexcept {
+    return memory.Length();
   }
 
-  static constexpr bool IsEmpty(const GrowableMemory<T>& memory) noexcept {
-    return Container<MutableMemory<T>>::IsEmpty(memory._memory);
+  static bool IsEmpty(const GrowableMemory<T>& memory) noexcept {
+    return memory.IsEmpty();
   }
 
 };
@@ -126,12 +150,7 @@ public:
       if (rhs == nullptr) {
         return Pointer(*lhs) == nullptr;
       } else {
-        auto leftLength = Length(*lhs);
-        if (leftLength == Length(*rhs)) {
-          return memcmp(Pointer(*lhs), Pointer(*rhs), leftLength) == 0;
-        } else {
-          return false;
-        }
+        return lhs->Equals(*rhs);
       }
     }
   }

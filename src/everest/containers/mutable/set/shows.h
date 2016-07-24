@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const MutableSet<T>& set) noexcept {
-    auto out = String("MutableSet(");
-    ForEach(set, [&](const T& item) {
-      out = std::move(out) + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(Length(out) - 2, std::move(out)) + String(")");
+    return set.Show();
   }
 
 };

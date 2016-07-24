@@ -14,12 +14,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const MutableMap<K, V>& map) noexcept {
-    return map._size;
+  static size_t Length(const MutableMap<K, V>& map) noexcept {
+    return map.Length();
   }
 
-  static constexpr bool IsEmpty(const MutableMap<K, V>& map) noexcept {
-    return map._size == 0;
+  static bool IsEmpty(const MutableMap<K, V>& map) noexcept {
+    return map.IsEmpty();
   }
 
 };

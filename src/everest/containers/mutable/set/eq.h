@@ -33,22 +33,7 @@ public:
       if (rhs == nullptr) {
         return Length(*lhs) == 0;
       } else {
-        auto leftLength = Length(*lhs);
-        if (leftLength == Length(*rhs)) {
-          auto buckets = Pointer(lhs->_memory);
-          for (size_t i = 0; i < leftLength; i++) {
-            auto bucketLength  = Length(buckets[i]);
-            auto bucketPointer = Pointer(buckets[i]);
-            for (size_t j = 0; j < bucketLength; j++) {
-              if (!Contains(bucketPointer[j], *rhs)) {
-                return false;
-              }
-            }
-          }
-          return true;
-        } else {
-          return false;
-        }
+        return lhs->Equals(*rhs);
       }
     }
   }

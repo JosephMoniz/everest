@@ -15,22 +15,15 @@ public:
   static constexpr bool exists = true;
 
   static MutableVector<T> Enqueue(const T& item, const MutableVector<T>& vector) noexcept {
-    auto capacity = Length(vector) + 1;
-    auto memory   = MutableMemory<T>(Pointer(vector), capacity);
-    MutablePointer(memory)[capacity] = item;
-    return MutableVector<T>(memory);
+    return vector.Enqueue(item);
   }
 
   static MutableVector<T> Dequeue(const MutableVector<T>& vector) noexcept {
-    if (Length(vector) > 0) {
-      return MutableVector<T>(MutableMemory<T>(Pointer(vector)[1], Length(vector) - 1));
-    } else {
-      return MutableVector<T>();
-    }
+    return vector.Dequeue();
   }
 
   static Option<const T&> Front(const MutableVector<T>& vector) noexcept {
-    return vector.At(0);
+    return vector.Front();
   }
 
 };

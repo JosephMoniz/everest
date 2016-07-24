@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static String ToHex(const MutableVector<T>& vector) noexcept {
-    return ToHexFromBigEndianBytePointer((unsigned char*) &vector, Length(vector));
+    return vector.ToHex();
   }
 
 };

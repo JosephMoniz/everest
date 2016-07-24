@@ -15,11 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static int Hash(const MutableVector<T>& vector) noexcept {
-    int result = 37;
-    ForEach(vector, [&](const T& item) {
-      result = 37 * result + Hashable<T>::Hash(item);
-    });
-    return result;
+    return vector.Hash();
   }
 
 };
