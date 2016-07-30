@@ -1,14 +1,11 @@
 #pragma once
 
 #include <initializer_list>
-#include <everest/traits/lawful/functor.h>
 
 namespace everest {
 
 template<class T, size_t S>
 class MutableArray final {
-
-  friend class Functor<MutableArray<T, S>>;
 
   T _array[S];
 

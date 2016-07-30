@@ -12,12 +12,6 @@ namespace everest {
 
 class MutableBitSet final {
 
-  friend class Pointable<MutableBitSet>;
-  friend class MutablePointable<MutableBitSet>;
-  friend class Copyable<MutableBitSet>;
-  friend class Containable<MutableBitSet>;
-  friend class Container<MutableBitSet>;
-
   MutableMemory<int> _bits;
 
   Size _size;
@@ -63,56 +57,24 @@ public:
     }
     return *this;
   }
-  
-};
 
-template <>
-class Pointable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static const int* Pointer(const MutableBitSet& bitSet) noexcept {
-    return bitSet._bits.Pointer();
+  const int* Pointer() const noexcept {
+    return _bits.Pointer();
   }
 
-};
-
-template <>
-class MutablePointable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static int* Pointer(MutableBitSet& bitSet) noexcept {
-    return bitSet._bits.MutablePointer();
+  int* MutablePointer() noexcept {
+    return _bits.MutablePointer();
   }
 
-};
-
-template <>
-class Copyable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableBitSet Copy(const MutableBitSet& bitSet) noexcept {
-    auto copy = MutableBitSet(bitSet._size);
-    memcpy(MutablePointer(copy), Pointer(bitSet), MutableBitSet::sizeToChunks(bitSet._size));
+  MutableBitSet Copy() const noexcept {
+    auto copy = MutableBitSet(_size);
+    memcpy(copy.MutablePointer(), Pointer(), MutableBitSet::sizeToChunks(_size));
     return copy;
   }
 
-};
-
-template <>
-class Containable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Contains(bool bit, const MutableBitSet& bitSet) noexcept {
-    auto pointer = Pointer(bitSet);
-    auto chunks  = MutableBitSet::sizeToChunks(bitSet._size);
+  bool Contains(bool bit) const noexcept {
+    auto pointer = Pointer();
+    auto chunks  = MutableBitSet::sizeToChunks(_size);
     if (bit) {
       for (size_t i = 0; i < chunks; i++) {
         if (pointer[i] != 0) {
@@ -130,35 +92,18 @@ public:
     }
   }
 
-};
-
-
-template <>
-class Container<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static size_t Length(const MutableBitSet& bitSet) noexcept {
-    return bitSet._size;
+  size_t Length() const noexcept {
+    return _size;
   }
 
-  static bool IsEmpty(const MutableBitSet& bitSet) noexcept {
-    return !Containable<MutableBitSet>::Contains(true, bitSet);
+  bool IsEmpty() const noexcept {
+    return !Contains(true);
   }
-
-};
-
-template <>
-class Iteration<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
 
   template <class F>
-  static void ForEach(const MutableBitSet& bitSet, const F& function) noexcept {
-    auto pointer = Pointer(bitSet);
-    auto bits    = Length(bitSet);
+  void ForEach(F function) const noexcept {
+    auto pointer = Pointer();
+    auto bits    = Length();
     auto eChunks = (bits / MutableBitSet::intSize);
     auto rBits   = bits % MutableBitSet::intSize;
     auto chunks  = eChunks + (rBits > 0 ? 1 : 0);
@@ -175,6 +120,92 @@ public:
     }
   }
 
+  String Show() const noexcept {
+    auto out = String("MutableBitSet(");
+    ForEach([&](bool bit) {
+      out = std::move(out) + String((bit ? "1" : "0"));
+    });
+    return std::move(out) + String(")");
+  }
+  
+};
+
+template <>
+class Pointable<MutableBitSet> final {
+public:
+
+  static constexpr bool exists = true;
+
+  static const int* Pointer(const MutableBitSet& bitSet) noexcept {
+    return bitSet.Pointer();
+  }
+
+};
+
+template <>
+class MutablePointable<MutableBitSet> final {
+public:
+
+  static constexpr bool exists = true;
+
+  static int* Pointer(MutableBitSet& bitSet) noexcept {
+    return bitSet.MutablePointer();
+  }
+
+};
+
+template <>
+class Copyable<MutableBitSet> final {
+public:
+
+  static constexpr bool exists = true;
+
+  static MutableBitSet Copy(const MutableBitSet& bitSet) noexcept {
+    return bitSet.Copy();
+  }
+
+};
+
+template <>
+class Containable<MutableBitSet> final {
+public:
+
+  static constexpr bool exists = true;
+
+  static bool Contains(bool bit, const MutableBitSet& bitSet) noexcept {
+    return bitSet.Contains(bit);
+  }
+
+};
+
+
+template <>
+class Container<MutableBitSet> final {
+public:
+
+  static constexpr bool exists = true;
+
+  static size_t Length(const MutableBitSet& bitSet) noexcept {
+    return bitSet.Length();
+  }
+
+  static bool IsEmpty(const MutableBitSet& bitSet) noexcept {
+    return bitSet.IsEmpty();
+  }
+
+};
+
+template <>
+class Iteration<MutableBitSet> final {
+public:
+
+  static constexpr bool exists = true;
+
+  template <class F>
+  static void ForEach(const MutableBitSet& bitSet, F function) noexcept {
+    bitSet.ForEach(function);
+  }
+
 };
 
 template <>
@@ -184,11 +215,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const MutableBitSet& bitSet) noexcept {
-    auto out = String("MutableBitSet(");
-    ForEach(bitSet, [&](bool bit) {
-      out = std::move(out) + String((bit ? "1" : "0"));
-    });
-    return std::move(out) + String(")");
+    return bitSet.Show();
   }
 
 };

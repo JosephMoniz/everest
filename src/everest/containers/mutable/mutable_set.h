@@ -109,7 +109,7 @@ public:
   MutableSet<T> Copy() const noexcept {
     auto copy = MutableSet<T>();
     ForEach([&](const T& item) {
-      AddInPlace(Copyable<T>::Copy(item), copy);
+      copy.AddInPlace(Copyable<T>::Copy(item));
     });
     return copy;
   }
@@ -137,7 +137,7 @@ public:
     auto results = MutableSet<T>();
     ForEach([&](const T& item) {
       if (predicate(item)) {
-        AddInPlace(item, results);
+        results.AddInPlace(item);
       }
     });
     return results;
@@ -165,7 +165,7 @@ public:
     auto results = MutableSet<T>();
     ForEach([&](const T& item) {
       f(item).ForEach([&](const T& inner) {
-        AddInPlace(inner, results);
+        results.AddInPlace(inner);
       });
     });
     return results;
@@ -214,7 +214,7 @@ public:
     auto memoryPointer = _memory.MutablePointer();
     for (size_t i = 0; i < memorySize; i++) {
       RedactBucketSize(&memoryPointer[i]);
-      MutableFilter<MutableVector<T>>::FilterInPlace(predicate, memoryPointer[i]);
+      memoryPointer[i].FilterInPlace(predicate);
       AddBucketSize(&memoryPointer[i]);
     }
     return *this;
@@ -238,10 +238,10 @@ public:
   MutableSet<T> Add(const MutableSet<T>& rhs) const noexcept {
     auto results = MutableSet<T>();
     ForEach([&](const T& item) {
-      AddInPlace(item, results);
+      results.AddInPlace(item);
     });
     rhs.ForEach([&](const T& item) {
-      AddInPlace(item, results);
+      results.AddInPlace(item);
     });
     return results;
   }
