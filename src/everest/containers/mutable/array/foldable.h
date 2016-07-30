@@ -16,53 +16,24 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Fold(const MutableArray<T, S>& array) noexcept {
-    auto memo    = ZeroVal<T>::Zero();
-    auto pointer = array.Pointer();
-    for (size_t i = 0; i < S; i++) {
-      memo = Semigroup<T>::Add(memo, pointer[i]);
-    }
-    return memo;
+  static T Fold(const MutableArray<T, S>& array) noexcept {
+    return array.Fold();
   }
 
   template <class Fn,
     class M = typename std::result_of<Fn(T)>::type>
-  static constexpr M FoldMap(Fn f, const MutableArray<T, S>& array) noexcept {
-    auto memo    = ZeroVal<T>::Zero();
-    auto pointer = array.Pointer();
-    for (size_t i = 0; i < S; i++) {
-      memo = Semigroup<T>::Add(memo, f(pointer[i]));
-    }
-    return memo;
+  static M FoldMap(Fn f, const MutableArray<T, S>& array) noexcept {
+    return array.FoldMap(f);
   }
 
   template <class Fn, class B>
-  static constexpr B FoldR(Fn f,
-                           const B& init,
-                           const MutableArray<T, S>& array) noexcept
-  {
-    auto memo    = init;
-    auto pointer = array.Pointer();
-    for (size_t i = S - 1; i != 0; i--) {
-      memo = f(memo, pointer[i]);
-    }
-    if (S > 0) {
-      memo = f(memo, pointer[0]);
-    }
-    return memo;
+  static B FoldR(Fn f, const B& init, const MutableArray<T, S>& array) noexcept {
+    return array.FoldR(init, f);
   }
 
   template <class Fn, class B>
-  static constexpr B FoldL(Fn f,
-                           const B& init,
-                           const MutableArray<T, S>& array) noexcept
-  {
-    auto memo    = init;
-    auto pointer = array.Pointer();
-    for (size_t i = 0; i < S; i++) {
-      memo = f(memo, pointer[i]);
-    }
-    return memo;
+  static B FoldL(Fn f, const B& init, const MutableArray<T, S>& array) noexcept {
+    return array.FoldL(init, f);
   }
 
 };

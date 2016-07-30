@@ -14,44 +14,21 @@ public:
 
   static constexpr bool exists = true;
 
-  static Ordering Compare(const MutableArray<T, S> &lhs,
-                          const MutableArray<T, S> &rhs) noexcept
-  {
-    auto lhsPointer = lhs.Pointer();
-    auto rhsPointer = rhs.Pointer();
-    for (size_t i = 0; i < S; i ++) {
-      switch(Ord<T>::Compare(lhsPointer[i], rhsPointer[i])) {
-        case Ordering::LESS:    return Ordering::LESS;
-        case Ordering::GREATER: return Ordering::GREATER;
-        case Ordering::EQUAL:   continue;
-      }
-    }
-    return Ordering::EQUAL;
+  static Ordering Compare(const MutableArray<T, S> &lhs, const MutableArray<T, S> &rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
   template<size_t Rs>
-  static constexpr Ordering Compare(const MutableArray<T, S> &lhs,
-                                    const MutableArray<T, Rs> &rhs) noexcept
-  {
-    return (S > Rs)
-       ? Ordering::GREATER
-       : Ordering::LESS;
+  static Ordering Compare(const MutableArray<T, S> &lhs, const MutableArray<T, Rs> &rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
-  static constexpr const MutableArray<T, S>& Min(const MutableArray<T, S> &lhs,
-                                                 const MutableArray<T, S> &rhs) noexcept
-  {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-       ? rhs
-       : lhs;
+  static const MutableArray<T, S>& Min(const MutableArray<T, S> &lhs, const MutableArray<T, S> &rhs) noexcept {
+    return lhs.Min(rhs);
   }
 
-  static constexpr const MutableArray<T, S>& Max(const MutableArray<T, S> &lhs,
-                                                 const MutableArray<T, S> &rhs) noexcept
-  {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-       ? rhs
-       : lhs;
+  static const MutableArray<T, S>& Max(const MutableArray<T, S> &lhs, const MutableArray<T, S> &rhs) noexcept {
+    return lhs.Max(rhs);
   }
 
 };

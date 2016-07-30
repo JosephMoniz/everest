@@ -15,13 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& n, const MutableArray<T, S>& array) noexcept {
-    auto pointer = array.Pointer();
-    for (size_t i = 0; i < S; i++) {
-      if (pointer[i] == n) {
-        return true;
-      }
-    }
-    return false;
+    return array.Contains(n);
   }
 
 };

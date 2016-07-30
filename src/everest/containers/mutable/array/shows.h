@@ -19,12 +19,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const MutableArray<T, S>& array) noexcept {
-    auto out     = String("MutableArray(");
-    auto pointer = array.Pointer();
-    for (size_t i = 0; i < S; i ++) {
-      out = std::move(out) + Shows<T>::Show(pointer[i]) + String(", ");
-    }
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return array.Show();
   }
 
 };

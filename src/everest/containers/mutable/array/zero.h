@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static constexpr MutableArray<T, S> Zero() noexcept {
-    return MutableArray<T, S>({});
+    return MutableArray<T, S>::Zero();
   }
 
 };

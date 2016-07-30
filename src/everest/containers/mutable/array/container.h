@@ -15,11 +15,11 @@ public:
   static constexpr bool exists = true;
 
   static size_t Length(const MutableArray<T, S>& o) noexcept {
-    return Size(S);
+    return o.Length();
   }
 
   static bool IsEmpty(const MutableArray<T, S>& o) noexcept {
-    return S == 0;
+    return o.IsEmpty();
   }
 
 };
