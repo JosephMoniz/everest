@@ -20,7 +20,7 @@ class MutableBitSet final {
 
   MutableMemory<int> _bits;
 
-  size_t _size;
+  Size _size;
   
 public:
 
@@ -28,10 +28,10 @@ public:
 
   MutableBitSet() noexcept : MutableBitSet(32) { }
 
-  MutableBitSet(size_t size) noexcept : _size(size) {
+  MutableBitSet(Size size) noexcept : _size(size) {
     auto chunks = sizeToChunks(size);
     _bits       = MutableMemory<int>(chunks);
-    memset(MutablePointer(_bits), 0, chunks);
+    memset(_bits.MutablePointer(), 0, chunks.Value());
   }
 
   MutableBitSet(const MutableBitSet& other) = delete;
@@ -39,20 +39,21 @@ public:
   MutableBitSet(MutableBitSet&& other) noexcept : _bits(std::move(other._bits)),
                                                   _size(other._size) { }
 
-  static constexpr size_t sizeToChunks(size_t size) noexcept {
-    return (size / MutableBitSet::intSize) + (size % MutableBitSet::intSize > 0 ? 1 : 0);
+  static Size sizeToChunks(Size size) noexcept {
+    auto s = size.Value();
+    return (s / MutableBitSet::intSize) + (s % MutableBitSet::intSize > 0 ? 1 : 0);
   }
 
   bool At(size_t offset) const noexcept {
     auto chunks = offset / intSize;
     auto bit    = offset % intSize;
-    return Pointer(_bits)[chunks] && bit;
+    return _bits.Pointer()[chunks] && bit;
   }
 
   MutableBitSet& SetInPlace(size_t offset, bool value) noexcept {
     auto chunks  = offset / intSize;
     auto bit     = offset % intSize;
-    auto pointer = MutablePointer(_bits);
+    auto pointer = _bits.MutablePointer();
     auto current = pointer[chunks];
     auto mask    = 1 << bit;
     if (value) {
@@ -72,7 +73,7 @@ public:
   static constexpr bool exists = true;
 
   static const int* Pointer(const MutableBitSet& bitSet) noexcept {
-    return Pointable<MutableMemory<int>>::Pointer(bitSet._bits);
+    return bitSet._bits.Pointer();
   }
 
 };
@@ -84,7 +85,7 @@ public:
   static constexpr bool exists = true;
 
   static int* Pointer(MutableBitSet& bitSet) noexcept {
-    return MutablePointable<MutableMemory<int>>::Pointer(bitSet._bits);
+    return bitSet._bits.MutablePointer();
   }
 
 };
@@ -109,7 +110,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Contains(bool bit, const MutableBitSet& bitSet) noexcept {
+  static bool Contains(bool bit, const MutableBitSet& bitSet) noexcept {
     auto pointer = Pointer(bitSet);
     auto chunks  = MutableBitSet::sizeToChunks(bitSet._size);
     if (bit) {
@@ -138,11 +139,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const MutableBitSet& bitSet) noexcept {
+  static size_t Length(const MutableBitSet& bitSet) noexcept {
     return bitSet._size;
   }
 
-  static constexpr bool IsEmpty(const MutableBitSet& bitSet) noexcept {
+  static bool IsEmpty(const MutableBitSet& bitSet) noexcept {
     return !Containable<MutableBitSet>::Contains(true, bitSet);
   }
 

@@ -5,6 +5,7 @@
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
 #include <everest/containers/mutable/mutable_set.h>
+#include <everest/containers/mutable/set/all_traits.h>
 #include <everest/traits/unlawful/mutable/mutable_remove.h>
 
 namespace everest {
@@ -107,20 +108,20 @@ void MutableSetSpecification() {
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for a null vector", []() {
-      size_t expected = 0;
+      auto expected   = (size_t) 0;
       auto result     = Length(MutableSet<int>());
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for an empty vector", []() {
-      size_t expected = 0;
+      auto expected   = (size_t) 0;
       auto result     = Length(MutableSet<int>(32));
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 3 for a vector with three elements", []() {
-      auto subject = MutableSet<int>({1, 2, 3});
-      size_t expected = 3;
+      auto subject    = MutableSet<int>({1, 2, 3});
+      auto expected   = (size_t) 3;
       auto result     = Length(subject);
       auto failure    = "The vector returned the incorrect length";
       AssertEquals(failure, expected, result);
@@ -129,7 +130,7 @@ void MutableSetSpecification() {
       auto subject = MutableSet<int>({1, 2, 3, 4});
       FilterInPlace([](auto n) { return n % 2 == 0; }, subject);
       It("Should be of length 2", [&]() {
-        AssertEquals((size_t)2, Length(subject));
+        AssertEquals((size_t) 2, Length(subject));
       });
       It("Should return 2 for the first element", [&]() {
         AssertTrue(Contains(2, subject));

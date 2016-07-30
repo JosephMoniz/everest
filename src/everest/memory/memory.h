@@ -3,7 +3,6 @@
 #include <stddef.h>
 #include <utility>
 #include <everest/memory/mutable_memory.h>
-#include <everest/traits/unlawful/Pointable.h>
 
 namespace everest {
 
@@ -11,8 +10,6 @@ template<class T>
 class Memory final {
 
   friend class MutableMemory<T>;
-  friend class Pointable<Memory<T>>;
-  friend class Container<Memory<T>>;
 
   MutableMemory<T> _wrapped;
 
@@ -43,34 +40,6 @@ public:
 
   bool IsEmpty() const noexcept {
     return _wrapped.IsEmpty();
-  }
-
-};
-
-template <class T>
-class Pointable<Memory<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static const T* Pointer(const Memory<T>& memory) noexcept {
-    return memory.Pointer();
-  }
-
-};
-
-template <class T>
-class Container<Memory<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static constexpr size_t Length(const Memory<T>& memory) noexcept {
-    return memory.Length();
-  }
-
-  static constexpr bool IsEmpty(const Memory<T>& memory) noexcept {
-    return memory.IsEmpty();
   }
 
 };

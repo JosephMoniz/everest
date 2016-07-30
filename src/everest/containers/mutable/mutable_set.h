@@ -79,9 +79,9 @@ public:
   MutableSet<T>& operator=(const MutableSet<T>& other) = delete;
 
   MutableSet<T>& operator=(MutableSet<T>&& other) noexcept {
-    _memory       = std::move(other._memory);
-    _size         = other._size;
-    other._size   = 0;
+    _memory     = std::move(other._memory);
+    _size       = other._size;
+    other._size = 0;
     return *this;
   }
 
@@ -116,7 +116,7 @@ public:
 
   bool Equals(const MutableSet<T>& rhs) const noexcept {
     if (_size == rhs.Length()) {
-      auto buckets = Pointer(_memory);
+      auto buckets = _memory.Pointer();
       for (size_t i = 0; i < _size; i++) {
         auto bucketLength  = buckets[i].Length();
         auto bucketPointer = buckets[i].Pointer();
@@ -257,10 +257,10 @@ public:
   MutableSet<T> Subtract(const MutableSet<T>& rhs) const noexcept {
     auto results = MutableSet<T>();
     ForEach([&](const T& item) {
-      AddInPlace(item, results);
+      results.AddInPlace(item);
     });
     rhs.ForEach([&](const T& item) {
-      RemoveInPlace(item, results);
+      results.RemoveInPlace(item);
     });
     return results;
   }
@@ -272,21 +272,3 @@ public:
 };
 
 }
-
-#include <everest/containers/mutable/set/containable.h>
-#include <everest/containers/mutable/set/container.h>
-#include <everest/containers/mutable/set/copyable.h>
-#include <everest/containers/mutable/set/eq.h>
-#include <everest/containers/mutable/set/filterable.h>
-#include <everest/containers/mutable/set/functor.h>
-#include <everest/containers/mutable/set/hashable.h>
-#include <everest/containers/mutable/set/iteration.h>
-#include <everest/containers/mutable/set/monad.h>
-#include <everest/containers/mutable/set/monoid.h>
-#include <everest/containers/mutable/set/mutable_add.h>
-#include <everest/containers/mutable/set/mutable_filter.h>
-#include <everest/containers/mutable/set/mutable_remove.h>
-#include <everest/containers/mutable/set/semigroup.h>
-#include <everest/containers/mutable/set/shows.h>
-#include <everest/containers/mutable/set/subtract.h>
-#include <everest/containers/mutable/set/zero.h>

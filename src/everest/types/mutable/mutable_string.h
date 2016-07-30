@@ -37,7 +37,7 @@ public:
     _length   = length;
     _occupied = capacity + 1;
     _data.ReserveAtLeast(_occupied);
-    memcpy(MutablePointer(_data), str, _occupied);
+    memcpy(_data.MutablePointer(), str, _occupied);
   }
 
   MutableString(const MutableString& other) = delete;
@@ -80,7 +80,7 @@ public:
   }
 
   size_t Capacity() const noexcept {
-    return Container<GrowableMemory<char>>::Length(_data);
+    return _data.Length();
   }
 
   size_t Occupied() const noexcept {
@@ -91,14 +91,14 @@ public:
     if (_length != other.Length() || _occupied != other.Occupied()) {
       return false;
     } else {
-      return memcmp(Pointable<GrowableMemory<char>>::Pointer(_data), other.Pointer(), _occupied) == 0;
+      return memcmp(_data.Pointer(), other.Pointer(), _occupied) == 0;
     }
   }
 
   template <class F>
   void ForEach(const F& function) const noexcept {
     auto length  = _occupied;
-    auto pointer = Pointable<GrowableMemory<char>>::Pointer(_data);
+    auto pointer = _data.Pointer();
     for (size_t i = 0; i < length; i++) {
       function(pointer[i]);
     }
@@ -113,7 +113,7 @@ public:
   }
 
   const char* Pointer() const noexcept {
-    return Pointable<GrowableMemory<char>>::Pointer(_data);
+    return _data.Pointer();
   }
 
 };

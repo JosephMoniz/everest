@@ -33,11 +33,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T MinValue() noexcept {
+  static T MinValue() noexcept {
     return std::numeric_limits<T>::min();
   }
 
-  static constexpr T MaxValue() noexcept {
+  static T MaxValue() noexcept {
     return std::numeric_limits<T>::max();
   }
 

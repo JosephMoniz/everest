@@ -8,10 +8,6 @@ namespace everest {
 template <class T>
 class GrowableMemory final {
 
-  friend class Container<GrowableMemory<T>>;
-  friend class Pointable<GrowableMemory<T>>;
-  friend class MutablePointable<GrowableMemory<T>>;
-
   MutableMemory<T> _memory;
 
 public:
@@ -38,7 +34,7 @@ public:
   }
 
   void Reserve(size_t size) noexcept {
-    if (_memory == nullptr) {
+    if (_memory.Pointer() == nullptr) {
       _memory = MutableMemory<T>((size == 0) ? 32 : size);
     } else {
       if (size > _memory.Length()) {
@@ -68,11 +64,11 @@ public:
   }
 
   size_t Length() const noexcept {
-    return Container<MutableMemory<T>>::Length(_memory);
+    return _memory.Length();
   }
 
   bool IsEmpty() const noexcept {
-    return Container<MutableMemory<T>>::IsEmpty(_memory);
+    return _memory.IsEmpty();
   }
 
   bool Equals(const GrowableMemory<T>& rhs) const noexcept {
@@ -80,78 +76,6 @@ public:
       return memcmp(Pointer(), rhs.Pointer(), Length()) == 0;
     } else {
       return false;
-    }
-  }
-
-};
-
-template<class T>
-class MutablePointable<GrowableMemory<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static T* Pointer(GrowableMemory<T>& memory) noexcept {
-    return memory.MutablePointer();
-  }
-
-};
-
-template <class T>
-class Pointable<GrowableMemory<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static const T* Pointer(const GrowableMemory<T>& memory) noexcept {
-    return memory.Pointer();
-  }
-
-};
-
-template <class T>
-class Container<GrowableMemory<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static size_t Length(const GrowableMemory<T>& memory) noexcept {
-    return memory.Length();
-  }
-
-  static bool IsEmpty(const GrowableMemory<T>& memory) noexcept {
-    return memory.IsEmpty();
-  }
-
-};
-
-template<class T>
-class Eq<GrowableMemory<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Equals(const GrowableMemory<T>& lhs, const GrowableMemory<T>* rhs) noexcept {
-    return Equals(&lhs, rhs);
-  }
-
-  static bool Equals(const GrowableMemory<T>* lhs, const GrowableMemory<T>& rhs) noexcept {
-    return Equals(lhs, &rhs);
-  }
-
-  static bool Equals(const GrowableMemory<T>& lhs, const GrowableMemory<T>& rhs) noexcept {
-    return Equals(&lhs, &rhs);
-  }
-
-  static bool Equals(const GrowableMemory<T>* lhs, const GrowableMemory<T>* rhs) noexcept {
-    if (lhs == nullptr) {
-      return rhs == nullptr || Pointer(*rhs) == nullptr;
-    } else {
-      if (rhs == nullptr) {
-        return Pointer(*lhs) == nullptr;
-      } else {
-        return lhs->Equals(*rhs);
-      }
     }
   }
 

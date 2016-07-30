@@ -3,22 +3,24 @@
 #include <limits>
 #include <everest/test/bdd.h>
 #include <everest/types/int32.h>
+#include <everest/types/int32/all_traits.h>
+#include <everest/traits/unlawful/ord/ordering/all_traits.h>
 
 namespace everest {
 
 void Int32Specification() {
-  int32_t zero_n    = 0;
-  int32_t fortytwo  = 42;
-  int32_t twentyone = 21;
-  int32_t six       = 6;
-  int32_t three     = 3;
-  int32_t ten       = 10;
-  int32_t five      = 5;
-  int32_t nine      = 9;
-  int32_t twelve    = 12;
+  auto zero_n    = Int32(0);
+  auto fortytwo  = Int32(42);
+  auto twentyone = Int32(21);
+  auto six       = Int32(6);
+  auto three     = Int32(3);
+  auto ten       = Int32(10);
+  auto five      = Int32(5);
+  auto nine      = Int32(9);
+  auto twelve    = Int32(12);
   Describe("A type int32", [=]() {
     It("should have a zero value of zero_n", [=]() {
-      AssertEquals(zero_n, Zero<int32_t>());
+      AssertEquals(zero_n, Zero<Int32>());
     });
     It("should be addable via the Add() function", [=]() {
       AssertEquals(fortytwo, Add(twentyone, twentyone));
@@ -36,13 +38,13 @@ void Int32Specification() {
       AssertEquals(zero_n, Remainder(ten, five));
     });
     It("should be negatable via the Negate() function", [=]() {
-      AssertEquals<int32_t>(-fortytwo, Negate(fortytwo));
+      AssertEquals<int32_t>(-fortytwo.Value(), Negate(fortytwo).Value());
     });
     It("should have a min value accessible via the MinValue() function", [=]() {
-      AssertEquals(std::numeric_limits<int32_t>::min(), MinValue<int32_t>());
+      AssertEquals(std::numeric_limits<int32_t>::min(), MinValue<Int32>().Value());
     });
     It("should have a max value accessible via the MaxValue() function", [=]() {
-      AssertEquals(std::numeric_limits<int32_t>::max(), MaxValue<int32_t>());
+      AssertEquals(std::numeric_limits<int32_t>::max(), MaxValue<Int32>().Value());
     });
     It("should return true when an equal values are passed through Equals()", [=]() {
       AssertTrue(Equals(fortytwo, fortytwo));
@@ -72,23 +74,23 @@ void Int32Specification() {
       AssertEquals(fortytwo, Max(twelve, fortytwo));
     });
     It("should be bitwise andable via the BinaryAnd() function", [=]() {
-      AssertEquals<int32_t>(fortytwo & twelve, BinaryAnd(fortytwo, twelve));
+      AssertEquals<int32_t>(fortytwo.Value() & twelve.Value(), BinaryAnd(fortytwo, twelve).Value());
     });
     It("should be bitwise orable via the BinaryOr() function", [=]() {
-      AssertEquals<int32_t>(fortytwo | twelve, BinaryOr(fortytwo, twelve));
+      AssertEquals<int32_t>(fortytwo.Value() | twelve.Value(), BinaryOr(fortytwo, twelve).Value());
     });
     It("should be bitwise xorable via the BinaryXor() function", [=]() {
-      AssertEquals<int32_t>(fortytwo ^ twelve, BinaryXor(fortytwo, twelve));
+      AssertEquals<int32_t>(fortytwo.Value() ^ twelve.Value(), BinaryXor(fortytwo, twelve).Value());
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
     });
     It("should serialize to the correct value when called with Show()", [=]() {
-      AssertEquals(String("-42"), Show(-fortytwo));
+      AssertEquals(String("-42"), Show(fortytwo.Negate()));
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       auto expected = String("-42");
-      auto result = Show((int32_t) -fortytwo);
+      auto result = Show((int32_t) -fortytwo.Value());
       auto failure = "Show(-42) did not return '-42'";
       AssertEquals(failure, expected, result);
     });

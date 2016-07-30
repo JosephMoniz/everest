@@ -11,7 +11,9 @@ class Vector;
 template<class T>
 class Monoid<Vector<T>> final {
 public:
+
   static constexpr bool exists = true;
+
 };
 
 }

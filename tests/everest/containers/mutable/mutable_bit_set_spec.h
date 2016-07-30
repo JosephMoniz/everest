@@ -15,24 +15,21 @@ void MutableBitSetSpecification() {
         AssertEquals(expected, result);
       });
       It("Should return 32 when passed through Length()", [&]() {
-        size_t expected = 32;
-        auto result     = Length(bits);
+        auto expected = (size_t) 32;
+        auto result   = Length(bits);
         AssertEquals(expected, result);
       });
       It("Should return true when passed through IsEmpty()", [&]() {
-        auto expected = true;
-        auto result   = IsEmpty(bits);
-        AssertEquals(expected, result);
+        auto result = IsEmpty(bits);
+        AssertTrue(result);
       });
       It("Should return true when called with Contains(false)", [&]() {
-        auto expected = true;
-        auto result   = Contains(false, bits);
-        AssertEquals(expected, result);
+        auto result = Contains(false, bits);
+        AssertTrue(result);
       });
       It("Should return false when called with Contains(true)", [&]() {
-        auto expected = false;
-        auto result   = Contains(true, bits);
-        AssertEquals(expected, result);
+        auto result = Contains(true, bits);
+        AssertFalse(result);
       });
       Describe("And has had the low bit set to 1", [&]() {
         It("Should render 31 0 bits and a 1 1 bit when passed through Shows()", [&]() {
@@ -57,24 +54,21 @@ void MutableBitSetSpecification() {
         AssertEquals(expected, result);
       });
       It("Should return 6 when passed through Length()", [&]() {
-        size_t expected = 6;
-        auto result     = Length(bits);
+        auto expected = (size_t) 6;
+        auto result   = Length(bits);
         AssertEquals(expected, result);
       });
       It("Should return true when passed through IsEmpty()", [&]() {
-        auto expected = true;
-        auto result   = IsEmpty(bits);
-        AssertEquals(expected, result);
+        auto result = IsEmpty(bits);
+        AssertTrue(result);
       });
       It("Should return true when called with Contains(false)", [&]() {
-        auto expected = true;
-        auto result   = Contains(false, bits);
-        AssertEquals(expected, result);
+        auto result = Contains(false, bits);
+        AssertTrue(result);
       });
       It("Should return false when called with Contains(true)", [&]() {
-        auto expected = false;
-        auto result   = Contains(true, bits);
-        AssertEquals(expected, result);
+        auto result = Contains(true, bits);
+        AssertFalse(result);
       });
       Describe("And has had the low bit set to 1", [&]() {
         It("Should render 5 0 bits and a 1 1 bit when passed through Shows()", [&]() {

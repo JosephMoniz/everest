@@ -1,194 +1,115 @@
 #pragma once
 
 #include <cstdint>
-#include <everest/traits/unlawful/zero.h>
-#include <everest/traits/unlawful/one.h>
-#include <everest/traits/lawful/semigroup.h>
-#include <everest/traits/lawful/monoid.h>
-#include <everest/traits/unlawful/subtract.h>
-#include <everest/traits/unlawful/multiply.h>
-#include <everest/traits/unlawful/divide.h>
-#include <everest/traits/unlawful/remainder.h>
-#include <everest/traits/unlawful/negate.h>
-#include <everest/traits/unlawful/bounded.h>
-#include <everest/traits/unlawful/eq.h>
-#include <everest/traits/unlawful/square_root.h>
-#include <everest/traits/unlawful/ord.h>
-#include <everest/traits/unlawful/bit_and.h>
-#include <everest/traits/unlawful/bit_or.h>
-#include <everest/traits/unlawful/bit_xor.h>
-#include <everest/traits/unlawful/hashable.h>
-#include <everest/traits/unlawful/show.h>
-#include <everest/traits/unlawful/hexable.h>
-#include <everest/memory/mutable_memory.h>
-#include <everest/traits/unlawful/copyable.h>
-#include <everest/traits/unlawful/fundamental.h>
 
 namespace everest {
 
-template <>
-class ZeroVal<int64_t> final : public DefaultZeroVal<int64_t> {};
+class Int64 final {
 
-template <>
-class Semigroup<int64_t> final : public DefaultSemigroup<int64_t> {};
+  int64_t _value;
 
-template <>
-class Monoid<int64_t> final : public DefaultMonoid<int64_t> {};
-
-template <>
-class Subtractable<int64_t> final : public DefaultSubtract<int64_t> {};
-
-template <>
-class Multipliable<int64_t> final : public DefaultMultipliable<int64_t> {};
-
-template <>
-class Dividable<int64_t> final : public DefaultDividable<int64_t> {};
-
-template <>
-class Modulus<int64_t> final : public DefaultModulus<int64_t> {};
-
-template <>
-class Negation<int64_t> final : public DefaultNegation<int64_t> {};
-
-template <>
-class Bounded<int64_t> final : public DefaultBounded<int64_t> {};
-
-template <>
-class Eq<int64_t> final : public DefaultEq<int64_t> {};
-
-template <>
-class SquareRoot<int64_t> final : public DefaultSquareRoot<int64_t> {};
-
-bool Equals(int64_t lhs, int64_t rhs) noexcept {
-  return Eq<int64_t>::Equals(lhs, rhs);
-}
-
-Predicate<int64_t> Equals(int64_t lhs) noexcept {
-  return [=](int64_t rhs) {
-    return Eq<int64_t>::Equals(lhs, rhs);
-  };
-}
-
-template <>
-class Ord<int64_t> final : public DefaultOrd<int64_t> {};
-
-template <>
-class BitAnd<int64_t> final : public DefaultAnd<int64_t> {};
-
-template <>
-class BitOr<int64_t> final : public DefaultOr<int64_t> {};
-
-template <>
-class BitXor<int64_t> final : public DefaultXor<int64_t> {};
-
-template<>
-class Hashable<int64_t> final : public DefaultHashable<int64_t> {};
-
-template <>
-class OneVal<int64_t> final {
 public:
 
-  static constexpr bool exists = true;
+  Int64(int64_t value) noexcept : _value(value) { }
 
-  static constexpr int64_t One() noexcept { return 1; }
-
-};
-
-template<>
-class Fundamental<int64_t> final {
-public:
-  static constexpr bool exists = true;
-};
-
-template<>
-class Copyable<int64_t> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static int64_t Copy(int64_t n) noexcept {
-    return n;
+  int64_t Value() const noexcept {
+    return _value;
   }
 
-};
-
-template <>
-class Shows<int64_t> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static size_t NumDigits(int64_t number) noexcept {
-    if (number < -1000000000000000000) return 20;
-    if (number < -100000000000000000) return 19;
-    if (number < -10000000000000000) return 18;
-    if (number < -1000000000000000) return 17;
-    if (number < -100000000000000) return 16;
-    if (number < -10000000000000) return 15;
-    if (number < -1000000000000) return 14;
-    if (number < -100000000000) return 13;
-    if (number < -10000000000) return 12;
-    if (number < -1000000000) return 11;
-    if (number < -100000000) return 10;
-    if (number < -10000000) return 9;
-    if (number < -1000000) return 8;
-    if (number < -100000) return 7;
-    if (number < -10000) return 6;
-    if (number < -1000) return 5;
-    if (number < -100) return 4;
-    if (number < -10) return 3;
-    if (number < 0) return 2;
-    if (number < 10) return 1;
-    if (number < 100) return 2;
-    if (number < 1000) return 3;
-    if (number < 10000) return 4;
-    if (number < 100000) return 5;
-    if (number < 1000000) return 6;
-    if (number < 10000000) return 7;
-    if (number < 100000000) return 8;
-    if (number < 1000000000) return 9;
-    if (number < 10000000000) return 10;
-    if (number < 100000000000) return 11;
-    if (number < 1000000000000) return 12;
-    if (number < 10000000000000) return 13;
-    if (number < 100000000000000) return 14;
-    if (number < 1000000000000000) return 15;
-    if (number < 10000000000000000) return 16;
-    if (number < 100000000000000000) return 17;
-    if (number < 1000000000000000000) return 18;
-    return 19;
+  explicit operator bool() const {
+    return _value != 0;
   }
 
-  static String Show(int64_t number) noexcept {
-    auto signSpace = number < 0 ? 1 : 0;
-    auto size      = NumDigits(number);
-    auto offset    = size;
-    auto capacity  = size + 1;
-    auto memory    = MutableMemory<char>(capacity);
-    auto pointer   = MutablePointer(memory);
-    auto mask      = number >> 63;
-    auto unsignedN = (mask ^ number) - mask;
-    for (size_t i = size; i - signSpace; i--) {
-      pointer[--offset] = (char) (unsignedN % 10) + '0';
-      unsignedN /= 10;
-    };
-    if (signSpace) {
-      pointer[0] = '-';
-    }
-    pointer[size] = '\0';
-    return String(std::move(memory), size, capacity);
+  operator int64_t() const {
+    return _value;
   }
 
-};
+  Int64 Add(const Int64 other) const noexcept {
+    return Int64(_value + other.Value());
+  }
 
-template<>
-class Hexable<int64_t> final {
-public:
+  Int64 Subtract(const Int64 other) const noexcept {
+    return Int64(_value - other.Value());
+  }
 
-  static constexpr bool exists = true;
+  Int64 Multiply(const Int64 other) const noexcept {
+    return Int64(_value * other.Value());
+  }
 
-  static String ToHex(int64_t value) noexcept {
-    return ToHexFromLittleEndianBytePointer((unsigned char*) &value, sizeof(int64_t));
+  Int64 Divide(const Int64 other) const noexcept {
+    return Int64(_value / other.Value());
+  }
+
+  Int64 Modulo(const Int64 other) const noexcept {
+    return Int64(_value % other.Value());
+  }
+
+  Int64 Negate() const noexcept {
+    return Int64(-_value);
+  }
+
+  bool Equals(const Int64 other) const noexcept {
+    return _value == other.Value();
+  }
+
+  Ordering Compare(const Int64 other) const noexcept {
+    return Ord<int64_t>::Compare(_value, other.Value());
+  }
+
+  Int64 Min(const Int64 other) const noexcept {
+    return Int64(Ord<int64_t>::Min(_value, other.Value()));
+  }
+
+  Int64 Max(const Int64 other) const noexcept {
+    return Int64(Ord<int64_t>::Max(_value, other.Value()));
+  }
+
+  double Sqrt() const noexcept {
+    return std::sqrt(_value);
+  }
+
+  Int64 BinaryAnd(const Int64 other) const noexcept {
+    return Int64(_value & other.Value());
+  }
+
+  Int64 BinaryOr(const Int64 other) const noexcept {
+    return Int64(_value | other.Value());
+  }
+
+  Int64 BinaryXor(const Int64 other) const noexcept {
+    return Int64(_value ^ other.Value());
+  }
+
+  HashValue Hash() const noexcept {
+    return HashValue((unsigned int) _value);
+  }
+
+  Int64 Copy() const noexcept {
+    return Int64(_value);
+  }
+
+  String Show() const noexcept {
+    return Shows<int64_t>::Show(_value);
+  }
+
+  String ToHex() const noexcept {
+    return Hexable<int64_t>::ToHex(_value);
+  }
+
+  static Int64 MinValue() noexcept {
+    return Int64(std::numeric_limits<int64_t>::min());
+  }
+
+  static Int64 MaxValue() noexcept {
+    return Int64(std::numeric_limits<int64_t>::max());
+  }
+
+  static Int64 Zero() noexcept {
+    return Int64(0);
+  }
+
+  static Int64 One() noexcept {
+    return Int64(1);
   }
 
 };

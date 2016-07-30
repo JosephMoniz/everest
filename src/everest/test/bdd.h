@@ -8,7 +8,7 @@
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/cli/color.h>
 #include <everest/types/string.h>
-#include <everest/types/size.h>
+#include <everest/types/primitive/size.h>
 #include <everest/io/process.h>
 
 namespace everest {
@@ -44,25 +44,25 @@ public:
 
 };
 
-void AssertTrue(const String& error, bool result) {
+void AssertTrue(const String& error, Bool result) {
   if (!result) {
     throw AssertionException(error);
   }
 }
 
-void AssertTrue(bool result) {
+void AssertTrue(Bool result) {
   if (!result) {
     throw AssertionException("Should have been true but was false");
   }
 }
 
-void AssertFalse(const String& error, bool result) {
+void AssertFalse(const String& error, Bool result) {
   if (result) {
     throw AssertionException(error);
   }
 }
 
-void AssertFalse(bool result) {
+void AssertFalse(Bool result) {
   if (result) {
     throw AssertionException("Should have been false but was true");
   }

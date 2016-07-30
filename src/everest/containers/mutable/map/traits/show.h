@@ -23,7 +23,7 @@ public:
     ForEach(map, [&](const MutableMapEntry<K, V>& entry) {
       out = std::move(out) + Shows<MutableMapEntry<K, V>>::Show(entry) + String(", ");
     });
-    return Take(Length(out) - 2, std::move(out)) + String(")");
+    return Take(out.Length() - 2, std::move(out)) + String(")");
   }
 
 };

@@ -25,7 +25,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Zero() noexcept {
+  static T Zero() noexcept {
     return T{};
   }
 

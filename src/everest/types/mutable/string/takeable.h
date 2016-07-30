@@ -22,7 +22,7 @@ public:
       if (inString.IsByteAligned()) {
         auto occupied = size + 1;
         auto memory   = MutableMemory<char>(string, occupied);
-        MutablePointer(memory)[size] = '\0';
+        memory.MutablePointer()[size] = '\0';
         return MutableString(std::move(memory), size, occupied);
       } else {
         size_t length   = 0;
@@ -33,7 +33,7 @@ public:
           }
         }
         auto memory = MutableMemory<char>(string, ++capacity);
-        MutablePointer(memory)[length] = '\0';
+        memory.MutablePointer()[length] = '\0';
         return MutableString(std::move(memory), length, capacity);
       }
     }
@@ -44,7 +44,7 @@ public:
       return std::move(inString);
     } else {
       if (inString.IsByteAligned()) {
-        MutablePointer(inString._data)[size] = '\0';
+        inString._data.MutablePointer()[size] = '\0';
         inString._length                     = size;
         inString._occupied                   = size + 1;
         return std::move(inString);
@@ -57,7 +57,7 @@ public:
             length++;
           }
         }
-        MutablePointer(inString._data)[capacity] = '\0';
+        inString._data.MutablePointer()[capacity] = '\0';
         inString._length                         = size;
         inString._occupied                       = capacity;
         return std::move(inString);
@@ -74,7 +74,7 @@ public:
     }
     auto occupied = offset + 1;
     auto memory   = MutableMemory<char>(pointer, occupied);
-    MutablePointer(memory)[offset] = '\0';
+    memory.MutablePointer()[offset] = '\0';
     return MutableString(std::move(memory), length, occupied);
   }
 
@@ -82,7 +82,7 @@ public:
     size_t offset = 0;
     size_t length = 0;
     size_t size   = string.Length();
-    auto pointer  = MutablePointer(string._data);
+    auto pointer  = string._data.MutablePointer();
     while (offset < size && predicate(pointer[offset])) {
       if (MutableString::IsLetterByte(pointer[offset])) {
         length++;

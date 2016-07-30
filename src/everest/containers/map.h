@@ -38,11 +38,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const Map<K, V>& map) noexcept {
+  static size_t Length(const Map<K, V>& map) noexcept {
     return Container<MutableMap<K, V>>::Length(map._wrapped);
   }
 
-  static constexpr bool IsEmpty(const Map<K, V>& map) noexcept {
+  static bool IsEmpty(const Map<K, V>& map) noexcept {
     return Container<MutableMap<K, V>>::IsEmpty(map._wrapped);
   }
 

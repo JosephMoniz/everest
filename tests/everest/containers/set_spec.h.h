@@ -106,20 +106,20 @@ void SetSpecification() {
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for a null vector", []() {
-      size_t expected = 0;
+      auto  expected  = (size_t) 0;
       auto result     = Length(Set<int>());
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for an empty vector", []() {
-      size_t expected = 0;
+      auto expected   = (size_t) 0;
       auto result     = Length(Set<int>(32));
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 3 for a vector with three elements", []() {
-      auto subject = Set<int>({1, 2, 3});
-      size_t expected = 3;
+      auto subject    = Set<int>({1, 2, 3});
+      auto expected   = (size_t) 3;
       auto result     = Length(subject);
       auto failure    = "The vector returned the incorrect length";
       AssertEquals(failure, expected, result);

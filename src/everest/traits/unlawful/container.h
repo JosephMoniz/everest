@@ -4,6 +4,8 @@
 
 
 #include <stddef.h>
+#include <everest/types/size.h>
+#include <everest/types/bool.h>
 
 namespace everest {
 
@@ -16,23 +18,23 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr size_t Length(const T& n) {
+  static size_t Length(const T& n) {
     return Base::Length(n);
   }
 
-  static constexpr bool IsEmpty(const T& n) {
+  static bool IsEmpty(const T& n) {
     return Base::IsEmpty(n);
   }
 
 };
 
 template<class T>
-constexpr size_t Length(const T& n) noexcept {
+size_t Length(const T& n) noexcept {
   return Container<T>::Length(n);
 }
 
 template<class T>
-constexpr bool IsEmpty(const T& n) noexcept {
+bool IsEmpty(const T& n) noexcept {
   return Container<T>::IsEmpty(n);
 }
 

@@ -1,153 +1,111 @@
 #pragma once
 
 #include <cstdint>
-#include <everest/traits/unlawful/zero.h>
-#include <everest/traits/unlawful/one.h>
-#include <everest/traits/lawful/semigroup.h>
-#include <everest/traits/lawful/monoid.h>
-#include <everest/traits/unlawful/subtract.h>
-#include <everest/traits/unlawful/multiply.h>
-#include <everest/traits/unlawful/divide.h>
-#include <everest/traits/unlawful/remainder.h>
-#include <everest/traits/unlawful/negate.h>
-#include <everest/traits/unlawful/bounded.h>
-#include <everest/traits/unlawful/eq.h>
-#include <everest/traits/unlawful/square_root.h>
-#include <everest/traits/unlawful/ord.h>
-#include <everest/traits/unlawful/bit_and.h>
-#include <everest/traits/unlawful/bit_or.h>
-#include <everest/traits/unlawful/bit_xor.h>
-#include <everest/traits/unlawful/hashable.h>
-#include <everest/traits/unlawful/show.h>
-#include <everest/traits/unlawful/hexable.h>
-#include <everest/memory/mutable_memory.h>
-#include <everest/traits/unlawful/copyable.h>
-#include <everest/traits/unlawful/fundamental.h>
 
 namespace everest {
 
-template <>
-class ZeroVal<uint8_t> final : public DefaultZeroVal<uint8_t> {};
+class UInt8 final {
 
-template <>
-class Semigroup<uint8_t> final : public DefaultSemigroup<uint8_t> {};
+  uint8_t _value;
 
-template <>
-class Monoid<uint8_t> final : public DefaultMonoid<uint8_t> {};
-
-template <>
-class Subtractable<uint8_t> final : public DefaultSubtract<uint8_t> {};
-
-template <>
-class Multipliable<uint8_t> final : public DefaultMultipliable<uint8_t> {};
-
-template <>
-class Dividable<uint8_t> final : public DefaultDividable<uint8_t> {};
-
-template <>
-class Modulus<uint8_t> final : public DefaultModulus<uint8_t> {};
-
-template <>
-class Negation<uint8_t> final : public DefaultNegation<uint8_t> {};
-
-template <>
-class Bounded<uint8_t> final : public DefaultBounded<uint8_t> {};
-
-template <>
-class Eq<uint8_t> final : public DefaultEq<uint8_t> {};
-
-template <>
-class SquareRoot<uint8_t> final : public DefaultSquareRoot<uint8_t> {};
-
-bool Equals(uint8_t lhs, uint8_t rhs) noexcept {
-  return Eq<uint8_t>::Equals(lhs, rhs);
-}
-
-Predicate<uint8_t> Equals(uint8_t lhs) noexcept {
-  return [=](uint8_t rhs) {
-    return Eq<uint8_t>::Equals(lhs, rhs);
-  };
-}
-
-template <>
-class Ord<uint8_t> final : public DefaultOrd<uint8_t> {};
-
-template <>
-class BitAnd<uint8_t> final : public DefaultAnd<uint8_t> {};
-
-template <>
-class BitOr<uint8_t> final : public DefaultOr<uint8_t> {};
-
-template <>
-class BitXor<uint8_t> final : public DefaultXor<uint8_t> {};
-
-template<>
-class Hashable<uint8_t> final : public DefaultHashable<uint8_t> {};
-
-template <>
-class OneVal<uint8_t> final {
 public:
 
-  static constexpr bool exists = true;
+  UInt8(uint8_t value) noexcept : _value(value) { }
 
-  static constexpr uint8_t One() noexcept { return 1; }
-
-};
-
-template<>
-class Fundamental<uint8_t> final {
-public:
-  static constexpr bool exists = true;
-};
-
-template<>
-class Copyable<uint8_t> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static uint8_t Copy(uint8_t n) noexcept {
-    return n;
+  uint8_t Value() const noexcept {
+    return _value;
   }
 
-};
-
-template <>
-class Shows<uint8_t> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static size_t NumDigits(uint8_t number) noexcept {
-    if (number < 10u) return 1;
-    if (number < 100u) return 2;
-    return 3;
+  explicit operator bool() const {
+    return _value != 0;
   }
 
-  static String Show(uint8_t number) noexcept {
-    auto size    = NumDigits(number);
-    auto offset   = size;
-    auto capacity = size + 1;
-    auto memory   = MutableMemory<char>(capacity);
-    auto pointer  = MutablePointer(memory);
-    for (auto i = size; i; i--) {
-      pointer[--offset] = (char) (number % 10) + '0';
-      number /= 10;
-    };
-    pointer[size] = '\0';
-    return String(std::move(memory), size, capacity);
+  operator uint8_t() const {
+    return _value;
   }
 
-};
+  UInt8 Add(const UInt8 other) const noexcept {
+    return UInt8(_value + other.Value());
+  }
 
-template<>
-class Hexable<uint8_t> final {
-public:
+  UInt8 Subtract(const UInt8 other) const noexcept {
+    return UInt8(_value - other.Value());
+  }
 
-  static constexpr bool exists = true;
+  UInt8 Multiply(const UInt8 other) const noexcept {
+    return UInt8(_value * other.Value());
+  }
 
-  static String ToHex(uint8_t value) noexcept {
-    return ToHexFromLittleEndianBytePointer((unsigned char*) &value, sizeof(uint8_t));
+  UInt8 Divide(const UInt8 other) const noexcept {
+    return UInt8(_value / other.Value());
+  }
+
+  UInt8 Modulo(const UInt8 other) const noexcept {
+    return UInt8(_value % other.Value());
+  }
+
+  bool Equals(const UInt8 other) const noexcept {
+    return _value == other.Value();
+  }
+
+  Ordering Compare(const UInt8 other) const noexcept {
+    return Ord<uint8_t>::Compare(_value, other.Value());
+  }
+
+  UInt8 Min(const UInt8 other) const noexcept {
+    return UInt8(Ord<uint8_t>::Min(_value, other.Value()));
+  }
+
+  UInt8 Max(const UInt8 other) const noexcept {
+    return UInt8(Ord<uint8_t>::Max(_value, other.Value()));
+  }
+
+  double Sqrt(const UInt8 number) const noexcept {
+    return std::sqrt(number.Value());
+  }
+
+  UInt8 BinaryAnd(const UInt8 other) const noexcept {
+    return UInt8(_value & other.Value());
+  }
+
+  UInt8 BinaryOr(const UInt8 other) const noexcept {
+    return UInt8(_value | other.Value());
+  }
+
+  UInt8 BinaryXor(const UInt8 other) const noexcept {
+    return UInt8(_value ^ other.Value());
+  }
+
+  HashValue Hash() const noexcept {
+    return HashValue((unsigned int) _value);
+  }
+
+  UInt8 Copy() const noexcept {
+    return UInt8(_value);
+  }
+
+  String Show() const noexcept {
+    return Shows<uint8_t>::Show(_value);
+  }
+
+  String ToHex() const noexcept {
+    return Hexable<uint8_t>::ToHex(_value);
+  }
+
+  static UInt8 MinValue() noexcept {
+    return UInt8(std::numeric_limits<uint8_t>::min());
+  }
+
+  static UInt8 MaxValue() noexcept {
+    return UInt8(std::numeric_limits<uint8_t>::max());
+  }
+
+  static UInt8 Zero() noexcept {
+    return UInt8(0);
+  }
+
+  static UInt8 One() noexcept {
+    return UInt8(1);
   }
 
 };

@@ -26,14 +26,14 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T BinaryOr(const T& lhs, const T& rhs) noexcept {
+  static T BinaryOr(const T& lhs, const T& rhs) noexcept {
     return lhs | rhs;
   }
 
 };
 
 template <class T>
-constexpr T BinaryOr(const T& lhs, const T& rhs) noexcept {
+T BinaryOr(const T& lhs, const T& rhs) noexcept {
   return BitOr<T>::BinaryOr(lhs, rhs);
 }
 

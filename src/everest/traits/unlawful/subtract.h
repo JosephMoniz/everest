@@ -25,7 +25,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Subtract(const T& lhs, const T& rhs) noexcept {
+  static T Subtract(const T& lhs, const T& rhs) noexcept {
     return lhs - rhs;
   }
 

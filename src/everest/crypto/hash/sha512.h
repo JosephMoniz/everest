@@ -9,7 +9,7 @@ namespace everest {
 
 Sha512Digest Sha512(const String& input) noexcept {
   Sha512Digest digest;
-  SHA512((const unsigned char*)Pointer(input), Length(input), digest.Value());
+  SHA512((const unsigned char*)input.Pointer(), input.Length(), digest.Value());
   return digest;
 }
 

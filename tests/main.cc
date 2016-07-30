@@ -1,12 +1,12 @@
-#include <everest/types/bool_spec.h>
-#include <everest/types/int8_spec.h>
-#include <everest/types/int16_spec.h>
-#include <everest/types/int32_spec.h>
-#include <everest/types/int64_spec.h>
-#include <everest/types/uint8_spec.h>
-#include <everest/types/uint16_spec.h>
-#include <everest/types/uint32_spec.h>
-#include <everest/types/uint64_spec.h>
+#include <everest/types/primitive/bool_spec.h>
+#include <everest/types/primitive/int8_spec.h>
+#include <everest/types/primitive/int16_spec.h>
+#include <everest/types/primitive/int32_spec.h>
+#include <everest/types/primitive/int64_spec.h>
+#include <everest/types/primitive/uint8_spec.h>
+#include <everest/types/primitive/uint16_spec.h>
+#include <everest/types/primitive/uint32_spec.h>
+#include <everest/types/primitive/uint64_spec.h>
 #include <everest/types/string_spec.h>
 #include <everest/containers/mutable/mutable_array_spec.h>
 #include <everest/containers/mutable/mutable_vector_spec.h>
@@ -35,6 +35,15 @@
 #include <everest/crypto/hmac/hmac_sha384_spec.h>
 #include <everest/containers/mutable/mutable_bit_set_spec.h>
 #include <everest/containers/mutable/mutable_sorted_vector_set_spec.h>
+#include <everest/types/bool_spec.h>
+#include <everest/types/int8_spec.h>
+#include <everest/types/int16_spec.h>
+#include <everest/types/int32_spec.h>
+#include <everest/types/int64_spec.h>
+#include <everest/types/uint8_spec.h>
+#include <everest/types/uint16_spec.h>
+#include <everest/types/uint32_spec.h>
+#include <everest/types/uint64_spec.h>
 
 
 using namespace everest;
@@ -42,15 +51,24 @@ using namespace everest;
 int main(int argc, char **argv) {
   // Type specifications
   //
+  PrimitiveBoolSpecification();
+  PrimitiveInt8Specification();
+  PrimitiveInt16Specification();
+  PrimitiveInt32Specification();
+  PrimitiveInt64Specification();
+  PrimitiveUint8Specification();
+  PrimitiveUint16Specification();
+  PrimitiveUint32Specification();
+  PrimitiveUint64Specification();
   BoolSpecification();
   Int8Specification();
   Int16Specification();
   Int32Specification();
   Int64Specification();
-  Uint8Specification();
-  Uint16Specification();
-  Uint32Specification();
-  Uint64Specification();
+  UInt8Specification();
+  UInt16Specification();
+  UInt32Specification();
+  UInt64Specification();
   StringSpecification();
 
   // Immutable container specifications

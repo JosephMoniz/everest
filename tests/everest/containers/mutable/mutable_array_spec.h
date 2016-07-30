@@ -4,6 +4,8 @@
 #include <everest/containers/mutable/mutable_array.h>
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
+#include <everest/traits/unlawful/ord/ordering/all_traits.h>
+#include <everest/types/size/all_traits.h>
 
 namespace everest {
 

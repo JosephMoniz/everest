@@ -3,22 +3,24 @@
 #include <limits>
 #include <everest/test/bdd.h>
 #include <everest/types/int64.h>
+#include <everest/types/int64/all_traits.h>
+#include <everest/traits/unlawful/ord/ordering/all_traits.h>
 
 namespace everest {
 
 void Int64Specification() {
-  int64_t zero_n    = 0;
-  int64_t fortytwo  = 42;
-  int64_t twentyone = 21;
-  int64_t six       = 6;
-  int64_t three     = 3;
-  int64_t ten       = 10;
-  int64_t five      = 5;
-  int64_t nine      = 9;
-  int64_t twelve    = 12;
+  auto zero_n    = Int64(0);
+  auto fortytwo  = Int64(42);
+  auto twentyone = Int64(21);
+  auto six       = Int64(6);
+  auto three     = Int64(3);
+  auto ten       = Int64(10);
+  auto five      = Int64(5);
+  auto nine      = Int64(9);
+  auto twelve    = Int64(12);
   Describe("A type int64", [=]() {
     It("should have a zero value of zero_n", [=]() {
-      AssertEquals(zero_n, Zero<int64_t>());
+      AssertEquals(zero_n, Zero<Int64>());
     });
     It("should be addable via the Add() function", [=]() {
       AssertEquals(fortytwo, Add(twentyone, twentyone));
@@ -36,7 +38,7 @@ void Int64Specification() {
       AssertEquals(zero_n, Remainder(ten, five));
     });
     It("should be negatable via the Negate() function", [=]() {
-      AssertEquals<int64_t>(-fortytwo, Negate(fortytwo));
+      AssertEquals<int64_t>(-fortytwo.Value(), Negate(fortytwo).Value());
     });
     It("should have a min value accessible via the MinValue() function", [=]() {
       AssertEquals(std::numeric_limits<int64_t>::min(), MinValue<int64_t>());
@@ -72,20 +74,20 @@ void Int64Specification() {
       AssertEquals(fortytwo, Max(twelve, fortytwo));
     });
     It("should be bitwise andable via the BinaryAnd() function", [=]() {
-      AssertEquals<int64_t>(fortytwo & twelve, BinaryAnd(fortytwo, twelve));
+      AssertEquals<int64_t>(fortytwo.Value() & twelve.Value(), BinaryAnd(fortytwo, twelve).Value());
     });
     It("should be bitwise orable via the BinaryOr() function", [=]() {
-      AssertEquals<int64_t>(fortytwo | twelve, BinaryOr(fortytwo, twelve));
+      AssertEquals<int64_t>(fortytwo.Value() | twelve.Value(), BinaryOr(fortytwo, twelve).Value());
     });
     It("should be bitwise xorable via the BinaryXor() function", [=]() {
-      AssertEquals<int64_t>(fortytwo ^ twelve, BinaryXor(fortytwo, twelve));
+      AssertEquals<int64_t>(fortytwo.Value() ^ twelve.Value(), BinaryXor(fortytwo, twelve).Value());
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       AssertEquals(String("42"), Show(fortytwo));
     });
     It("should serialize to the correct value when called with Show()", [=]() {
       auto expected = String("-42");
-      auto result = Show((int64_t) -fortytwo);
+      auto result = Show(fortytwo.Negate());
       auto failure = "Show(-42) did not return '-42'";
       AssertEquals(failure, expected, result);
     });

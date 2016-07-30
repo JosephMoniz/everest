@@ -29,7 +29,7 @@ public:
   MutableVector(std::initializer_list<T> list) noexcept : _length(list.size()),
                                                           _memory(list.size())
   {
-    auto pointer = MutablePointer(_memory);
+    auto pointer = _memory.MutablePointer();
     auto offset  = 0;
     for (auto it = list.begin(); it != list.end(); it++) {
       pointer[offset++] = *it;
@@ -102,9 +102,7 @@ public:
   }
 
   const T* Pointer() const noexcept {
-    return (_memory != nullptr)
-      ? _memory.Pointer()
-      : nullptr;
+    return _memory.Pointer();
   }
 
   template <class F>

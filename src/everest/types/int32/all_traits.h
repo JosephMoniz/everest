@@ -1,0 +1,23 @@
+#pragma once
+
+#include <everest/types/int32/bit_and.h>
+#include <everest/types/int32/bit_or.h>
+#include <everest/types/int32/bit_xor.h>
+#include <everest/types/int32/bounded.h>
+#include <everest/types/int32/copyable.h>
+#include <everest/types/int32/divide.h>
+#include <everest/types/int32/eq.h>
+#include <everest/types/int32/fundamental.h>
+#include <everest/types/int32/hashable.h>
+#include <everest/types/int32/hexable.h>
+#include <everest/types/int32/monoid.h>
+#include <everest/types/int32/multiply.h>
+#include <everest/types/int32/negate.h>
+#include <everest/types/int32/one.h>
+#include <everest/types/int32/ord.h>
+#include <everest/types/int32/remainder.h>
+#include <everest/types/int32/semigroup.h>
+#include <everest/types/int32/show.h>
+#include <everest/types/int32/square_root.h>
+#include <everest/types/int32/subtract.h>
+#include <everest/types/int32/zero.h>

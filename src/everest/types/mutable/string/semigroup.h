@@ -20,7 +20,7 @@ public:
     auto memory      = MutableMemory<char>(occupied);
     auto lPointer    = lhs.Pointer();
     auto rPointer    = rhs.Pointer();
-    auto destPointer = MutablePointer(memory);
+    auto destPointer = memory.MutablePointer();
     memcpy(destPointer, lPointer, lOccupied);
     memcpy(&destPointer[lOccupied], rPointer, rhs.Occupied());
     return MutableString(std::move(memory), lhs.Length() + rhs.Length(), occupied);
@@ -30,7 +30,7 @@ public:
     auto lOccupied = lhs.Occupied() - 1;
     auto occupied  = lOccupied + rhs.Occupied();
     lhs._data.ReserveAtLeast(occupied);
-    auto lPointer  = MutablePointer(lhs._data);
+    auto lPointer  = lhs._data.MutablePointer();
     auto rPointer  = rhs.Pointer();
     memcpy(&lPointer[lOccupied], rPointer, rhs.Occupied());
     lhs._length   = lhs.Length() + rhs.Length();

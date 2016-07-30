@@ -165,29 +165,29 @@ void MutableSortedVectorSetSpecification() {
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for a null vector", []() {
-      size_t expected = 0;
+      auto expected   = (size_t) 0;
       auto result     = Length(MutableSortedVectorSet<int>());
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for an empty vector", []() {
-      size_t expected = 0;
+      auto expected   = (size_t) 0;
       auto result     = Length(MutableSortedVectorSet<int>());
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 3 for a vector with three elements", []() {
-      auto subject    = MutableSortedVectorSet<int>({1, 2, 3});
-      size_t expected = 3;
-      auto result     = Length(subject);
-      auto failure    = "The vector returned the incorrect length";
+      auto subject  = MutableSortedVectorSet<int>({1, 2, 3});
+      auto expected = (size_t) 3;
+      auto result   = Length(subject);
+      auto failure  = "The vector returned the incorrect length";
       AssertEquals(failure, expected, result);
     });
     Describe("of [1,2,3,4] called with FilterInPlace(n % 2 == 0)", []() {
       auto subject = MutableSortedVectorSet<int>({1, 2, 3, 4});
       FilterInPlace([](auto n) { return n % 2 == 0; }, subject);
       It("Should be of length 2", [&]() {
-        AssertEquals((size_t)2, Length(subject));
+        AssertEquals((size_t) 2, Length(subject));
       });
       It("Should return 2 for the first element", [&]() {
         AssertTrue(Contains(2, subject));
@@ -199,7 +199,7 @@ void MutableSortedVectorSetSpecification() {
     Describe("of value {1, 2, 3, 4}", []() {
       auto subject = MutableSortedVectorSet<int>({1, 2, 3, 4});
       It("Should return a length of 4", [&]() {
-        AssertEquals((size_t)4, Length(subject));
+        AssertEquals((size_t) 4, Length(subject));
       });
       It("Should return false when called with Contains(0)", [&]() {
         AssertFalse(Contains(0, subject));
@@ -222,7 +222,7 @@ void MutableSortedVectorSetSpecification() {
       Describe("and we call Remove(1)", [&]() {
         RemoveInPlace(1, subject);
         It("Should return a length of 3", [&]() {
-          AssertEquals((size_t)3, Length(subject));
+          AssertEquals((size_t) 3, Length(subject));
         });
         It("Should return false when called with Contains(0)", [&]() {
           AssertFalse(Contains(0, subject));
@@ -246,7 +246,7 @@ void MutableSortedVectorSetSpecification() {
       Describe("and we call Remove(2)", [&]() {
         RemoveInPlace(2, subject);
         It("Should return a length of 2", [&]() {
-          AssertEquals((size_t)2, Length(subject));
+          AssertEquals((size_t) 2, Length(subject));
         });
         It("Should return false when called with Contains(0)", [&]() {
           AssertFalse(Contains(0, subject));
@@ -270,7 +270,7 @@ void MutableSortedVectorSetSpecification() {
       Describe("and we call Remove(3)", [&]() {
         RemoveInPlace(3, subject);
         It("Should return a length of 1", [&]() {
-          AssertEquals((size_t)1, Length(subject));
+          AssertEquals((size_t) 1, Length(subject));
         });
         It("Should return false when called with Contains(0)", [&]() {
           AssertFalse(Contains(0, subject));
@@ -294,7 +294,7 @@ void MutableSortedVectorSetSpecification() {
       Describe("and we call Remove(4)", [&]() {
         RemoveInPlace(4, subject);
         It("Should return a length of 0", [&]() {
-          AssertEquals((size_t)0, Length(subject));
+          AssertEquals((size_t) 0, Length(subject));
         });
         It("Should return false when called with Contains(0)", [&]() {
           AssertFalse(Contains(0, subject));

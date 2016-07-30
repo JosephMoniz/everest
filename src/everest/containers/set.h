@@ -52,11 +52,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const Set<T>& set) noexcept {
+  static size_t Length(const Set<T>& set) noexcept {
     return Container<MutableSet<T>>::Length(set._wrapped);
   }
 
-  static constexpr bool IsEmpty(const Set<T>& set) noexcept {
+  static bool IsEmpty(const Set<T>& set) noexcept {
     return Container<MutableSet<T>>::IsEmpty(set._wrapped);
   }
 
@@ -172,7 +172,7 @@ public:
     ForEach(set, [&](const T& item) {
       out = out + Shows<T>::Show(item) + String(", ");
     });
-    return Take(Length(out) - 2, std::move(out)) + String(")");
+    return Take(out.Length() - 2, std::move(out)) + String(")");
   }
 
 };

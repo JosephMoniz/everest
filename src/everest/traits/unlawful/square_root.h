@@ -26,7 +26,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr auto Sqrt(const T& number) noexcept -> decltype(std::sqrt(number)) {
+  static auto Sqrt(const T& number) noexcept -> decltype(std::sqrt(number)) {
     return std::sqrt(number);
   }
 

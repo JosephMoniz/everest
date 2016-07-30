@@ -3,6 +3,7 @@
 #include <everest/test/bdd.h>
 #include <everest/containers/vector.h>
 #include <everest/functions/identity.h>
+#include <everest/traits/unlawful/ord/ordering/all_traits.h>
 
 namespace everest {
 

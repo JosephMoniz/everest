@@ -31,14 +31,14 @@ class MutableMap final {
   size_t _size;
 
   Bucket* GetBucket(const K& key) noexcept {
-    auto hash    = Hash(key).Value() % Length(_memory);
-    auto pointer = MutablePointer(_memory);
+    auto hash    = Hash(key).Value() % _memory.Length();
+    auto pointer = _memory.MutablePointer();
     return &pointer[hash];
   }
 
   const Bucket* GetConstBucket(const K& key) const noexcept {
-    auto hash    = Hash(key).Value() % Length(_memory);
-    auto pointer = Pointer(_memory);
+    auto hash    = Hash(key).Value() % _memory.Length();
+    auto pointer = _memory.Pointer();
     return &pointer[hash];
   }
 
@@ -51,18 +51,18 @@ class MutableMap final {
   }
 
   void RedactBucketSize(const Bucket* bucket) noexcept {
-    _size -= Length(*bucket);
+    _size = bucket->Length() - _size;
   }
 
   void AddBucketSize(const Bucket* bucket) noexcept {
-    _size += Length(*bucket);
+    _size = bucket->Length() + _size;
   }
 
   MutableMap<K, V>& ResizeIfNecessary() noexcept {
-    if (_size == Length(_memory)) {
+    if (_size == _memory.Length()) {
       auto self = this;
       auto old  = std::move(_memory);
-      _memory   = MutableMemory<Bucket>(Length(old) * 2);
+      _memory   = MutableMemory<Bucket>(old.Length() * 2);
       _size     = 0;
       ForEach(old, [&](MutableMapEntry<K, V>&& entry) {
         PutInPlace(std::move(entry.Key()), std::move(entry.Value()), *self);

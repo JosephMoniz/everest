@@ -14,11 +14,11 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr size_t Length(const MutableArray<T, S>& o) noexcept {
-    return (size_t) S;
+  static size_t Length(const MutableArray<T, S>& o) noexcept {
+    return Size(S);
   }
 
-  static constexpr bool IsEmpty(const MutableArray<T, S>& o) noexcept {
+  static bool IsEmpty(const MutableArray<T, S>& o) noexcept {
     return S == 0;
   }
 

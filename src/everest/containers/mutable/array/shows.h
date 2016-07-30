@@ -24,7 +24,7 @@ public:
     for (size_t i = 0; i < S; i ++) {
       out = std::move(out) + Shows<T>::Show(pointer[i]) + String(", ");
     }
-    return Take(Length(out) - 2, std::move(out)) + String(")");
+    return Take(out.Length() - 2, std::move(out)) + String(")");
   }
 
 };

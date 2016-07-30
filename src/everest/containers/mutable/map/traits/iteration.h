@@ -17,10 +17,10 @@ public:
 
   template <class F>
   static void ForEach(const MutableMap<K, V>& container, const F& function) noexcept {
-    auto memorySize    = Length(container._memory);
-    auto memoryPointer = Pointer(container._memory);
+    auto memorySize    = container._memory.Length();
+    auto memoryPointer = container._memory.Pointer();
     for (size_t i = 0; i < memorySize; i++) {
-      Iteration<MutableVector<MutableMapEntry<K, V>>>::ForEach(memoryPointer[i], [&](const MutableMapEntry<K, V>& entry) {
+      memoryPointer[i].ForEach([&](const MutableMapEntry<K, V>& entry) {
         function(entry);
       });
     }

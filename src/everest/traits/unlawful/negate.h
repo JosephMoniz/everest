@@ -26,7 +26,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Negate(const T& n) noexcept {
+  static T Negate(const T& n) noexcept {
     return -n;
   }
 

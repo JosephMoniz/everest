@@ -2,32 +2,9 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
-#include <everest/types/string.h>
-#include <everest/traits/unlawful/show.h>
+#include <everest/traits/unlawful/ord/ordering.h>
 
 namespace everest {
-
-enum class Ordering {
-  LESS,
-  EQUAL,
-  GREATER
-};
-
-template<>
-class Shows<Ordering> {
-public:
-
-  static constexpr bool exists = true;
-
-  static String Show(Ordering n) noexcept {
-    switch(n) {
-      case Ordering::LESS:    return String("LESS");
-      case Ordering::EQUAL:   return String("EQUAL");
-      case Ordering::GREATER: return String("GREATER");
-    }
-  }
-
-};
 
 template <class T>
 class Ord {
@@ -61,7 +38,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Ordering Compare(const T& lhs, const T& rhs) noexcept {
+  static Ordering Compare(const T& lhs, const T& rhs) noexcept {
     return (lhs < rhs)
        ? Ordering::LESS
        : (lhs > rhs)
@@ -69,13 +46,13 @@ public:
          : Ordering::EQUAL;
   }
 
-  static constexpr int Min(const T& lhs, const T& rhs) noexcept {
+  static T Min(const T& lhs, const T& rhs) noexcept {
     return (Compare(lhs, rhs) == Ordering::GREATER)
        ? rhs
        : lhs;
   }
 
-  static constexpr int Max(const T& lhs, const T& rhs) noexcept {
+  static T Max(const T& lhs, const T& rhs) noexcept {
     return (Compare(lhs, rhs) == Ordering::LESS)
       ? rhs
       : lhs;

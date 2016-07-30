@@ -4,6 +4,7 @@
 #include <everest/containers/mutable/mutable_vector.h>
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
+#include <everest/traits/unlawful/ord/ordering/all_traits.h>
 
 namespace everest {
 
@@ -159,13 +160,13 @@ void MutableVectorSpecification() {
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for a null vector", []() {
-      size_t expected = 0;
+      auto expected = (size_t) 0;
       auto result     = Length(MutableVector<int>());
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
     });
     It("Should return length 0 for an empty vector", []() {
-      size_t expected = 0;
+      auto expected   = (size_t) 0;
       auto result     = Length(MutableVector<int>(32));
       auto failure    = "An empty vector should have a length of 0";
       AssertEquals(failure, expected, result);
@@ -175,7 +176,7 @@ void MutableVectorSpecification() {
       PushInPlace(1, subject);
       PushInPlace(2, subject);
       PushInPlace(3, subject);
-      size_t expected = 3;
+      auto expected   = (size_t) 3;
       auto result     = Length(subject);
       auto failure    = "The vector returned the incorrect length";
       AssertEquals(failure, expected, result);
@@ -188,7 +189,7 @@ void MutableVectorSpecification() {
       PushInPlace(4, subject);
       FilterInPlace([](auto n) { return n % 2 == 0; }, subject);
       It("Should be of length 2", [&]() {
-        AssertEquals((size_t)2, Length(subject));
+        AssertEquals((size_t) 2, Length(subject));
       });
       It("Should return 2 for the first element", [&]() {
         AssertEquals(2, Pointer(subject)[0]);

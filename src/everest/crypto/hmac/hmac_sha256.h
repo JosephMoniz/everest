@@ -12,10 +12,10 @@ HmacSha256Digest HmacSha256(const String& key, const String& input) noexcept {
   auto size = HmacSha256Digest::size;
   HMAC(
     EVP_sha256(),
-    Pointer(key),
-    (int) Length(key),
-    (const unsigned char*)Pointer(input),
-    Length(input),
+    key.Pointer(),
+    (int) key.Length(),
+    (const unsigned char*)input.Pointer(),
+    input.Length(),
     digest.Value(),
     (unsigned int*) &size
   );
