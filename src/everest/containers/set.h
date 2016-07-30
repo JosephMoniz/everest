@@ -24,7 +24,15 @@ public:
 
   Set() noexcept : _wrapped() { }
 
-  Set(std::initializer_list<T> list) noexcept : _wrapped(list) { }
+  template <class U>
+  Set(U&& element) noexcept {
+    new (&_wrapped) MutableSet<T>(std::move(element));
+  }
+
+  template <class U, class... U2>
+  Set(U&& element, U2&&... elements) noexcept {
+    new (&_wrapped) MutableSet<T>(std::move(element), std::move(elements)...);
+  };
 
   Set(const Set<T>& other) = delete;
 

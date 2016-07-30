@@ -54,19 +54,22 @@ class MutableSet final {
 
 public:
 
-  MutableSet() : MutableSet(128) { }
+  MutableSet() : _memory(128),
+                 _size(0) { }
 
-  MutableSet(size_t capacity) : _memory(capacity),
-                                _size(0) { }
-
-  MutableSet(std::initializer_list<T> list) noexcept : _memory(128),
-                                                       _size(0)
-
+  template <class U>
+  MutableSet(U&& element) noexcept : _memory(128),
+                                     _size(0)
   {
-    for (auto it = list.begin(); it != list.end(); it++) {
-      AddInPlace(*it);
-    }
+    AddInPlace(std::move(element));
   }
+
+  template <class U, class... U2>
+  MutableSet(U&& element, U2&&... elements) noexcept : _memory(128),
+                                                       _size(0)
+  {
+    AddInPlace(std::move(element), std::move(elements)...);
+  };
 
   MutableSet(const MutableSet<T>& other) = delete;
 
@@ -192,6 +195,12 @@ public:
     bucket->PushInPlace(std::move(source));
     AddBucketSize(bucket);
     return ResizeIfNecessary();
+  }
+
+  template <class... T2>
+  MutableSet<T>& AddInPlace(T&& source, T2&&... sources) noexcept {
+    AddInPlace(std::move(source));
+    AddInPlace(std::move(sources)...);
   }
 
   MutableSet<T>& AddInPlace(const MutableSet<T>& source) noexcept {
