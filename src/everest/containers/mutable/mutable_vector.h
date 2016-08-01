@@ -24,7 +24,7 @@ public:
   MutableVector() noexcept : _length(0), _memory() { }
 
   MutableVector(size_t capacity) noexcept : _length(0),
-                                            _memory(MutableMemory<T>(capacity)){ }
+                                            _memory(MutableMemory<T>(capacity)) { }
 
   MutableVector(std::initializer_list<T> list) noexcept : _length(list.size()),
                                                           _memory(list.size())
@@ -114,10 +114,19 @@ public:
     }
   }
 
+  template <class F>
+  void MovingForEach(F function) noexcept {
+    auto bucketSize    = _length;
+    auto bucketPointer = Pointer();
+    for (size_t i = 0; i < bucketSize; i++) {
+      function(std::move(bucketPointer[i]));
+    }
+  }
+
   MutableVector<T> Copy() const noexcept {
     auto copy = MutableVector<T>();
     ForEach([&](const T& item) {
-      PushInPlace(Copyable<T>::Copy(item), copy);
+      copy.PushInPlace(Copyable<T>::Copy(item));
     });
     return copy;
   }
@@ -158,7 +167,7 @@ public:
     auto results = MutableVector<T>();
     ForEach([&](const T& item) {
       if (predicate(item)) {
-        PushInPlace(item, results);
+        results.PushInPlace(item);
       }
     });
     return results;
@@ -236,7 +245,7 @@ public:
     auto results = MutableVector<T>();
     ForEach([&](const T& item) {
       Iteration<MutableVector<B>>::ForEach(f(item), [&](const T& inner) {
-        PushInPlace(inner, results);
+        results.PushInPlace(inner);
       });
     });
     return results;
@@ -248,24 +257,24 @@ public:
   }
 
   MutableVector<T>& AddInPlace(const T& source) noexcept {
-    return PushInPlace(source, *this);
+    return PushInPlace(source);
   }
 
   MutableVector<T>& AddInPlace(T&& source) noexcept {
-    return PushInPlace(std::move(source), *this);
+    return PushInPlace(std::move(source));
   }
 
   MutableVector<T>& AddInPlace(const MutableVector<T>& source) noexcept {
     ReserveAtLeast(_length + Length(source));
     ForEach(source, [&](const T& item) {
-      PushInPlace(item, *this);
+      PushInPlace(item);
     });
     return *this;
   }
 
   MutableVector<T>& AddInPlace(MutableVector<T>&& source) noexcept {
     ForEach(source, [&](T&& item) {
-      PushInPlace(std::move(item), *this);
+      PushInPlace(std::move(item));
     });
     return *this;
   }

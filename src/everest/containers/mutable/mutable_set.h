@@ -44,9 +44,8 @@ class MutableSet final {
       auto old  = std::move(_memory);
       _memory   = MutableMemory<MutableVector<T>>(old.Length() * 2);
       _size     = 0;
-      ForEach([&](const T& item) {
-        // TODO: Figure out how to make this a move instead of a copy
-        self->AddInPlace(item);
+      MovingForEach([&](auto&& item) {
+        self->AddInPlace(std::move(item));
       });
       return *this;
     }
@@ -102,10 +101,19 @@ public:
 
   template <class F>
   void ForEach(F function) const noexcept {
-    auto memorySize    = _memory.Length();
-    auto memoryPointer = _memory.Pointer();
+    auto memorySize                       = _memory.Length();
+    const MutableVector<T>* memoryPointer = _memory.Pointer();
     for (size_t i = 0; i < memorySize; i++) {
-      Iteration<MutableVector<T>>::ForEach(memoryPointer[i], function);
+      memoryPointer[i].ForEach(function);
+    }
+  }
+
+  template <class F>
+  void MovingForEach(F function) noexcept {
+    auto memorySize                 = _memory.Length();
+    MutableVector<T>* memoryPointer = _memory.MutablePointer();
+    for (size_t i = 0; i < memorySize; i++) {
+      memoryPointer[i].MovingForEach(function);
     }
   }
 
