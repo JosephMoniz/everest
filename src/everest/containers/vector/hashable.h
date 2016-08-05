@@ -15,8 +15,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const Vector<T>& vector) noexcept {
-    return Hashable<MutableVector<T>>::Hash(vector._wrapped);
+  static HashValue Hash(const Vector<T>& vector) noexcept {
+    return vector._wrapped.Hash();
   }
 
 };

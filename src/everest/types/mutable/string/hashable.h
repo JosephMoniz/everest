@@ -14,7 +14,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const MutableString& string) noexcept {
+  static HashValue Hash(const MutableString& string) noexcept {
     return string.Hash();
   }
 

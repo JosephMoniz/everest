@@ -1,11 +1,6 @@
 #pragma once
 
 #include <everest/containers/mutable/mutable_vector.h>
-#include <everest/traits/unlawful/pointable.h>
-#include <everest/traits/unlawful/container.h>
-#include <everest/traits/unlawful/iteration.h>
-#include <everest/traits/unlawful/show.h>
-#include <everest/traits/unlawful/eq.h>
 
 namespace everest {
 
@@ -13,6 +8,8 @@ template <class T>
 class MutableSortedVectorSet final {
 
   MutableVector<T> _vector;
+
+  MutableSortedVectorSet(MutableVector<T>&& vector) noexcept : _vector(std::move(vector)) { }
 
 public:
 
@@ -26,10 +23,47 @@ public:
     }
   }
 
-  bool Contains(const T& item) const noexcept {
+  MutableSortedVectorSet<T> Copy() const noexcept {
+    return MutableSortedVectorSet<T>(_vector.Copy());
+  }
+
+  template <class U>
+  T* FindInPlace(const U& item) noexcept {
     if (Length() != 0) {
       size_t low   = 0;
-      size_t high  = Length() -1;
+      size_t high  = Length() - 1;
+      auto pointer = MutablePointer();
+      size_t mid;
+      while (low < high) {
+        mid = (low + high) / 2;
+        switch (Compare(pointer[mid], item)) {
+          case Ordering::LESS:
+            low = mid + 1;
+            break;
+          case Ordering::EQUAL:
+            return &pointer[mid];
+          case Ordering::GREATER:
+            if (mid == 0) {
+              return nullptr;
+            } else {
+              high = mid - 1;
+            }
+            break;
+        }
+      }
+      return (low == high && Compare(pointer[low], item) == Ordering::EQUAL)
+        ? &pointer[low]
+        : nullptr;
+    } else {
+      return nullptr;
+    }
+  }
+
+  template <class U>
+  const T* Find(const U& item) const noexcept {
+    if (Length() != 0) {
+      size_t low   = 0;
+      size_t high  = Length() - 1;
       auto pointer = Pointer();
       size_t mid;
       while (low < high) {
@@ -39,20 +73,26 @@ public:
             low = mid + 1;
             break;
           case Ordering::EQUAL:
-            return true;
+            return &pointer[mid];
           case Ordering::GREATER:
             if (mid == 0) {
-              return false;
+              return nullptr;
             } else {
               high = mid - 1;
             }
             break;
         }
       }
-      return low == high && Compare(pointer[low], item) == Ordering::EQUAL;
+      return (low == high && Compare(pointer[low], item) == Ordering::EQUAL)
+        ? &pointer[low]
+        : nullptr;
     } else {
-      return false;
+      return nullptr;
     }
+  }
+
+  bool Contains(const T& item) const noexcept {
+    return Find(item) != nullptr;
   }
 
   MutableSortedVectorSet<T>& AddInPlace(const T& item) noexcept {
@@ -64,7 +104,7 @@ public:
       for (;;) {
         if (high <= low) {
           auto position = (item > pointer[low]) ? (low + 1) : low;
-          _vector.InsertInPlace(item, position);
+          _vector.InsertInPlace(std::move(item), position);
           return *this;
         } else {
           mid = (low + high) / 2;
@@ -73,8 +113,7 @@ public:
               low = mid + 1;
               break;
             case Ordering::EQUAL:
-              // TODO: add in place for maps
-              //_vector.At(mid).Get() = item;
+              _vector.AtInPlace(mid)[0] = item;
               return *this;
             case Ordering::GREATER:
               if (mid == 0) {
@@ -117,8 +156,7 @@ public:
               low = mid + 1;
               break;
             case Ordering::EQUAL:
-              // TODO: add in place for maps
-              //_vector.At(mid).Get() = std::move(item);
+              _vector.AtInPlace(mid)[0] = std::move(item);
               return *this;
             case Ordering::GREATER:
               if (mid == 0) {
@@ -145,7 +183,7 @@ public:
 
   MutableSortedVectorSet<T>& RemoveInPlace(const T& item) noexcept {
     size_t low   = 0;
-    size_t high = Length() == 0 ? 0 : Length() -1;
+    size_t high = Length() == 0 ? 0 : Length() - 1;
     auto pointer = Pointer();
     size_t mid;
     while (low < high) {
@@ -155,7 +193,39 @@ public:
           low = mid + 1;
           break;
         case Ordering::EQUAL:
-          RemoveAtInPlace(mid, _vector);
+          _vector.RemoveAtInPlace(mid);
+          return *this;
+        case Ordering::GREATER:
+          if (mid == 0) {
+            return *this;
+          } else {
+            high = mid - 1;
+          }
+          break;
+      }
+    }
+    if (low == high && Compare(pointer[low], item) == Ordering::EQUAL) {
+      _vector.RemoveAtInPlace(low);
+      return *this;
+    } else {
+      return *this;
+    }
+  }
+
+  template <class U>
+  MutableSortedVectorSet<T>& RemoveSimilarInPlace(const U& item) noexcept {
+    size_t low   = 0;
+    size_t high = Length() == 0 ? 0 : Length() - 1;
+    auto pointer = Pointer();
+    size_t mid;
+    while (low < high) {
+      mid = (low + high) / 2;
+      switch (Compare(pointer[mid], item)) {
+        case Ordering::LESS:
+          low = mid + 1;
+          break;
+        case Ordering::EQUAL:
+          _vector.RemoveAtInPlace(mid);
           return *this;
         case Ordering::GREATER:
           if (mid == 0) {
@@ -176,6 +246,10 @@ public:
 
   const T* Pointer() const noexcept {
     return _vector.Pointer();
+  }
+
+  T* MutablePointer() noexcept {
+    return _vector.MutablePointer();
   }
 
   size_t Length() const noexcept {
@@ -231,182 +305,6 @@ public:
 
   static MutableSortedVectorSet<T> Zero() noexcept {
     return MutableSortedVectorSet<T>();
-  }
-
-};
-
-template <class T>
-class Pointable<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static const T* Pointer(const MutableSortedVectorSet<T>& set) noexcept {
-    return set.Pointer();
-  }
-
-};
-
-template <class T>
-class Container<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static size_t Length(const MutableSortedVectorSet<T>& set) noexcept {
-    return set.Length();
-  }
-
-  static bool IsEmpty(const MutableSortedVectorSet<T>& set) noexcept {
-    return set.IsEmpty();
-  }
-
-};
-
-template <class T>
-class Containable<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Contains(const T& item, const MutableSortedVectorSet<T>& set) noexcept {
-    return set.Contains(item);
-  }
-
-};
-
-template <class T>
-class Iteration<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  template <class F>
-  static void ForEach(const MutableSortedVectorSet<T>& set, const F& function) noexcept {
-    set.ForEach(function);
-  }
-
-};
-
-template <class T>
-class Shows<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static String Show(const MutableSortedVectorSet<T>& set) noexcept {
-    return set.Show();
-  }
-
-};
-
-template<class T>
-class Eq<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Equals(const MutableSortedVectorSet<T>& lhs, const MutableSortedVectorSet<T>& rhs) noexcept {
-    return lhs.Equals(rhs);
-  }
-
-};
-
-template <class T>
-class Functor<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  template <class F, class B = typename std::result_of<F(T)>::type>
-  static MutableSortedVectorSet<B> Map(F f, const MutableSortedVectorSet<T>& set) noexcept {
-    return set.Map(f);
-  }
-
-};
-
-template<class T>
-class MutableRemove<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableSortedVectorSet<T>& RemoveInPlace(const T& item, MutableSortedVectorSet<T>& set) noexcept {
-    return set.RemoveInPlace(item);
-  }
-
-  template<class U, class = std::enable_if<Iteration<U>::exists>>
-  static MutableSortedVectorSet<T>& RemoveInPlace(const U& source, MutableSortedVectorSet<T>& set) noexcept {
-    ForEach(source, [&](const T& item) {
-      set.RemoveInPlace(item);
-    });
-  }
-
-};
-
-template<class T>
-class MutableAdd<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableSortedVectorSet<T>& AddInPlace(const T& source, MutableSortedVectorSet<T>& destination) noexcept {
-    return destination.AddInPlace(source);
-  }
-
-  static MutableSortedVectorSet<T>& AddInPlace(T&& source, MutableSortedVectorSet<T>& destination) noexcept {
-    return destination.AddInPlace(std::move(source));
-  }
-
-  static MutableSortedVectorSet<T>& AddInPlace(const MutableSortedVectorSet<T>& source,
-                                               MutableSortedVectorSet<T>& destination) noexcept
-  {
-    return destination.AddInPlace(source);
-  }
-
-  static MutableSortedVectorSet<T>& AddInPlace(MutableSortedVectorSet<T>&& source,
-                                               MutableSortedVectorSet<T>& destination) noexcept
-  {
-    return destination.AddInPlace(std::move(source));
-  }
-
-};
-
-template <class T>
-class MutableFilter<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  template<class Predicate>
-  static MutableSortedVectorSet<T>& FilterInPlace(Predicate predicate, MutableSortedVectorSet<T>& set) noexcept {
-    return set.FilterInPlace(predicate);
-  }
-
-};
-
-template<class T>
-class Semigroup<MutableSortedVectorSet<T>> final {
-public:
-
-static constexpr bool exists = true;
-
-  static MutableSortedVectorSet<T> Add(const MutableSortedVectorSet<T>& lhs,
-                                       const MutableSortedVectorSet<T>& rhs) noexcept
-  {
-    return lhs.Add(rhs);
-  }
-
-};
-
-template<class T>
-class ZeroVal<MutableSortedVectorSet<T>> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableSortedVectorSet<T> Zero() noexcept {
-    return MutableSortedVectorSet<T>::Zero();
   }
 
 };

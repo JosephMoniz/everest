@@ -14,16 +14,16 @@ public:
 
   static constexpr bool exists = false;
 
-  template <class P, class U>
-  static U& FindInPlace(P p, T& n) noexcept {
-    return Base::FindInPlace(p, n);
+  template <class F, class U>
+  static U& FindInPlace(const U& item, F& container) noexcept {
+    return Base::FindInPlace(item, container);
   }
 
 };
 
-template <class F, class P>
-auto FindInPlace(P p, F& n) noexcept -> decltype(MutableFind<F>::FindInPlace(p, n)) {
-  return MutableFind<F>::FindInPlace(p, n);
+template <class F, class T>
+auto FindInPlace(const T& item, F& container) noexcept -> decltype(MutableFind<F>::FindInPlace(item, container)) {
+  return MutableFind<F>::FindInPlace(item, container);
 }
 
 }

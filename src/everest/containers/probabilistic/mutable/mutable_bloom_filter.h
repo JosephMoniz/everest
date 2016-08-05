@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <everest/containers/mutable/mutable_bit_set.h>
+#include <everest/traits/unlawful/hashable.h>
 
 namespace everest {
 
@@ -12,14 +13,14 @@ class MutableBloomFilter final {
 
 public:
 
-  MutableBloomFilter() noexcept : _bits(Size) {
+  MutableBloomFilter() noexcept : _bits() {
 
   }
 
   MutableBloomFilter& Add(const T& item) noexcept {
     auto hash = Hash(item);
     for (size_t i = 0;  i < Hashes; i++) {
-      _bits.SetInPlace(MultiHash(i, hash) % Length(_bits), true);
+      _bits.SetInPlace(MultiHash(i, hash).Value() % _bits.Length(), true);
     }
     return *this;
   }
@@ -27,7 +28,7 @@ public:
   bool PossiblyContains(const T& item) const noexcept {
     auto hash = Hash(item);
     for (size_t i = 0; i < Hashes; i++) {
-      if (!_bits.At(MultiHash(i, hash) % (Length(_bits)))) {
+      if (!_bits.At(MultiHash(i, hash).Value() % (_bits.Length()))) {
         return false;
       }
     }

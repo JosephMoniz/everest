@@ -29,7 +29,7 @@ public:
   }
 
   Array(const T* pointer, size_t length) noexcept {
-    for (auto i = 0; i < length; i++) {
+    for (size_t i = 0; i < length; i++) {
       _array[i] = pointer[i];
     }
   }

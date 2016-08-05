@@ -14,8 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr MutableMap<K, V> Zero() noexcept {
-    return MutableMap<K, V>();
+  static MutableMap<K, V> Zero() noexcept {
+    return MutableMap<K, V>::Zero();
   }
 
 };

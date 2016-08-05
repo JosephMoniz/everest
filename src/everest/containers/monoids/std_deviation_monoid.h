@@ -4,6 +4,7 @@
 #include <everest/traits/unlawful/zero.h>
 #include <everest/traits/unlawful/one.h>
 #include <everest/types/int8.h>
+#include <everest/traits/unlawful/square_root.h>
 
 namespace everest {
 
@@ -26,7 +27,7 @@ public:
                                            _count(OneVal<T>::One()),
                                            _squares(value * value) { }
 
-  const auto Value() const noexcept -> decltype(SquareRoot<T>::Sqrt(_sum)) {
+  const double Value() const noexcept {
     if (_count > ZeroVal<T>::Zero()) {
       return SquareRoot<T>::Sqrt(_count * _squares - (_sum * _sum)) / _count;
     } else {

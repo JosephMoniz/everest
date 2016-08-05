@@ -14,8 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static const String Show(const MutableMapEntry<K, V>& entry) noexcept {
-    return Shows<K>::Show(entry.ConstKey()) + String(": ") + Shows<V>::Show(entry.ConstValue());
+  static String Show(const MutableMapEntry<K, V>& entry) noexcept {
+    return entry.Show();
   }
 
 };

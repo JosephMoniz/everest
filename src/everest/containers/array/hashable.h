@@ -14,13 +14,13 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const Array<T, S>& array) noexcept {
-    int result   = 37;
+  static HashValue Hash(const Array<T, S>& array) noexcept {
+    unsigned int result   = 37;
     auto pointer = Pointer(array);
     for (size_t i = 0; i < S; i++) {
-      result = 37 * result + Hash(pointer[i]);
+      result = 37 * result + Hashable<T>::Hash(pointer[i]).Value();
     }
-    return result;
+    return HashValue(result);
   }
 
 };

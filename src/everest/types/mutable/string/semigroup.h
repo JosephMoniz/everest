@@ -15,15 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableString Add(const MutableString& lhs, const MutableString& rhs) noexcept {
-    auto lOccupied   = lhs.Occupied() - 1;
-    auto occupied    = lOccupied + rhs.Occupied();
-    auto memory      = MutableMemory<char>(occupied);
-    auto lPointer    = lhs.Pointer();
-    auto rPointer    = rhs.Pointer();
-    auto destPointer = memory.MutablePointer();
-    memcpy(destPointer, lPointer, lOccupied);
-    memcpy(&destPointer[lOccupied], rPointer, rhs.Occupied());
-    return MutableString(std::move(memory), lhs.Length() + rhs.Length(), occupied);
+    return lhs.Add(rhs);
   }
 
   static MutableString Add(MutableString&& lhs, const MutableString& rhs) noexcept {

@@ -15,6 +15,8 @@ public:
 
   static constexpr bool exists = false;
 
+  /*
+
   template <class U>
   static constexpr Ordering Compare(const U& lhs, const U& rhs) noexcept {
     return Base::Compare(lhs, rhs);
@@ -29,6 +31,7 @@ public:
   static constexpr U Max(const U& lhs, const U& rhs) noexcept {
     return Base::Max(lhs, rhs);
   }
+   */
 
 };
 

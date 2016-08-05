@@ -13,7 +13,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const String& string) noexcept {
+  static HashValue Hash(const String& string) noexcept {
     return string.Hash();
   }
 

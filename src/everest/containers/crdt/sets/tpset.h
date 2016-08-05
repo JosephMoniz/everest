@@ -2,6 +2,7 @@
 
 #include <everest/containers/set.h>
 #include <everest/traits/unlawful/associative.h>
+#include <everest/traits/unlawful/copyable.h>
 
 namespace everest {
 
@@ -70,7 +71,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr TPSet<T> Zero() {
+  static TPSet<T> Zero() {
     return TPSet();
   }
 
@@ -82,7 +83,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr TPSet<T> Add(const TPSet<T>& lhs, const TPSet<T>& rhs) noexcept {
+  static TPSet<T> Add(const TPSet<T>& lhs, const TPSet<T>& rhs) noexcept {
     return TPSet(lhs._fresh + rhs._fresh, lhs._tombs + rhs._tombs);
   }
 

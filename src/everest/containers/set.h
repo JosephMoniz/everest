@@ -102,8 +102,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const Set<T>& set) noexcept {
-    return Hashable<MutableSet<T>>::Hash(set._wrapped);
+  static HashValue Hash(const Set<T>& set) noexcept {
+    return set._wrapped.Hash();
   }
 
 };

@@ -4,6 +4,9 @@
 #include <everest/memory/growable_memory.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/takeable.h>
+#include <everest/types/expressive/hash_value.h>
+#include <everest/traits/unlawful/ord.h>
+#include <everest/traits/unlawful/ord/ordering.h>
 
 namespace everest {
 
@@ -95,8 +98,46 @@ public:
     }
   }
 
+  Ordering Compare(const MutableString& other) const noexcept {
+    auto otherLength = other.Length();
+    if (otherLength == _length) {
+      auto lhsPointer = Pointer();
+      auto rhsPointer = other.Pointer();
+      for (size_t i = 0; i < _length; i++) {
+        auto left  = lhsPointer[i];
+        auto right = rhsPointer[i];
+        if (left < right) {
+          return Ordering::LESS;
+        } else {
+          if (left > right) {
+            return Ordering::GREATER;
+          }
+        }
+      }
+      return Ordering::EQUAL;
+    } else {
+      if (_length < otherLength) {
+        return Ordering::LESS;
+      } else {
+        return Ordering::GREATER;
+      }
+    }
+  }
+
+  const MutableString& Min(const MutableString& other) const noexcept {
+    return (Compare(other) == Ordering::GREATER)
+      ? other
+      : *this;
+  }
+
+  const MutableString& Max(const MutableString& other) const noexcept {
+    return (Compare(other) == Ordering::LESS)
+      ? other
+      : *this;
+  }
+
   template <class F>
-  void ForEach(const F& function) const noexcept {
+  void ForEach(F function) const noexcept {
     auto length  = _occupied;
     auto pointer = _data.Pointer();
     for (size_t i = 0; i < length; i++) {
@@ -104,16 +145,70 @@ public:
     }
   }
 
-  unsigned int Hash() const noexcept {
+  HashValue Hash() const noexcept {
     unsigned int result = 37;
-    this->ForEach([&](char item) {
+    ForEach([&](char item) {
       result = 37 * result + (int) item;
     });
-    return result;
+    return HashValue(result);
   }
 
   const char* Pointer() const noexcept {
     return _data.Pointer();
+  }
+
+  MutableString Copy() const noexcept {
+    return MutableString(Pointer());
+  }
+
+  MutableString Add(const MutableString& other) const noexcept {
+    auto lOccupied   = Occupied() - 1;
+    auto occupied    = lOccupied + other.Occupied();
+    auto memory      = MutableMemory<char>(occupied);
+    auto lPointer    = Pointer();
+    auto rPointer    = other.Pointer();
+    auto destPointer = memory.MutablePointer();
+    memcpy(destPointer, lPointer, lOccupied);
+    memcpy(&destPointer[lOccupied], rPointer, other.Occupied());
+    return MutableString(std::move(memory), Length() + other.Length(), occupied);
+  }
+
+  MutableString Take(size_t size) const noexcept {
+    if (Length() <= size) {
+      return Copy();
+    } else {
+      auto string = Pointer();
+      if (IsByteAligned()) {
+        auto occupied = size + 1;
+        auto memory   = MutableMemory<char>(string, occupied);
+        memory.MutablePointer()[size] = '\0';
+        return MutableString(std::move(memory), size, occupied);
+      } else {
+        size_t length   = 0;
+        size_t capacity = 0;
+        for (capacity = 0; string[capacity] && length < size; capacity++) {
+          if ((string[capacity] & 0b11000000) != 0b10000000) {
+            length++;
+          }
+        }
+        auto memory = MutableMemory<char>(string, ++capacity);
+        memory.MutablePointer()[length] = '\0';
+        return MutableString(std::move(memory), length, capacity);
+      }
+    }
+  }
+
+  MutableString TakeWhile(Predicate<char> predicate) const noexcept {
+    size_t offset = 0;
+    size_t length = Length();
+    auto pointer  = Pointer();
+    while (offset < length && predicate(pointer[offset])) {
+      offset++;
+    }
+    auto occupied = offset + 1;
+    auto memory   = MutableMemory<char>(pointer, occupied);
+    memory.MutablePointer()[offset] = '\0';
+    return MutableString(std::move(memory), length, occupied);
   }
 
 };

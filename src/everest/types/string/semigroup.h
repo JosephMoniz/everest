@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static String Add(const String& lhs, const String& rhs) noexcept {
-    return String(Semigroup<MutableString>::Add(lhs._wrapped, rhs._wrapped));
+    return lhs.Add(rhs);
   }
 
   static String Add(String&& lhs, const String& rhs) noexcept {

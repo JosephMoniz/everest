@@ -8,6 +8,7 @@
 #include <everest/traits/lawful/monoid.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/bounded.h>
+#include <everest/traits/unlawful/one.h>
 
 namespace everest {
 
@@ -70,7 +71,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr GCounter<T> Zero() {
+  static GCounter<T> Zero() {
     return GCounter(Bounded<T>::MinValue());
   }
 
@@ -82,7 +83,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr GCounter<T> Add(const GCounter<T>& lhs, const GCounter<T>& rhs) noexcept {
+  static GCounter<T> Add(const GCounter<T>& lhs, const GCounter<T>& rhs) noexcept {
     return GCounter(Ord<T>::Max(lhs.Value(), rhs.Value()));
   }
 

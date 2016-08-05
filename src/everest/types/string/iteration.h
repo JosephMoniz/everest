@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = true;
 
   template <class F>
-  static void ForEach(const String& string, const F& function) noexcept {
+  static void ForEach(const String& string, F function) noexcept {
     string.ForEach(function);
   }
 

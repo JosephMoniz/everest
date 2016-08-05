@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static String Take(size_t size, const String& inString) noexcept {
-    return String(Takeable<MutableString>::Take(size, inString._wrapped));
+    return inString.Take(size);
   }
 
   static String Take(size_t size, String&& inString) noexcept {
@@ -23,7 +23,7 @@ public:
   }
 
   static String TakeWhile(Predicate<char> predicate, const String& string) noexcept {
-    return String(Takeable<MutableString>::TakeWhile(predicate, string._wrapped));
+    return string.TakeWhile(predicate);
   }
 
 };

@@ -14,7 +14,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const MutableSet<T>& set) noexcept {
+  static HashValue Hash(const MutableSet<T>& set) noexcept {
     return set.Hash();
   }
 

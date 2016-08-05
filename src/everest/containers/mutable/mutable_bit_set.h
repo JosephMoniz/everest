@@ -3,9 +3,6 @@
 #include <stddef.h>
 #include <string.h>
 #include <everest/memory/mutable_memory.h>
-#include <everest/traits/unlawful/pointable.h>
-#include <everest/traits/unlawful/copyable.h>
-#include <everest/traits/unlawful/containable.h>
 #include <everest/types/string.h>
 
 namespace everest {
@@ -128,96 +125,6 @@ public:
     return std::move(out) + String(")");
   }
   
-};
-
-template <>
-class Pointable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static const int* Pointer(const MutableBitSet& bitSet) noexcept {
-    return bitSet.Pointer();
-  }
-
-};
-
-template <>
-class MutablePointable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static int* Pointer(MutableBitSet& bitSet) noexcept {
-    return bitSet.MutablePointer();
-  }
-
-};
-
-template <>
-class Copyable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static MutableBitSet Copy(const MutableBitSet& bitSet) noexcept {
-    return bitSet.Copy();
-  }
-
-};
-
-template <>
-class Containable<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static bool Contains(bool bit, const MutableBitSet& bitSet) noexcept {
-    return bitSet.Contains(bit);
-  }
-
-};
-
-
-template <>
-class Container<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static size_t Length(const MutableBitSet& bitSet) noexcept {
-    return bitSet.Length();
-  }
-
-  static bool IsEmpty(const MutableBitSet& bitSet) noexcept {
-    return bitSet.IsEmpty();
-  }
-
-};
-
-template <>
-class Iteration<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  template <class F>
-  static void ForEach(const MutableBitSet& bitSet, F function) noexcept {
-    bitSet.ForEach(function);
-  }
-
-};
-
-template <>
-class Shows<MutableBitSet> final {
-public:
-
-  static constexpr bool exists = true;
-
-  static String Show(const MutableBitSet& bitSet) noexcept {
-    return bitSet.Show();
-  }
-
 };
 
 }

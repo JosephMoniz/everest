@@ -1,96 +1,121 @@
 #pragma once
 
 #include <stddef.h>
-#include <everest/containers/option.h>
 #include <everest/containers/mutable/map/mutable_map_entry.h>
 #include <everest/containers/mutable/mutable_set.h>
-#include <everest/containers/mutable/mutable_vector.h>
-#include <everest/traits/unlawful/associative.h>
-#include <everest/traits/unlawful/anyable.h>
-#include <everest/traits/unlawful/copyable.h>
-#include <everest/traits/unlawful/mutable/mutable_find.h>
-#include <everest/traits/unlawful/mutable/mutable_associative.h>
 
 namespace everest {
 
 template<class K, class V>
 class MutableMap final {
 
-  friend class Containable<MutableMap<K, V>>;
-  friend class Container<MutableMap<K, V>>;
-  friend class MutableRemove<MutableMap<K, V>>;
-  friend class Iteration<MutableMap<K, V>>;
-  friend class MutableAssociative<MutableMap<K, V>>;
-  friend class Eq<MutableMap<K, V>>;
-  friend class Associative<MutableMap<K, V>>;
-
-  typedef MutableVector<MutableMapEntry<K, V>> Bucket;
-
-  MutableMemory<Bucket> _memory;
-
-  size_t _size;
-
-  Bucket* GetBucket(const K& key) noexcept {
-    auto hash    = Hash(key).Value() % _memory.Length();
-    auto pointer = _memory.MutablePointer();
-    return &pointer[hash];
-  }
-
-  const Bucket* GetConstBucket(const K& key) const noexcept {
-    auto hash    = Hash(key).Value() % _memory.Length();
-    auto pointer = _memory.Pointer();
-    return &pointer[hash];
-  }
-
-  Bucket* GetAllocatedBucket(const K& key) noexcept {
-    auto bucket = GetBucket(key);
-    if (bucket != nullptr && Length(*bucket) == 0) {
-      bucket->Reserve(4);
-    }
-    return bucket;
-  }
-
-  void RedactBucketSize(const Bucket* bucket) noexcept {
-    _size = bucket->Length() - _size;
-  }
-
-  void AddBucketSize(const Bucket* bucket) noexcept {
-    _size = bucket->Length() + _size;
-  }
-
-  MutableMap<K, V>& ResizeIfNecessary() noexcept {
-    if (_size == _memory.Length()) {
-      auto self = this;
-      auto old  = std::move(_memory);
-      _memory   = MutableMemory<Bucket>(old.Length() * 2);
-      _size     = 0;
-      ForEach(old, [&](MutableMapEntry<K, V>&& entry) {
-        PutInPlace(std::move(entry.Key()), std::move(entry.Value()), *self);
-      });
-      return *this;
-    }
-  }
+  MutableSet<MutableMapEntry<K, V>> _set;
 
 public:
 
-  MutableMap() : _memory(128),
-                 _size(0) { }
+  MutableMap() noexcept : _set() { }
 
-  MutableMap(size_t capacity) : _memory(capacity),
-                                _size(0) { }
+  MutableMap(MutableSet<MutableMapEntry<K, V>>&& set) noexcept : _set(std::move(set)) { }
+
+  MutableMap<K, V> Copy() const noexcept {
+    return MutableMap(_set.Copy());
+  }
+
+  size_t Length() const noexcept {
+    return _set.Length();
+  }
+
+  bool IsEmpty() const noexcept {
+    return _set.IsEmpty();
+  }
+
+  MutableMap<K, V> Put(K&& key, V&& value) const noexcept {
+    auto copy = Copy();
+    return copy.PutInPlace(std::move(key), std::move(value));
+  }
+
+  MutableMap<K, V> Put(MutableMap<K, V>&& source) const noexcept {
+    auto copy = Copy();
+    ForEach(source, [&](MutableMapEntry<K, V>& entry) {
+      copy.PutInPlace(std::move(entry.Key()), std::move(entry.Value()));
+    });
+    return copy;
+  }
+
+  const V* Get(const K& key) const noexcept {
+    auto pointer = _set.Find(key);
+    return pointer != nullptr
+      ? &pointer->ConstValue()
+      : nullptr;
+  };
+
+  bool Contains(const K& key) const noexcept {
+    return _set.Find(key) != nullptr;
+  }
+
+  bool Equals(const MutableMap<K, V>& other) const noexcept {
+    return _set.Equals(other._set);
+  }
+
+  template <class F>
+  void ForEach(F function) const noexcept {
+    _set.ForEach(function);
+  }
+
+  MutableMap<K, V>& PutInPlace(K&& key, V&& value) noexcept {
+    _set.AddInPlace(MutableMapEntry<K, V>(std::move(key), std::move(value)));
+    return *this;
+  }
+
+  MutableMap<K, V>& PutInPlace(MutableMap<K, V>&& source) noexcept {
+    ForEach(source, [&](MutableMapEntry<K, V>& entry) {
+      PutInPlace(std::move(entry.Key()), std::move(entry.Value()));
+    });
+  }
+
+  V* GetInPlace(const K& key) noexcept {
+    auto pointer = _set.FindInPlace(key);
+    return pointer != nullptr
+      ? &pointer->Value()
+      : nullptr;
+  };
+
+  MutableMap<K, V>& RemoveInPlace(const K& key) noexcept {
+    _set.RemoveSimilarInPlace(key);
+    return *this;
+  }
+
+  MutableMap<K, V>& RemoveInPlace(const MutableMap<K, V>& source) noexcept {
+    source.ForEach([&](MutableMapEntry<K, V>& entry) {
+      RemoveInPlace(entry.Key());
+    });
+    return *this;
+  }
+
+  template<class U, class = std::enable_if<Iteration<U>::exists>>
+  MutableMap<K, V>& RemoveInPlace(const U& source) noexcept {
+    source.ForEach([&](const K& item) {
+      RemoveInPlace(item);
+    });
+    return *this;
+  }
+
+  MutableMap<K, V> Add(const MutableMap<K, V>& other) const noexcept {
+    return MutableMap(_set.Add(other._set));
+  }
+
+  String Show() const noexcept {
+    auto out = String("MutableMap(");
+    ForEach([&](const MutableMapEntry<K, V>& entry) {
+      out = std::move(out) + entry.Show() + String(", ");
+    });
+    return Take(out.Length() - 2, std::move(out)) + String(")");
+  }
+
+  static MutableMap<K, V> Zero() noexcept {
+    return MutableMap<K, V>();
+  }
 
 };
 
 }
-
-#include <everest/containers/mutable/map/traits/associative.h>
-#include <everest/containers/mutable/map/traits/containable.h>
-#include <everest/containers/mutable/map/traits/container.h>
-#include <everest/containers/mutable/map/traits/copyable.h>
-#include <everest/containers/mutable/map/traits/eq.h>
-#include <everest/containers/mutable/map/traits/iteration.h>
-#include <everest/containers/mutable/map/traits/mutable_associative.h>
-#include <everest/containers/mutable/map/traits/mutable_remove.h>
-#include <everest/containers/mutable/map/traits/semigroup.h>
-#include <everest/containers/mutable/map/traits/show.h>
-#include <everest/containers/mutable/map/traits/zero.h>

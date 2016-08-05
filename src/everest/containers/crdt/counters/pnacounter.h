@@ -94,7 +94,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr PNACounter<T> Zero() {
+  static PNACounter<T> Zero() {
     return PNACounter(Map());
   }
 
@@ -106,7 +106,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr PNACounter<T> Add(const PNACounter<T>& lhs, const PNACounter<T>& rhs) noexcept {
+  static PNACounter<T> Add(const PNACounter<T>& lhs, const PNACounter<T>& rhs) noexcept {
     return PNACounter(lhs._actors + rhs._actors);
   }
 

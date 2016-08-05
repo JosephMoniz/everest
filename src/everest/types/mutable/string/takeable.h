@@ -15,28 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static MutableString Take(size_t size, const MutableString& inString) noexcept {
-    if (inString.Length() <= size) {
-      return Copy(inString);
-    } else {
-      auto string = inString.Pointer();
-      if (inString.IsByteAligned()) {
-        auto occupied = size + 1;
-        auto memory   = MutableMemory<char>(string, occupied);
-        memory.MutablePointer()[size] = '\0';
-        return MutableString(std::move(memory), size, occupied);
-      } else {
-        size_t length   = 0;
-        size_t capacity = 0;
-        for (capacity = 0; string[capacity] && length < size; capacity++) {
-          if ((string[capacity] & 0b11000000) != 0b10000000) {
-            length++;
-          }
-        }
-        auto memory = MutableMemory<char>(string, ++capacity);
-        memory.MutablePointer()[length] = '\0';
-        return MutableString(std::move(memory), length, capacity);
-      }
-    }
+    return inString.Take(size);
   }
 
   static MutableString Take(size_t size, MutableString&& inString) noexcept {
@@ -66,16 +45,7 @@ public:
   }
 
   static MutableString TakeWhile(Predicate<char> predicate, const MutableString& string) noexcept {
-    size_t offset = 0;
-    size_t length = string.Length();
-    auto pointer  = string.Pointer();
-    while (offset < length && predicate(pointer[offset])) {
-      offset++;
-    }
-    auto occupied = offset + 1;
-    auto memory   = MutableMemory<char>(pointer, occupied);
-    memory.MutablePointer()[offset] = '\0';
-    return MutableString(std::move(memory), length, occupied);
+    return string.TakeWhile(predicate);
   }
 
   static MutableString TakeWhile(Predicate<char> predicate, MutableString&& string) noexcept {

@@ -19,6 +19,7 @@
 #include <everest/containers/mutable/vector/mutable_filter.h>
 #include <everest/containers/mutable/vector/mutable_find.h>
 #include <everest/containers/mutable/vector/mutable_insert.h>
+#include <everest/containers/mutable/vector/mutable_pointer.h>
 #include <everest/containers/mutable/vector/mutable_remove_at.h>
 #include <everest/containers/mutable/vector/mutable_stack.h>
 #include <everest/containers/mutable/vector/ord.h>

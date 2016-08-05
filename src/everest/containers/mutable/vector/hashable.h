@@ -14,7 +14,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static int Hash(const MutableVector<T>& vector) noexcept {
+  static HashValue Hash(const MutableVector<T>& vector) noexcept {
     return vector.Hash();
   }
 

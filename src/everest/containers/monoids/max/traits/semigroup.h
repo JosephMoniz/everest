@@ -15,9 +15,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr MaxMonoid<T> Add(const MaxMonoid<T>& lhs,
-                                    const MaxMonoid<T>& rhs) noexcept
-  {
+  static MaxMonoid<T> Add(const MaxMonoid<T>& lhs, const MaxMonoid<T>& rhs) noexcept {
     switch (Ord<T>::Compare(lhs.Value(), rhs.Value())) {
       case Ordering::LESS:    return rhs;
       case Ordering::GREATER: return lhs;

@@ -44,6 +44,7 @@
 #include <everest/types/uint16_spec.h>
 #include <everest/types/uint32_spec.h>
 #include <everest/types/uint64_spec.h>
+#include <everest/containers/mutable/mutable_sorted_vector_map_spec.h>
 
 
 using namespace everest;
@@ -114,6 +115,7 @@ int main(int argc, char **argv) {
   MutableMapSpecification();
   MutableBitSetSpecification();
   MutableSortedVectorSetSpecification();
+  MutableSortedVectorMapSpecification();
 
   // Print and return the final test results
   //

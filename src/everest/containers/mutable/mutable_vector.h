@@ -69,12 +69,18 @@ public:
     _memory.ReserveAtLeast(size);
   }
 
-  Option<T&> At(size_t offset) const noexcept {
-    if (offset < _length && offset > 0 && _memory != nullptr) {
-      return Some(_memory.Pointer()[offset]);
-    } else {
-      return None<T&>();
-    }
+  Option<const T&> At(size_t offset) const noexcept {
+    auto pointer = _memory.Pointer();
+    return (offset < _length && offset > 0 && pointer != nullptr)
+      ? Some(pointer[offset])
+      : None<T&>();
+  }
+
+  T* AtInPlace(size_t offset) noexcept {
+    auto pointer = _memory.MutablePointer();
+    return (offset < _length && offset > 0 && pointer != nullptr)
+      ? &pointer[offset]
+      : nullptr;
   }
 
   template <class Predicate>
@@ -105,6 +111,10 @@ public:
     return _memory.Pointer();
   }
 
+  T* MutablePointer() noexcept {
+    return _memory.MutablePointer();
+  }
+
   template <class F>
   void ForEach(F function) const noexcept {
     auto bucketSize    = _length;
@@ -117,7 +127,7 @@ public:
   template <class F>
   void MovingForEach(F function) noexcept {
     auto bucketSize    = _length;
-    auto bucketPointer = Pointer();
+    auto bucketPointer = _memory.MutablePointer();
     for (size_t i = 0; i < bucketSize; i++) {
       function(std::move(bucketPointer[i]));
     }
@@ -228,12 +238,12 @@ public:
     return result;
   }
 
-  int Hash() const noexcept {
-    int result = 37;
+  HashValue Hash() const noexcept {
+    unsigned int result = 37;
     ForEach([&](const T& item) {
-      result = 37 * result + Hashable<T>::Hash(item);
+      result = 37 * result + Hashable<T>::Hash(item).Value();
     });
-    return result;
+    return HashValue(result);
   }
 
   String ToHex() const noexcept {
@@ -320,11 +330,22 @@ public:
     return *this;
   }
 
-  template <class Predicate>
-  T* FindInPlace(Predicate predicate) noexcept {
+  template <class U>
+  T* FindInPlace(const U& item) noexcept {
     auto pointer = _memory.MutablePointer();
     for (size_t i = 0; i < _length; i++) {
-      if (predicate(pointer[i])) {
+      if (pointer[i] == item) {
+        return &pointer[i];
+      }
+    }
+    return nullptr;
+  }
+
+  template <class U>
+  const T* Find(const U& item) const noexcept {
+    auto pointer = _memory.Pointer();
+    for (size_t i = 0; i < _length; i++) {
+      if (pointer[i] == item) {
         return &pointer[i];
       }
     }

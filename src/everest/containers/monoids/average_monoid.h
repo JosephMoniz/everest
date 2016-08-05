@@ -5,6 +5,7 @@
 #include <everest/traits/unlawful/one.h>
 #include <everest/traits/unlawful/ord.h>
 #include <everest/traits/unlawful/bounded.h>
+#include <everest/types/string.h>
 
 namespace everest {
 
@@ -62,23 +63,17 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Ordering Compare(const AverageMonoid<T> &lhs,
-                                    const AverageMonoid<T> &rhs) noexcept
-  {
+  static Ordering Compare(const AverageMonoid<T> &lhs, const AverageMonoid<T> &rhs) noexcept {
     return Ord<T>::Compare(lhs.Value(), rhs.Value());
   }
 
-  static constexpr const AverageMonoid<T>& Min(const AverageMonoid<T> &lhs,
-                                               const AverageMonoid<T> &rhs) noexcept
-  {
+  static const AverageMonoid<T>& Min(const AverageMonoid<T> &lhs, const AverageMonoid<T> &rhs) noexcept {
     return (Compare(lhs, rhs) == Ordering::GREATER)
        ? rhs
        : lhs;
   }
 
-  static constexpr const AverageMonoid<T>& Max(const AverageMonoid<T> &lhs,
-                                               const AverageMonoid<T> &rhs) noexcept
-  {
+  static const AverageMonoid<T>& Max(const AverageMonoid<T> &lhs, const AverageMonoid<T> &rhs) noexcept {
     return (Compare(lhs, rhs) == Ordering::LESS)
        ? rhs
        : lhs;
@@ -92,9 +87,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr AverageMonoid<T> Add(const AverageMonoid<T>& lhs,
-                                        const AverageMonoid<T>& rhs) noexcept
-  {
+  static AverageMonoid<T> Add(const AverageMonoid<T>& lhs, const AverageMonoid<T>& rhs) noexcept {
     return AverageMonoid<T>(lhs._sum + rhs._sum, lhs._count + rhs._count);
   }
 
@@ -118,7 +111,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr AverageMonoid<T> Zero() {
+  static AverageMonoid<T> Zero() {
     return AverageMonoid<T>(Bounded<T>::MinValue());
   }
 

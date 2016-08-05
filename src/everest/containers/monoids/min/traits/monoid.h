@@ -12,7 +12,7 @@ template<class T>
 class Monoid<MinMonoid<T>> final {
 public:
 
-static constexpr bool exists = true;
+  static constexpr bool exists = true;
 
 };
 

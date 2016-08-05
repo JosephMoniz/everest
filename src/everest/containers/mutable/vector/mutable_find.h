@@ -14,9 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  template<class Predicate>
-  static T* FindInPlace(Predicate predicate, MutableVector<T>& vector) noexcept {
-    return vector.FindInPlace(predicate);
+  static T* FindInPlace(const T& item, MutableVector<T>& vector) noexcept {
+    return vector.FindInPlace(item);
   }
 
 };

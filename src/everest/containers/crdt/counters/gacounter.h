@@ -10,6 +10,7 @@
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/bounded.h>
 #include <everest/traits/unlawful/associative.h>
+#include <everest/traits/unlawful/one.h>
 
 namespace everest {
 
@@ -83,7 +84,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr GACounter<T> Zero() {
+  static GACounter<T> Zero() {
     return GACounter(Map());
   }
 
@@ -95,7 +96,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr GACounter<T> Add(const GACounter<T>& lhs, const GACounter<T>& rhs) noexcept {
+  static GACounter<T> Add(const GACounter<T>& lhs, const GACounter<T>& rhs) noexcept {
     return GACounter(lhs._actors + rhs._actors);
   }
 

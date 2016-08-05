@@ -17,26 +17,15 @@ public:
   static constexpr bool exists = true;
 
   static MutableMap<K, V>& PutInPlace(K&& key, V&& value, MutableMap<K, V>& container) noexcept {
-    auto bucket = container.GetAllocatedBucket(key);
-    container.RedactBucketSize(bucket);
-    FilterInPlace([&](auto& e){ return e.Key() != key; }, *bucket);
-    PushInPlace(MutableMapEntry<K, V>(std::move(key), std::move(value)), *bucket);
-    container.AddBucketSize(bucket);
-    return container.ResizeIfNecessary();
+    return container.PutInPlace(std::move(key), std::move(value));
   }
 
   static MutableMap<K, V>& PutInPlace(MutableMap<K, V>&& source, MutableMap<K, V>& container) noexcept {
-    ForEach(source, [&](MutableMapEntry<K, V>& entry) {
-      PutInPlace(std::move(entry.Key()), std::move(entry.Value()), container);
-    });
+    return container.PutInPlace(std::move(source));
   }
 
   static V* GetInPlace(const K& key, MutableMap<K, V>& container) noexcept {
-    auto bucket = container.GetBucket(key);
-    auto entry  = FindInPlace([&](auto& e){ return e.Key() == key; }, *bucket);
-    return entry == nullptr
-      ? nullptr
-      : &entry->Value();
+    return container.GetInPlace(key);
   };
 
 };

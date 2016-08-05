@@ -91,7 +91,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr PNCounter<T> Zero() {
+  static PNCounter<T> Zero() {
     return PNCounter(ZeroVal<GCounter<T>>::Zero(), ZeroVal<GCounter<T>>::Zero());
   }
 
@@ -103,10 +103,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr PNCounter<T> Add(const PNCounter<T>& lhs,
-                                    const PNCounter<T>& rhs) noexcept
-  {
-    return PNCounter(Ord<T>::Max(lhs._positive, rhs._positive), Ord<T>::Max(lhs._negative, rhs._negative));
+  static PNCounter<T> Add(const PNCounter<T>& lhs, const PNCounter<T>& rhs) noexcept {
+    return PNCounter(Max(lhs._positive, rhs._positive), Max(lhs._negative, rhs._negative));
   }
 
 };

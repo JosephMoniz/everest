@@ -32,9 +32,44 @@ public:
     return _wrapped.ConstSecond();
   }
 
+  bool Equals(const MutableMapEntry<K, V>& other) const noexcept {
+    return ConstKey() == other.ConstKey();
+  }
+
+  bool Equals(const K& other) const noexcept {
+    return ConstKey() == other;
+  }
+
+  Ordering Compare(const MutableMapEntry<K, V>& other) const noexcept {
+    return Ord<K>::Compare(ConstKey(), other.ConstKey());
+  }
+
+  Ordering Compare(const K& other) const noexcept {
+    return Ord<K>::Compare(ConstKey(), other);
+  }
+
+  const MutableMapEntry<K, V>& Min(const MutableMapEntry<K, V>& other) const noexcept {
+    return (Compare(other) == Ordering::GREATER)
+      ? other
+      : *this;
+  }
+
+  const MutableMapEntry<K, V>& Max(const MutableMapEntry<K, V> other) const noexcept {
+    return (Compare(other) == Ordering::LESS)
+      ? other
+      : *this;
+  }
+
+
+  String Show() const noexcept {
+    return Shows<K>::Show(ConstKey()) + String(": ") + Shows<V>::Show(ConstValue());
+  }
+
 };
 
 }
 
 #include <everest/containers/mutable/map/entry/eq.h>
+#include <everest/containers/mutable/map/entry/ord.h>
 #include <everest/containers/mutable/map/entry/show.h>
+#include <everest/containers/mutable/map/entry/hashable.h>

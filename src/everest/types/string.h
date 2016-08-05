@@ -6,6 +6,7 @@
 #include <everest/memory/memory.h>
 #include <everest/memory/mutable_memory.h>
 #include <everest/types/mutable/mutable_string.h>
+#include <everest/types/expressive/hash_value.h>
 
 namespace everest {
 
@@ -71,13 +72,45 @@ public:
     return _wrapped.Equals(other._wrapped);
   }
 
+  Ordering Compare(const String& other) const noexcept {
+    return _wrapped.Compare(other._wrapped);
+  }
+
+  const String& Min(const String& other) const noexcept {
+    return Compare(other) == Ordering::LESS
+      ? *this
+      : other;
+  }
+
+  const String& Max(const String& other) const noexcept {
+    return Compare(other) == Ordering::GREATER
+      ? *this
+      : other;
+  }
+
   template <class F>
-  void ForEach(const F& function) const noexcept {
+  void ForEach(F function) const noexcept {
     _wrapped.ForEach(function);
   }
 
-  unsigned int Hash() const noexcept {
+  HashValue Hash() const noexcept {
     return _wrapped.Hash();
+  }
+
+  String Copy() const noexcept {
+    return String(Pointer());
+  }
+
+  String Add(const String& other) const noexcept {
+    return String(_wrapped.Add(other._wrapped));
+  }
+
+  String Take(size_t size) const noexcept {
+    return String(_wrapped.Take(size));
+  }
+
+  String TakeWhile(Predicate<char> predicate) const noexcept {
+    return String(_wrapped.TakeWhile(predicate));
   }
 
 };

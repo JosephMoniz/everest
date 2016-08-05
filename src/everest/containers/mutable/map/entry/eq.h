@@ -15,15 +15,15 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const MutableMapEntry<K, V>& lhs, const MutableMapEntry<K, V>& rhs) noexcept {
-    return Eq<K>::Equals(lhs.ConstKey(), rhs.ConstKey());
+    return lhs.Equals(rhs);
   }
 
   static bool Equals(const K& lhs, const MutableMapEntry<K, V>& rhs) noexcept {
-    return Eq<K>::Equals(lhs, rhs.ConstKey());
+    return rhs.Equals(lhs);
   }
 
   static bool Equals(const MutableMapEntry<K, V>& lhs, const K& rhs) noexcept {
-    return Eq<K>::Equals(lhs.ConstKey(), rhs);
+    return lhs.Equals(rhs);
   }
 
 };

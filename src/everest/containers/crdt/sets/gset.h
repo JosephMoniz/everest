@@ -55,7 +55,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr GSet<T> Zero() {
+  static GSet<T> Zero() {
     return GSet();
   }
 
@@ -67,7 +67,7 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr GSet<T> Add(const GSet<T>& lhs, const GSet<T>& rhs) noexcept {
+  static GSet<T> Add(const GSet<T>& lhs, const GSet<T>& rhs) noexcept {
     return GSet(lhs.Value() + rhs.Value());
   }
 

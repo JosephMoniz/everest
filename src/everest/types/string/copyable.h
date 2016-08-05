@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = true;
 
   static String Copy(const String& string) noexcept {
-    return String(string.Pointer());
+    return string.Copy();
   }
 
 };
