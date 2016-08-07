@@ -111,20 +111,20 @@ Cryptography
   + [`Sha512Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha512/sha512_sink.h)
 
 ### HMAC Methods
-  + [`Md5`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/md5.h)
-  + [`Sha1`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha1.h)
-  + [`Sha224`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha224.h)
-  + [`Sha256`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha256.h)
-  + [`Sha384`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha384.h)
-  + [`Sha512`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha512.h)
+  + [`Md5`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/hmac_md5.h)
+  + [`Sha1`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/hmac_sha1.h)
+  + [`Sha224`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/hmac_sha224.h)
+  + [`Sha256`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/hmac_sha256.h)
+  + [`Sha384`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/hmac_sha384.h)
+  + [`Sha512`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/hmac_sha512.h)
   
 ### HMAC Sinks
-  + [`Md5Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/md5/md5_sink.h)
-  + [`Sha1Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha1/sha1_sink.h)
-  + [`Sha224Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha224/sha224_sink.h)
-  + [`Sha256Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha256/sha256_sink.h)
-  + [`Sha384Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha384/sha384_sink.h)
-  + [`Sha512Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha512/sha512_sink.h)
+  + [`Md5Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/md5/hmac_md5_sink.h)
+  + [`Sha1Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha1/hmac_sha1_sink.h)
+  + [`Sha224Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha224/hmac_sha224_sink.h)
+  + [`Sha256Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha256/hmac_sha256_sink.h)
+  + [`Sha384Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha384/hmac_sha384_sink.h)
+  + [`Sha512Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha512/hmac_sha512_sink.h)
 
 Concurrency
 -----------
