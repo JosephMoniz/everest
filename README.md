@@ -54,17 +54,30 @@ Containers
 
 ### Mutable Containers
 
-  + [`MutableArray<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_array.h)
-  + [`MutableVector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_vector.h)
-  + [`MutableMap<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_map.h)
-  + [`MutableSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/mutable/mutable_set.h)
+  + [`MutableArray<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_array.h)
+  + [`MutableVector<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_vector.h)
+  + [`MutableMap<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_map.h)
+  + [`MutableSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_set.h)
+  + [`MutableSortedVectorMap<K, V>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_sorted_vector_map.h)
+  + [`MutableSortedVectorSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_sorted_vector_set.h)  
+  + [`MutableBitSet`](https://github.com/JosephMoniz/everest/blob/master/src/everest/mutable_containers/mutable_bit_set.h)
 
 ### Immutable CRDTs
 
-  + [`GCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/gcounter.h)
-  + [`GACounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/gacounter.h)
-  + [`PNCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/pncounter.h)
-  + [`PNACounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/crdt/counters/pnacounter.h)
+  + [`GCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/counters/gcounter.h)
+  + [`GACounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/counters/gacounter.h)
+  + [`PNCounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/counters/pncounter.h)
+  + [`PNACounter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/counters/pnacounter.h)
+  + [`GSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/sets/gset.h)
+  + [`LWWSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/sets/lwwset.h)
+  + [`MCSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/sets/mcset.h)
+  + [`ORSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/sets/orset.h)
+  + [`TPSet<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crdt/sets/tpset.h)
+  
+### Probablistic Containers
+
+  + [`BloomFilter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/probablistic/bloom_filter.h)
+  + [`MutableBloomFilter<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/probablistic/mutable/mutable_bloom_filter.h)
   
 ### Immutable Monoids
 
@@ -72,6 +85,46 @@ Containers
   + [`MinMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/min_monoid.h)
   + [`AverageMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/average_monoid.h)
   + [`StdDeviationMonoid<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/containers/monoids/std_deviation_monoid.h)
+  
+### Deciders
+
+  + [`BinaryDecider<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/deciders/binary_decider.h)
+  + [`MultiVariantDecider<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/deciders/multi_variant_decider.h)
+  
+Cryptography
+------------
+
+### Hash Methods
+  + [`Md5`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/md5.h)
+  + [`Sha1`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha1.h)
+  + [`Sha224`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha224.h)
+  + [`Sha256`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha256.h)
+  + [`Sha384`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha384.h)
+  + [`Sha512`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha512.h)
+  
+### Hash Sinks
+  + [`Md5Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/md5/md5_sink.h)
+  + [`Sha1Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha1/sha1_sink.h)
+  + [`Sha224Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha224/sha224_sink.h)
+  + [`Sha256Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha256/sha256_sink.h)
+  + [`Sha384Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha384/sha384_sink.h)
+  + [`Sha512Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hash/sha512/sha512_sink.h)
+
+### HMAC Methods
+  + [`Md5`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/md5.h)
+  + [`Sha1`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha1.h)
+  + [`Sha224`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha224.h)
+  + [`Sha256`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha256.h)
+  + [`Sha384`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha384.h)
+  + [`Sha512`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha512.h)
+  
+### HMAC Sinks
+  + [`Md5Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/md5/md5_sink.h)
+  + [`Sha1Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha1/sha1_sink.h)
+  + [`Sha224Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha224/sha224_sink.h)
+  + [`Sha256Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha256/sha256_sink.h)
+  + [`Sha384Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha384/sha384_sink.h)
+  + [`Sha512Sink`](https://github.com/JosephMoniz/everest/blob/master/src/everest/crypto/hmac/sha512/sha512_sink.h)
 
 Concurrency
 -----------
@@ -126,11 +179,4 @@ Traits
   + [`Takeable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/takeable.h)
   + [`Unwrappable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/unwrappable.h)
   + [`Zero<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/zero.h)
-  
-Todo
-----
-  + A free list based `Pool<T>` container
-  + Implement thread pools
-  + Implement `ConcurrentShared<T>`
-  + An IO Abstraction suite around `kqueue()`
-  + An thread based facade to `mlock`/`munlock` for async `mmap`
+   

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <everest/types/uint64.h>
+#include <everest/traits/unlawful/ord.h>
 
 namespace everest {
 
@@ -17,7 +18,7 @@ public:
   }
 
   const LamportTime Witness(const LamportTime& other) const noexcept {
-    return LamportTime(Max(other._time, time) + 1);
+    return LamportTime(Max(other._time, _time) + 1);
   }
 
   uint64_t Time() const noexcept {
