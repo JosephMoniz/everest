@@ -14,39 +14,16 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Ordering Compare(const Option<T> &lhs,
-                                    const Option<T> &rhs) noexcept
-  {
-    return Match(lhs,
-      [&rhs]() {
-        return Match(rhs,
-          []()           { return Ordering::EQUAL; },
-          [](const T &x) { return Ordering::LESS; }
-        );
-      },
-      [&rhs](const T &x) {
-        return Match(rhs,
-          []()             { return Ordering::GREATER; },
-          [&x](const T &y) { return everest::Compare(x, y); }
-        );
-      }
-    );
+  static Ordering Compare(const Option<T>& lhs, const Option<T>& rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
-  static constexpr const Option<T>& Min(const Option<T> &lhs,
-                                        const Option<T> &rhs) noexcept
-  {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-      ? rhs
-      : lhs;
+  static const Option<T>& Min(const Option<T>& lhs, const Option<T>& rhs) noexcept {
+    return lhs.Min(rhs);
   }
 
-  static constexpr const Option<T>& Max(const Option<T> &lhs,
-                                        const Option<T> &rhs) noexcept
-  {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-      ? rhs
-      : lhs;
+  static const Option<T>& Max(const Option<T>& lhs, const Option<T>& rhs) noexcept {
+    return lhs.Max(rhs);
   }
 
 };

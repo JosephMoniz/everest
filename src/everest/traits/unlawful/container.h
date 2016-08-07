@@ -30,11 +30,13 @@ public:
 
 template<class T>
 size_t Length(const T& n) noexcept {
+  static_assert(Container<T>::exists, "T does not implement Container");
   return Container<T>::Length(n);
 }
 
 template<class T>
 bool IsEmpty(const T& n) noexcept {
+  static_assert(Container<T>::exists, "T does not implement Container");
   return Container<T>::IsEmpty(n);
 }
 

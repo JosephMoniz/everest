@@ -20,6 +20,7 @@ public:
 
 template <class T>
 auto MutablePointer(T& n) noexcept -> decltype(MutablePointable<T>::Pointer(n)) {
+  static_assert(MutablePointable<T>::exists, "T does not implement MutablePointable");
   return MutablePointable<T>::Pointer(n);
 }
 

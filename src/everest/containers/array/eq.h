@@ -15,14 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const Array<T, S>& lhs, const Array<T, S>& rhs) noexcept {
-    auto lhsPointer = Pointer(lhs);
-    auto rhsPointer = Pointer(rhs);
-    for (size_t i = 0; i < S; i++) {
-      if (lhsPointer[i] != rhsPointer[i]) {
-        return false;
-      }
-    }
-    return true;
+    return lhs.Equals(rhs);
   }
 
   template<size_t Rs>

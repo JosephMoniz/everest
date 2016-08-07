@@ -15,6 +15,7 @@ public:
 
   MutableSortedVectorSet() noexcept : _vector() { }
 
+  // TODO: Make this move and variadic instead
   MutableSortedVectorSet(std::initializer_list<T> list) noexcept {
     // TODO: Use quicksort instead of insertion sort
     _vector.ReserveAtLeast(list.size());

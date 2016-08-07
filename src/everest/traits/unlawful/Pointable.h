@@ -12,14 +12,15 @@ public:
   static constexpr bool exists = false;
 
   template <class U, class B>
-  static constexpr B Pointer(const U& n) noexcept {
+  static B Pointer(const U& n) noexcept {
     return Base::Pointer(n);
   }
 
 };
 
 template <class T>
-constexpr auto Pointer(const T& n) noexcept -> decltype(Pointable<T>::Pointer(n)) {
+auto Pointer(const T& n) noexcept -> decltype(Pointable<T>::Pointer(n)) {
+  static_assert(Pointable<T>::exists, "T does not implement Pointable");
   return Pointable<T>::Pointer(n);
 }
 

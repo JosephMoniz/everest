@@ -15,50 +15,48 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T Fold(const T& n) noexcept {
+  static T Fold(const T& n) noexcept {
     return Base::Fold(n);
   }
 
   template <class Fn, class M = typename std::result_of<Fn(T)>::type>
-  static constexpr M FoldMap(Fn f, const T& n) noexcept {
+  static M FoldMap(Fn f, const T& n) noexcept {
     return Base::FoldMap(f, n);
   }
 
   template <class Fn, class B>
-  static constexpr B FoldR(Fn f, const B& init, const T& n) noexcept {
+  static B FoldR(Fn f, const B& init, const T& n) noexcept {
     return Base::FoldR(f, init, n);
   }
 
   template <class Fn, class B>
-  static constexpr B FoldL(Fn f, const B& init, const T& n) noexcept {
+  static B FoldL(Fn f, const B& init, const T& n) noexcept {
     return Base::FoldL(f, init, n);
   }
 
 };
 
 template <class F>
-constexpr auto Fold(const F& container) noexcept {
+auto Fold(const F& container) noexcept -> decltype(Foldable<F>::Fold(container)) {
+  static_assert(Foldable<F>::exists, "T does not implement Foldable");
   return Foldable<F>::Fold(container);
 }
 
 template <class Fn, class F>
-constexpr auto FoldMap(Fn f, const F& container) noexcept {
+auto FoldMap(Fn f, const F& container) noexcept -> decltype(Foldable<F>::FoldMap(f, container)) {
+  static_assert(Foldable<F>::exists, "T does not implement Foldable");
   return Foldable<F>::FoldMap(f, container);
 }
 
 template <class F, class Fn, class B>
-constexpr B FoldR(Fn f,
-                  const B& init,
-                  const F& container) noexcept
-{
+B FoldR(Fn f, const B& init, const F& container) noexcept {
+  static_assert(Foldable<F>::exists, "T does not implement Foldable");
   return Foldable<F>::FoldR(f, init, container);
 }
 
 template <class F, class Fn, class B>
-constexpr B FoldL(Fn f,
-                  const B& init,
-                  const F& container) noexcept
-{
+B FoldL(Fn f, const B& init, const F& container) noexcept {
+  static_assert(Foldable<F>::exists, "T does not implement Foldable");
   return Foldable<F>::FoldL(f, init, container);
 }
 

@@ -15,34 +15,22 @@ public:
   static constexpr bool exists = true;
 
   static T Fold(const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [](const E& error) { return ZeroVal<T>::Zero(); },
-      [&](const T& ok)   { return ok; }
-    );
+    return checked.Fold();
   }
 
   template <class Fn, class M = typename std::result_of<Fn(T)>::type>
   static M FoldMap(Fn f, const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [](const E& error) { return ZeroVal<M>::Zero(); },
-      [&](const T& ok)   { return f(ok); }
-    );
+    return checked.FoldMap(f);
   }
 
   template <class Fn, class B>
   static B FoldR(Fn f, const B& init, const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [&](const E& error) { return init; },
-      [&](const T& ok)    { return f(init, ok); }
-    );
+    return checked.FoldR(init, f);
   }
 
   template <class Fn, class B>
   static B FoldL(Fn f, const B& init, const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [&](const E& error) { return init; },
-      [&](const T& ok)    { return f(init, ok); }
-    );
+    return checked.FoldL(init, f);
   }
 
 };

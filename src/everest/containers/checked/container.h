@@ -15,17 +15,11 @@ public:
   static constexpr bool exists = true;
 
   static size_t Length(const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [](const E& error) { return 0u; },
-      [](const T& ok)    { return 1u; }
-    );
+    return checked.Length();
   }
 
-  static bool IsEmpty(const Checked<E, T>& o) noexcept {
-    return Match(o,
-      [](const E& error) { return true; },
-      [](const T& ok)    { return false; }
-    );
+  static bool IsEmpty(const Checked<E, T>& checked) noexcept {
+    return checked.IsEmpty();
   }
 
 };

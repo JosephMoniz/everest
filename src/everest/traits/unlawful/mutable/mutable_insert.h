@@ -26,12 +26,14 @@ public:
 };
 
 template <class T, class U>
-T& InsertInPlace(const U& item, size_t position, T& stack) noexcept {
-  return MutableInsert<T>::InsertInPlace(item, position, stack);
+T& InsertInPlace(const U& item, size_t position, T& container) noexcept {
+  static_assert(MutableInsert<T>::exists, "T does not implement MutableInsert");
+  return MutableInsert<T>::InsertInPlace(item, position, container);
 };
 
 template <class T, class U>
 T& InsertInPlace(U&& item, size_t position, T& stack) noexcept {
+  static_assert(MutableInsert<T>::exists, "T does not implement MutableInsert");
   return MutableInsert<T>::InsertInPlace(std::move(item), position, stack);
 };
 

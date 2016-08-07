@@ -72,8 +72,8 @@ public:
   Option<const T&> At(size_t offset) const noexcept {
     auto pointer = _memory.Pointer();
     return (offset < _length && offset > 0 && pointer != nullptr)
-      ? Some(pointer[offset])
-      : None<T&>();
+      ? Option<T&>::Some(pointer[offset])
+      : Option<T&>::None();
   }
 
   T* AtInPlace(size_t offset) noexcept {

@@ -22,6 +22,7 @@ public:
 
 template <class T, class F>
 void ForEach(const T& container, const F& function) noexcept {
+  static_assert(Iteration<T>::exists, "T does not implement Iteration");
   return Iteration<T>::ForEach(container, function);
 }
 

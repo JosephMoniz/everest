@@ -11,6 +11,8 @@ template <>
 class Ord<Int64> final {
 public:
 
+  static constexpr bool exists = true;
+
   static Ordering Compare(const Int64 lhs, const Int64 rhs) noexcept {
     return lhs.Compare(rhs);
   }

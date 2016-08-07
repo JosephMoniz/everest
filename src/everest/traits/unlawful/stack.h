@@ -30,17 +30,20 @@ public:
 };
 
 template <class T, class U>
-constexpr T Push(const U& item, const T& stack) noexcept {
+T Push(const U& item, const T& stack) noexcept {
+  static_assert(Stack<T>::exists, "T does not implement Stack");
   return Stack<T>::Push(item, stack);
 };
 
 template <class T>
-constexpr T Pop(const T& stack) noexcept {
+T Pop(const T& stack) noexcept {
+  static_assert(Stack<T>::exists, "T does not implement Stack");
   return Stack<T>::Pop(stack);
 };
 
 template <class T>
-constexpr auto Top(const T& stack) noexcept -> decltype(Stack<T>::Pop(stack)) {
+auto Top(const T& stack) noexcept -> decltype(Stack<T>::Pop(stack)) {
+  static_assert(Stack<T>::exists, "T does not implement Stack");
   return Stack<T>::Top(stack);
 };
 

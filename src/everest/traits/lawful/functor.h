@@ -22,6 +22,7 @@ public:
 
 template <class Fn, class A>
 auto Map(Fn f, A&& n) noexcept -> decltype(Functor<A>::Map(f, std::forward<A>(n))) {
+  static_assert(Functor<A>::exists, "T does not implement Functor");
   return Functor<A>::Map(f, std::forward<A>(n));
 }
 

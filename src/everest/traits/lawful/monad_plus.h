@@ -13,14 +13,15 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T MPlus(const T& lhs, const T& rhs) noexcept {
+  static T MPlus(const T& lhs, const T& rhs) noexcept {
     return Base::MPlus(lhs, rhs);
   }
 
 };
 
 template <class M>
-constexpr M MPlus(const M& a, const M& b) noexcept {
+M MPlus(const M& a, const M& b) noexcept {
+  static_assert(MonadPlus<M>::exists, "T does not implement MonadPlus");
   return MonadPlus<M>::MPlus(a, b);
 }
 

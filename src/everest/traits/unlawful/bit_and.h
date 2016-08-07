@@ -13,7 +13,7 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T BinaryAnd(const T& lhs, const T& rhs) noexcept {
+  static T BinaryAnd(const T& lhs, const T& rhs) noexcept {
     return Base::BinaryAnd(lhs, rhs);
   }
 
@@ -33,6 +33,7 @@ public:
 
 template <class T>
 T BinaryAnd(const T& lhs, const T& rhs) noexcept {
+  static_assert(BitAnd<T>::exists, "T does not implement BitAnd");
   return BitAnd<T>::BinaryAnd(lhs, rhs);
 }
 

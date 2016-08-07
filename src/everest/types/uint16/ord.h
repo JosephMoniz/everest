@@ -11,6 +11,8 @@ template <>
 class Ord<UInt16> final {
 public:
 
+  static constexpr bool exists = true;
+
   static Ordering Compare(const UInt16 lhs, const UInt16 rhs) noexcept {
     return lhs.Compare(rhs);
   }

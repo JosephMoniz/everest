@@ -16,15 +16,15 @@ public:
   static constexpr bool exists = true;
 
   static Vector<T> Push(const T& item, const Vector<T>& vector) noexcept {
-    return Vector<T>(Stack<MutableVector<T>>::Push(item, vector));
+    return vector.Push(item);
   }
 
   static Vector<T> Pop(const Vector<T>& vector) noexcept {
-    return Vector<T>(Stack<MutableVector<T>>::Pop(vector));
+    return vector.Pop();
   }
 
   static Option<const T&> Top(const Vector<T>& vector) noexcept {
-    return Stack<MutableVector<T>>::Top(vector);
+    return vector.Top();
   }
 
 };

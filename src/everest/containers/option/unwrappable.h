@@ -14,19 +14,13 @@ public:
 
   static constexpr bool exists = true;
 
-  template <class D>
-  static constexpr T GetOrElse(D d, const Option<T>& f) noexcept {
-    return Match(f,
-      [&d]()         { return d(); },
-      [](const T& m) { return m; }
-    );
+  template <class F>
+  static T GetOrElse(F alternative, const Option<T>& option) noexcept {
+    return option.GetOrElse(alternative);
   }
 
-  static constexpr T GetOrDefault(const T& d, const Option<T>& n) noexcept {
-    return Match(n,
-      [&d]()         { return d; },
-      [](const T& m) { return m; }
-    );
+  static T GetOrDefault(const T& alternative, const Option<T>& option) noexcept {
+    return option.GetOrDefault(alternative);
   }
 
 };

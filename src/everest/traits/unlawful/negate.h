@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr U Negate(const U& n) noexcept {
+  static U Negate(const U& n) noexcept {
     return Base::Negate(n);
   }
 
@@ -33,7 +33,8 @@ public:
 };
 
 template <class T>
-constexpr T Negate(const T& n) noexcept {
+T Negate(const T& n) noexcept {
+  static_assert(Negation<T>::exists, "T does not implement Negation");
   return Negation<T>::Negate(n);
 }
 

@@ -12,7 +12,7 @@ template <class E, class T>
 class Monoid<Checked<E, T>> final {
 public:
 
-static constexpr bool exists = true;
+  static constexpr bool exists = true;
 
 };
 

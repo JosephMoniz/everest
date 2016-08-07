@@ -16,12 +16,12 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr U Multiply(const U& lhs, const U& rhs) noexcept {
+  static U Multiply(const U& lhs, const U& rhs) noexcept {
     return Base::Multiply(lhs, rhs);
   }
 
   template <class U>
-  static constexpr Function<const U&, U> Multiply(const U& lhs) noexcept {
+  static Function<const U&, U> Multiply(const U& lhs) noexcept {
     return [&](const U& rhs) {
       return Base::Multiply(lhs, rhs);
     };
@@ -42,19 +42,22 @@ public:
 };
 
 template <class T>
-constexpr T Multiply(const T& lhs, const T& rhs) noexcept {
+T Multiply(const T& lhs, const T& rhs) noexcept {
+  static_assert(Multipliable<T>::exists, "T does not implement Multipliable");
   return Multipliable<T>::Multiply(lhs, rhs);
 }
 
 template <class T>
-constexpr Function<const T&, T> Multiply(const T& lhs) noexcept {
+Function<const T&, T> Multiply(const T& lhs) noexcept {
+  static_assert(Multipliable<T>::exists, "T does not implement Multipliable");
   return [&](const T& rhs) {
     return Multipliable<T>::Multiply(lhs, rhs);
   };
 }
 
 template <class T>
-constexpr T operator*(const T& lhs, const T& rhs) noexcept {
+T operator*(const T& lhs, const T& rhs) noexcept {
+  static_assert(Multipliable<T>::exists, "T does not implement Multipliable");
   return Multipliable<T>::Multiply(lhs, rhs);
 }
 

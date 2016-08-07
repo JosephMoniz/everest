@@ -14,11 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Contains(const T& item, const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [](const E& error)   { return false; },
-      [&item](const T& ok) { return item == ok; }
-    );
+  static bool Contains(const T& item, const Checked<E, T>& checked) noexcept {
+    return checked.Contains(item);
   }
 
 };

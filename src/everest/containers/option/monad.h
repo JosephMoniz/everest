@@ -15,23 +15,14 @@ public:
 
   static constexpr bool exists = true;
 
-  template <class F,
-            class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  static constexpr Option<B> FlatMap(F f, const Option<T>& m) noexcept {
-    return Match(m,
-      [&m]()           { return None<B>(); },
-      [&f](const T& t) { return f(t); }
-    );
+  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  static Option<B> FlatMap(F f, const Option<T>& option) noexcept {
+    return option.FlatMap(f);
   }
 
   template <class B>
-  static constexpr Option<B> Then(const Option<T>& m,
-                                  const Option<B>& n) noexcept
-  {
-    return Match(m,
-      []()        { return None<B>(); },
-      [&](auto _) { return n; }
-    );
+  static Option<B> Then(const Option<T>& first, const Option<B>& second) noexcept {
+    return first.Then(second);
   }
 
 };

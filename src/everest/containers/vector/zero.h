@@ -14,8 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Vector<T> Zero() noexcept {
-    return Vector<T>();
+  static Vector<T> Zero() noexcept {
+    return Vector<T>::Zero();
   }
 
 };

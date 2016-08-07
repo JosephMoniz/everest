@@ -11,6 +11,8 @@ template <>
 class Ord<Size> final {
 public:
 
+  static constexpr bool exists = true;
+
   static Ordering Compare(const Size lhs, const Size rhs) noexcept {
     return lhs.Compare(rhs);
   }

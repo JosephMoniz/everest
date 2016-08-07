@@ -23,6 +23,7 @@ public:
 
 template <class F, class P>
 F& FilterInPlace(P p, F& n) noexcept {
+  static_assert(MutableFilter<F>::exists, "F does not implement MutableFilter");
   return MutableFilter<F>::FilterInPlace(p, n);
 }
 

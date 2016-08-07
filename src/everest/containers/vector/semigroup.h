@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static Vector<T> Add(const Vector<T>& lhs, const Vector<T>& rhs) noexcept {
-    return Vector<T>(Semigroup<MutableVector<T>>::Add(lhs._wrapped, rhs._wrapped));
+    return lhs.Add(rhs);
   }
 
 };

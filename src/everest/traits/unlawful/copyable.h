@@ -16,7 +16,7 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T Copy(const T& n) {
+  static T Copy(const T& n) {
     return Base::Copy(n);
   }
 
@@ -24,6 +24,7 @@ public:
 
 template<class T>
 T Copy(const T& n) noexcept {
+  static_assert(Copyable<T>::exists, "T does not implement Copyable");
   return Copyable<T>::Copy(n);
 }
 

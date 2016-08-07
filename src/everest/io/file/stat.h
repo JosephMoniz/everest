@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sys/stat.h>
+#include <everest/containers/checked.h>
 
 namespace everest {
 namespace file {
@@ -17,9 +18,9 @@ public:
     Stat stats;
     auto result = stat(filePath, &stats._stats);
     if (result == 0) {
-      return Ok<int, Stat>(std::move(stats));
+      return Checked<int, Stat>::Ok(std::move(stats));
     } else {
-      return Error<int, Stat>(std::move(result));
+      return Checked<int, Stat>::Error(std::move(result));
     }
   }
 
@@ -31,9 +32,9 @@ public:
     Stat stats;
     auto result = fstat(file.Descriptor(), &stats._stats);
     if (result == 0) {
-        return Ok<int, Stat>(std::move(stats));
+        return Checked<int, Stat>::Ok(std::move(stats));
     } else {
-        return Error<int, Stat>(std::move(result));
+        return Checked<int, Stat>::Error(std::move(result));
     }
   }
 

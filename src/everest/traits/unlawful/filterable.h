@@ -24,6 +24,7 @@ public:
 
 template <class F, class P>
 auto Filter(P p, F&& n) noexcept -> decltype(Filterable<F>::Filter(p, std::forward<F>(n))) {
+  static_assert(Filterable<F>::exists, "T does not implement Filterable");
   return Filterable<F>::Filter(p, std::forward<F>(n));
 }
 

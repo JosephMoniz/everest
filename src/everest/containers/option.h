@@ -3,6 +3,7 @@
 #include <utility>
 #include <everest/containers/option/option_type.h>
 #include <everest/traits/unlawful/fundamental.h>
+#include <everest/meta/nth_arg.h>
 
 namespace everest {
 
@@ -32,6 +33,18 @@ public:
     }
   }
 
+  static Option<T> Some(const T& option) noexcept {
+    return Option<T>(option);
+  }
+
+  static Option<T> Some(T&& option) noexcept {
+    return Option<T>(std::forward<T>(option));
+  }
+
+  static Option<T> None() noexcept {
+    return Option<T>();
+  }
+
   OptionType GetType() const noexcept {
     return _tag;
   };
@@ -44,60 +57,183 @@ public:
     return std::move(*reinterpret_cast<T*>((T*)&_value));
   }
 
-};
+  bool IsSome() const noexcept {
+    return _tag == OptionType::SOME;
+  }
 
-template<class T>
-Option<T> Some(const T& option) {
-  return Option<T>(option);
-}
+  bool IsNone() const noexcept {
+    return _tag == OptionType::NONE;
+  }
 
-template<class T>
-Option<T> Some(T&& option) {
-  return Option<T>(std::forward<T>(option));
-}
+  size_t Length() const noexcept {
+    return IsSome()
+      ? 1
+      : 0;
+  }
 
-template<class T>
-Option<T> None() {
-  return Option<T>();
-}
+  bool IsEmpty() const noexcept {
+    return IsNone();
+  }
 
-template <class T, class N, class S>
-auto Match(const Option<T>& o, N n, S s) noexcept -> decltype(n()) {
-  return (o.GetType() == OptionType::NONE)
-    ? n()
-    : s(o.Get());
-}
+  bool Contains(const T& item) const noexcept {
+    return IsSome() && Get() == item;
+  }
 
-template <class T>
-class Iteration<Option<T>> final {
-public:
+  const Option<T>& Alt(const Option<T>& other) const noexcept {
+    return IsSome()
+      ? *this
+      : other;
+  }
 
-  static constexpr bool exists = true;
+  bool Equals(const Option<T>& other) const noexcept {
+    if (IsSome()) {
+      return other.IsSome() && Get() == other.Get();
+    } else {
+      return !other.IsSome();
+    }
+  }
+
+  T Fold() const noexcept {
+    return IsSome()
+      ? Get()
+      : ZeroVal<T>::Zero();
+  }
+
+  template <class Fn, class M = typename std::result_of<Fn(T)>::type>
+  M FoldMap(Fn f) const noexcept {
+    return IsSome()
+      ? f(Get())
+      : ZeroVal<M>::Zero();
+  }
+
+  template <class Fn, class B>
+  B FoldR(const B& init, Fn f) const noexcept {
+    return IsSome()
+      ? f(init, Get())
+      : init;
+  }
+
+  template <class Fn, class B>
+  B FoldL(const B& init, Fn f) const noexcept {
+    return IsSome()
+      ? f(init, Get())
+      : init;
+  }
+
+  template <class F, class B = typename std::result_of<F(T)>::type>
+  Option<B> Map(F f) const noexcept {
+    return IsSome()
+      ? Option<B>::Some(f(Get()))
+      : Option<B>::None();
+  }
+
+  HashValue Hash() const noexcept {
+    return IsSome()
+      ? Hashable<T>::Hash(Get())
+      : HashValue(0u);
+  }
+
+  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  Option<B> FlatMap(F f) const noexcept {
+    return IsSome()
+      ? f(Get())
+      : Option<B>::None();
+  }
+
+  template <class B>
+  Option<B> Then(const Option<B>& second) const noexcept {
+    return IsSome()
+      ? second
+      : *this;
+  }
+
+  Option<T> Add(const Option<T>& other) const noexcept {
+    if (IsSome()) {
+      if (other.IsSome()) {
+        return Option<T>::Some(Get() + other.Get());
+      } else {
+        return *this;
+      }
+    } else {
+      return other;
+    }
+  }
+
+  template <class P>
+  Option<T> Filter(P predicate) const noexcept {
+    if (IsSome()) {
+      return predicate(Get())
+        ? *this
+        : Option<T>::None();
+    } else {
+      return Option<T>::None();
+    }
+  }
+
+  Ordering Compare(const Option<T>& other) const noexcept {
+    if (IsSome()) {
+      if (other.IsSome()) {
+        return Ord<T>::Compare(Get(), other.Get());
+      } else {
+        return Ordering::GREATER;
+      }
+    } else {
+      if (other.IsSome()) {
+        return Ordering::LESS;
+      } else {
+        return Ordering::EQUAL;
+      }
+    }
+  }
+
+  const Option<T>& Min(const Option<T>& other) const noexcept {
+    return (Compare(other) == Ordering::GREATER)
+      ? other
+      : *this;
+  }
+
+  const Option<T>& Max(const Option<T>& other) const noexcept {
+    return (Compare(other) == Ordering::LESS)
+      ? other
+      : *this;
+  }
+
+  const Option<T>& MPlus(const Option<T>& other) const noexcept {
+    return IsSome()
+      ? *this
+      : other;
+  }
 
   template <class F>
-  static void ForEach(const Option<T>& container, const F& function) noexcept {
-    if (container.GetType() == OptionType::SOME) {
-      function(container.Get());
-    }
+  T GetOrElse(F alternative) const noexcept {
+    return IsSome()
+      ? Get()
+      : alternative();
+  }
+
+  T GetOrDefault(const T& alternative) const noexcept {
+    return IsSome()
+      ? Get()
+      : alternative;
+  }
+
+  String Show() const noexcept {
+    return IsSome()
+      ? String("Some(") + Shows<T>::Show(Get()) + String(")")
+      : String("None");
+  }
+
+  template <class N, class S>
+  auto Match(N n, S s) noexcept -> decltype(n()) {
+    return (GetType() == OptionType::NONE)
+      ? n()
+      : s(Get());
+  }
+
+  static Option<T> Zero() noexcept {
+    return Option<T>::None();
   }
 
 };
 
 }
-
-#include "everest/containers/option/containable.h"
-#include "everest/containers/option/container.h"
-#include "everest/containers/option/alternative.h"
-#include "everest/containers/option/eq.h"
-#include "everest/containers/option/foldable.h"
-#include "everest/containers/option/functor.h"
-#include "everest/containers/option/hashable.h"
-#include "everest/containers/option/monad.h"
-#include "everest/containers/option/semigroup.h"
-#include "everest/containers/option/zero.h"
-#include "everest/containers/option/monoid.h"
-#include "everest/containers/option/filterable.h"
-#include "everest/containers/option/ord.h"
-#include "everest/containers/option/monad_plus.h"
-#include "everest/containers/option/unwrappable.h"
-#include "everest/containers/option/shows.h"

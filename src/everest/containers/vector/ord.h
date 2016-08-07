@@ -15,19 +15,15 @@ public:
   static constexpr bool exists = true;
 
   static Ordering Compare(const Vector<T>& lhs, const Vector<T>& rhs) noexcept {
-    return Ord<MutableVector<T>>::Compare(lhs._wrapped, rhs._wrapped);
+    return lhs.Compare(rhs);
   }
 
   static const Vector<T>& Min(const Vector<T>& lhs, const Vector<T>& rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-      ? rhs
-      : lhs;
+    return lhs.Min(rhs);
   }
 
   static const Vector<T>& Max(const Vector<T>& lhs, const Vector<T>& rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-      ? rhs
-      : lhs;
+    return lhs.Max(rhs);
   }
 
 };

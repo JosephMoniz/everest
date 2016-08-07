@@ -22,6 +22,7 @@ public:
 
 template <class T, class U>
 auto PerformFunnel(U&& item, T& sink) noexcept -> decltype(Funnel<T>::PerformFunnel(std::forward<U>(item), sink)) {
+  static_assert(Funnel<T>::exists, "T does not implement Funnel");
   return Funnel<T>::PerformFunnel(std::forward<U>(item), sink);
 }
 

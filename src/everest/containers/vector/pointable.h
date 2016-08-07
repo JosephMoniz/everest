@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static const T* Pointer(const Vector<T>& vector) noexcept {
-    return Pointable<MutableVector<T>>::Pointer(vector._wrapped);
+    return vector.Pointer();
   }
 
 };

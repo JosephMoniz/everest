@@ -17,12 +17,12 @@ public:
   static constexpr bool exists = true;
 
   static Vector<T> Take(size_t length, const Vector<T>& vector) noexcept {
-    return Vector<T>(Takeable<MutableVector<T>>::Take(length, vector._wrapped));
+    return vector.Take(length);
   }
 
   template<class Predicate>
   static Vector<T> TakeWhile(Predicate predicate, const Vector<T>& vector) noexcept {
-    return Vector<T>(Takeable<MutableVector<T>>::TakeWhile(predicate, vector._wrapped));
+    return vector.TakeWhile(predicate);
   }
 
 };

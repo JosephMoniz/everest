@@ -18,12 +18,12 @@ public:
   static constexpr bool exists = true;
 
   static Vector<T> Drop(size_t length, const Vector<T>& vector) noexcept {
-    return Droppable<MutableVector<T>>::Drop(length, vector._wrapped);
+    return vector.Drop(length);
   }
 
   template<class Predicate>
   static Vector<T> DropWhile(Predicate predicate, const Vector<T>& vector) noexcept {
-    return Droppable<MutableVector<T>>::DropWhile(predicate, vector._wrapped);
+    return vector.DropWhile(predicate);
   }
 
 };

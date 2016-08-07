@@ -36,11 +36,13 @@ public:
 
 template <class T>
 HashValue Hash(const T& hashable) noexcept {
+  static_assert(Hashable<T>::exists, "T does not implement Hashable");
   return Hashable<T>::Hash(hashable);
 }
 
 template <class T>
 HashValue SeededHash(unsigned int seed, const T& hashable) noexcept {
+  static_assert(Hashable<T>::exists, "T does not implement Hashable");
   return HashValue(37 * seed + Hashable<T>::Hash(hashable).Value());
 }
 
@@ -54,6 +56,7 @@ HashValue MultiHash(size_t count, HashValue hash) noexcept {
 
 template <class T>
 HashValue MultiHash(size_t count, const T& hashable) noexcept {
+  static_assert(Hashable<T>::exists, "T does not implement Hashable");
   return MultiHash(count, Hashable<T>::Hash(hashable));
 }
 

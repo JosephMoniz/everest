@@ -24,7 +24,10 @@ class Checked final {
 public:
 
   template <class U = T>
-  Checked(const CheckedType& tag, const T value, typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(tag) {
+  Checked(const CheckedType& tag,
+          const T value,
+          typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(tag)
+  {
     new (&_value) T(value);
   }
 
@@ -33,7 +36,10 @@ public:
   }
 
   template <class U = E>
-  Checked(const CheckedType& tag, const E value, typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(tag) {
+  Checked(const CheckedType& tag,
+          const E value,
+          typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(tag)
+  {
     new (&_value) E(value);
   }
 
@@ -49,7 +55,23 @@ public:
     }
   }
 
-  constexpr CheckedType GetType() const noexcept {
+  static Checked<E, T> Error(const E& error) noexcept {
+    return Checked<E, T>(CheckedType::ERROR, error);
+  }
+
+  static Checked<E, T> Error(E&& error) noexcept {
+    return Checked<E, T>(CheckedType::ERROR, std::forward<E>(error));
+  }
+
+
+  static Checked<E, T> Ok(const T& ok) noexcept {
+    return Checked<E, T>(CheckedType::OK, ok);
+  }
+  static Checked<E, T> Ok(T&& ok) noexcept {
+    return Checked<E, T>(CheckedType::OK, std::forward<T>(ok));
+  }
+
+  CheckedType GetType() const noexcept {
     return _tag;
   };
 
@@ -69,58 +91,172 @@ public:
     return std::move(*reinterpret_cast<E*>((data_t*)&_value));
   }
 
-  constexpr bool IsOk() const noexcept {
+  bool IsOk() const noexcept {
     return GetType() == CheckedType::OK;
   }
 
-  constexpr bool IsError() const noexcept {
+  bool IsError() const noexcept {
     return GetType() == CheckedType::ERROR;
+  }
+
+  const Checked<E, T>& Alt(const Checked<E, T>& other) const noexcept {
+    return IsOk()
+      ? *this
+      : other;
+  }
+
+  bool Contains(const T& item) const noexcept {
+    return IsOk()
+      ? item == Get()
+      : false;
+  }
+
+  size_t Length() const noexcept {
+    return IsOk()
+      ? 1
+      : 0;
+  }
+
+  bool IsEmpty() const noexcept {
+    return IsError();
+  }
+
+  bool Equals(const Checked <E, T>& rhs) const noexcept {
+    if (IsOk()) {
+      return rhs.IsOk() && Get() == rhs.Get();
+    } else {
+      return !rhs.IsOk() && GetError() == rhs.GetError();
+    }
+  }
+
+  T Fold() const noexcept {
+    return IsOk()
+      ? Get()
+      : ZeroVal<T>::Zero();
+  }
+
+  template <class Fn, class M = typename std::result_of<Fn(T)>::type>
+  M FoldMap(Fn f) const noexcept {
+    return IsOk()
+      ? f(Get())
+      : ZeroVal<T>::Zero();
+  }
+
+  template <class Fn, class B>
+  B FoldR(const B& init, Fn f) const noexcept {
+    return IsOk()
+      ? f(init, Get())
+      : ZeroVal<T>::Zero();
+  }
+
+  template <class Fn, class B>
+  B FoldL(const B& init, Fn f) const noexcept {
+    return IsOk()
+      ? f(init, Get())
+      : ZeroVal<T>::Zero();
+  }
+
+  template <class F, class B = typename std::result_of<F(T)>::type>
+  Checked<E, B> Map(F f) const noexcept {
+    return IsOk()
+      ? Checked<E, B>::Ok(f(Get()))
+      : Checked<E, B>::Error(GetError());
+  }
+
+  HashValue Hash() const noexcept {
+    return IsOk()
+      ? Hashable<T>::Hash(Get())
+      : Hashable<E>::Hash(GetError());
+  }
+
+  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 1>>
+  Checked<E, B> FlatMap(F f) const noexcept {
+    return IsOk()
+      ? f(Get())
+      : Checked<E, B>::Error(GetError());
+  }
+
+  template <class B>
+  const Checked<E, B>& Then(const Checked<E, B>& other) const noexcept {
+    return IsOk()
+      ? other
+      : *this;
+  }
+
+  Ordering Compare(const Checked<E, T>& other) const noexcept {
+    if (IsOk()) {
+      if (other.IsOk()) {
+        return Ord<T>::Compare(Get(), other.Get());
+      } else {
+        return Ordering::GREATER;
+      }
+    } else {
+      if (other.IsOk()) {
+        return Ordering::LESS;
+      } else {
+        return Ord<E>::Compare(GetError(), other.GetError());
+      }
+    }
+  }
+
+  const Checked<E, T>& Min(const Checked<E, T>& other) const noexcept {
+    return (Compare(other) == Ordering::GREATER)
+      ? other
+      : *this;
+  }
+
+  const Checked<E, T>& Max(const Checked<E, T>& other) const noexcept {
+    return (Compare(other) == Ordering::LESS)
+      ? other
+      : *this;
+  }
+
+  Checked<E, T> Add(const Checked<E, T>& other) const noexcept {
+    if (IsOk()) {
+      if (other.IsOk()) {
+        return Checked<E, T>::Ok(Get() + other.Get());
+      } else {
+        return other;
+      }
+    } else {
+      return *this;
+    }
+  }
+
+  String Show() const noexcept {
+    if (IsOk()) {
+      return String("Ok(") + Shows<T>::Show(Get()) + String(")");
+    } else {
+      return String("Error(") + Shows<E>::Show(GetError()) + String(")");
+    }
+  }
+
+  template <class F>
+  T GetOrElse(F alternative) const noexcept {
+    return IsOk()
+      ? Get()
+      : alternative();
+  }
+
+  const T& GetOrDefault(const T& alternative) const noexcept {
+    return IsOk()
+      ? Get()
+      : alternative;
+  }
+
+  template <class Ef, class Of>
+  auto Match(Ef error, Of ok) noexcept -> decltype(ok(Get())) {
+    return (IsOk())
+      ? ok(Get())
+      : error(GetError());
+  }
+
+  static Checked<E, T> Zero() {
+    return Checked<E, T>::Ok(ZeroVal<T>::Zero());
   }
 
 };
 
-template<class E, class T>
-Checked<E, T> Error(const E& error) {
-  return Checked<E, T>(CheckedType::ERROR, error);
 }
-
-template<class E, class T>
-Checked<E, T> Error(E&& error) {
-  return Checked<E, T>(CheckedType::ERROR, std::forward<E>(error));
-}
-
-
-template<class E, class T>
-Checked<E, T> Ok(const T& ok) {
-  return Checked<E, T>(CheckedType::OK, ok);
-}
-template<class E, class T>
-Checked<E, T> Ok(T&& ok) {
-  return Checked<E, T>(CheckedType::OK, std::forward<T>(ok));
-}
-
-template <class E, class T, class Ef, class Of>
-auto Match(const Checked<E, T>& checked, Ef error, Of ok) noexcept -> decltype(ok(checked.Get())) {
-  return (checked.IsOk())
-    ? ok(checked.Get())
-    : error(checked.GetError());
-}
-
-}
-
-#include "everest/containers/checked/alternative.h"
-#include "everest/containers/checked/containable.h"
-#include "everest/containers/checked/container.h"
-#include "everest/containers/checked/eq.h"
-#include "everest/containers/checked/foldable.h"
-#include "everest/containers/checked/functor.h"
-#include "everest/containers/checked/hashable.h"
-#include "everest/containers/checked/monad.h"
-#include "everest/containers/checked/monoid.h"
-#include "everest/containers/checked/ord.h"
-#include "everest/containers/checked/semigroup.h"
-#include "everest/containers/checked/shows.h"
-#include "everest/containers/checked/unwrappable.h"
-#include "everest/containers/checked/zero.h"
 
 #pragma clang diagnostic pop

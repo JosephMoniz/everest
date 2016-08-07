@@ -14,24 +14,26 @@ public:
   static constexpr bool exists = false;
 
   template <class Fn, class B = typename std::result_of<Fn(F)>::type>
-  static constexpr B FlatMap(Fn f, const F& m) noexcept {
+  static B FlatMap(Fn f, const F& m) noexcept {
     return Base::FlatMap(f, m);
   }
 
   template <class B>
-  static constexpr B Then(const F& m, const B& n) noexcept {
+  static B Then(const F& m, const B& n) noexcept {
     return Base::Then(m, n);
   }
 
 };
 
 template <class Fn, class F>
-constexpr auto FlatMap(Fn f, const F& m) noexcept {
+auto FlatMap(Fn f, const F& m) noexcept -> decltype(Monad<F>::FlatMap(f, m)) {
+  static_assert(Monad<F>::exists, "T does not implement Monad");
   return Monad<F>::FlatMap(f, m);
 }
 
 template <class F, class B>
-constexpr B Then(const F& a, const B& b) noexcept {
+B Then(const F& a, const B& b) noexcept {
+  static_assert(Monad<F>::exists, "T does not implement Monad");
   return Monad<F>::Then(a, b);
 }
 

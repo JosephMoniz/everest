@@ -14,14 +14,15 @@ public:
   static constexpr bool exists = false;
 
   template <class T>
-  static constexpr T Intersect(const T& a, const T& b) noexcept {
+  static T Intersect(const T& a, const T& b) noexcept {
     return Base::Intersect(a, b);
   }
 
 };
 
 template <class T>
-constexpr T Intersect(const T& a, const T& b) noexcept {
+T Intersect(const T& a, const T& b) noexcept {
+  static_assert(Intersectable<T>::exists, "T does not implement Intersectable");
   return Intersectable<T>::Intersect(a, b);
 }
 

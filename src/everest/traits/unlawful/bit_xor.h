@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr U BinaryXor(const U& lhs, const U& rhs) noexcept {
+  static U BinaryXor(const U& lhs, const U& rhs) noexcept {
     return Base::BinaryXor(lhs, rhs);
   }
 
@@ -34,6 +34,7 @@ public:
 
 template <class T>
 T BinaryXor(const T& lhs, const T& rhs) noexcept {
+  static_assert(BitXor<T>::exists, "T does not implement BitXor");
   return BitXor<T>::BinaryXor(lhs, rhs);
 }
 

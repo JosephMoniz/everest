@@ -7,7 +7,9 @@ namespace everest {
 template <class T>
 class Fundamental {
 public:
+
   static constexpr bool exists = false;
+
 };
 
 }

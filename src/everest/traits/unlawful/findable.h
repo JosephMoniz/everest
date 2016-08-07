@@ -23,6 +23,7 @@ public:
 
 template <class F, class T>
 auto Find(const T& item, F& container) noexcept -> decltype(Findable<F>::Find(item, container)) {
+  static_assert(Findable<F>::exists, "T does not implement Findable");
   return Findable<F>::Find(item, container);
 }
 

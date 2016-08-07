@@ -23,6 +23,7 @@ public:
 
 template <class T>
 String ToHex(const T& hashable) noexcept {
+  static_assert(Hexable<T>::exists, "T does not implement Hexable");
   return Hexable<T>::ToHex(hashable);
 }
 

@@ -13,7 +13,7 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T Subtract(const T& lhs, const T& rhs) noexcept {
+  static T Subtract(const T& lhs, const T& rhs) noexcept {
     return Base::Subtract(lhs, rhs);
   }
 
@@ -32,12 +32,14 @@ public:
 };
 
 template <class T>
-constexpr T Subtract(const T& lhs, const T& rhs) noexcept {
+T Subtract(const T& lhs, const T& rhs) noexcept {
+  static_assert(Subtractable<T>::exists, "T does not implement Subtractable");
   return Subtractable<T>::Subtract(lhs, rhs);
 }
 
 template <class T>
-constexpr T operator-(const T& lhs, const T& rhs) noexcept {
+T operator-(const T& lhs, const T& rhs) noexcept {
+  static_assert(Subtractable<T>::exists, "T does not implement Subtractable");
   return Subtractable<T>::Subtract(lhs, rhs);
 }
 

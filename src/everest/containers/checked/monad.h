@@ -17,19 +17,13 @@ public:
   static constexpr bool exists = true;
 
   template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 1>>
-  static constexpr Checked<E, B> FlatMap(F f, const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [&](const E& error) { return Error<E, B>(error); },
-      [&](const T& ok)    { return f(ok); }
-    );
+  static Checked<E, B> FlatMap(F f, const Checked<E, T>& checked) noexcept {
+    return checked.FlatMap(f);
   }
 
   template <class B>
-  static constexpr Checked<E, B> Then(const Checked<E, T>& m, const Checked<E, B>& n) noexcept {
-    return Match(m,
-      [&](const E& error) { return m; },
-      [&](const T& ok)    { return n; }
-    );
+  static const Checked<E, B>& Then(const Checked<E, T>& checked, const Checked<E, B>& other) noexcept {
+    return checked.Then(other);
   }
 
 };

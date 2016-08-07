@@ -14,13 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Option<T> MPlus(const Option<T>& lhs,
-                                   const Option<T>& rhs) noexcept
-  {
-    return Match(lhs,
-      [&rhs]()           { return rhs; },
-      [&lhs](const T& n) { return lhs; }
-    );
+  static const Option<T>& MPlus(const Option<T>& lhs, const Option<T>& rhs) noexcept {
+    return lhs.MPlus(rhs);
   }
 
 };

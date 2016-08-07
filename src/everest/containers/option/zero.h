@@ -14,8 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Option<T> Zero() {
-    return None<T>();
+  static Option<T> Zero() {
+    return Option<T>::Zero();
   }
 
 };

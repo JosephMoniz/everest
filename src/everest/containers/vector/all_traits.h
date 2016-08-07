@@ -1,0 +1,22 @@
+#pragma once
+
+#include <everest/containers/vector/pointable.h>
+#include <everest/containers/vector/container.h>
+#include <everest/containers/vector/containable.h>
+#include <everest/containers/vector/iteration.h>
+#include <everest/containers/vector/droppable.h>
+#include <everest/containers/vector/eq.h>
+#include <everest/containers/vector/filterable.h>
+#include <everest/containers/vector/foldable.h>
+#include <everest/containers/vector/functor.h>
+#include <everest/containers/vector/hashable.h>
+#include <everest/containers/vector/hexable.h>
+#include <everest/containers/vector/monad.h>
+#include <everest/containers/vector/monoid.h>
+#include <everest/containers/vector/ord.h>
+#include <everest/containers/vector/queue.h>
+#include <everest/containers/vector/semigroup.h>
+#include <everest/containers/vector/show.h>
+#include <everest/containers/vector/stack.h>
+#include <everest/containers/vector/takeable.h>
+#include <everest/containers/vector/zero.h>

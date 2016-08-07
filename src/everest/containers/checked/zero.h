@@ -12,11 +12,11 @@ template <class E, class T>
 class ZeroVal<Checked<E, T>> final {
 public:
 
-static constexpr bool exists = true;
+  static constexpr bool exists = true;
 
-static constexpr Checked<E, T> Zero() {
-  return Ok<E, T>(ZeroVal<T>::Zero());
-}
+  static Checked<E, T> Zero() {
+    return Checked<E, T>::Zero();
+  }
 
 };
 

@@ -14,12 +14,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static size_t Length(const Array<T, S>& o) noexcept {
-    return (size_t) S;
+  static size_t Length(const Array<T, S>& array) noexcept {
+    return array.Length();
   }
 
-  static bool IsEmpty(const Array<T, S>& o) noexcept {
-    return S == 0;
+  static bool IsEmpty(const Array<T, S>& array) noexcept {
+    return array.IsEmpty();
   }
 
 };

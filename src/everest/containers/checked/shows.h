@@ -15,11 +15,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static String Show(const Checked<E, T>& n) noexcept {
-    return Match(n,
-      [](const E& error) { return String("Error(") + Shows<E>::Show(error) + String(")"); },
-      [](const T& ok)    { return String("Ok(") + Shows<T>::Show(ok) + String(")"); }
-    );
+  static String Show(const Checked<E, T>& checked) noexcept {
+    return checked.Show();
   }
 
 };

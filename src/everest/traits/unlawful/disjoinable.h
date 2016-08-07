@@ -14,14 +14,15 @@ public:
   static constexpr bool exists = false;
 
   template <class T>
-  static constexpr T Disjoin(const T& a, const T& b) noexcept {
+  static T Disjoin(const T& a, const T& b) noexcept {
     return Base::Disjoin(a, b);
   }
 
 };
 
 template <class T>
-constexpr T Disjoin(const T& a, const T& b) noexcept {
+T Disjoin(const T& a, const T& b) noexcept {
+  static_assert(Disjoinable<T>::exists, "T does not implement Disjoinable");
   return Disjoinable<T>::Disjoin(a, b);
 }
 

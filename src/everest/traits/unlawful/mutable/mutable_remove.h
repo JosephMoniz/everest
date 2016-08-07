@@ -27,11 +27,13 @@ public:
 
 template <class F, class T>
 F& RemoveInPlace(const T& item, F& container) noexcept {
+  static_assert(MutableRemove<F>::exists, "F does not implement MutableRemove");
   return MutableRemove<F>::RemoveInPlace(item, container);
 }
 
 template <class F>
 F& RemoveInPlace(const F& source, F& container) noexcept {
+  static_assert(MutableRemove<F>::exists, "F does not implement MutableRemove");
   return MutableRemove<F>::RemoveInPlace(source, container);
 }
 

@@ -14,18 +14,12 @@ public:
 
   static constexpr bool exists = true;
 
-  static size_t Length(const Option<T>& o) noexcept {
-    return Match(o,
-      []()           { return 0u; },
-      [](const T& n) { return 1u; }
-    );
+  static size_t Length(const Option<T>& option) noexcept {
+    return option.Length();
   }
 
-  static bool IsEmpty(const Option<T>& o) noexcept {
-    return Match(o,
-      []()           { return true; },
-      [](const T& n) { return false; }
-    );
+  static bool IsEmpty(const Option<T>& option) noexcept {
+    return option.IsEmpty();
   }
 
 };

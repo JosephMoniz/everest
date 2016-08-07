@@ -14,11 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Contains(const T& n, const Option<T>& f) noexcept {
-    return Match(f,
-      []()             { return false; },
-      [&n](const T& m) { return n == m; }
-    );
+  static bool Contains(const T& item, const Option<T>& option) noexcept {
+    return option.Contains(item);
   }
 
 };

@@ -15,19 +15,21 @@ public:
   static constexpr bool exists = false;
 
   template <class F, class P, class U>
-  static constexpr bool Any(P p, const F& n) noexcept {
+  static bool Any(P p, const F& n) noexcept {
     return Base::Any(p, n);
   }
 
 };
 
 template <class F, class P>
-constexpr bool Any(P p, const F& n) noexcept {
+bool Any(P p, const F& n) noexcept {
+  static_assert(Anyable<F>::exists, "T does not implement Anyable");
   return Anyable<F>::Any(p, n);
 }
 
 template <class F, class P>
-constexpr bool Any(P p, F&& n) noexcept {
+bool Any(P p, F&& n) noexcept {
+  static_assert(Anyable<F>::exists, "T does not implement Anyable");
   return Anyable<F>::Any(p, std::forward<F>(n));
 }
 

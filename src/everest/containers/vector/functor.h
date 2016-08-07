@@ -16,7 +16,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static Vector<B> Map(F f, const Vector<T>& vector) noexcept {
-    return Functor<MutableVector<T>>::Map(f, vector._wrapped);
+    return vector.Map(f);
   }
 
 };

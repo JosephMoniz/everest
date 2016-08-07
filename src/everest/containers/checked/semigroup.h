@@ -14,16 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Checked<E, T> Add(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
-    return Match(lhs,
-      [&](const E& errorLeft) { return lhs; },
-      [&](const T& okLeft) {
-        return Match(rhs,
-          [&](const E& errorRight) { return rhs; },
-          [&](const T& okRight)    { return Ok<E, T>(okLeft + okRight); }
-        );
-      }
-    );
+  static Checked<E, T> Add(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
+    return lhs.Add(rhs);
   }
 
 };

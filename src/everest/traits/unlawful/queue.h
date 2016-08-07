@@ -30,17 +30,20 @@ public:
 };
 
 template <class T, class U>
-constexpr T Enqueue(const U& item, const T& queue) noexcept {
+T Enqueue(const U& item, const T& queue) noexcept {
+  static_assert(Queue<T>::exists, "T does not implement Queue");
   return Queue<T>::Enqueue(item, queue);
 };
 
 template <class T>
-constexpr T Dequeue(const T& queue) noexcept {
+T Dequeue(const T& queue) noexcept {
+  static_assert(Queue<T>::exists, "T does not implement Queue");
   return Queue<T>::Dequeue(queue);
 };
 
 template <class T>
-constexpr auto Front(const T& queue) noexcept -> decltype(Queue<T>::Front(queue)) {
+auto Front(const T& queue) noexcept -> decltype(Queue<T>::Front(queue)) {
+  static_assert(Queue<T>::exists, "T does not implement Queue");
   return Queue<T>::Front(queue);
 };
 

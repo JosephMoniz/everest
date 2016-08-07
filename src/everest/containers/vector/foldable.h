@@ -15,30 +15,23 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr T Fold(const Vector<T>& vector) noexcept {
-    return Foldable<MutableVector<T>>::Fold(vector._wrapped);
+  static T Fold(const Vector<T>& vector) noexcept {
+    return vector.Fold();
   }
 
-  template <class Fn,
-            class M = typename std::result_of<Fn(T)>::type>
-  static constexpr M FoldMap(Fn f, const Vector<T>& vector) noexcept {
-    return Foldable<MutableVector<T>>::FoldMap(f, vector._wrapped);
-  }
-
-  template <class Fn, class B>
-  static constexpr B FoldR(Fn f,
-                           const B& init,
-                           const Vector<T>& vector) noexcept
-  {
-    return Foldable<MutableVector<T>>::FoldR(f, init, vector._wrapped);
+  template <class Fn, class M = typename std::result_of<Fn(T)>::type>
+  static M FoldMap(Fn f, const Vector<T>& vector) noexcept {
+    return vector.FoldMap(f);
   }
 
   template <class Fn, class B>
-  static constexpr B FoldL(Fn f,
-                           const B& init,
-                           const Vector<T>& vector) noexcept
-  {
-    return Foldable<MutableVector<T>>::FoldL(f, init, vector._wrapped);
+  static B FoldR(Fn f, const B& init, const Vector<T>& vector) noexcept {
+    return vector.FoldR(init, f);
+  }
+
+  template <class Fn, class B>
+  static B FoldL(Fn f, const B& init, const Vector<T>& vector) noexcept {
+    return vector.FoldL(init, f);
   }
 
 };

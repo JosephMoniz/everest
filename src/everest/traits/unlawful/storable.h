@@ -13,23 +13,25 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr size_t Capacity(const T& storage) {
+  static size_t Capacity(const T& storage) {
     return Base::Capacity(storage);
   }
 
-  static constexpr size_t Occupied(const T& storage) {
+  static size_t Occupied(const T& storage) {
     return Base::Occupied(storage);
   }
 
 };
 
 template<class T>
-constexpr size_t Capacity(const T& storage) noexcept {
+size_t Capacity(const T& storage) noexcept {
+  static_assert(Storable<T>::exists, "T does not implement Storable");
   return Storable<T>::Capacity(storage);
 }
 
 template<class T>
-constexpr size_t Occupied(const T& storage) noexcept {
+size_t Occupied(const T& storage) noexcept {
+  static_assert(Storable<T>::exists, "T does not implement Storable");
   return Storable<T>::Occupied(storage);
 }
 

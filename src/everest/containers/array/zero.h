@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static Array<T, S> Zero() noexcept {
-    return Array<T, S>({});
+    return Array<T, S>::Zero();
   }
 
 };

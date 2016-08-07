@@ -16,11 +16,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static HashValue Hash(const Option<T>& o) noexcept {
-    return Match(o,
-      []()           { return HashValue(0u); },
-      [](const T& n) { return Hashable<T>::Hash(n); }
-    );
+  static HashValue Hash(const Option<T>& option) noexcept {
+    return option.Hash();
   }
 
 };

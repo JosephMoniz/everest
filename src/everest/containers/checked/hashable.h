@@ -14,11 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static HashValue Hash(const Checked<E, T>& o) noexcept {
-    return Match(o,
-      [](const E& error) { return Hashable<E>::Hash(error); },
-      [](const T& ok)    { return Hashable<T>::Hash(ok); }
-    );
+  static HashValue Hash(const Checked<E, T>& checked) noexcept {
+    return checked.Hash();
   }
 
 };

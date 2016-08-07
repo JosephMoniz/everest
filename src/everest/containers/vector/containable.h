@@ -14,8 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr bool Contains(const T& n, const Vector<T>& vector) noexcept {
-    return Containable<MutableVector<T>>::Contains(n, vector._wrapped);
+  static bool Contains(const T& item, const Vector<T>& vector) noexcept {
+    return vector.Contains(item);
   }
 
 };

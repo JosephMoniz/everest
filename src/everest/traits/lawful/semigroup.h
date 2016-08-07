@@ -38,16 +38,19 @@ public:
 //
 template <class T>
 T Add(T&& lhs, const T& rhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return Semigroup<T>::Add(std::move(lhs), rhs);
 }
 
 template <class T>
 T Add(const T& lhs, const T& rhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return Semigroup<T>::Add(lhs, rhs);
 }
 
 template <class T>
 Function<const T&, T> Add(const T& lhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return [&](const T& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
@@ -55,6 +58,7 @@ Function<const T&, T> Add(const T& lhs) noexcept {
 
 template <class T>
 BiFunction<const T&, const T&, T> Add() noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return [&](const T& lhs, const T& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
@@ -62,11 +66,13 @@ BiFunction<const T&, const T&, T> Add() noexcept {
 
 template <class T>
 T operator+(T&& lhs, const T& rhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return Semigroup<T>::Add(std::move(lhs), rhs);
 }
 
 template <class T>
 T operator+(const T& lhs, const T& rhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return Semigroup<T>::Add(lhs, rhs);
 }
 
@@ -74,11 +80,13 @@ T operator+(const T& lhs, const T& rhs) noexcept {
 //
 template <class T, class U>
 auto Add(const T& lhs, const U& rhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return Semigroup<T>::Add(lhs, rhs);
 }
 
 template <class T, class U, class R>
 Function<const U&, R> Add(const T& lhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return [&](const T& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
@@ -86,6 +94,7 @@ Function<const U&, R> Add(const T& lhs) noexcept {
 
 template <class T, class U, class R>
 BiFunction<const T&, const U&, R> Add() noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return [&](const T& lhs, const U& rhs) {
     return Semigroup<T>::Add(lhs, rhs);
   };
@@ -93,6 +102,7 @@ BiFunction<const T&, const U&, R> Add() noexcept {
 
 template <class T, class U, class R>
 R operator+(const T& lhs, const U& rhs) noexcept {
+  static_assert(Semigroup<T>::exists, "T does not implement Semigroup");
   return Semigroup<T>::Add(lhs, rhs);
 }
 

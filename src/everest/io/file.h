@@ -52,9 +52,9 @@ public:
   static Checked<int, File> Open(const char* filePath, int flags) noexcept {
     int fd = open(filePath, flags);
     if (fd != -1) {
-      return Ok<int, File>(File(fd, flags));
+      return Checked<int, File>::Ok(File(fd, flags));
     } else {
-      return Error<int, File>(errno);
+      return Checked<int, File>::Error(errno);
     }
   }
 
@@ -64,9 +64,9 @@ public:
   {
     int fd = open(filePath, flags, mode);
     if (fd != -1) {
-      return Ok<int, File>(File(fd, flags));
+      return Checked<int, File>::Ok(File(fd, flags));
     } else {
-      return Error<int, File>(errno);
+      return Checked<int, File>::Error(errno);
     }
   }
 

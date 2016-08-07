@@ -23,6 +23,7 @@ public:
 
 template <class F, class T>
 auto FindInPlace(const T& item, F& container) noexcept -> decltype(MutableFind<F>::FindInPlace(item, container)) {
+  static_assert(MutableFind<F>::exists, "F does not implement MutableFind");
   return MutableFind<F>::FindInPlace(item, container);
 }
 

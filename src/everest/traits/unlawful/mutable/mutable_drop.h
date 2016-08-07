@@ -14,24 +14,26 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T& DropInPlace(size_t s, T& n) noexcept {
+  static T& DropInPlace(size_t s, T& n) noexcept {
     return Base::DropInPlace(s, n);
   }
 
   template <template <class> class F>
-  static constexpr F<T>& DropInPlaceWhile(Predicate<const T&> p, F<T>& n) noexcept {
+  static F<T>& DropInPlaceWhile(Predicate<const T&> p, F<T>& n) noexcept {
     return Base::DropInPlaceWhile(p, n);
   }
 
 };
 
 template <class T>
-constexpr T& DropInPlace(size_t s, T& n) noexcept {
+T& DropInPlace(size_t s, T& n) noexcept {
+  static_assert(MutableDrop<T>::exists, "T does not implement MutableDrop");
   return MutableDrop<T>::DropInPlace(s, n);
 }
 
 template <template <class> class F, class T>
-constexpr F<T>& DropWhile(Predicate<const T&> p, F<T>& n) noexcept {
+F<T>& DropWhile(Predicate<const T&> p, F<T>& n) noexcept {
+  static_assert(MutableDrop<T>::exists, "T does not implement MutableDrop");
   return MutableDrop<F<T>>::DropInPlaceWhile(p, n);
 }
 

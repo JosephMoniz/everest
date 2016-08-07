@@ -7,17 +7,6 @@ namespace everest {
 template<class T>
 class Set final {
 
-  friend class Containable<Set<T>>;
-  friend class Container<Set<T>>;
-  friend class Filterable<Set<T>>;
-  friend class Functor<Set<T>>;
-  friend class Hashable<Set<T>>;
-  friend class Iteration<Set<T>>;
-  friend class Monad<Set<T>>;
-  friend class Semigroup<Set<T>>;
-  friend class Eq<Set<T>>;
-  friend class Subtractable<Set<T>>;
-
   MutableSet<T> _wrapped;
 
 public:
@@ -25,20 +14,81 @@ public:
   Set() noexcept : _wrapped() { }
 
   template <class U>
-  Set(U&& element) noexcept {
-    new (&_wrapped) MutableSet<T>(std::move(element));
-  }
+  Set(U&& element) noexcept : _wrapped(std::move(element)) { }
 
   template <class U, class... U2>
-  Set(U&& element, U2&&... elements) noexcept {
-    new (&_wrapped) MutableSet<T>(std::move(element), std::move(elements)...);
-  };
+  Set(U&& element, U2&&... elements) noexcept : _wrapped(std::move(element), std::move(elements)...) { };
 
   Set(const Set<T>& other) = delete;
 
   Set(Set<T>&& other) noexcept : _wrapped(std::move(other._wrapped)) {}
 
   Set(MutableSet<T>&& vector) noexcept : _wrapped(std::move(vector)) { }
+
+  bool Contains(const T& item) const noexcept {
+    return _wrapped.Contains(item);
+  }
+
+  size_t Length() const noexcept {
+    return _wrapped.Length();
+  }
+
+  bool IsEmpty() const noexcept {
+    return _wrapped.IsEmpty();
+  }
+
+  template<class Predicate>
+  Set<T> Filter(Predicate predicate) const noexcept {
+    return Set<T>(_wrapped.Filter(predicate));
+  }
+
+  template <class F, class B = typename std::result_of<F(T)>::type>
+  Set<B> Map(F f) const noexcept {
+    return Set<B>(_wrapped.Map(f));
+  }
+
+  HashValue Hash() const noexcept {
+    return _wrapped.Hash();
+  }
+
+  template <class F>
+  void ForEach(const F& function) const noexcept {
+    return _wrapped.ForEach(function);
+  }
+
+  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  Set<B> FlatMap(F f) const noexcept {
+    return Set<B>(_wrapped.FlatMap(f));
+  }
+
+  template <class B>
+  Set<B> Then(const Set<B>& second) const noexcept {
+    return second;
+  }
+
+  Set<T> Add(const Set<T>& other) const noexcept {
+    return Set<T>(_wrapped.Add(other._wrapped));
+  }
+
+  Set<T> Subtract(const Set<T>& other) const noexcept {
+    return Set<T>(_wrapped.Subtract(other));
+  }
+
+  String Show() const noexcept {
+    auto out = String("Set(");
+    _wrapped.ForEach([&](const T& item) {
+      out = out + Shows<T>::Show(item) + String(", ");
+    });
+    return Take(out.Length() - 2, std::move(out)) + String(")");
+  }
+
+  bool Equals(const Set<T>& other) const noexcept {
+    return _wrapped.Equals(other._wrapped);
+  }
+
+  static Set<T> Zero() noexcept {
+    return Set<T>();
+  }
 
 };
 
@@ -49,7 +99,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Contains(const T& item, const Set<T>& set) noexcept {
-    return Containable<MutableSet<T>>::Contains(item, set._wrapped);
+    return set.Contains(item);
   }
 
 };
@@ -61,11 +111,11 @@ public:
   static constexpr bool exists = true;
 
   static size_t Length(const Set<T>& set) noexcept {
-    return Container<MutableSet<T>>::Length(set._wrapped);
+    return set.Length();
   }
 
   static bool IsEmpty(const Set<T>& set) noexcept {
-    return Container<MutableSet<T>>::IsEmpty(set._wrapped);
+    return set.IsEmpty();
   }
 
 };
@@ -78,7 +128,7 @@ public:
 
   template<class Predicate>
   static Set<T> Filter(Predicate predicate, const Set<T>& set) noexcept {
-    return Set<T>(Filterable<MutableSet<T>>::Filter(predicate, set._wrapped));
+    return set.Filter(predicate);
   }
 
 };
@@ -91,7 +141,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static Set<B> Map(F f, const Set<T>& set) noexcept {
-    return Set<B>(Functor<MutableSet<T>>::Map(f, set._wrapped));
+    return set.Map(f);
   }
 
 };
@@ -103,7 +153,7 @@ public:
   static constexpr bool exists = true;
 
   static HashValue Hash(const Set<T>& set) noexcept {
-    return set._wrapped.Hash();
+    return set.Hash();
   }
 
 };
@@ -116,7 +166,7 @@ public:
 
   template <class F>
   static void ForEach(const Set<T>& container, const F& function) noexcept {
-    Iteration<MutableSet<T>>::ForEach(container._wrapped, function);
+    return container.ForEach(function);
   }
 
 };
@@ -129,12 +179,12 @@ public:
 
   template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
   static Set<B> FlatMap(F f, const Set<T>& set) noexcept {
-    return Monad<MutableSet<T>>::FlatMap(f, set._wrapped);
+    return set.FlatMap(f);
   }
 
   template <class B>
   static Set<B> Then(const Set<T>& first, const Set<B>& second) noexcept {
-    return second;
+    return first.Then(second);
   }
 
 };
@@ -142,7 +192,9 @@ public:
 template<class T>
 class Monoid<Set<T>> final {
 public:
+
   static constexpr bool exists = true;
+
 };
 
 template<class T>
@@ -152,7 +204,7 @@ public:
   static constexpr bool exists = true;
 
   static Set<T> Add(const Set<T>& lhs, const Set<T>& rhs) noexcept {
-    return Set<T>(Semigroup<MutableSet<T>>::Add(lhs._wrapped, rhs._wrapped));
+    return lhs.Add(rhs);
   }
 
 };
@@ -164,7 +216,7 @@ public:
   static constexpr bool exists = true;
 
   static Set<T> Subtract(const Set<T>& lhs, const Set<T>& rhs) noexcept {
-    return Set<T>(Subtractable<MutableSet<T>>::Subtract(lhs._wrapped, rhs._wrapped));
+    return lhs.Subtract(rhs);
   }
 
 };
@@ -176,11 +228,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const Set<T>& set) noexcept {
-    auto out = String("Set(");
-    ForEach(set, [&](const T& item) {
-      out = out + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return set.Show();
   }
 
 };
@@ -192,7 +240,7 @@ public:
   static constexpr bool exists = true;
 
   static Set<T> Zero() noexcept {
-    return Set<T>();
+    return Set<T>::Zero();
   }
 
 };
@@ -203,20 +251,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static bool Equals(const Set<T>& lhs, const Set<T>* rhs) noexcept {
-    return Eq<Set<T>>::Equals(&lhs, rhs);
-  }
-
-  static bool Equals(const Set<T>* lhs, const Set<T>& rhs) noexcept {
-    return Eq<Set<T>>::Equals(lhs, &rhs);
-  }
-
   static bool Equals(const Set<T>& lhs, const Set<T>& rhs) noexcept {
-    return Eq<Set<T>>::Equals(&lhs, &rhs);
-  }
-
-  static bool Equals(const Set<T>* lhs, const Set<T>* rhs) noexcept {
-    return Eq<MutableSet<T>>::Equals(&lhs->_wrapped, &rhs->_wrapped);
+    return lhs.Equals(rhs);
   }
 
 };

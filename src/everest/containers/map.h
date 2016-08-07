@@ -31,7 +31,7 @@ public:
     _wrapped.ForEach([&](const MutableMapEntry<K, V>& entry) {
       out = out + Shows<MutableMapEntry<K, V>>::Show(entry) + String(", ");
     });
-    return Take(Length(out) - 2, std::move(out)) + String(")");
+    return Take(out.Length() - 2, std::move(out)) + String(")");
   }
 
   template <class F>

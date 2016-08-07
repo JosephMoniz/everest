@@ -16,12 +16,7 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   static Array<B, S> Map(F f, const Array<T, S>& array) noexcept {
-    auto newArray = Array<B, S>();
-    auto pointer  = Pointer(array);
-    for (size_t i = 0; i < S; i++) {
-      newArray._array[i] = f(pointer[i]);
-    }
-    return newArray;
+    return array.Map(f);
   }
 
 };

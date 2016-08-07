@@ -25,6 +25,7 @@ public:
 
 template <class F, class T>
 F& RemoveAtInPlace(const T& item, F& container) noexcept {
+  static_assert(MutableRemoveAt<F>::exists, "T does not implement MutableRemoveAt");
   return MutableRemoveAt<F>::RemoveAtInPlace(item, container);
 }
 

@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr U Modulo(const U& lhs, const U& rhs) noexcept {
+  static U Modulo(const U& lhs, const U& rhs) noexcept {
     return Base::Modulo(lhs, rhs);
   }
 
@@ -33,7 +33,8 @@ public:
 };
 
 template <class T>
-constexpr T Remainder(const T& lhs, const T& rhs) noexcept {
+T Remainder(const T& lhs, const T& rhs) noexcept {
+  static_assert(Modulus<T>::exists, "T does not implement Modulus");
   return Modulus<T>::Modulo(lhs, rhs);
 }
 

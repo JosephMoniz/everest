@@ -13,7 +13,7 @@ public:
 
   static constexpr bool exists = false;
 
-  static constexpr T Zero() noexcept {
+  static T Zero() noexcept {
     return base::Zero();
   }
 
@@ -32,7 +32,8 @@ public:
 };
 
 template <class T>
-constexpr T Zero() noexcept {
+T Zero() noexcept {
+  static_assert(ZeroVal<T>::exists, "T does not implement ZeroVal");
   return ZeroVal<T>::Zero();
 }
 

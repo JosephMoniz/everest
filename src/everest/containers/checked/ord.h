@@ -14,39 +14,16 @@ public:
 
   static constexpr bool exists = true;
 
-  static constexpr Ordering Compare(const Checked<E, T> &lhs,
-                                    const Checked<E, T> &rhs) noexcept
-  {
-    return Match(lhs,
-      [&](const E& errorLeft) {
-        return Match(rhs,
-          [&](const E& errorRight) { return everest::Compare(errorLeft, errorRight); },
-          [](const T &ok)          { return Ordering::LESS; }
-        );
-      },
-      [&](const T &okLeft) {
-        return Match(rhs,
-          [](const E& error)    { return Ordering::GREATER; },
-          [&](const T &okRight) { return everest::Compare(okLeft, okRight); }
-        );
-      }
-    );
+  static Ordering Compare(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
-  static constexpr const Checked<E, T>& Min(const Checked<E, T> &lhs,
-                                            const Checked<E, T> &rhs) noexcept
-  {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-      ? rhs
-      : lhs;
+  static const Checked<E, T>& Min(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
+    return lhs.Min(rhs);
   }
 
-  static constexpr const Checked<E, T>& Max(const Checked<E, T> &lhs,
-                                            const Checked<E, T> &rhs) noexcept
-  {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-      ? rhs
-      : lhs;
+  static const Checked<E, T>& Max(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
+    return lhs.Max(rhs);
   }
 
 };

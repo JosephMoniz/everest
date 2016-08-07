@@ -17,36 +17,38 @@ public:
 
   static constexpr bool exists = false;
 
-  /*
-  static auto Take(size_t s, T&& n) noexcept -> decltype(Base::Take(s, std::forward<T>(n))) {
+  static T Take(size_t s, T&& n) noexcept {
     return Base::Take(s, std::forward<T>(n));
   }
 
   template <class F, class N>
-  static auto TakeWhile(Predicate<const N&> p, F&& n) noexcept -> decltype(Base::TakeWhile(p, std::forward<F>(n))) {
+  static T TakeWhile(Predicate<const N&> p, F&& n) noexcept {
     return Base::TakeWhile(p, std::forward<F>(n));
   }
-   */
 
 };
 
 template <class T>
-auto Take(size_t s, const T& n) noexcept -> decltype(Takeable<T>::Take(s, n)) {
+T Take(size_t s, const T& n) noexcept {
+  static_assert(Takeable<T>::exists, "T does not implement Takeable");
   return Takeable<T>::Take(s, n);
 }
 
 template <class T>
-auto Take(size_t s, T&& n) noexcept -> decltype(Takeable<T>::Take(s, std::forward<T>(n))) {
+T Take(size_t s, T&& n) noexcept {
+  static_assert(Takeable<T>::exists, "T does not implement Takeable");
   return Takeable<T>::Take(s, std::forward<T>(n));
 }
 
 template <class F, class T>
-auto TakeWhile(Predicate<const T&> p, const F& n) noexcept -> decltype(Takeable<F>::TakeWhile(p, n)) {
+F TakeWhile(Predicate<const T&> p, const F& n) noexcept {
+  static_assert(Takeable<T>::exists, "T does not implement Takeable");
   return Takeable<F>::TakeWhile(p, n);
 }
 
 template <class F, class T>
-auto TakeWhile(Predicate<const T&> p, F&& n) noexcept -> decltype(Takeable<F>::TakeWhile(p, std::forward<T>(n))) {
+F TakeWhile(Predicate<const T&> p, F&& n) noexcept {
+  static_assert(Takeable<T>::exists, "T does not implement Takeable");
   return Takeable<F>::TakeWhile(p, std::forward<T>(n));
 }
 

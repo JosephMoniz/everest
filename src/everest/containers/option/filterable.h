@@ -15,11 +15,8 @@ public:
   static constexpr bool exists = true;
 
   template <class P>
-  static constexpr Option<T> Filter(P p, const Option<T>& n) noexcept {
-    return Match(n,
-      []()            { return None<T>(); },
-      [&](const T& m) { return p(m) ? n : None<T>(); }
-    );
+  static Option<T> Filter(P predicate, const Option<T>& option) noexcept {
+    return option.Filter(predicate);
   }
 
 };

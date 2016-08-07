@@ -14,40 +14,21 @@ public:
 
   static constexpr bool exists = true;
 
-  static Ordering Compare(const Array<T, S> &lhs,
-                          const Array<T, S> &rhs) noexcept
-  {
-    auto lhsPointer = Pointer(lhs);
-    auto rhsPointer = Pointer(rhs);
-    for (size_t i = 0; i < S; i ++) {
-      switch(Ord<T>::Compare(lhsPointer[i], rhsPointer[i])) {
-        case Ordering::LESS:    return Ordering::LESS;
-        case Ordering::GREATER: return Ordering::GREATER;
-        case Ordering::EQUAL:   continue;
-      }
-    }
-    return Ordering::EQUAL;
+  static Ordering Compare(const Array<T, S>& lhs, const Array<T, S>& rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
   template<size_t Rs>
-  static constexpr Ordering Compare(const Array<T, S> &lhs,
-                                    const Array<T, Rs> &rhs) noexcept
-  {
-    return (S > Rs)
-      ? Ordering::GREATER
-      : Ordering::LESS;
+  static Ordering Compare(const Array<T, S>& lhs, const Array<T, Rs>& rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
-  static const Array<T, S>& Min(const Array<T, S> &lhs, const Array<T, S> &rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-      ? rhs
-      : lhs;
+  static const Array<T, S>& Min(const Array<T, S>& lhs, const Array<T, S>& rhs) noexcept {
+    return lhs.Min(rhs);
   }
 
-  static const Array<T, S>& Max(const Array<T, S> &lhs, const Array<T, S> &rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-      ? rhs
-      : lhs;
+  static const Array<T, S>& Max(const Array<T, S>& lhs, const Array<T, S>& rhs) noexcept {
+    return lhs.Max(rhs);
   }
 
 };

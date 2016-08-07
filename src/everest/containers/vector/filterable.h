@@ -17,7 +17,7 @@ public:
 
   template<class Predicate>
   static Vector<T> Filter(Predicate predicate, const Vector<T>& vector) noexcept {
-    return Filterable<MutableVector<T>>::Filter(predicate, vector._wrapped);
+    return vector.Filter(predicate);
   }
 
 };

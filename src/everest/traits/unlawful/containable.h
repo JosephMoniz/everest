@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template<class U>
-  static constexpr bool Contains(const U& n, const T& f) {
+  static bool Contains(const U& n, const T& f) {
     return Base::Contains(n, f);
   }
 
@@ -22,6 +22,7 @@ public:
 
 template<class U, class T>
 bool Contains(const U& n, const T& f) {
+  static_assert(Containable<T>::exists, "T does not implement Containable");
   return Containable<T>::Contains(n, f);
 }
 

@@ -17,11 +17,11 @@ public:
   static constexpr bool exists = true;
 
   static size_t Length(const Vector<T>& vector) noexcept {
-    return Container<MutableVector<T>>::Length(vector._wrapped);
+    return vector.Length();
   }
 
   static bool IsEmpty(const Vector<T>& vector) noexcept {
-    return Container<MutableVector<T>>::IsEmpty(vector._wrapped);
+    return vector.IsEmpty();
   }
 
 };

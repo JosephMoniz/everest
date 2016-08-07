@@ -15,11 +15,8 @@ public:
   static constexpr bool exists = true;
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  static constexpr Checked<E, B> Map(F f, const Checked<E, T>& checked) noexcept {
-    return Match(checked,
-      [&](const E& error) { return Error<E, B>(error); },
-      [&](const T& ok)    { return Ok<E, B>(f(ok)); }
-    );
+  static Checked<E, B> Map(F f, const Checked<E, T>& checked) noexcept {
+    return checked.Map(f);
   }
 
 };

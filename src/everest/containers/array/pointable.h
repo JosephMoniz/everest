@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static const T* Pointer(const Array<T, S>& array) noexcept {
-    return (const T*) &array._array;
+    return array.Pointer();
   }
 
 };

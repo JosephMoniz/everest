@@ -14,11 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static Checked<E, T> Alt(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
-    return Match(lhs,
-      [&rhs](const E& error) { return rhs; },
-      [&lhs](const T& ok)    { return lhs; }
-    );
+  static const Checked<E, T>& Alt(const Checked<E, T>& lhs, const Checked<E, T>& rhs) noexcept {
+    return lhs.Alt(rhs);
   }
 };
 

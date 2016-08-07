@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const Vector<T>& lhs, const Vector<T>& rhs) noexcept {
-    return Eq<MutableVector<T>>::Equals(lhs._wrapped, rhs._wrapped);
+    return lhs.Equals(rhs);
   }
 
 };

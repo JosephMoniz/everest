@@ -31,16 +31,19 @@ public:
 
 template <class T, class U>
 T& PushInPlace(const U& item, T& stack) noexcept {
+  static_assert(MutableStack<T>::exists, "T does not implement MutableStack");
   return MutableStack<T>::PushInPlace(item, stack);
 };
 
 template <class T, class U>
 T& PushInPlace(U&& item, T& stack) noexcept {
+  static_assert(MutableStack<T>::exists, "T does not implement MutableStack");
   return MutableStack<T>::PushInPlace(std::move(item), stack);
 };
 
 template <class T>
 T& PopInPlace(T& stack) noexcept {
+  static_assert(MutableStack<T>::exists, "T does not implement MutableStack");
   return MutableStack<T>::PopInPlace(stack);
 };
 

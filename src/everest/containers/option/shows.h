@@ -15,11 +15,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static String Show(const Option<T>& n) noexcept {
-    return Match(n,
-      []()           { return String("None"); },
-      [](const T& m) { return String("Some(") + Shows<T>::Show(m) + String(")"); }
-    );
+  static String Show(const Option<T>& option) noexcept {
+    return option.Show();
   }
 
 };

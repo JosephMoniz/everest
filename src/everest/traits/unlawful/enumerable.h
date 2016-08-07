@@ -21,6 +21,7 @@ public:
 
 template<class T>
 auto Enumerate(const T& e) noexcept -> decltype(Enumerable<T>::Enumerate(e)) {
+  static_assert(Enumerable<T>::exists, "T does not implement Enumerable");
   return Enumerable<T>::Enumerate(e);
 };
 

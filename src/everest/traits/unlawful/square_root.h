@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template<class U>
-  static constexpr U Sqrt(const T& number) noexcept {
+  static U Sqrt(const T& number) noexcept {
     return Base::Sqrt(number);
   }
 
@@ -34,6 +34,7 @@ public:
 
 template <class T>
 constexpr auto Sqrt(const T& number) noexcept -> decltype(SquareRoot<T>::Sqrt(number)) {
+  static_assert(SquareRoot<T>::exists, "T does not implement SquareRoot");
   return SquareRoot<T>::Sqrt(number);
 }
 

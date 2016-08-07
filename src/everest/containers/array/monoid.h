@@ -11,7 +11,9 @@ class Array;
 template<class T, size_t S>
 class Monoid<Array<T, S>> final {
 public:
+
   static constexpr bool exists = true;
+
 };
 
 }

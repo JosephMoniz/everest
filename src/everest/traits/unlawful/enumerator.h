@@ -24,6 +24,7 @@ public:
 
 template<class T>
 static const Option<T> Next(const T& enumerator) noexcept {
+  static_assert(Enumerator<T>::exists, "T does not implement Enumerator");
   return Enumerator<T>::Next(enumerator);
 };
 

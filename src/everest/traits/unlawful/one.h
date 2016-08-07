@@ -14,14 +14,15 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr U One() noexcept {
+  static U One() noexcept {
     return Base::One();
   }
 
 };
 
 template <class T>
-constexpr T One() noexcept {
+T One() noexcept {
+  static_assert(OneVal<T>::exists, "T does not implement OneVal");
   return OneVal<T>::One();
 }
 

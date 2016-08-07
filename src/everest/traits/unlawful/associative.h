@@ -34,16 +34,19 @@ public:
 
 template <class F, class K, class V>
 F& Put(K&& key, V&& value, F&& container) noexcept {
+  static_assert(Associative<F>::exists, "T does not implement Associative");
   return Associative<F>::Put(std::move(key), std::move(value), std::forward<F>(container));
 }
 
 template <class F>
 F& Put(F&& source, F&& container) noexcept {
+  static_assert(Associative<F>::exists, "T does not implement Associative");
   return Associative<F>::Put(std::move(source), std::forward<F>(container));
 }
 
 template <class K, class T>
 auto Get(const K& key, T& container) noexcept -> decltype(Associative<T>::Get(key, container)) {
+  static_assert(Associative<T>::exists, "T does not implement Associative");
   return Associative<T>::Get(key, container);
 };
 

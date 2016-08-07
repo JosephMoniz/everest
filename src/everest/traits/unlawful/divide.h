@@ -14,7 +14,7 @@ public:
   static constexpr bool exists = false;
 
   template <class U>
-  static constexpr U Divide(const U& lhs, const U& rhs) noexcept {
+  static U Divide(const U& lhs, const U& rhs) noexcept {
     return Base::Divide(lhs, rhs);
   }
 
@@ -33,12 +33,14 @@ public:
 };
 
 template <class T>
-constexpr T Divide(const T& lhs, const T& rhs) noexcept {
+T Divide(const T& lhs, const T& rhs) noexcept {
+  static_assert(Dividable<T>::exists, "T does not implement Dividable");
   return Dividable<T>::Divide(lhs, rhs);
 }
 
 template <class T>
-constexpr T operator/(const T& lhs, const T& rhs) noexcept {
+T operator/(const T& lhs, const T& rhs) noexcept {
+  static_assert(Dividable<T>::exists, "T does not implement Dividable");
   return Dividable<T>::Divide(lhs, rhs);
 }
 

@@ -15,13 +15,13 @@ public:
   static constexpr bool exists = true;
 
   template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
-  static constexpr Vector<B> FlatMap(F f, const Vector<T>& vector) noexcept {
-    return Monad<MutableVector<T>>::FlatMap(f, vector._wrapped);
+  static Vector<B> FlatMap(F f, const Vector<T>& vector) noexcept {
+    return vector.FlatMap(f);
   }
 
   template <class B>
-  static constexpr Vector<B> Then(const Vector<T>& first, const Vector<B>& second) noexcept {
-    return second;
+  static Vector<B> Then(const Vector<T>& first, const Vector<B>& second) noexcept {
+    return first.Then(second);
   }
 
 };

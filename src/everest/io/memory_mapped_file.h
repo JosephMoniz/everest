@@ -50,12 +50,12 @@ public:
       auto flags   = MAP_FILE | MAP_SHARED;
       auto pointer = mmap(nullptr, size, options, flags, file.Descriptor(), 0);
       if (pointer != MAP_FAILED) {
-        return Ok<int, MemoryMappedFile>(MemoryMappedFile(std::move(file), size, pointer));
+        return Checked<int, MemoryMappedFile>::Ok(MemoryMappedFile(std::move(file), size, pointer));
       } else {
-        return Error<int, MemoryMappedFile>(errno);
+        return Checked<int, MemoryMappedFile>::Error(errno);
       }
     } else {
-      return Error<int, MemoryMappedFile>(stat.GetError());
+      return Checked<int, MemoryMappedFile>::Error(stat.GetError());
     }
   }
 

@@ -6,31 +6,11 @@
 #include <everest/memory/memory.h>
 #include <everest/containers/option.h>
 #include <everest/containers/mutable/mutable_vector.h>
-#include <everest/traits/unlawful/pointable.h>
-#include <everest/traits/unlawful/container.h>
-#include <everest/traits/unlawful/iteration.h>
 
 namespace everest {
 
 template<class T>
 class Vector final {
-
-  friend class Pointable<Vector<T>>;
-  friend class Container<Vector<T>>;
-  friend class Containable<Vector<T>>;
-  friend class Droppable<Vector<T>>;
-  friend class Eq<Vector<T>>;
-  friend class Filterable<Vector<T>>;
-  friend class Foldable<Vector<T>>;
-  friend class Functor<Vector<T>>;
-  friend class Hashable<Vector<T>>;
-  friend class Monad<Vector<T>>;
-  friend class Ord<Vector<T>>;
-  friend class Queue<Vector<T>>;
-  friend class Semigroup<Vector<T>>;
-  friend class Stack<Vector<T>>;
-  friend class Takeable<Vector<T>>;
-  friend class Iteration<Vector<T>>;
 
   MutableVector<T> _wrapped;
 
@@ -42,7 +22,7 @@ public:
 
   Vector(const T* src, size_t length) noexcept {
     auto memory  = MutableMemory<T>(length);
-    auto pointer = MutablePointer(memory);
+    auto pointer = memory.MutablePointer();
     for (auto i = 0; i < length; i++) {
       src[i] = pointer[i];
     }
@@ -61,45 +41,160 @@ public:
 
   Option<const T&> At(size_t offset) const noexcept {
     if (offset < Length(_wrapped)) {
-      return Some(Pointer(_wrapped)[offset]);
+      return Option<const T&>::Some(Pointer(_wrapped)[offset]);
     } else {
-      return None<const T&>();
+      return Option<const T&>::None();
     }
   }
 
-};
+  const T* Pointer() const noexcept {
+    return _wrapped.Pointer();
+  }
 
-template <class T>
-class Iteration<Vector<T>> final {
-public:
+  size_t Length() const noexcept {
+    return _wrapped.Length();
+  }
 
-  static constexpr bool exists = true;
+  bool IsEmpty() const noexcept {
+    return _wrapped.IsEmpty();
+  }
+
+  bool Contains(const T& item) const noexcept {
+    return _wrapped.Contains(item);
+  }
+
+  Vector<T> Drop(size_t length) const noexcept {
+    return Vector<T>(_wrapped.Drop(length));
+  }
+
+  template<class Predicate>
+  Vector<T> DropWhile(Predicate predicate) const noexcept {
+    return Vector<T>(_wrapped.DropWhile(predicate));
+  }
+
+  bool Equals(const Vector<T>& other) const noexcept {
+    return _wrapped.Equals(other._wrapped);
+  }
+
+  template<class Predicate>
+  Vector<T> Filter(Predicate predicate) const noexcept {
+    return Vector<T>(_wrapped.Filter(predicate));
+  }
+
+  T Fold() const noexcept {
+    return _wrapped.Fold();
+  }
+
+  template <class Fn, class M = typename std::result_of<Fn(T)>::type>
+  M FoldMap(Fn f) const noexcept {
+    return _wrapped.FoldMap(f);
+  }
+
+  template <class Fn, class B>
+  B FoldR(const B& init, Fn f) const noexcept {
+    return _wrapped.FoldR(init, f);
+  }
+
+  template <class Fn, class B>
+  B FoldL(const B& init, Fn f) const noexcept {
+    return _wrapped.FoldL(init, f);
+  }
+
+  template <class F, class B = typename std::result_of<F(T)>::type>
+  Vector<B> Map(F f) const noexcept {
+    return Vector<B>(_wrapped.Map(f));
+  }
+
+  HashValue Hash() const noexcept {
+    return _wrapped.Hash();
+  }
+
+  String ToHex() const noexcept {
+    return _wrapped.ToHex();
+  }
+
+  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  Vector<B> FlatMap(F f) const noexcept {
+    return Vector<B>(_wrapped.FlatMap(f));
+  }
+
+  template <class B>
+  Vector<B> Then(const Vector<B>& second) const noexcept {
+    return second;
+  }
+
+  Ordering Compare(const Vector<T>& other) const noexcept {
+    return _wrapped.Compare(other._wrapped);
+  }
+
+  const Vector<T>& Min(const Vector<T>& rhs) const noexcept {
+    return (Compare(rhs) == Ordering::GREATER)
+      ? rhs
+      : *this;
+  }
+
+  const Vector<T>& Max(const Vector<T>& rhs) const noexcept {
+    return (Compare(rhs) == Ordering::LESS)
+      ? rhs
+      : *this;
+  }
+
+  Vector<T> Enqueue(const T& item) const noexcept {
+    return Vector<T>(_wrapped.Enqueue(item));
+  }
+
+  Vector<T> Dequeue() const noexcept {
+    return Vector<T>(_wrapped.Dequeue());
+  }
+
+  Option<const T&> Front() const noexcept {
+    return _wrapped.Front();
+  }
+
+  Vector<T> Add(const Vector<T>& other) const noexcept {
+    return Vector<T>(_wrapped.Add(other._wrapped));
+  }
+
+  String Show() const noexcept {
+    auto out     = String("Vector(");
+    auto pointer = Pointer();
+    auto length  = Length();
+    for (size_t i = 0; i < length; i++) {
+      out = std::move(out) + Shows<T>::Show(pointer[i]) + String(", ");
+    }
+    return Takeable<String>::Take(out.Length() - 2, std::move(out)) + String(")");
+  }
+
+  Vector<T> Push(const T& item) const noexcept {
+    return Vector<T>(_wrapped.Push(item));
+  }
+
+  Vector<T> Pop() const noexcept {
+    return Vector<T>(_wrapped.Pop());
+  }
+
+  Option<const T&> Top() const noexcept {
+    return _wrapped.Top();
+  }
+
+  Vector<T> Take(size_t length) const noexcept {
+    return Vector<T>(_wrapped.Take(length));
+  }
+
+  template<class Predicate>
+  Vector<T> TakeWhile(Predicate predicate) const noexcept {
+    return Vector<T>(_wrapped.TakeWhile(predicate));
+  }
 
   template <class F>
-  static void ForEach(const Vector<T>& container, const F& function) noexcept {
-    Iteration<MutableVector<T>>::ForEach(container._wrapped, function);
+  void ForEach(const F& function) const noexcept {
+    _wrapped.ForEach(function);
+  }
+
+  static Vector<T> Zero() noexcept {
+    return Vector<T>();
   }
 
 };
 
 }
-
-#include "everest/containers/vector/pointable.h"
-#include "everest/containers/vector/container.h"
-#include "everest/containers/vector/containable.h"
-#include "everest/containers/vector/droppable.h"
-#include "everest/containers/vector/eq.h"
-#include "everest/containers/vector/filterable.h"
-#include "everest/containers/vector/foldable.h"
-#include "everest/containers/vector/functor.h"
-#include "everest/containers/vector/hashable.h"
-#include "everest/containers/vector/hexable.h"
-#include "everest/containers/vector/monad.h"
-#include "everest/containers/vector/monoid.h"
-#include "everest/containers/vector/ord.h"
-#include "everest/containers/vector/queue.h"
-#include "everest/containers/vector/semigroup.h"
-#include "everest/containers/vector/show.h"
-#include "everest/containers/vector/stack.h"
-#include "everest/containers/vector/takeable.h"
-#include "everest/containers/vector/zero.h"
