@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/monoids/max_monoid.h>
+#include <everest/monoids/max_monoid.h>
 #include <everest/traits/unlawful/ord/ordering/all_traits.h>
 
 namespace everest {

@@ -8,8 +8,6 @@
 #include <everest/types/primitive/uint32_spec.h>
 #include <everest/types/primitive/uint64_spec.h>
 #include <everest/types/string_spec.h>
-#include <everest/containers/mutable/mutable_array_spec.h>
-#include <everest/containers/mutable/mutable_vector_spec.h>
 #include <everest/containers/array_spec.h>
 #include <everest/containers/option_spec.h>
 #include <everest/containers/checked_spec.h>
@@ -18,8 +16,6 @@
 #include <everest/containers/monoids/max_monoid_spec.h>
 #include <everest/containers/monoids/min_monoid_spec.h>
 #include <everest/io/file_spec.h>
-#include <everest/containers/mutable/mutable_set_spec.h>
-#include <everest/containers/mutable/mutable_map_spec.h>
 #include <everest/containers/set_spec.h.h>
 #include <everest/crypto/hash/md5_spec.h>
 #include <everest/crypto/hash/sha1_spec.h>
@@ -33,8 +29,6 @@
 #include <everest/crypto/hash/sha384_spec.h>
 #include <everest/crypto/hmac/hmac_sha224_spec.h>
 #include <everest/crypto/hmac/hmac_sha384_spec.h>
-#include <everest/containers/mutable/mutable_bit_set_spec.h>
-#include <everest/containers/mutable/mutable_sorted_vector_set_spec.h>
 #include <everest/types/bool_spec.h>
 #include <everest/types/int8_spec.h>
 #include <everest/types/int16_spec.h>
@@ -44,6 +38,12 @@
 #include <everest/types/uint16_spec.h>
 #include <everest/types/uint32_spec.h>
 #include <everest/types/uint64_spec.h>
+#include <everest/containers/mutable/mutable_array_spec.h>
+#include <everest/containers/mutable/mutable_vector_spec.h>
+#include <everest/containers/mutable/mutable_set_spec.h>
+#include <everest/containers/mutable/mutable_map_spec.h>
+#include <everest/containers/mutable/mutable_bit_set_spec.h>
+#include <everest/containers/mutable/mutable_sorted_vector_set_spec.h>
 #include <everest/containers/mutable/mutable_sorted_vector_map_spec.h>
 
 

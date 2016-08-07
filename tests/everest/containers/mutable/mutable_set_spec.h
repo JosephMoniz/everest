@@ -1,11 +1,11 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/mutable/mutable_vector.h>
+#include <everest/mutable_containers/mutable_vector.h>
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
-#include <everest/containers/mutable/mutable_set.h>
-#include <everest/containers/mutable/set/all_traits.h>
+#include <everest/mutable_containers/mutable_set.h>
+#include <everest/mutable_containers/set/all_traits.h>
 #include <everest/traits/unlawful/mutable/mutable_remove.h>
 
 namespace everest {

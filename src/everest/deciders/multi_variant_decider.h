@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/types/expressive/simple_percentage.h>
-#include <everest/containers/mutable/mutable_sorted_vector_set.h>
+#include <everest/mutable_containers/mutable_sorted_vector_set.h>
 
 namespace everest {
 

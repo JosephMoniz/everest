@@ -1,8 +1,8 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/mutable/mutable_sorted_vector_map.h>
-#include <everest/containers/mutable/sorted_vector_map/all_traits.h>
+#include <everest/mutable_containers/mutable_sorted_vector_map.h>
+#include <everest/mutable_containers/sorted_vector_map/all_traits.h>
 
 namespace everest {
 

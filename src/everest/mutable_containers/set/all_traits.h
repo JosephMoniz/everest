@@ -1,0 +1,22 @@
+#pragma once
+
+#include <everest/mutable_containers/set/containable.h>
+#include <everest/mutable_containers/set/container.h>
+#include <everest/mutable_containers/set/copyable.h>
+#include <everest/mutable_containers/set/eq.h>
+#include <everest/mutable_containers/set/filterable.h>
+#include <everest/mutable_containers/set/findable.h>
+#include <everest/mutable_containers/set/functor.h>
+#include <everest/mutable_containers/set/hashable.h>
+#include <everest/mutable_containers/set/iteration.h>
+#include <everest/mutable_containers/set/monad.h>
+#include <everest/mutable_containers/set/monoid.h>
+#include <everest/mutable_containers/set/mutable_add.h>
+#include <everest/mutable_containers/set/mutable_filter.h>
+#include <everest/mutable_containers/set/mutable_find.h>
+#include <everest/mutable_containers/set/mutable_remove.h>
+#include <everest/mutable_containers/set/semigroup.h>
+#include <everest/mutable_containers/set/shows.h>
+#include <everest/mutable_containers/set/subtract.h>
+#include <everest/mutable_containers/set/anyable.h>
+#include <everest/mutable_containers/set/zero.h>

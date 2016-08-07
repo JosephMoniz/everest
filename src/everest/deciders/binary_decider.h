@@ -1,6 +1,7 @@
 #pragma once
 
 #include <everest/types/expressive/simple_percentage.h>
+#include <everest/traits/unlawful/hashable.h>
 
 namespace everest {
 

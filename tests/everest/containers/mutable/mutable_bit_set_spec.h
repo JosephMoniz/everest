@@ -1,8 +1,8 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/mutable/mutable_bit_set.h>
-#include <everest/containers/mutable/bit_set/all_traits.h>
+#include <everest/mutable_containers/mutable_bit_set.h>
+#include <everest/mutable_containers/bit_set/all_traits.h>
 
 namespace everest {
 

@@ -4,6 +4,7 @@
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
 #include <everest/containers/set.h>
+#include <everest/containers/set/all_traits.h>
 #include <everest/traits/unlawful/mutable/mutable_remove.h>
 
 namespace everest {

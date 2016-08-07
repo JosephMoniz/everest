@@ -5,7 +5,7 @@
 #include <everest/types/int8.h>
 #include <everest/memory/memory.h>
 #include <everest/containers/option.h>
-#include <everest/containers/mutable/mutable_vector.h>
+#include <everest/mutable_containers/mutable_vector.h>
 
 namespace everest {
 

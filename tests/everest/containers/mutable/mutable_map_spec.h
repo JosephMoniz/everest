@@ -1,8 +1,8 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/mutable/mutable_map.h>
-#include <everest/containers/mutable/map/traits/all_traits.h>
+#include <everest/mutable_containers/mutable_map.h>
+#include <everest/mutable_containers/map/traits/all_traits.h>
 
 namespace everest {
 

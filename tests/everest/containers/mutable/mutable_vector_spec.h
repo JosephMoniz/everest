@@ -1,8 +1,8 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/containers/mutable/mutable_vector.h>
-#include <everest/containers/mutable/vector/all_traits.h>
+#include <everest/mutable_containers/mutable_vector.h>
+#include <everest/mutable_containers/vector/all_traits.h>
 #include <everest/functions/identity.h>
 #include <everest/traits/unlawful/multiply.h>
 #include <everest/traits/unlawful/ord/ordering/all_traits.h>

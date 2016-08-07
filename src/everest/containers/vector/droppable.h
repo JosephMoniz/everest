@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <everest/containers/vector.h>
-#include <everest/containers/mutable/mutable_vector.h>
+#include <everest/mutable_containers/mutable_vector.h>
 #include <everest/traits/unlawful/droppable.h>
 #include <everest/traits/unlawful/ord.h>
 

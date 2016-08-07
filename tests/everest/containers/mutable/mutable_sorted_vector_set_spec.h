@@ -2,8 +2,8 @@
 
 #include <everest/test/bdd.h>
 #include <everest/functions/identity.h>
-#include <everest/containers/mutable/mutable_sorted_vector_set.h>
-#include <everest/containers/mutable/sorted_vector_set/all_traits.h>
+#include <everest/mutable_containers/mutable_sorted_vector_set.h>
+#include <everest/mutable_containers/sorted_vector_set/all_traits.h>
 
 namespace everest {
 
