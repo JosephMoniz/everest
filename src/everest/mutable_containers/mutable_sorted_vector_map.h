@@ -41,15 +41,46 @@ public:
     return copy;
   }
 
-  const V* Get(const K& key) const noexcept {
-    auto pointer = _set.Find(key);
-    return pointer != nullptr
-      ? &pointer->ConstValue()
-      : nullptr;
+  Option<const V*> Get(const K& key) const noexcept {
+    return _set
+      .Find(key)
+      .Map([](MutableMapEntry<K, V>& entry) { return &entry.Value(); });
+  };
+
+  // TODO: Make trait
+  // TODO: Make test
+  Option<const V*> GetCeil(const K& key) const noexcept {
+    return _set
+      .FindCeil(key)
+      .Map([](auto entry) { return entry->ConstValue(); });
+  };
+
+  // TODO: Make trait
+  // TODO: Make test
+  Option<const V*> GetFloor(const K& key) const noexcept {
+    return _set
+      .FindFloor(key)
+      .Map([](auto entry) { return entry->ConstValue(); });
+  };
+
+  // TODO: Make trait
+  // TODO: Make test
+  Option<const V*> FirstValue() const noexcept {
+    return _set
+      .First()
+      .Map([](auto entry) { return entry->ConstValue(); });
+  };
+
+  // TODO: Make trait
+  // TODO: Make test
+  const Option<V*> LastValue() const noexcept {
+    return _set
+      .Last()
+      .Map([](auto entry) { return entry->ConstValue(); });
   };
 
   bool Contains(const K& key) const noexcept {
-    return _set.Find(key) != nullptr;
+    return _set.Find(key).IsSome();
   }
 
   bool Equals(const MutableSortedVectorMap<K, V>& other) const noexcept {
@@ -72,11 +103,10 @@ public:
     });
   }
 
-  V* GetInPlace(const K& key) noexcept {
-    auto pointer = _set.FindInPlace(key);
-    return pointer != nullptr
-      ? &pointer->Value()
-      : nullptr;
+  Option<V*> GetInPlace(const K& key) noexcept {
+    return _set
+      .FindInPlace(key)
+      .Map([](MutableMapEntry<K, V>* entry) { return &entry->Value(); });
   };
 
   MutableSortedVectorMap<K, V>& RemoveInPlace(const K& key) noexcept {
@@ -104,7 +134,7 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("MutableMap(");
+    auto out = String("MutableSortedVectorMap(");
     ForEach([&](const MutableMapEntry<K, V>& entry) {
       out = std::move(out) + entry.Show() + String(", ");
     });

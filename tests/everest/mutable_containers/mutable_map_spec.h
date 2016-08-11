@@ -1,21 +1,22 @@
 #pragma once
 
 #include <everest/test/bdd.h>
-#include <everest/mutable_containers/mutable_sorted_vector_map.h>
-#include <everest/mutable_containers/sorted_vector_map/all_traits.h>
+#include <everest/mutable_containers/mutable_map.h>
+#include <everest/mutable_containers/map/traits/all_traits.h>
+#include <everest/containers/option/all_traits.h>
 
 namespace everest {
 
-void MutableSortedVectorMapSpecification() {
-  Describe("A MutableSortedVectorMap type", []() {
+void MutableMapSpecification() {
+  Describe("A MutableMap type", []() {
     Describe("of value {'one': 1, 'two': 2, 'three': 3, 'four': 4}", []() {
-      auto subject = MutableSortedVectorMap<String, int>();
+      auto subject = MutableMap<String, int>();
       PutInPlace(String("one"), 1, subject);
       PutInPlace(String("two"), 2, subject);
       PutInPlace(String("three"), 3, subject);
       PutInPlace(String("four"), 4, subject);
       It("Should render the correct string when called with Shows()", [&](){
-        auto expected = String("MutableMap(one: 1, two: 2, four: 4, three: 3)");
+        auto expected = String("MutableMap(three: 3, four: 4, two: 2, one: 1)");
         auto result   = Show(subject);
         AssertEquals(expected, result);
       });
@@ -38,22 +39,22 @@ void MutableSortedVectorMapSpecification() {
         AssertFalse(Contains(String("five"), subject));
       });
       It("Should return nullptr when called with Get('zero')", [&]() {
-        AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject));
+        AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject).Get());
       });
       It("Should return 1 when called with Get('one')", [&]() {
-        AssertEquals(1, *GetInPlace(String("one"), subject));
+        AssertEquals(1, GetInPlace(String("one"), subject).Get()[0]);
       });
       It("Should return 2 when called with Get('two')", [&]() {
-        AssertEquals(2, *GetInPlace(String("two"), subject));
+        AssertEquals(2, GetInPlace(String("two"), subject).Get()[0]);
       });
       It("Should return 3 when called with Get('three')", [&]() {
-        AssertEquals(3, *GetInPlace(String("three"), subject));
+        AssertEquals(3, GetInPlace(String("three"), subject).Get()[0]);
       });
       It("Should return 4 when called with Get('four')", [&]() {
-        AssertEquals(4, *GetInPlace(String("four"), subject));
+        AssertEquals(4, GetInPlace(String("four"), subject).Get()[0]);
       });
       It("Should return nullptr when called with Get('five')", [&]() {
-        AssertEquals<int>(nullptr, GetInPlace(String("five"), subject));
+        AssertEquals<int>(nullptr, GetInPlace(String("five"), subject).Get());
       });
       Describe("and we call Remove(1)", [&]() {
         RemoveInPlace(String("one"), subject);
@@ -76,22 +77,22 @@ void MutableSortedVectorMapSpecification() {
           AssertFalse(Contains(String("five"), subject));
         });
         It("Should return nullptr when called with Get('zero')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject).Get());
         });
         It("Should return nullptr when called with Get('one')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject).Get());
         });
         It("Should return 2 when called with Get('two')", [&]() {
-          AssertEquals(2, *GetInPlace(String("two"), subject));
+          AssertEquals(2, GetInPlace(String("two"), subject).Get()[0]);
         });
         It("Should return 3 when called with Get('three')", [&]() {
-          AssertEquals(3, *GetInPlace(String("three"), subject));
+          AssertEquals(3, GetInPlace(String("three"), subject).Get()[0]);
         });
         It("Should return 4 when called with Get('four')", [&]() {
-          AssertEquals(4, *GetInPlace(String("four"), subject));
+          AssertEquals(4, GetInPlace(String("four"), subject).Get()[0]);
         });
         It("Should return nullptr when called with Get('five')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject).Get());
         });
       });
       Describe("and we call Remove(2)", [&]() {
@@ -115,22 +116,22 @@ void MutableSortedVectorMapSpecification() {
           AssertFalse(Contains(String("five"), subject));
         });
         It("Should return nullptr when called with Get('zero')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject).Get());
         });
         It("Should return nullptr when called with Get('one')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject).Get());
         });
         It("Should return nullptr when called with Get('two')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("two"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("two"), subject).Get());
         });
         It("Should return 3 when called with Get('three')", [&]() {
-          AssertEquals(3, *GetInPlace(String("three"), subject));
+          AssertEquals(3, GetInPlace(String("three"), subject).Get()[0]);
         });
         It("Should return 4 when called with Get('four')", [&]() {
-          AssertEquals(4, *GetInPlace(String("four"), subject));
+          AssertEquals(4, GetInPlace(String("four"), subject).Get()[0]);
         });
         It("Should return nullptr when called with Get('five')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject).Get());
         });
       });
       Describe("and we call Remove(3)", [&]() {
@@ -154,22 +155,22 @@ void MutableSortedVectorMapSpecification() {
           AssertFalse(Contains(String("five"), subject));
         });
         It("Should return nullptr when called with Get('zero')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject).Get());
         });
         It("Should return nullptr when called with Get('one')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject).Get());
         });
         It("Should return nullptr when called with Get('two')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("two"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("two"), subject).Get());
         });
         It("Should return nullptr when called with Get('three')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("three"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("three"), subject).Get());
         });
         It("Should return 4 when called with Get('four')", [&]() {
-          AssertEquals(4, *GetInPlace(String("four"), subject));
+          AssertEquals(4, GetInPlace(String("four"), subject).Get()[0]);
         });
         It("Should return nullptr when called with Get('five')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject).Get());
         });
       });
       Describe("and we call Remove(4)", [&]() {
@@ -193,22 +194,22 @@ void MutableSortedVectorMapSpecification() {
           AssertFalse(Contains(String("five"), subject));
         });
         It("Should return nullptr when called with Get('zero')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("zero"), subject).Get());
         });
         It("Should return nullptr when called with Get('one')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("one"), subject).Get());
         });
         It("Should return nullptr when called with Get('two')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("two"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("two"), subject).Get());
         });
         It("Should return nullptr when called with Get('three')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("three"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("three"), subject).Get());
         });
         It("Should return nullptr when called with Get('four')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("four"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("four"), subject).Get());
         });
         It("Should return nullptr when called with Get('five')", [&]() {
-          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject));
+          AssertEquals<int>(nullptr, GetInPlace(String("five"), subject).Get());
         });
       });
     });

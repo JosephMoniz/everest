@@ -68,8 +68,8 @@ set(SOURCE_FILES
         src/everest/containers/option.h
         src/everest/mutable_containers/mutable_array.h
         tests/everest/containers/checked_spec.h
-        tests/everest/containers/mutable/mutable_array_spec.h
-        tests/everest/containers/mutable/mutable_vector_spec.h
+        tests/everest/mutable_containers/mutable_array_spec.h
+        tests/everest/mutable_containers/mutable_vector_spec.h
         src/everest/mutable_containers/mutable_bit_set.h
         src/everest/mutable_containers/mutable_set.h
         src/everest/mutable_containers/array/shows.h
@@ -205,7 +205,7 @@ set(SOURCE_FILES
         src/everest/mutable_containers/vector/stack.h
         src/everest/mutable_containers/vector/shows.h
         src/everest/mutable_containers/vector/zero.h
-        tests/everest/containers/mutable/mutable_set_spec.h
+        tests/everest/mutable_containers/mutable_set_spec.h
         src/everest/traits/unlawful/mutable/mutable_add.h
         src/everest/mutable_containers/vector/mutable_add.h
         src/everest/traits/unlawful/mutable/mutable_remove.h
@@ -227,7 +227,7 @@ set(SOURCE_FILES
         src/everest/containers/set.h
         src/everest/crdt/sets/gset.h
         src/everest/traits/unlawful/mutable/mutable_find.h
-        tests/everest/containers/mutable/mutable_map_spec.h
+        tests/everest/mutable_containers/mutable_map_spec.h
         src/everest/traits/unlawful/anyable.h
         src/everest/probabilistic/bloom_filter.h
         src/everest/crdt/counters/gacounter.h
@@ -410,7 +410,7 @@ set(SOURCE_FILES
         src/everest/crypto/hmac/sha384/sink/sink.h
         src/everest/crypto/hmac/sha512/hmac_sha512_sink.h
         src/everest/crypto/hmac/sha512/sink/sink.h
-        tests/everest/containers/mutable/mutable_bit_set_spec.h
+        tests/everest/mutable_containers/mutable_bit_set_spec.h
         src/everest/probabilistic/mutable/mutable_bloom_filter.h
         src/everest/deciders/binary_decider.h
         src/everest/types/expressive/simple_percentage.h
@@ -432,7 +432,7 @@ set(SOURCE_FILES
         src/everest/types/expressive/hash_value/show.h
         src/everest/types/expressive/hash_value/all_traits.h
         src/everest/mutable_containers/mutable_sorted_vector_set.h
-        tests/everest/containers/mutable/mutable_sorted_vector_set_spec.h
+        tests/everest/mutable_containers/mutable_sorted_vector_set_spec.h
         src/everest/traits/unlawful/mutable/mutable_insert.h
         src/everest/mutable_containers/vector/mutable_insert.h
         src/everest/traits/unlawful/mutable/mutable_remove_at.h
@@ -673,7 +673,106 @@ set(SOURCE_FILES
         src/everest/types/uint64/copyable.h
         src/everest/types/uint64/show.h
         src/everest/types/uint64/hexable.h
-        src/everest/types/uint64/all_traits.h src/everest/traits/unlawful/ord/ordering.h src/everest/traits/unlawful/ord/ordering/show.h src/everest/traits/unlawful/ord/ordering/all_traits.h src/everest/memory/memory/pointable.h src/everest/memory/memory/container.h src/everest/memory/memory/all_traits.h src/everest/memory/growable/mutable_pointer.h src/everest/memory/growable/pointer.h src/everest/memory/growable/container.h src/everest/memory/growable/eq.h src/everest/memory/growable/all_traits.h src/everest/memory/mutable/pointable.h src/everest/memory/mutable/mutable_pointer.h src/everest/memory/mutable/container.h src/everest/memory/mutable/eq.h src/everest/memory/mutable/all_traits.h src/everest/mutable_containers/set/all_traits.h src/everest/io/event_loop.h src/everest/mutable_containers/array/iteration.h src/everest/mutable_containers/array/all_traits.h src/everest/mutable_containers/vector/all_traits.h src/everest/mutable_containers/bit_set/pointable.h src/everest/mutable_containers/bit_set/mutable_pointer.h src/everest/mutable_containers/bit_set/copyable.h src/everest/mutable_containers/bit_set/containable.h src/everest/mutable_containers/bit_set/container.h src/everest/mutable_containers/bit_set/iteration.h src/everest/mutable_containers/bit_set/show.h src/everest/mutable_containers/bit_set/all_traits.h src/everest/mutable_containers/set/anyable.h src/everest/mutable_containers/map/entry/hashable.h src/everest/mutable_containers/map/traits/all_traits.h src/everest/mutable_containers/sorted_vector_set/pointable.h src/everest/mutable_containers/sorted_vector_set/container.h src/everest/mutable_containers/sorted_vector_set/containable.h src/everest/mutable_containers/sorted_vector_set/iteration.h src/everest/mutable_containers/sorted_vector_set/show.h src/everest/mutable_containers/sorted_vector_set/eq.h src/everest/mutable_containers/sorted_vector_set/functor.h src/everest/mutable_containers/sorted_vector_set/mutable_remove.h src/everest/mutable_containers/sorted_vector_set/mutable_add.h src/everest/mutable_containers/sorted_vector_set/mutable_filter.h src/everest/mutable_containers/sorted_vector_set/semigroup.h src/everest/mutable_containers/sorted_vector_set/zero.h src/everest/mutable_containers/sorted_vector_set/all_traits.h src/everest/mutable_containers/mutable_sorted_vector_map.h src/everest/mutable_containers/set/mutable_find.h src/everest/traits/unlawful/findable.h src/everest/mutable_containers/set/findable.h src/everest/mutable_containers/sorted_vector_set/mutable_find.h src/everest/mutable_containers/sorted_vector_set/findable.h src/everest/mutable_containers/vector/mutable_pointer.h src/everest/mutable_containers/sorted_vector_set/mutable_pointer.h src/everest/mutable_containers/vector/findable.h src/everest/mutable_containers/sorted_vector_map/copyable.h src/everest/mutable_containers/sorted_vector_map/container.h src/everest/mutable_containers/sorted_vector_map/associative.h src/everest/mutable_containers/sorted_vector_map/containable.h src/everest/mutable_containers/sorted_vector_map/eq.h src/everest/mutable_containers/sorted_vector_map/iteration.h src/everest/mutable_containers/sorted_vector_map/mutable_associative.h src/everest/mutable_containers/sorted_vector_map/mutable_remove.h src/everest/mutable_containers/sorted_vector_map/semigroup.h src/everest/mutable_containers/sorted_vector_map/show.h src/everest/mutable_containers/sorted_vector_map/zero.h src/everest/mutable_containers/sorted_vector_map/all_traits.h tests/everest/containers/mutable/mutable_sorted_vector_map_spec.h src/everest/mutable_containers/map/entry/ord.h src/everest/types/string/ord.h src/everest/types/mutable/string/ord.h src/everest/containers/array/iteration.h src/everest/containers/array/all_traits.h src/everest/containers/checked/all_traits.h src/everest/containers/option/all_traits.h src/everest/containers/option/iteration.h src/everest/containers/vector/iteration.h src/everest/containers/vector/all_traits.h src/everest/containers/map/containable.h src/everest/containers/map/container.h src/everest/containers/map/shows.h src/everest/containers/map/iteration.h src/everest/containers/map/zero.h src/everest/containers/map/all_traits.h src/everest/containers/set/containable.h src/everest/containers/set/container.h src/everest/containers/set/filterable.h src/everest/containers/set/functor.h src/everest/containers/set/hashable.h src/everest/containers/set/iteration.h src/everest/containers/set/monad.h src/everest/containers/set/monoid.h src/everest/containers/set/subtractable.h src/everest/containers/set/show.h src/everest/containers/set/zero.h src/everest/containers/set/eq.h src/everest/containers/set/semigroup.h src/everest/containers/set/all_traits.h)
+        src/everest/types/uint64/all_traits.h
+        src/everest/traits/unlawful/ord/ordering.h
+        src/everest/traits/unlawful/ord/ordering/show.h
+        src/everest/traits/unlawful/ord/ordering/all_traits.h
+        src/everest/memory/memory/pointable.h
+        src/everest/memory/memory/container.h
+        src/everest/memory/memory/all_traits.h
+        src/everest/memory/growable/mutable_pointer.h
+        src/everest/memory/growable/pointer.h
+        src/everest/memory/growable/container.h
+        src/everest/memory/growable/eq.h
+        src/everest/memory/growable/all_traits.h
+        src/everest/memory/mutable/pointable.h
+        src/everest/memory/mutable/mutable_pointer.h
+        src/everest/memory/mutable/container.h
+        src/everest/memory/mutable/eq.h
+        src/everest/memory/mutable/all_traits.h
+        src/everest/mutable_containers/set/all_traits.h
+        src/everest/io/event_loop.h
+        src/everest/mutable_containers/array/iteration.h
+        src/everest/mutable_containers/array/all_traits.h
+        src/everest/mutable_containers/vector/all_traits.h
+        src/everest/mutable_containers/bit_set/pointable.h
+        src/everest/mutable_containers/bit_set/mutable_pointer.h
+        src/everest/mutable_containers/bit_set/copyable.h
+        src/everest/mutable_containers/bit_set/containable.h
+        src/everest/mutable_containers/bit_set/container.h
+        src/everest/mutable_containers/bit_set/iteration.h
+        src/everest/mutable_containers/bit_set/show.h
+        src/everest/mutable_containers/bit_set/all_traits.h
+        src/everest/mutable_containers/set/anyable.h
+        src/everest/mutable_containers/map/entry/hashable.h
+        src/everest/mutable_containers/map/traits/all_traits.h
+        src/everest/mutable_containers/sorted_vector_set/pointable.h
+        src/everest/mutable_containers/sorted_vector_set/container.h
+        src/everest/mutable_containers/sorted_vector_set/containable.h
+        src/everest/mutable_containers/sorted_vector_set/iteration.h
+        src/everest/mutable_containers/sorted_vector_set/show.h
+        src/everest/mutable_containers/sorted_vector_set/eq.h
+        src/everest/mutable_containers/sorted_vector_set/functor.h
+        src/everest/mutable_containers/sorted_vector_set/mutable_remove.h
+        src/everest/mutable_containers/sorted_vector_set/mutable_add.h
+        src/everest/mutable_containers/sorted_vector_set/mutable_filter.h
+        src/everest/mutable_containers/sorted_vector_set/semigroup.h
+        src/everest/mutable_containers/sorted_vector_set/zero.h
+        src/everest/mutable_containers/sorted_vector_set/all_traits.h
+        src/everest/mutable_containers/mutable_sorted_vector_map.h
+        src/everest/mutable_containers/set/mutable_find.h
+        src/everest/traits/unlawful/findable.h
+        src/everest/mutable_containers/set/findable.h
+        src/everest/mutable_containers/sorted_vector_set/mutable_find.h
+        src/everest/mutable_containers/sorted_vector_set/findable.h
+        src/everest/mutable_containers/vector/mutable_pointer.h
+        src/everest/mutable_containers/sorted_vector_set/mutable_pointer.h
+        src/everest/mutable_containers/vector/findable.h
+        src/everest/mutable_containers/sorted_vector_map/copyable.h
+        src/everest/mutable_containers/sorted_vector_map/container.h
+        src/everest/mutable_containers/sorted_vector_map/associative.h
+        src/everest/mutable_containers/sorted_vector_map/containable.h
+        src/everest/mutable_containers/sorted_vector_map/eq.h
+        src/everest/mutable_containers/sorted_vector_map/iteration.h
+        src/everest/mutable_containers/sorted_vector_map/mutable_associative.h
+        src/everest/mutable_containers/sorted_vector_map/mutable_remove.h
+        src/everest/mutable_containers/sorted_vector_map/semigroup.h
+        src/everest/mutable_containers/sorted_vector_map/show.h
+        src/everest/mutable_containers/sorted_vector_map/zero.h
+        src/everest/mutable_containers/sorted_vector_map/all_traits.h
+        tests/everest/mutable_containers/mutable_sorted_vector_map_spec.h
+        src/everest/mutable_containers/map/entry/ord.h
+        src/everest/types/string/ord.h
+        src/everest/types/mutable/string/ord.h
+        src/everest/containers/array/iteration.h
+        src/everest/containers/array/all_traits.h
+        src/everest/containers/checked/all_traits.h
+        src/everest/containers/option/all_traits.h
+        src/everest/containers/option/iteration.h
+        src/everest/containers/vector/iteration.h
+        src/everest/containers/vector/all_traits.h
+        src/everest/containers/map/containable.h
+        src/everest/containers/map/container.h
+        src/everest/containers/map/shows.h
+        src/everest/containers/map/iteration.h
+        src/everest/containers/map/zero.h
+        src/everest/containers/map/all_traits.h
+        src/everest/containers/set/containable.h
+        src/everest/containers/set/container.h
+        src/everest/containers/set/filterable.h
+        src/everest/containers/set/functor.h
+        src/everest/containers/set/hashable.h
+        src/everest/containers/set/iteration.h
+        src/everest/containers/set/monad.h
+        src/everest/containers/set/monoid.h
+        src/everest/containers/set/subtractable.h
+        src/everest/containers/set/show.h
+        src/everest/containers/set/zero.h
+        src/everest/containers/set/eq.h
+        src/everest/containers/set/semigroup.h
+        src/everest/containers/set/all_traits.h
+        src/everest/containers/sorted_vector_map.h
+        src/everest/containers/sorted_vector_set.h src/everest/types/expressive/hash_value/ord.h src/everest/containers/virtual_option.h)
 
 add_executable(everest ${SOURCE_FILES})
 

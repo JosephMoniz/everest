@@ -15,24 +15,26 @@ public:
 
   MutableSortedVectorSet() noexcept : _vector() { }
 
-  // TODO: Make this move and variadic instead
-  MutableSortedVectorSet(std::initializer_list<T> list) noexcept {
-    // TODO: Use quicksort instead of insertion sort
-    _vector.ReserveAtLeast(list.size());
-    for (auto it = list.begin(); it != list.end(); it++) {
-      AddInPlace(*it);
-    }
+  template <class U>
+  MutableSortedVectorSet(U&& element) noexcept : _vector() {
+    AddInPlace(std::move(element));
   }
+
+  template <class U, class... U2>
+  MutableSortedVectorSet(U&& element, U2&&... elements) noexcept : _vector() {
+    AddInPlace(std::move(element), std::move(elements)...);
+  };
 
   MutableSortedVectorSet<T> Copy() const noexcept {
     return MutableSortedVectorSet<T>(_vector.Copy());
   }
 
   template <class U>
-  T* FindInPlace(const U& item) noexcept {
-    if (Length() != 0) {
+  Option<T*> FindInPlace(const U& item) noexcept {
+    auto length = Length();
+    if (length != 0) {
       size_t low   = 0;
-      size_t high  = Length() - 1;
+      size_t high  = length - 1;
       auto pointer = MutablePointer();
       size_t mid;
       while (low < high) {
@@ -42,10 +44,10 @@ public:
             low = mid + 1;
             break;
           case Ordering::EQUAL:
-            return &pointer[mid];
+            return Option<T*>::Some(&pointer[mid]);
           case Ordering::GREATER:
             if (mid == 0) {
-              return nullptr;
+              return Option<T*>::None();
             } else {
               high = mid - 1;
             }
@@ -53,18 +55,19 @@ public:
         }
       }
       return (low == high && Compare(pointer[low], item) == Ordering::EQUAL)
-        ? &pointer[low]
-        : nullptr;
+        ? Option<T*>::Some(&pointer[low])
+        : Option<T*>::None();
     } else {
-      return nullptr;
+      return Option<T*>::None();
     }
   }
 
   template <class U>
-  const T* Find(const U& item) const noexcept {
-    if (Length() != 0) {
+  Option<const T*> Find(const U& item) const noexcept {
+    auto length = Length();
+    if (length != 0) {
       size_t low   = 0;
-      size_t high  = Length() - 1;
+      size_t high  = length - 1;
       auto pointer = Pointer();
       size_t mid;
       while (low < high) {
@@ -74,10 +77,10 @@ public:
             low = mid + 1;
             break;
           case Ordering::EQUAL:
-            return &pointer[mid];
+            return Option<const T*>::Some(&pointer[mid]);
           case Ordering::GREATER:
             if (mid == 0) {
-              return nullptr;
+              return Option<const T*>::None();
             } else {
               high = mid - 1;
             }
@@ -85,15 +88,126 @@ public:
         }
       }
       return (low == high && Compare(pointer[low], item) == Ordering::EQUAL)
-        ? &pointer[low]
-        : nullptr;
+        ? Option<const T*>::Some(&pointer[low])
+        : Option<const T*>::None();
     } else {
-      return nullptr;
+      return Option<const T*>::None();
     }
   }
 
+  // TODO: Make trait
+  // TODO: Make test
+  template <class U>
+  Option<const T*> FindCeil(const U& item) const noexcept {
+    auto length = Length();
+    if (length != 0) {
+      size_t low   = 0;
+      size_t high  = length - 1;
+      auto pointer = Pointer();
+      size_t mid;
+      while (low < high) {
+        mid = (low + high) / 2;
+        switch (Compare(pointer[mid], item)) {
+          case Ordering::LESS:
+            low = mid + 1;
+            break;
+          case Ordering::EQUAL:
+            return Option<const T*>::Some(&pointer[mid]);
+          case Ordering::GREATER:
+            if (mid == 0) {
+              return Option<const T*>::None();
+            } else {
+              high = mid - 1;
+            }
+            break;
+        }
+      }
+      if (low == high) {
+        auto next = low + 1;
+        switch (Compare(pointer[low], item)) {
+          case Ordering::LESS:
+            return next < length
+              ? Option<const T*>::Some(&pointer[next])
+              : Option<const T*>::None();
+          case Ordering::EQUAL:
+            return Option<const T*>::Some(&pointer[low]);
+          case Ordering::GREATER:
+            return Option<const T*>::Some(&pointer[low]);
+        }
+      } else {
+        return Option<const T*>::None();
+      }
+    } else {
+      return Option<const T*>::None();
+    }
+  }
+
+  // TODO: Make trait
+  // TODO: Make test
+  template <class U>
+  Option<const T*> FindFloor(const U& item) const noexcept {
+    auto length = Length();
+    if (length != 0) {
+      size_t low   = 0;
+      size_t high  = length - 1;
+      auto pointer = Pointer();
+      size_t mid;
+      while (low < high) {
+        mid = (low + high) / 2;
+        switch (Compare(pointer[mid], item)) {
+          case Ordering::LESS:
+            low = mid + 1;
+            break;
+          case Ordering::EQUAL:
+            return Option<const T*>::Some(&pointer[mid]);
+          case Ordering::GREATER:
+            if (mid == 0) {
+              return Option<const T*>::None();
+            } else {
+              high = mid - 1;
+            }
+            break;
+        }
+      }
+      if (low == high) {
+        switch (Compare(pointer[low], item)) {
+          case Ordering::LESS:
+            return Option<const T*>::Some(&pointer[low]);
+          case Ordering::EQUAL:
+            return Option<const T*>::Some(&pointer[low]);
+          case Ordering::GREATER:
+            if (low > 0) {
+              return Option<const T*>::Some(&pointer[low - 1]);
+            } else {
+              return Option<const T*>::None();
+            }
+        }
+      } else {
+        return Option<const T*>::None();
+      }
+    } else {
+      return Option<const T*>::None();
+    }
+  }
+
+  // TODO: Make trait
+  // TODO: Make test
+  Option<const T*> First() const noexcept {
+    return IsEmpty()
+      ? Option<const T*>::None()
+      : Option<const T*>::Some(&Pointer()[0]);
+  }
+
+  // TODO: Make trait
+  // TODO: Make test
+  Option<const T*> Last() const noexcept {
+    return IsEmpty()
+      ? Option<const T*>::None()
+      : Option<const T*>::Some(&Pointer()[Length() - 1]);
+  }
+
   bool Contains(const T& item) const noexcept {
-    return Find(item) != nullptr;
+    return Find(item).IsSome();
   }
 
   MutableSortedVectorSet<T>& AddInPlace(const T& item) noexcept {
@@ -180,6 +294,12 @@ public:
     other.ForEach([self](T&& item) {
       self->AddInPlace(std::move(item));
     });
+  }
+
+  template <class... T2>
+  MutableSortedVectorSet<T>& AddInPlace(T&& source, T2&&... sources) noexcept {
+    AddInPlace(std::move(source));
+    AddInPlace(std::move(sources)...);
   }
 
   MutableSortedVectorSet<T>& RemoveInPlace(const T& item) noexcept {

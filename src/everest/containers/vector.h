@@ -18,7 +18,8 @@ public:
 
   Vector() noexcept : _wrapped() { }
 
-  Vector(std::initializer_list<T> list) noexcept : _wrapped(list) { }
+  template <class U, class... U2>
+  Vector(U&& element, U2&&... elements) noexcept : _wrapped(std::move(element), std::move(elements)...) { };
 
   Vector(const T* src, size_t length) noexcept {
     auto memory  = MutableMemory<T>(length);
@@ -31,13 +32,13 @@ public:
 
   Vector(const Vector<T>& other) = delete;
 
+  Vector(MutableVector<T>&& vector) noexcept : _wrapped(std::move(vector)) { }
+
   Vector(Vector<T>&& other) noexcept : _wrapped(std::move(other._wrapped)) {}
 
   Vector(Memory<T>&& memory) noexcept : _wrapped(std::move(memory)) { }
 
   Vector(MutableMemory<T>&& memory) noexcept : _wrapped(std::move(memory)) { }
-
-  Vector(MutableVector<T>&& vector) noexcept : _wrapped(std::move(vector)) { }
 
   Option<const T&> At(size_t offset) const noexcept {
     if (offset < Length(_wrapped)) {

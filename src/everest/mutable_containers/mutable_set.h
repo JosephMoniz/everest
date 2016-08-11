@@ -94,12 +94,12 @@ public:
   }
 
   template <class U>
-  T* FindInPlace(const U& item) noexcept {
+  Option<T*> FindInPlace(const U& item) noexcept {
     return GetBucket(item)->FindInPlace(item);
   }
 
   template <class U>
-  const T* Find(const U& item) const noexcept {
+  Option<const T*> Find(const U& item) const noexcept {
     return GetConstBucket(item)->Find(item);
   }
 

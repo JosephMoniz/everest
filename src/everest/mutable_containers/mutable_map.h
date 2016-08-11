@@ -42,15 +42,14 @@ public:
     return copy;
   }
 
-  const V* Get(const K& key) const noexcept {
-    auto pointer = _set.Find(key);
-    return pointer != nullptr
-      ? &pointer->ConstValue()
-      : nullptr;
+  Option<const V*> Get(const K& key) const noexcept {
+    return _set
+      .Find(key)
+      .Map([](MutableMapEntry<K, V>& entry) { return &entry.Value(); });
   };
 
   bool Contains(const K& key) const noexcept {
-    return _set.Find(key) != nullptr;
+    return _set.Find(key).IsSome();
   }
 
   bool Equals(const MutableMap<K, V>& other) const noexcept {
@@ -73,11 +72,10 @@ public:
     });
   }
 
-  V* GetInPlace(const K& key) noexcept {
-    auto pointer = _set.FindInPlace(key);
-    return pointer != nullptr
-      ? &pointer->Value()
-      : nullptr;
+  Option<V*> GetInPlace(const K& key) noexcept {
+    return _set
+      .FindInPlace(key)
+      .Map([](MutableMapEntry<K, V>* entry) { return &entry->Value(); });
   };
 
   MutableMap<K, V>& RemoveInPlace(const K& key) noexcept {

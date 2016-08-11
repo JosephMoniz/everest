@@ -42,7 +42,7 @@ T Pop(const T& stack) noexcept {
 };
 
 template <class T>
-auto Top(const T& stack) noexcept -> decltype(Stack<T>::Pop(stack)) {
+auto Top(const T& stack) noexcept -> decltype(Stack<T>::Top(stack)) {
   static_assert(Stack<T>::exists, "T does not implement Stack");
   return Stack<T>::Top(stack);
 };

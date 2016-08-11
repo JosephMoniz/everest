@@ -17,8 +17,8 @@ public:
 
   static Option<SimplePercentage> of(unsigned int percentage) noexcept {
     return (percentage >= 0 && percentage <= 100)
-      ? Some(SimplePercentage(percentage))
-      : None();
+      ? Option<SimplePercentage>::Some(SimplePercentage(percentage))
+      : Option<SimplePercentage>::None();
   }
 
   unsigned int Value() const noexcept {

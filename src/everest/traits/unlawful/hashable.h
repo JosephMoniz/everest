@@ -46,6 +46,12 @@ HashValue SeededHash(unsigned int seed, const T& hashable) noexcept {
   return HashValue(37 * seed + Hashable<T>::Hash(hashable).Value());
 }
 
+template <class T>
+HashValue SeededHash(HashValue seed, const T& hashable) noexcept {
+  static_assert(Hashable<T>::exists, "T does not implement Hashable");
+  return SeededHash(seed.Value(), hashable);
+}
+
 HashValue MultiHash(size_t count, HashValue hash) noexcept {
   auto mask  = ~0;
   auto shift = sizeof(int) * 4;

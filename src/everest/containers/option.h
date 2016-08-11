@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <type_traits>
 #include <everest/containers/option/option_type.h>
 #include <everest/traits/unlawful/fundamental.h>
 #include <everest/meta/nth_arg.h>
@@ -16,16 +17,16 @@ class Option final {
 
 public:
 
-  Option() noexcept : _tag(OptionType::NONE) {}
+  Option() noexcept : _tag(OptionType::NONE), _value() { }
 
-  template<class U = T>
-  Option(T value, typename std::enable_if<Fundamental<U>::exists>::type* = 0) noexcept : _tag(OptionType::SOME) {
-    new (&_value) T(value);
+  template <class U = T>
+  Option(T value, typename std::enable_if<std::is_pointer<U>::value>::type* = 0) noexcept : _tag(OptionType::SOME) {
+    _value = value == nullptr
+      ? nullptr
+      : value;
   }
 
-  Option(T&& value) noexcept : _tag(OptionType::SOME) {
-    new (&_value) T(std::move(value));
-  }
+  Option(T&& value) noexcept : _tag(OptionType::SOME), _value(std::move(value)) { }
 
   ~Option() noexcept {
     if (_tag == OptionType::SOME) {
@@ -33,7 +34,8 @@ public:
     }
   }
 
-  static Option<T> Some(const T& option) noexcept {
+  template <class U = T>
+  static Option<T> Some(T option, typename std::enable_if<std::is_pointer<U>::value>::type* = 0) noexcept {
     return Option<T>(option);
   }
 
@@ -215,6 +217,15 @@ public:
     return IsSome()
       ? Get()
       : alternative;
+  }
+
+  // TODO: Make trait
+  // TODO: Make test
+  template <class F>
+  Option<T> OrElse(F alternative) const noexcept {
+    return IsSome()
+      ? *this
+      : alternative();
   }
 
   String Show() const noexcept {

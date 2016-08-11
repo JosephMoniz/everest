@@ -38,13 +38,13 @@
 #include <everest/types/uint16_spec.h>
 #include <everest/types/uint32_spec.h>
 #include <everest/types/uint64_spec.h>
-#include <everest/containers/mutable/mutable_array_spec.h>
-#include <everest/containers/mutable/mutable_vector_spec.h>
-#include <everest/containers/mutable/mutable_set_spec.h>
-#include <everest/containers/mutable/mutable_map_spec.h>
-#include <everest/containers/mutable/mutable_bit_set_spec.h>
-#include <everest/containers/mutable/mutable_sorted_vector_set_spec.h>
-#include <everest/containers/mutable/mutable_sorted_vector_map_spec.h>
+#include <everest/mutable_containers/mutable_array_spec.h>
+#include <everest/mutable_containers/mutable_vector_spec.h>
+#include <everest/mutable_containers/mutable_set_spec.h>
+#include <everest/mutable_containers/mutable_map_spec.h>
+#include <everest/mutable_containers/mutable_bit_set_spec.h>
+#include <everest/mutable_containers/mutable_sorted_vector_set_spec.h>
+#include <everest/mutable_containers/mutable_sorted_vector_map_spec.h>
 
 
 using namespace everest;

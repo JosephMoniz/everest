@@ -24,7 +24,7 @@ public:
     return container.PutInPlace(std::move(source));
   }
 
-  static V* GetInPlace(const K& key, MutableMap<K, V>& container) noexcept {
+  static Option<V*> GetInPlace(const K& key, MutableMap<K, V>& container) noexcept {
     return container.GetInPlace(key);
   };
 

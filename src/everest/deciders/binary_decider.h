@@ -22,7 +22,7 @@ public:
 
   template <class U>
   bool IsEnabled(const U& subject) const noexcept {
-    return SeededHash(_seed.Value(), Hash(subject)).Value() % 100 < _percentage.Value();
+    return SeededHash(_seed, Hash(subject)).Value() % 100 < _percentage.Value();
   }
 
   class BinaryDeciderBuilder<T> final {

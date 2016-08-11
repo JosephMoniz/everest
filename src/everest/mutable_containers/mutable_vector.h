@@ -4,6 +4,8 @@
 #include <everest/containers/option.h>
 #include <everest/memory/mutable_memory.h>
 #include <everest/memory/growable_memory.h>
+#include <everest/containers/vector.h>
+#include <everest/containers/virtual_option.h>
 
 namespace everest {
 
@@ -23,18 +25,10 @@ public:
 
   MutableVector() noexcept : _length(0), _memory() { }
 
-  MutableVector(size_t capacity) noexcept : _length(0),
-                                            _memory(MutableMemory<T>(capacity)) { }
-
-  MutableVector(std::initializer_list<T> list) noexcept : _length(list.size()),
-                                                          _memory(list.size())
-  {
-    auto pointer = _memory.MutablePointer();
-    auto offset  = 0;
-    for (auto it = list.begin(); it != list.end(); it++) {
-      pointer[offset++] = *it;
-    }
-  }
+  template <class U, class... U2>
+  MutableVector(U&& element, U2&&... elements) noexcept : _length(0), _memory() {
+    AddInPlace(std::move(element), std::move(elements)...);
+  };
 
   MutableVector(GrowableMemory<T>&& memory) noexcept : _length(Length(memory)),
                                                        _memory(std::move(memory)) { }
@@ -69,11 +63,11 @@ public:
     _memory.ReserveAtLeast(size);
   }
 
-  Option<const T&> At(size_t offset) const noexcept {
+  Option<const T*> At(size_t offset) const noexcept {
     auto pointer = _memory.Pointer();
     return (offset < _length && offset > 0 && pointer != nullptr)
-      ? Option<T&>::Some(pointer[offset])
-      : Option<T&>::None();
+      ? Option<const T*>::Some(&pointer[offset])
+      : Option<const T*>::None();
   }
 
   T* AtInPlace(size_t offset) noexcept {
@@ -231,7 +225,8 @@ public:
 
   template <class F, class B = typename std::result_of<F(T)>::type>
   MutableVector<B> Map(F f) const noexcept {
-    auto result = MutableVector<B>(_length);
+    auto result = MutableVector<B>();
+    result.ReserveAtLeast(_length);
     ForEach([&](const T& item) {
       result.PushInPlace(f(item));
     });
@@ -283,10 +278,16 @@ public:
   }
 
   MutableVector<T>& AddInPlace(MutableVector<T>&& source) noexcept {
-    ForEach(source, [&](T&& item) {
+    source.MovingForEach([&](T&& item) {
       PushInPlace(std::move(item));
     });
     return *this;
+  }
+
+  template <class... T2>
+  MutableVector<T>& AddInPlace(T&& source, T2&&... sources) noexcept {
+    AddInPlace(std::move(source));
+    AddInPlace(std::move(sources)...);
   }
 
   MutableVector<T>& DropInPlace(size_t length) noexcept {
@@ -331,25 +332,25 @@ public:
   }
 
   template <class U>
-  T* FindInPlace(const U& item) noexcept {
+  Option<T*> FindInPlace(const U& item) noexcept {
     auto pointer = _memory.MutablePointer();
     for (size_t i = 0; i < _length; i++) {
       if (pointer[i] == item) {
-        return &pointer[i];
+        return Option<T*>::Some(&pointer[i]);
       }
     }
-    return nullptr;
+    return Option<T*>::None();
   }
 
   template <class U>
-  const T* Find(const U& item) const noexcept {
+  Option<const T*> Find(const U& item) const noexcept {
     auto pointer = _memory.Pointer();
     for (size_t i = 0; i < _length; i++) {
       if (pointer[i] == item) {
-        return &pointer[i];
+        return Option<const T*>::Some(&pointer[i]);
       }
     }
-    return nullptr;
+    return Option<const T*>::None();
   }
 
   MutableVector<T>& InsertInPlace(const T& item, size_t position) noexcept {
@@ -467,7 +468,8 @@ public:
   }
 
   MutableVector<T> Add(const MutableVector<T>& rhs) const noexcept {
-    auto results = MutableVector<T>(_length + rhs.Length());
+    auto results = MutableVector<T>();
+    results.ReserveAtLeast(_length + rhs.Length());
     ForEach([&](const T& item) {
       results.PushInPlace(item);
     });
