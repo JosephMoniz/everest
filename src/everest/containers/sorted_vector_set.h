@@ -16,7 +16,7 @@ public:
   SortedVectorSet(MutableSortedVectorSet&& set) noexcept : _set(std::move(set)) { }
 
   template <class U>
-  const T* Find(const U& item) const noexcept {
+  Option<const T*> Find(const U& item) const noexcept {
     return _set.Find(item);
   }
 

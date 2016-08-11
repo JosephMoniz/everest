@@ -5,7 +5,10 @@
 #include <everest/memory/mutable_memory.h>
 #include <everest/memory/growable_memory.h>
 #include <everest/containers/vector.h>
-#include <everest/containers/virtual_option.h>
+#include <everest/traits/unlawful/copyable.h>
+#include <everest/traits/unlawful/zero.h>
+#include <everest/traits/unlawful/hashable.h>
+#include <everest/traits/unlawful/hexable.h>
 
 namespace everest {
 
@@ -30,13 +33,13 @@ public:
     AddInPlace(std::move(element), std::move(elements)...);
   };
 
-  MutableVector(GrowableMemory<T>&& memory) noexcept : _length(Length(memory)),
+  MutableVector(GrowableMemory<T>&& memory) noexcept : _length(memory.Length()),
                                                        _memory(std::move(memory)) { }
 
-  MutableVector(MutableMemory<T>&& memory) noexcept : _length(Length(memory)),
+  MutableVector(MutableMemory<T>&& memory) noexcept : _length(memory.Length()),
                                                       _memory(std::move(memory)) { }
 
-  MutableVector(Memory<T>&& memory) noexcept : _length(Length(memory)),
+  MutableVector(Memory<T>&& memory) noexcept : _length(memory.Length()),
                                                _memory(std::move(memory)) { }
 
   MutableVector(const MutableVector<T>& other) = delete;
@@ -249,7 +252,7 @@ public:
   MutableVector<B> FlatMap(F f) const noexcept {
     auto results = MutableVector<T>();
     ForEach([&](const T& item) {
-      Iteration<MutableVector<B>>::ForEach(f(item), [&](const T& inner) {
+      f(item).ForEach([&](const T& inner) {
         results.PushInPlace(inner);
       });
     });
@@ -270,8 +273,8 @@ public:
   }
 
   MutableVector<T>& AddInPlace(const MutableVector<T>& source) noexcept {
-    ReserveAtLeast(_length + Length(source));
-    ForEach(source, [&](const T& item) {
+    ReserveAtLeast(_length + source.Length());
+    source.ForEach([&](const T& item) {
       PushInPlace(item);
     });
     return *this;
