@@ -18,7 +18,7 @@ public:
 
   HmacSha256Sink(const String& key) noexcept {
     HMAC_CTX_init(&_context);
-    HMAC_Init_ex(&_context, Pointer(key), (int)Occupied(key), EVP_sha256(), nullptr);
+    HMAC_Init_ex(&_context, key.Pointer(), (int)key.Occupied(), EVP_sha256(), nullptr);
   }
 
   HmacSha256Sink& PushThrough(const char* input) noexcept {
@@ -27,7 +27,7 @@ public:
   }
 
   HmacSha256Sink& PushThrough(const String& input) noexcept {
-    HMAC_Update(&_context, (const unsigned char*)Pointer(input), Occupied(input));
+    HMAC_Update(&_context, (const unsigned char*)input.Pointer(), input.Occupied());
     return *this;
   }
 
@@ -38,19 +38,19 @@ public:
 
   template <class T>
   HmacSha256Sink& PushThrough(const Memory<T>& input) noexcept {
-    HMAC_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Length(input));
+    HMAC_Update(&_context, (const unsigned char*)input.Pointer(), sizeof(T) * input.Length());
     return *this;
   }
 
   template <class T>
   HmacSha256Sink& PushThrough(const MutableMemory<T>& input) noexcept {
-    HMAC_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Length(input));
+    HMAC_Update(&_context, (const unsigned char*)input.Pointer(), sizeof(T) * input.Length());
     return *this;
   }
 
   template <class T>
   HmacSha256Sink& PushThrough(const GrowableMemory<T>& input) noexcept {
-    HMAC_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Occupied(input));
+    HMAC_Update(&_context, (const unsigned char*)input.Pointer(), sizeof(T) * input.Length());
     return *this;
   }
 

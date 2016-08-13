@@ -25,6 +25,14 @@ public:
     AddInPlace(std::move(element), std::move(elements)...);
   };
 
+  void Reserve(size_t size) noexcept {
+    _vector.Reserve(size);
+  }
+
+  void ReserveAtLeast(size_t size) noexcept {
+    _vector.ReserveAtLeast(size);
+  }
+
   MutableSortedVectorSet<T> Copy() const noexcept {
     return MutableSortedVectorSet<T>(_vector.Copy());
   }
@@ -386,6 +394,11 @@ public:
     _vector.ForEach(function);
   }
 
+  template <class F>
+  void MovingForEach(F function) noexcept {
+    _vector.MovingForEach(function);
+  }
+
   String Show() const noexcept {
     auto out = String("MutableSortedVectorSet(");
     ForEach([&](const T& item) {
@@ -422,6 +435,12 @@ public:
       results.AddInPlace(item);
     });
     return results;
+  }
+
+  // TODO: Make a trait
+  template <class Predicate>
+  bool Any(Predicate predicate) const noexcept {
+    return _vector.Any(predicate);
   }
 
   static MutableSortedVectorSet<T> Zero() noexcept {

@@ -238,7 +238,7 @@ void CheckedSpecification() {
         auto failure  = "GetOrDefault(12, Ok(42)) did not return 42";
         AssertEquals(failure, expected, result);
       });
-      It("should return the string 'Ok(n)' when called with Show()", []() {
+      It("should return the mutable_string 'Ok(n)' when called with Show()", []() {
         auto expected = String("Ok(42)");
         auto result   = Show(Checked<bool, int>::Ok(42));
         auto failure  = "Show(Ok(42)) did not return 'Ok(42)'";
@@ -340,7 +340,7 @@ void CheckedSpecification() {
       It("should return the default when called with GetOrDefault()", []() {
         AssertEquals(42, GetOrDefault(42, Checked<bool, int>::Error(false)));
       });
-      It("should return the correct string when called with Show()", []() {
+      It("should return the correct mutable_string when called with Show()", []() {
         auto expected = String("Error(false)");
         auto result   = Show(Checked<bool, int>::Error(false));
         AssertEquals(expected, result);

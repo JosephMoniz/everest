@@ -8,7 +8,7 @@ namespace everest {
 void HmacMd5HashSpecification() {
   Describe("The HmacMd5 functionality", []() {
     Describe("Contains the HmacMd5(String) function that", []() {
-      Describe("when called with the key 'test' and string 'lolwat'", []() {
+      Describe("when called with the key 'test' and mutable_string 'lolwat'", []() {
         auto digest = HmacMd5("test", "lolwat");
         It("should return the hash '197fa8a01fac6bdfa08b3d55b6121211'", [&]() {
           AssertEquals(String("197fa8a01fac6bdfa08b3d55b6121211"), Show(digest));

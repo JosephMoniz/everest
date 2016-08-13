@@ -2,7 +2,7 @@
 
 #include <everest/types/bool.h>
 #include <everest/traits/unlawful/show.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

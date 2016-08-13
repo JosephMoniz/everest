@@ -2,49 +2,50 @@
 
 #include <everest/memory/mutable_memory.h>
 #include <everest/mutable_containers/mutable_vector.h>
+#include "mutable_sorted_vector_set.h"
 
 namespace everest {
 
 template<class T>
 class MutableSet final {
 
-  MutableMemory<MutableVector<T>> _memory;
+  MutableMemory<MutableSortedVectorSet<T>> _memory;
 
   size_t _size;
 
   template <class U>
-  MutableVector<T>* GetBucket(const U& item) noexcept {
+  MutableSortedVectorSet<T>* GetBucket(const U& item) noexcept {
     auto hash    = Hashable<U>::Hash(item).Value() % _memory.Length();
     auto pointer = _memory.MutablePointer();
     return &pointer[hash];
   }
 
   template <class U>
-  const MutableVector<T>* GetConstBucket(const U& item) const noexcept {
+  const MutableSortedVectorSet<T>* GetConstBucket(const U& item) const noexcept {
     auto hash    = Hashable<U>::Hash(item).Value() % _memory.Length();
     auto pointer = _memory.Pointer();
     return &pointer[hash];
   }
 
   template <class U>
-  MutableVector<T>* GetAllocatedBucket(const U& item) noexcept {
+  MutableSortedVectorSet<T>* GetAllocatedBucket(const U& item) noexcept {
     auto bucket = GetBucket(item);
-    if (bucket != nullptr && *bucket == nullptr) { bucket->Reserve(4); }
+    if (bucket != nullptr && bucket->Pointer() == nullptr) { bucket->Reserve(4); }
     return bucket;
   }
 
-  void RedactBucketSize(const MutableVector<T>* bucket) noexcept {
+  void RedactBucketSize(const MutableSortedVectorSet<T>* bucket) noexcept {
     _size -= bucket->Length();
   }
 
-  void AddBucketSize(const MutableVector<T>* bucket) noexcept {
+  void AddBucketSize(const MutableSortedVectorSet<T>* bucket) noexcept {
     _size += bucket->Length();
   }
 
   MutableSet<T>& ResizeIfNecessary() noexcept {
     if (_size == _memory.Length()) {
       auto old  = std::move(_memory);
-      _memory   = MutableMemory<MutableVector<T>>(old.Length() * 2);
+      _memory   = MutableMemory<MutableSortedVectorSet<T>>(old.Length() * 2);
       _size     = 0;
       MovingForEach([&](T&& item) {
         AddInPlace(std::move(item));
@@ -113,8 +114,8 @@ public:
 
   template <class F>
   void ForEach(F function) const noexcept {
-    auto memorySize                       = _memory.Length();
-    const MutableVector<T>* memoryPointer = _memory.Pointer();
+    auto memorySize    = _memory.Length();
+    auto memoryPointer = _memory.Pointer();
     for (size_t i = 0; i < memorySize; i++) {
       memoryPointer[i].ForEach(function);
     }
@@ -122,8 +123,8 @@ public:
 
   template <class F>
   void MovingForEach(F function) noexcept {
-    auto memorySize                 = _memory.Length();
-    MutableVector<T>* memoryPointer = _memory.MutablePointer();
+    auto memorySize    = _memory.Length();
+    auto memoryPointer = _memory.MutablePointer();
     for (size_t i = 0; i < memorySize; i++) {
       memoryPointer[i].MovingForEach(function);
     }
@@ -131,8 +132,8 @@ public:
 
   template <class Predicate>
   bool Any(Predicate predicate) const noexcept {
-    auto memorySize                       = _memory.Length();
-    const MutableVector<T>* memoryPointer = _memory.Pointer();
+    auto memorySize    = _memory.Length();
+    auto memoryPointer = _memory.Pointer();
     for (size_t i = 0; i < memorySize; i++) {
       if (memoryPointer[i].Any(predicate)) {
         return true;
@@ -214,8 +215,8 @@ public:
   MutableSet<T>& AddInPlace(const T& source) noexcept {
     auto bucket = GetAllocatedBucket(source);
     RedactBucketSize(bucket);
-    bucket->FilterInPlace(NotEquals(source));
-    bucket->PushInPlace(source);
+    bucket->RemoveInPlace(source);
+    bucket->AddInPlace(source);
     AddBucketSize(bucket);
     return ResizeIfNecessary();
   }
@@ -223,8 +224,8 @@ public:
   MutableSet<T>& AddInPlace(T&& source) noexcept {
     auto bucket = GetAllocatedBucket(source);
     RedactBucketSize(bucket);
-    bucket->FilterInPlace(NotEquals(source));
-    bucket->PushInPlace(std::move(source));
+    bucket->RemoveInPlace(source);
+    bucket->AddInPlace(std::move(source));
     AddBucketSize(bucket);
     return ResizeIfNecessary();
   }

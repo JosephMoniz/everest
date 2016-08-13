@@ -8,7 +8,7 @@ namespace everest {
 void Md5HashSpecification() {
   Describe("The MD5 functionality", []() {
     Describe("contains the Md5(String) function that", []() {
-      Describe("when called with the string 'lolwat'", []() {
+      Describe("when called with the mutable_string 'lolwat'", []() {
         auto digest = Md5("lolwat");
         It("should return the hash 'c096629f2f8eaa7c3b428918893b39f8'", [&]() {
           AssertEquals(String("c096629f2f8eaa7c3b428918893b39f8"), Show(digest));

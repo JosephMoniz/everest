@@ -1,8 +1,8 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/types/mutable/string/semigroup.h>
+#include <everest/strings/mutable_string/semigroup.h>
 
 namespace everest {
 

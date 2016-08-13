@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/monoids/max_monoid.h>
 #include <everest/traits/unlawful/show.h>
 

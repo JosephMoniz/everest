@@ -1,8 +1,8 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/traits/unlawful/takeable.h>
-#include <everest/types/mutable/string/takeable.h>
+#include <everest/strings/mutable_string/takeable.h>
 
 namespace everest {
 

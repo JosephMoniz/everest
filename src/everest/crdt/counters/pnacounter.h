@@ -2,7 +2,7 @@
 
 #include <everest/containers/map.h>
 #include <everest/crdt/counters/pncounter.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/eq.h>
 #include <everest/traits/unlawful/ord.h>

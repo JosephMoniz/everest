@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/types/mutable/mutable_string.h>
+#include <everest/strings/mutable_string.h>
 #include <everest/traits/unlawful/storable.h>
 
 namespace everest {

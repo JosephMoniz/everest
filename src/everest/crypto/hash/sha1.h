@@ -1,7 +1,7 @@
 #pragma once
 
 #include <openssl/sha.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/crypto/hash/sha1/sha1_digest.h>
 #include <everest/crypto/hash/sha1/sha1_sink.h>
 

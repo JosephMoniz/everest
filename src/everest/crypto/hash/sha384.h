@@ -2,7 +2,7 @@
 
 #include <string.h>
 #include <openssl/sha.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/crypto/hash/sha384/sha384_digest.h>
 #include <everest/crypto/hash/sha384/sha384_sink.h>
 

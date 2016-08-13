@@ -2,7 +2,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

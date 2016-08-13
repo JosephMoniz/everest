@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/traits/unlawful/hashable.h>
 
 namespace everest {

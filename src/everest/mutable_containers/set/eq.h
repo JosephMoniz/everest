@@ -14,28 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static bool Equals(const MutableSet<T>& lhs, const MutableSet<T>* rhs) noexcept {
-    return Eq<MutableSet<T>>::Equals(&lhs, rhs);
-  }
-
-  static bool Equals(const MutableSet<T>* lhs, const MutableSet<T>& rhs) noexcept {
-    return Eq<MutableSet<T>>::Equals(lhs, &rhs);
-  }
-
   static bool Equals(const MutableSet<T>& lhs, const MutableSet<T>& rhs) noexcept {
-    return Eq<MutableSet<T>>::Equals(&lhs, &rhs);
-  }
-
-  static bool Equals(const MutableSet<T>* lhs, const MutableSet<T>* rhs) noexcept {
-    if (lhs == nullptr) {
-      return rhs == nullptr || Length(*rhs) == 0;
-    } else {
-      if (rhs == nullptr) {
-        return Length(*lhs) == 0;
-      } else {
-        return lhs->Equals(*rhs);
-      }
-    }
+    return lhs.Equals(rhs);
   }
 
 };

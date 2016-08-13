@@ -25,7 +25,7 @@ public:
   }
 
   static const Checked<int, Stat> Of(const String& filePath) noexcept {
-    return Stat::Of(Pointer(filePath));
+    return Stat::Of(filePath.Pointer());
   }
 
   static const Checked<int, Stat> Of(const File& file) noexcept {

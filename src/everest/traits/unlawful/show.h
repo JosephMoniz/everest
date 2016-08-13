@@ -3,7 +3,7 @@
 #pragma ide diagnostic ignored "InfiniteRecursion"
 
 #include <utility>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

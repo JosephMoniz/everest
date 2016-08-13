@@ -5,7 +5,7 @@
 
 #include <everest/memory/memory.h>
 #include <everest/memory/mutable_memory.h>
-#include <everest/types/mutable/mutable_string.h>
+#include <everest/strings/mutable_string.h>
 #include <everest/types/expressive/hash_value.h>
 
 namespace everest {
@@ -112,6 +112,11 @@ public:
   String TakeWhile(Predicate<char> predicate) const noexcept {
     return String(_wrapped.TakeWhile(predicate));
   }
+
+  template <class R, class MutableStringVisitor, class StringVisitor, class ConcatStringVisitor>
+  R VisitString(MutableStringVisitor mutableString, StringVisitor string, ConcatStringVisitor concat) noexcept {
+    return string(*this);
+  };
 
 };
 

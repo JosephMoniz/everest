@@ -4,7 +4,7 @@
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/takeable.h>
 #include <everest/traits/lawful/semigroup.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

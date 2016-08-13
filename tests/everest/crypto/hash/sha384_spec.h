@@ -8,7 +8,7 @@ namespace everest {
 void Sha384HashSpecification() {
   Describe("The Sha384 functionality", []() {
     Describe("Contains the Sha384(String) function that", []() {
-      Describe("when called with the string 'lolwat'", []() {
+      Describe("when called with the mutable_string 'lolwat'", []() {
         auto digest = Sha384("lolwat");
         It("should return the hash '65724edab8fbb76fffa6d01df1a6c576b381b0fe63e7e4c300d882db9a830ebc4976bb63a652097c35585bd3679f7351'", [&]() {
           AssertEquals(String("65724edab8fbb76fffa6d01df1a6c576b381b0fe63e7e4c300d882db9a830ebc4976bb63a652097c35585bd3679f7351"), Show(digest));

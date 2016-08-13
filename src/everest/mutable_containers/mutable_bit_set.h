@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <everest/memory/mutable_memory.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

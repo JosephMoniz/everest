@@ -69,7 +69,7 @@ void MutableSortedVectorSetSpecification() {
         AssertFalse(set.Contains(6));
       });
     });
-    It("Should render the correct string when called with Shows()", [](){
+    It("Should render the correct mutable_string when called with Shows()", [](){
       auto expected = String("MutableSortedVectorSet(1, 2, 3)");
       auto result   = Show(MutableSortedVectorSet<int>(2, 3, 1));
       AssertEquals(expected, result);

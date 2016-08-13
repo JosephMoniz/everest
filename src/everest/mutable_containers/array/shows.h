@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/mutable_containers/mutable_array.h>
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/show.h>

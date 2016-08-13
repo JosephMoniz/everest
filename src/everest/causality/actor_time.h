@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/causality/lamport_time.h>
 
 namespace everest {

@@ -49,7 +49,7 @@ set(SOURCE_FILES
         src/everest/types/int32.h
         src/everest/types/int64.h
         src/everest/types/int8.h
-        src/everest/types/string.h
+        src/everest/strings/string.h
         src/everest/types/uint16.h
         src/everest/types/uint32.h
         src/everest/types/uint64.h
@@ -292,17 +292,17 @@ set(SOURCE_FILES
         tests/everest/crypto/hmac/hmac_sha1_spec.h
         tests/everest/crypto/hmac/hmac_sha256_spec.h
         tests/everest/crypto/hmac/hmac_sha512_spec.h
-        src/everest/types/mutable/mutable_string.h
+        src/everest/strings/mutable_string.h
         tests/everest/types/mutable/mutable_string.h
         src/everest/memory/growable_memory.h
-        src/everest/types/mutable/string/copyable.h
-        src/everest/types/mutable/string/container.h
-        src/everest/types/mutable/string/pointable.h
-        src/everest/types/mutable/string/eq.h
-        src/everest/types/mutable/string/takeable.h
-        src/everest/types/mutable/string/semigroup.h
-        src/everest/types/mutable/string/iteration.h
-        src/everest/types/mutable/string/hashable.h
+        src/everest/strings/mutable_string/copyable.h
+        src/everest/strings/mutable_string/container.h
+        src/everest/strings/mutable_string/pointable.h
+        src/everest/strings/mutable_string/eq.h
+        src/everest/strings/mutable_string/takeable.h
+        src/everest/strings/mutable_string/semigroup.h
+        src/everest/strings/mutable_string/iteration.h
+        src/everest/strings/mutable_string/hashable.h
         src/everest/crypto/hash/md5/md5_digest.h
         src/everest/crypto/hash/sha1/sha1_digest.h
         src/everest/crypto/hash/sha256/sha256_digest.h
@@ -415,19 +415,19 @@ set(SOURCE_FILES
         src/everest/deciders/binary_decider.h
         src/everest/types/expressive/simple_percentage.h
         src/everest/types/expressive/hash_value.h
-        src/everest/types/mutable/string/storable.h
-        src/everest/types/string/pointable.h
-        src/everest/types/string/copyable.h
-        src/everest/types/string/storable.h
-        src/everest/types/string/container.h
-        src/everest/types/string/eq.h
-        src/everest/types/string/takeable.h
-        src/everest/types/string/semigroup.h
-        src/everest/types/string/iteration.h
-        src/everest/types/string/hashable.h
-        src/everest/types/string/show.h
-        src/everest/types/string/all_traits.h
-        src/everest/types/mutable/string/all_traits.h
+        src/everest/strings/mutable_string/storable.h
+        src/everest/strings/string/pointable.h
+        src/everest/strings/string/copyable.h
+        src/everest/strings/string/storable.h
+        src/everest/strings/string/container.h
+        src/everest/strings/string/eq.h
+        src/everest/strings/string/takeable.h
+        src/everest/strings/string/semigroup.h
+        src/everest/strings/string/iteration.h
+        src/everest/strings/string/hashable.h
+        src/everest/strings/string/show.h
+        src/everest/strings/string/all_traits.h
+        src/everest/strings/mutable_string/all_traits.h
         src/everest/types/expressive/hash_value/eq.h
         src/everest/types/expressive/hash_value/show.h
         src/everest/types/expressive/hash_value/all_traits.h
@@ -742,8 +742,8 @@ set(SOURCE_FILES
         src/everest/mutable_containers/sorted_vector_map/all_traits.h
         tests/everest/mutable_containers/mutable_sorted_vector_map_spec.h
         src/everest/mutable_containers/map/entry/ord.h
-        src/everest/types/string/ord.h
-        src/everest/types/mutable/string/ord.h
+        src/everest/strings/string/ord.h
+        src/everest/strings/mutable_string/ord.h
         src/everest/containers/array/iteration.h
         src/everest/containers/array/all_traits.h
         src/everest/containers/checked/all_traits.h
@@ -772,7 +772,7 @@ set(SOURCE_FILES
         src/everest/containers/set/semigroup.h
         src/everest/containers/set/all_traits.h
         src/everest/containers/sorted_vector_map.h
-        src/everest/containers/sorted_vector_set.h src/everest/types/expressive/hash_value/ord.h src/everest/containers/virtual_option.h)
+        src/everest/containers/sorted_vector_set.h src/everest/types/expressive/hash_value/ord.h src/everest/strings/string_concat.h)
 
 add_executable(everest ${SOURCE_FILES})
 

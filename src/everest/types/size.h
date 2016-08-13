@@ -5,7 +5,7 @@
 #include <limits>
 #include <everest/traits/unlawful/ord.h>
 #include <everest/types/expressive/hash_value.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

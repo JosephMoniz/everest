@@ -153,6 +153,10 @@ public:
     return HashValue(result);
   }
 
+  char* MutablePointer() noexcept {
+    return _data.MutablePointer();
+  }
+
   const char* Pointer() const noexcept {
     return _data.Pointer();
   }
@@ -210,6 +214,11 @@ public:
     memory.MutablePointer()[offset] = '\0';
     return MutableString(std::move(memory), length, occupied);
   }
+
+  template <class R, class MutableStringVisitor, class StringVisitor, class ConcatStringVisitor>
+  R VisitString(MutableStringVisitor mutableString, StringVisitor string, ConcatStringVisitor concat) noexcept {
+    return mutableString(*this);
+  };
 
 };
 

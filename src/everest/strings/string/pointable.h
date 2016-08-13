@@ -1,7 +1,7 @@
 #pragma once
 
-#include <everest/types/string.h>
-#include <everest/traits/unlawful/pointable.h>
+#include <everest/strings/string.h>
+#include <everest/traits/unlawful/Pointable.h>
 
 namespace everest {
 

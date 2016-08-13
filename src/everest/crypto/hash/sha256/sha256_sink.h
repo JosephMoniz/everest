@@ -26,7 +26,7 @@ public:
   }
 
   Sha256Sink& PushThrough(const String& input) noexcept {
-    SHA256_Update(&_context, (const unsigned char*)Pointer(input), Occupied(input));
+    SHA256_Update(&_context, (const unsigned char*)input.Pointer(), input.Occupied());
     return *this;
   }
 
@@ -37,19 +37,19 @@ public:
 
   template <class T>
   Sha256Sink& PushThrough(const Memory<T>& input) noexcept {
-    SHA256_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Length(input));
+    SHA256_Update(&_context, (const unsigned char*)input.Pointer(), sizeof(T) * input.Length());
     return *this;
   }
 
   template <class T>
   Sha256Sink& PushThrough(const MutableMemory<T>& input) noexcept {
-    SHA256_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Length(input));
+    SHA256_Update(&_context, (const unsigned char*)input.Pointer(), sizeof(T) * input.Length());
     return *this;
   }
 
   template <class T>
   Sha256Sink& PushThrough(const GrowableMemory<T>& input) noexcept {
-    SHA256_Update(&_context, (const unsigned char*)Pointer(input), sizeof(T) * Occupied(input));
+    SHA256_Update(&_context, (const unsigned char*)input.Pointer(), sizeof(T) * input.Length());
     return *this;
   }
 

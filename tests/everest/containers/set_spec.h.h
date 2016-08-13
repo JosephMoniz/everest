@@ -11,10 +11,10 @@ namespace everest {
 
 void SetSpecification() {
   Describe("A Set type", []() {
-    It("Should render the correct string when called with Shows()", [](){
+    It("Should render the correct mutable_string when called with Shows()", [](){
       auto expected = String("Set(1, 2, 3)");
       auto result   = Show(Set<int>(1, 2, 3));
-      auto failure  = "An of Set(1, 2, 3) didn't convert to string properly";
+      auto failure  = "An of Set(1, 2, 3) didn't convert to mutable_string properly";
       AssertEquals(failure, expected, result);
     });
     It("Should return false when calling Equals() w/ different arrays", [](){

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
+#include <everest/strings/string/all_traits.h>
 
 namespace everest {
 

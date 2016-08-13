@@ -120,7 +120,7 @@ void OptionSpecification() {
       It("should return the default when called with GetOrDefault()", []() {
         AssertEquals(42, GetOrDefault(42, Option<int>::None()));
       });
-      It("should return the string 'none' when called with Show()", []() {
+      It("should return the mutable_string 'none' when called with Show()", []() {
         AssertEquals(String("None"), Show(Option<int>::None()));
       });
     });
@@ -252,7 +252,7 @@ void OptionSpecification() {
       It("should return the inner value when called with GetOrDefault()", []() {
         AssertEquals(42, GetOrDefault(12, Option<int>::Some(42)));
       });
-      It("should return the string 'Option<int>::Some(n)' when called with Show()", []() {
+      It("should return the mutable_string 'Option<int>::Some(n)' when called with Show()", []() {
         AssertEquals(String("Some(42)"), Show(Option<int>::Some(42)));
       });
     });

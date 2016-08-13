@@ -8,7 +8,7 @@ namespace everest {
 void HmacSha224HashSpecification() {
   Describe("The HmacSha224 functionality", []() {
     Describe("Contains the HmacSha224(String) function that", []() {
-      Describe("when called with the key 'test' and string 'lolwat'", []() {
+      Describe("when called with the key 'test' and mutable_string 'lolwat'", []() {
         auto digest = HmacSha224("test", "lolwat");
         It("should return the hash 'b83250da88c2a142383c491887406fb754700bdcef89130b9fcc243b'", [&]() {
           AssertEquals(String("b83250da88c2a142383c491887406fb754700bdcef89130b9fcc243b"), Show(digest));

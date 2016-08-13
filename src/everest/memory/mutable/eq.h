@@ -14,28 +14,8 @@ public:
 
   static constexpr bool exists = true;
 
-  static bool Equals(const MutableMemory<T>& lhs, const MutableMemory<T>* rhs) noexcept {
-    return Equals(&lhs, rhs);
-  }
-
-  static bool Equals(const MutableMemory<T>* lhs, const MutableMemory<T>& rhs) noexcept {
-    return Equals(lhs, &rhs);
-  }
-
   static bool Equals(const MutableMemory<T>& lhs, const MutableMemory<T>& rhs) noexcept {
     return lhs.Equals(rhs);
-  }
-
-  static bool Equals(const MutableMemory<T>* lhs, const MutableMemory<T>* rhs) noexcept {
-    if (lhs == nullptr) {
-      return rhs == nullptr || rhs->Pointer() == nullptr;
-    } else {
-      if (rhs == nullptr) {
-        return lhs->Pointer() == nullptr;
-      } else {
-        return lhs->Equals(*rhs);
-      }
-    }
   }
 
 };

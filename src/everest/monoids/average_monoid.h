@@ -5,7 +5,7 @@
 #include <everest/traits/unlawful/one.h>
 #include <everest/traits/unlawful/ord.h>
 #include <everest/traits/unlawful/bounded.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 
 namespace everest {
 

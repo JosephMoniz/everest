@@ -2,7 +2,7 @@
 
 #include <sys/fcntl.h>
 #include <sys/errno.h>
-#include <everest/types/string.h>
+#include <everest/strings/string.h>
 #include <everest/containers/option.h>
 #include <everest/containers/checked.h>
 
@@ -71,7 +71,7 @@ public:
   }
 
   static Checked<int, File> Open(String filePath, int flags) noexcept {
-    return Open(Pointer(filePath), flags);
+    return Open(filePath.Pointer(), flags);
   }
 
   static Checked<int, File> Open(const char* filePath) noexcept {
@@ -79,7 +79,7 @@ public:
   }
 
   static Checked<int, File> Open(const String& filePath) noexcept {
-    return Open(Pointer(filePath), O_RDWR);
+    return Open(filePath.Pointer(), O_RDWR);
   }
 
   static Checked<int, File> OpenForRead(const char* filePath) noexcept {
@@ -87,7 +87,7 @@ public:
   }
 
   static Checked<int, File> OpenForRead(const String& filePath) noexcept {
-    return Open(Pointer(filePath), O_RDONLY);
+    return Open(filePath.Pointer(), O_RDONLY);
   }
 
   static Checked<int, File> OpenForWrite(const char* filePath) noexcept {
@@ -95,7 +95,7 @@ public:
   }
 
   static Checked<int, File> OpenForWrite(const String& filePath) noexcept {
-    return Open(Pointer(filePath), O_WRONLY);
+    return Open(filePath.Pointer(), O_WRONLY);
   }
 
   static bool Touch(const char* filePath) noexcept {
@@ -103,7 +103,7 @@ public:
   }
 
   static bool Touch(const String& filePath) noexcept {
-    return Touch(Pointer(filePath));
+    return Touch(filePath.Pointer());
   }
 
   static bool Unlink(const char* filePath) noexcept {
@@ -111,7 +111,7 @@ public:
   }
 
   static bool Unlink(const String& filePath) noexcept {
-    return Unlink(Pointer(filePath));
+    return Unlink(filePath.Pointer());
   }
 
 };

@@ -15,7 +15,7 @@ void MutableMapSpecification() {
       PutInPlace(String("two"), 2, subject);
       PutInPlace(String("three"), 3, subject);
       PutInPlace(String("four"), 4, subject);
-      It("Should render the correct string when called with Shows()", [&](){
+      It("Should render the correct mutable_string when called with Shows()", [&](){
         auto expected = String("MutableMap(three: 3, four: 4, two: 2, one: 1)");
         auto result   = Show(subject);
         AssertEquals(expected, result);

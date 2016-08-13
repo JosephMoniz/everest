@@ -12,10 +12,10 @@ namespace everest {
 
 void MutableArraySpecification() {
   Describe("An MutableArray type", []() {
-    It("Should render the correct string when called with Shows()", [](){
+    It("Should render the correct mutable_string when called with Shows()", [](){
       auto expected = String("MutableArray(1, 2, 3)");
       auto result   = Show(MutableArray<int, 3>({1, 2, 3}));
-      auto failure  = "An shared_array of MutableArray(1, 2, 3) didn't convert to string properly";
+      auto failure  = "An shared_array of MutableArray(1, 2, 3) didn't convert to mutable_string properly";
       AssertEquals(failure, expected, result);
     });
     It("Should return false when calling Equals() w/ different arrays", [](){

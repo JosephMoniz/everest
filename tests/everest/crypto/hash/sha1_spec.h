@@ -8,7 +8,7 @@ namespace everest {
 void Sha1HashSpecification() {
   Describe("The Sha1 functionality", []() {
     Describe("Contains the Sha1(String) function that", []() {
-      Describe("when called with the string 'lolwat'", []() {
+      Describe("when called with the mutable_string 'lolwat'", []() {
         auto digest = Sha1("lolwat");
         It("should return the hash '5b82762bc0f6615252dd3a794249473fab24b885'", [&]() {
           AssertEquals(String("5b82762bc0f6615252dd3a794249473fab24b885"), Show(digest));

@@ -8,7 +8,7 @@ namespace everest {
 void Sha224HashSpecification() {
   Describe("The Sha224 functionality", []() {
     Describe("Contains the Sha224(String) function that", []() {
-      Describe("when called with the string 'lolwat'", []() {
+      Describe("when called with the mutable_string 'lolwat'", []() {
         auto digest = Sha224("lolwat");
         It("should return the hash '41b353d6b74874890574152d326da7202c7a3354d014081a85c1363d'", [&]() {
           AssertEquals(String("41b353d6b74874890574152d326da7202c7a3354d014081a85c1363d"), Show(digest));
