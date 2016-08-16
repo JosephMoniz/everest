@@ -15,7 +15,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const MaxMonoid<T>& lhs, const MaxMonoid<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };

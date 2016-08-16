@@ -14,20 +14,16 @@ public:
 
   static constexpr bool exists = true;
 
-  static Ordering Compare(const MinMonoid<T> &lhs, const MinMonoid<T> &rhs) noexcept {
-    return Ord<T>::Compare(lhs.Value(), rhs.Value());
+  static Ordering Compare(const MinMonoid<T>& lhs, const MinMonoid<T>& rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
   static const MinMonoid<T>& Min(const MinMonoid<T> &lhs, const MinMonoid<T> &rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-      ? rhs
-      : lhs;
+    return lhs.Min(rhs);
   }
 
   static const MinMonoid<T>& Max(const MinMonoid<T> &lhs, const MinMonoid<T> &rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-      ? rhs
-      : lhs;
+    return lhs.Max(rhs);
   }
 
 };

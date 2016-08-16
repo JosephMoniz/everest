@@ -39,6 +39,22 @@ public:
     return _value;
   }
 
+  GCounter<T> Add(const GCounter<T>& other) const noexcept {
+    return GCounter(Ord<T>::Max(_value, other.Value()));
+  }
+
+  String Show() const noexcept {
+    return String("GCounter(") + Shows<T>::Show(_value) + String(")");
+  }
+
+  bool Equals(const GCounter<T>& other) const noexcept {
+    return _value == other.Value();
+  }
+
+  static GCounter<T> Zero() {
+    return GCounter<T>(Bounded<T>::MinValue());
+  }
+
 };
 
 template<class T>
@@ -48,7 +64,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const GCounter<T>& counter) noexcept {
-    return String("GCounter(") + Shows<T>::Show(counter.Value()) + String(")");
+    return counter.Show();
   }
 
 };
@@ -60,7 +76,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const GCounter<T>& lhs, const GCounter<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };
@@ -72,7 +88,7 @@ public:
   static constexpr bool exists = true;
 
   static GCounter<T> Zero() {
-    return GCounter(Bounded<T>::MinValue());
+    return GCounter<T>::Zero();
   }
 
 };
@@ -84,7 +100,7 @@ public:
   static constexpr bool exists = true;
 
   static GCounter<T> Add(const GCounter<T>& lhs, const GCounter<T>& rhs) noexcept {
-    return GCounter(Ord<T>::Max(lhs.Value(), rhs.Value()));
+    return lhs.Add(rhs);
   }
 
 };

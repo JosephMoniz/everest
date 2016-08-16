@@ -522,6 +522,32 @@ public:
     return MutableVector<T>(MutableMemory<T>(pointer, offset));
   }
 
+  // TODO: Make trait
+  MutableVector<T>& EnqueueInPlace(const T& item) noexcept {
+    PushInPlace(item);
+    return *this;
+  }
+
+  // TODO: Make trait
+  MutableVector<T>& EnqueueInPlace(T&& item) noexcept {
+    PushInPlace(std::move(item));
+    return *this;
+  }
+
+  // TODO: Make trait
+  T& DequeueInPlace() noexcept {
+    T result = Pointer()[0];
+    DropInPlace(1);
+    return result;
+  }
+
+  // TODO: Make trait
+  T&& DequeueWithMove() noexcept {
+    T result = std::move(MutablePointer()[0]);
+    DropInPlace(1);
+    return std::move(result);
+  }
+
   static MutableVector<T> Zero() noexcept {
     return MutableVector<T>();
   }

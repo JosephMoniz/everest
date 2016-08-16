@@ -52,11 +52,15 @@ public:
   };
 
   const T& Get() const noexcept {
-    return *reinterpret_cast<const T*>(&_value);
+    return _value;
+  }
+
+  T& GetMutable() noexcept {
+    return _value;
   }
 
   T&& GetMovable() const noexcept {
-    return std::move(*reinterpret_cast<T*>((T*)&_value));
+    return std::move(_value);
   }
 
   bool IsSome() const noexcept {

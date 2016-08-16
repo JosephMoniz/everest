@@ -13,8 +13,12 @@ class MutableBloomFilter final {
 
 public:
 
-  MutableBloomFilter() noexcept : _bits() {
+  MutableBloomFilter() noexcept : _bits() { }
 
+  MutableBloomFilter(MutableBitSet&& bits) noexcept : _bits(std::move(bits)) { }
+
+  MutableBloomFilter Copy() const noexcept {
+    return MutableBloomFilter(_bits.Copy());
   }
 
   MutableBloomFilter& Add(const T& item) noexcept {

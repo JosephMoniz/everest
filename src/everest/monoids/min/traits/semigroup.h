@@ -16,11 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static MinMonoid<T> Add(const MinMonoid<T>& lhs, const MinMonoid<T>& rhs) noexcept {
-    switch (Ord<T>::Compare(lhs.Value(), rhs.Value())) {
-      case Ordering::LESS:    return lhs;
-      case Ordering::GREATER: return rhs;
-      case Ordering::EQUAL:   return lhs;
-    }
+    return lhs.Add(rhs);
   }
 
 };

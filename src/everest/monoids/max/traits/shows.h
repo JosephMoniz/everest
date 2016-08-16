@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const MaxMonoid<T>& monoid) noexcept {
-    return String("MaxMonoid(") + Shows<T>::Show(monoid.Value()) + String(")");
+    return monoid.Show();
   }
 
 };

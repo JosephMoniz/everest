@@ -17,8 +17,6 @@ namespace everest {
 template<class T>
 class PNACounter final {
 
-  friend class Semigroup<PNACounter<T>>;
-
   Map<String, PNCounter<T>> _actors;
 
 public:
@@ -57,9 +55,25 @@ public:
 
   T Value() const noexcept {
     auto result = ZeroVal<T>::Zero();
-    ForEach(_actors, [&](MutableMapEntry<String, T>& entry) {
+    _actors.ForEach([&](MutableMapEntry<String, PNACounter<T>>& entry) {
       result = result + entry.Value().Value();
     });
+  }
+
+  PNACounter<T> Add(const PNACounter<T>& other) const noexcept {
+    return PNACounter(_actors + other._actors);
+  }
+
+  String Show() const noexcept {
+    return String("PNACounter(") + Shows<T>::Show(Value()) + String(")");
+  }
+
+  bool Equals(const PNACounter<T>& rhs) const noexcept {
+    return Value() == rhs.Value();
+  }
+
+  static PNACounter<T> Zero() {
+    return PNACounter<T>(Map<String, PNCounter<T>>());
   }
 
 };
@@ -71,7 +85,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const PNACounter<T>& counter) noexcept {
-    return String("PNACounter(") + Shows<T>::Show(counter.Value()) + String(")");
+    return counter.Show();
   }
 
 };
@@ -83,7 +97,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const PNACounter<T>& lhs, const PNACounter<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };
@@ -95,7 +109,7 @@ public:
   static constexpr bool exists = true;
 
   static PNACounter<T> Zero() {
-    return PNACounter(Map());
+    return PNACounter<T>::Zero();
   }
 
 };
@@ -107,7 +121,7 @@ public:
   static constexpr bool exists = true;
 
   static PNACounter<T> Add(const PNACounter<T>& lhs, const PNACounter<T>& rhs) noexcept {
-    return PNACounter(lhs._actors + rhs._actors);
+    return lhs.Add(rhs);
   }
 
 };

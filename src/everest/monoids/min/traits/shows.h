@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const MinMonoid<T>& monoid) noexcept {
-    return String("MinMonoid(") + Shows<T>::Show(monoid.Value()) + String(")");
+    return monoid.Show();
   }
 
 };

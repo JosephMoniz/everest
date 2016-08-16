@@ -16,7 +16,7 @@ public:
   static constexpr bool exists = true;
 
   static MaxMonoid<T> Zero() {
-    return MaxMonoid<T>(Bounded<T>::MinValue());
+    return MaxMonoid<T>::Zero();
   }
 
 };

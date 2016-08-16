@@ -27,11 +27,11 @@ public:
   TPSet(Set<T>&& fresh, Set<T>&& tombs) noexcept : _fresh(std::move(fresh)),
                                                    _tombs(std::move(tombs)) { }
 
-  TPSet insert(T&& item) noexcept {
+  TPSet Insert(T&& item) noexcept {
     return TPSet(Put(std::move(item), _fresh), Copy(_tombs));
   }
 
-  TPSet remove(T&& item) noexcept {
+  TPSet Remove(T&& item) noexcept {
     return TPSet(Copy(_fresh), Put(std::move(item), _tombs));
   }
 

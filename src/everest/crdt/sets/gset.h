@@ -23,6 +23,22 @@ public:
     return _set;
   }
 
+  GSet<T> Add(const GSet<T>& rhs) const noexcept {
+    return GSet(_set + rhs.Value());
+  }
+
+  String Show() const noexcept {
+    return String("GSet(") + _set.Show() + String(")");
+  }
+
+  bool Equals(const GSet<T>& rhs) const noexcept {
+    return _set.Equals(rhs.Value());
+  }
+
+  static GSet<T> Zero() {
+    return GSet<T>();
+  }
+
 };
 
 template<class T>
@@ -32,7 +48,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const GSet<T>& set) noexcept {
-    return String("GSet(") + Shows<Set<T>>::Show(set.Value()) + String(")");
+    return set.Show();
   }
 
 };
@@ -44,7 +60,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const GSet<T>& lhs, const GSet<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };
@@ -56,7 +72,7 @@ public:
   static constexpr bool exists = true;
 
   static GSet<T> Zero() {
-    return GSet();
+    return GSet<T>::Zero();
   }
 
 };
@@ -68,7 +84,7 @@ public:
   static constexpr bool exists = true;
 
   static GSet<T> Add(const GSet<T>& lhs, const GSet<T>& rhs) noexcept {
-    return GSet(lhs.Value() + rhs.Value());
+    return lhs.Add(rhs);
   }
 
 };

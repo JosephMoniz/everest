@@ -12,8 +12,6 @@ namespace everest {
 template<class T>
 class AverageMonoid final {
 
-  friend class Semigroup<AverageMonoid<T>>;
-
   T _sum;
 
   T _count;
@@ -35,6 +33,38 @@ public:
       : ZeroVal<T>::Zero();
   }
 
+  AverageMonoid<T> Add(const AverageMonoid<T>& other) const noexcept {
+    return AverageMonoid<T>(_sum + other._sum, _count + other._count);
+  }
+
+  bool Equals(const AverageMonoid<T>& other) const noexcept {
+    return Value() == other.Value();
+  }
+
+  Ordering Compare(const AverageMonoid<T>& other) const noexcept {
+    return Ord<T>::Compare(Value(), other.Value());
+  }
+
+  const AverageMonoid<T>& Min(const AverageMonoid<T>& other) const noexcept {
+    return (Compare(other) == Ordering::GREATER)
+      ? other
+      : *this;
+  }
+
+  const AverageMonoid<T>& Max(const AverageMonoid<T>& other) const noexcept {
+    return (Compare(other) == Ordering::LESS)
+      ? other
+      : *this;
+  }
+
+  String Show() const noexcept {
+    return String("AverageMonoid(") + Shows<T>::Show(Value()) + String(")");
+  }
+
+  static AverageMonoid<T> Zero() {
+    return AverageMonoid<T>(ZeroVal<T>::Zero());
+  }
+
 };
 
 template<class T>
@@ -44,7 +74,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const AverageMonoid<T>& lhs, const AverageMonoid<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };
@@ -63,20 +93,16 @@ public:
 
   static constexpr bool exists = true;
 
-  static Ordering Compare(const AverageMonoid<T> &lhs, const AverageMonoid<T> &rhs) noexcept {
-    return Ord<T>::Compare(lhs.Value(), rhs.Value());
+  static Ordering Compare(const AverageMonoid<T>& lhs, const AverageMonoid<T>& rhs) noexcept {
+    return lhs.Compare(rhs);
   }
 
-  static const AverageMonoid<T>& Min(const AverageMonoid<T> &lhs, const AverageMonoid<T> &rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::GREATER)
-       ? rhs
-       : lhs;
+  static const AverageMonoid<T>& Min(const AverageMonoid<T>& lhs, const AverageMonoid<T>& rhs) noexcept {
+    return lhs.Min(rhs);
   }
 
-  static const AverageMonoid<T>& Max(const AverageMonoid<T> &lhs, const AverageMonoid<T> &rhs) noexcept {
-    return (Compare(lhs, rhs) == Ordering::LESS)
-       ? rhs
-       : lhs;
+  static const AverageMonoid<T>& Max(const AverageMonoid<T>& lhs, const AverageMonoid<T>& rhs) noexcept {
+    return lhs.Max(rhs);
   }
 
 };
@@ -88,7 +114,7 @@ public:
   static constexpr bool exists = true;
 
   static AverageMonoid<T> Add(const AverageMonoid<T>& lhs, const AverageMonoid<T>& rhs) noexcept {
-    return AverageMonoid<T>(lhs._sum + rhs._sum, lhs._count + rhs._count);
+    return lhs.Add(rhs);
   }
 
 };
@@ -100,7 +126,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const AverageMonoid<T>& monoid) noexcept {
-    return String("AverageMonoid(") + Shows<T>::Show(monoid.Value()) + String(")");
+    return monoid.Show();
   }
 
 };
@@ -112,7 +138,7 @@ public:
   static constexpr bool exists = true;
 
   static AverageMonoid<T> Zero() {
-    return AverageMonoid<T>(Bounded<T>::MinValue());
+    return AverageMonoid<T>::Zero();
   }
 
 };

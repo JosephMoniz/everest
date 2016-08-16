@@ -102,8 +102,6 @@ set(SOURCE_FILES
         src/everest/traits/unlawful/stack.h
         src/everest/mutable_containers/array/foldable.h
         src/everest/containers/checked.h
-        src/everest/concurrency/conveyor.h
-        src/everest/concurrency/box.h
         tests/everest/concurrency/box_spec.h
         src/everest/memory/mutable_memory.h
         src/everest/types/size.h
@@ -411,7 +409,7 @@ set(SOURCE_FILES
         src/everest/crypto/hmac/sha512/hmac_sha512_sink.h
         src/everest/crypto/hmac/sha512/sink/sink.h
         tests/everest/mutable_containers/mutable_bit_set_spec.h
-        src/everest/probabilistic/mutable/mutable_bloom_filter.h
+        src/everest/probabilistic/mutable_bloom_filter.h
         src/everest/deciders/binary_decider.h
         src/everest/types/expressive/simple_percentage.h
         src/everest/types/expressive/hash_value.h
@@ -772,7 +770,7 @@ set(SOURCE_FILES
         src/everest/containers/set/semigroup.h
         src/everest/containers/set/all_traits.h
         src/everest/containers/sorted_vector_map.h
-        src/everest/containers/sorted_vector_set.h src/everest/types/expressive/hash_value/ord.h src/everest/strings/string_concat.h)
+        src/everest/containers/sorted_vector_set.h src/everest/types/expressive/hash_value/ord.h src/everest/strings/string_concat.h src/everest/concurrency/channel.h src/everest/traits/unlawful/mutable/mutable_queue.h src/everest/concurrency/channel_result.h src/everest/mutable_crdt/counters/mutable_grow_actor_counter.h src/everest/mutable_crdt/counters/mutabe_grow_counter.h src/everest/mutable_crdt/counters/mutable_positive_negative_actor_counter.h src/everest/mutable_crdt/counters/mutable_positive_negative_counter.h src/everest/mutable_crdt/sets/mutable_gset.h src/everest/mutable_crdt/sets/mutable_lwwset.h src/everest/mutable_crdt/sets/mutable_orset.h src/everest/mutable_crdt/sets/mutable_mcset.h src/everest/mutable_crdt/sets/mutable_tpset.h src/everest/mutable_containers/circular_buffer.h)
 
 add_executable(everest ${SOURCE_FILES})
 

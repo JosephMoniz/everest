@@ -59,6 +59,22 @@ public:
     return _positive.Value() - _negative.Value();
   }
 
+  PNCounter<T> Add(const PNCounter<T>& rhs) const noexcept {
+    return PNCounter<T>(Max(_positive, rhs._positive), Max(_negative, rhs._negative));
+  }
+
+  String Show() const noexcept {
+    return String("PNCounter(") + Shows<T>::Show(Value()) + String(")");
+  }
+
+  bool Equals(const PNCounter<T>& rhs) const noexcept {
+    return Value() == rhs.Value();
+  }
+
+  static PNCounter<T> Zero() {
+    return PNCounter<T>(ZeroVal<GCounter<T>>::Zero(), ZeroVal<GCounter<T>>::Zero());
+  }
+
 };
 
 template<class T>
@@ -68,7 +84,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const PNCounter<T>& counter) noexcept {
-    return String("PNCounter(") + Shows<T>::Show(counter.Value()) + String(")");
+    return counter.Show();
   }
 
 };
@@ -80,7 +96,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const PNCounter<T>& lhs, const PNCounter<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };
@@ -92,7 +108,7 @@ public:
   static constexpr bool exists = true;
 
   static PNCounter<T> Zero() {
-    return PNCounter(ZeroVal<GCounter<T>>::Zero(), ZeroVal<GCounter<T>>::Zero());
+    return PNCounter<T>::Zero();
   }
 
 };

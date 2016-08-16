@@ -102,7 +102,7 @@ void MutableSortedVectorMapSpecification() {
         It("Should return false when called with Contains(1)", [&]() {
           AssertFalse(Contains(String("one"), subject));
         });
-        It("Should return true when called with Contains(2)", [&]() {
+        It("Should return false when called with Contains(2)", [&]() {
           AssertFalse(Contains(String("two"), subject));
         });
         It("Should return true when called with Contains(3)", [&]() {
@@ -141,10 +141,10 @@ void MutableSortedVectorMapSpecification() {
         It("Should return false when called with Contains(1)", [&]() {
           AssertFalse(Contains(String("one"), subject));
         });
-        It("Should return true when called with Contains(2)", [&]() {
+        It("Should return false when called with Contains(2)", [&]() {
           AssertFalse(Contains(String("two"), subject));
         });
-        It("Should return true when called with Contains(3)", [&]() {
+        It("Should return false when called with Contains(3)", [&]() {
           AssertFalse(Contains(String("three"), subject));
         });
         It("Should return true when called with Contains(4)", [&]() {
@@ -180,13 +180,13 @@ void MutableSortedVectorMapSpecification() {
         It("Should return false when called with Contains(1)", [&]() {
           AssertFalse(Contains(String("one"), subject));
         });
-        It("Should return true when called with Contains(2)", [&]() {
+        It("Should return false when called with Contains(2)", [&]() {
           AssertFalse(Contains(String("two"), subject));
         });
-        It("Should return true when called with Contains(3)", [&]() {
+        It("Should return false when called with Contains(3)", [&]() {
           AssertFalse(Contains(String("three"), subject));
         });
-        It("Should return true when called with Contains(4)", [&]() {
+        It("Should return false when called with Contains(4)", [&]() {
           AssertFalse(Contains(String("four"), subject));
         });
         It("Should return false when called with Contains(5)", [&]() {

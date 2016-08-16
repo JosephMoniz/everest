@@ -99,7 +99,21 @@ public:
   }
 
   MutableMap<K, V> Add(const MutableMap<K, V>& other) const noexcept {
-    return MutableMap(_set.Add(other._set));
+    auto result = MutableMap<K, V>();
+    ForEach([&](MutableMapEntry<K, V>& entry) {
+      result.PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()));
+    });
+    other.ForEach([&](MutableMapEntry<K, V>& entry) {
+      result.Get(entry.Key()).Match(
+        [&]() {
+          result.PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()));
+        },
+        [&](const V* value) {
+          result.PutInPlace(Copyable<K>::Copy(entry.Key()), *value + entry.Value());
+        }
+      );
+    });
+    return result;
   }
 
   String Show() const noexcept {

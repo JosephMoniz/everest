@@ -17,8 +17,6 @@ namespace everest {
 template<class T>
 class GACounter final {
 
-  friend class Semigroup<GACounter<T>>;
-
   Map<String, GCounter<T>> _actors;
 
 public:
@@ -47,9 +45,25 @@ public:
 
   T Value() const noexcept {
     auto result = ZeroVal<T>::Zero();
-    _actors.ForEach([&](MutableMapEntry<String, T>& entry) {
+    _actors.ForEach([&](MutableMapEntry<String, GCounter<T>>& entry) {
       result = result + entry.Value().Value();
     });
+  }
+
+  GACounter<T> Add(const GACounter<T>& other) const noexcept {
+    return GACounter(_actors + other._actors);
+  }
+
+  String Show() const noexcept {
+    return String("GACounter(") + Shows<T>::Show(Value()) + String(")");
+  }
+
+  bool Equals(const GACounter<T>& other) const noexcept {
+    return Value() == other.Value();
+  }
+
+  static GACounter<T> Zero() {
+    return GACounter<T>(Map<String, GCounter<T>>());
   }
 
 };
@@ -61,7 +75,7 @@ public:
   static constexpr bool exists = true;
 
   static String Show(const GACounter<T>& counter) noexcept {
-    return String("GACounter(") + Shows<T>::Show(counter.Value()) + String(")");
+    return counter.Show();
   }
 
 };
@@ -73,7 +87,7 @@ public:
   static constexpr bool exists = true;
 
   static bool Equals(const GACounter<T>& lhs, const GACounter<T>& rhs) noexcept {
-    return lhs.Value() == rhs.Value();
+    return lhs.Equals(rhs);
   }
 
 };
@@ -85,7 +99,7 @@ public:
   static constexpr bool exists = true;
 
   static GACounter<T> Zero() {
-    return GACounter(Map());
+    return GACounter<T>::Zero();
   }
 
 };
@@ -97,7 +111,7 @@ public:
   static constexpr bool exists = true;
 
   static GACounter<T> Add(const GACounter<T>& lhs, const GACounter<T>& rhs) noexcept {
-    return GACounter(lhs._actors + rhs._actors);
+    return lhs.Add(rhs);
   }
 
 };
