@@ -16,21 +16,25 @@ public:
   static constexpr bool exists = false;
 
   static T Fold(const T& n) noexcept {
+    static_assert(exists, "T does not implement Foldable");
     return Base::Fold(n);
   }
 
   template <class Fn, class M = typename std::result_of<Fn(T)>::type>
   static M FoldMap(Fn f, const T& n) noexcept {
+    static_assert(exists, "T does not implement Foldable");
     return Base::FoldMap(f, n);
   }
 
   template <class Fn, class B>
   static B FoldR(Fn f, const B& init, const T& n) noexcept {
+    static_assert(exists, "T does not implement Foldable");
     return Base::FoldR(f, init, n);
   }
 
   template <class Fn, class B>
   static B FoldL(Fn f, const B& init, const T& n) noexcept {
+    static_assert(exists, "T does not implement Foldable");
     return Base::FoldL(f, init, n);
   }
 

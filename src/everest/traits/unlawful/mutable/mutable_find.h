@@ -16,6 +16,7 @@ public:
 
   template <class F, class U>
   static U& FindInPlace(const U& item, F& container) noexcept {
+    static_assert(exists, "T does not implement MutableFind");
     return Base::FindInPlace(item, container);
   }
 

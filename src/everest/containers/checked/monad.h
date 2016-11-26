@@ -1,6 +1,6 @@
 #pragma once
 
-#include <everest/meta/nth_arg.h>
+#include <everest/meta/nth_type_arg.h>
 #include <everest/containers/checked.h>
 #include <everest/traits/lawful/monad.h>
 #include <everest/traits/unlawful/copyable.h>
@@ -16,7 +16,7 @@ public:
 
   static constexpr bool exists = true;
 
-  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 1>>
+  template <class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 1>>
   static Checked<E, B> FlatMap(F f, const Checked<E, T>& checked) noexcept {
     return checked.FlatMap(f);
   }

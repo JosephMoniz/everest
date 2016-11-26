@@ -1,17 +1,18 @@
 #pragma once
 
+#include <cstddef>
 #include <tuple>
 
 namespace everest {
 
-template <typename> struct tuplify;
+template <size_t I, typename T>
+struct nth_arg : public nth_arg<I, decltype(&T::operator())> { };
 
-template <template <typename...> class T, typename ...As>
-struct tuplify<T<As...>> {
-  using type = std::tuple<As...>;
+template <size_t I, typename ClassType, typename ReturnType, typename... Args>
+struct nth_arg<I, ReturnType(ClassType::*)(Args...) const> {
+
+    typedef typename std::tuple_element<I, std::tuple<Args...>>::type type;
+
 };
-
-template <typename T, unsigned int N>
-using nth_arg = typename std::tuple_element<N, typename tuplify<T>::type>::type;
 
 }

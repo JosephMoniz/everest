@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <everest/meta/nth_arg.h>
 
 namespace everest {
 

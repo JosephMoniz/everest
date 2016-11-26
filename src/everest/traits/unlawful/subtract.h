@@ -14,6 +14,7 @@ public:
   static constexpr bool exists = false;
 
   static T Subtract(const T& lhs, const T& rhs) noexcept {
+    static_assert(exists, "T does not implement Subtract");
     return Base::Subtract(lhs, rhs);
   }
 

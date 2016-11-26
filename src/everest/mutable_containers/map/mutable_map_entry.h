@@ -16,6 +16,15 @@ public:
 
   MutableMapEntry(K&& key, V&& value) noexcept : _wrapped(std::move(key), std::move(value)) { }
 
+  MutableMapEntry(MutableMapEntry<K, V>&& other) noexcept : _wrapped(std::move(other._wrapped)) { }
+
+  MutableMapEntry<K, V>& operator=(const MutableMapEntry<K, V>& other) = delete;
+
+  MutableMapEntry<K, V>& operator=(MutableMapEntry<K, V>&& other) noexcept {
+    _wrapped = std::move(other._wrapped);
+    return *this;
+  }
+
   K& Key() noexcept {
     return _wrapped.First();
   }

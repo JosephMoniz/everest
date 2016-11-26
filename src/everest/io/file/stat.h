@@ -6,6 +6,8 @@
 namespace everest {
 namespace file {
 
+using everest::Checked;
+
 class Stat final {
 
   struct stat _stats;

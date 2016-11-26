@@ -17,6 +17,7 @@ public:
   static constexpr bool exists = false;
 
   static const Option<T> Next(const T& enumerator) {
+    static_assert(exists, "T does not implement Enumerator");
     return Base::Next(enumerator);
   }
 

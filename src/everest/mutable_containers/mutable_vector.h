@@ -39,6 +39,9 @@ public:
   MutableVector(MutableMemory<T>&& memory) noexcept : _length(memory.Length()),
                                                       _memory(std::move(memory)) { }
 
+  MutableVector(MutableMemory<T>&& memory, size_t length) noexcept : _length(length),
+                                                                     _memory(std::move(memory)) { }
+
   MutableVector(Memory<T>&& memory) noexcept : _length(memory.Length()),
                                                _memory(std::move(memory)) { }
 
@@ -248,7 +251,7 @@ public:
     return ToHexFromBigEndianBytePointer((unsigned char*) Pointer(), _length);
   }
 
-  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  template<class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 0>>
   MutableVector<B> FlatMap(F f) const noexcept {
     auto results = MutableVector<T>();
     ForEach([&](const T& item) {
@@ -483,11 +486,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("MutableVector(");
-    ForEach([&](const T& item) {
-      out = std::move(out) + Shows<T>::Show(item) + String(", ");
-    });
-    return Takeable<String>::Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("MutableVector(")
+      .Add(StringJoiner(", ").Join<MutableVector<T>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   MutableVector<T> Push(const T& item) const noexcept {

@@ -14,6 +14,7 @@ public:
 
   template <class U>
   static U Enumerate(const T& enumerable) noexcept {
+    static_assert(exists, "T does not implement Enumerable");
     return Base::Enumerate(enumerable);
   }
 

@@ -16,6 +16,7 @@ public:
 
   template <class F, class U>
   static U& Find(const U& item, F& container) noexcept {
+    static_assert(exists, "T does not implement Findable");
     return Base::Find(item, container);
   }
 

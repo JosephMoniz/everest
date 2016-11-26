@@ -196,7 +196,7 @@ public:
     return HashValue(result);
   }
 
-  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  template<class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 0>>
   MutableSet<B> FlatMap(F f) const noexcept {
     auto results = MutableSet<T>();
     ForEach([&](const T& item) {
@@ -244,7 +244,7 @@ public:
   }
 
   MutableSet<T>& AddInPlace(MutableSet<T>&& source) noexcept {
-    ForEach(source, [&](T&& item) {
+    source.MovingForEach([&](T&& item) {
       AddInPlace(std::move(item));
     });
     return *this;
@@ -299,23 +299,32 @@ public:
     return results;
   }
 
-  String Show() const noexcept {
-    auto out = String("MutableSet(");
+  MutableSet<T> Intersect(const MutableSet<T>& rhs) const noexcept {
+    auto results = MutableSet<T>();
     ForEach([&](const T& item) {
-      out = std::move(out) + Shows<T>::Show(item) + String(", ");
+      if (rhs.Contains(item)) {
+        results.AddInPlace(item);
+      }
     });
-    return Takeable<String>::Take(out.Length() - 2, std::move(out)) + String(")");
+    return results;
   }
 
   MutableSet<T> Subtract(const MutableSet<T>& rhs) const noexcept {
     auto results = MutableSet<T>();
     ForEach([&](const T& item) {
-      results.AddInPlace(item);
-    });
-    rhs.ForEach([&](const T& item) {
-      results.RemoveInPlace(item);
+      if (!rhs.Contains(item)) {
+        results.AddInPlace(item);
+      }
     });
     return results;
+  }
+
+  String Show() const noexcept {
+    return String::Builder()
+      .Add("MutableSet(")
+      .Add(StringJoiner(", ").Join<MutableSet<T>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   static MutableSet<T> Zero() noexcept {

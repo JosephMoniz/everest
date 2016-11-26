@@ -400,11 +400,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("MutableSortedVectorSet(");
-    ForEach([&](const T& item) {
-      out = std::move(out) + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("MutableSortedVectorSet(")
+      .Add(StringJoiner(", ").Join<MutableSortedVectorSet<T>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   bool Equals(const MutableSortedVectorSet<T>& other) const noexcept {
@@ -433,6 +433,26 @@ public:
     });
     rhs.ForEach([&](const T& item) {
       results.AddInPlace(item);
+    });
+    return results;
+  }
+
+  MutableSortedVectorSet<T> Intersect(const MutableSortedVectorSet<T>& rhs) const noexcept {
+    auto results = MutableSortedVectorSet<T>();
+    ForEach([&](const T& item) {
+      if (rhs.Contains(item)) {
+        results.AddInPlace(item);
+      }
+    });
+    return results;
+  }
+
+  MutableSortedVectorSet<T> Subtract(const MutableSortedVectorSet<T>& rhs) const noexcept {
+    auto results = MutableSortedVectorSet<T>();
+    ForEach([&](const T& item) {
+      if (!rhs.Contains(item)) {
+        results.AddInPlace(item);
+      }
     });
     return results;
   }

@@ -19,10 +19,12 @@ public:
   static constexpr bool exists = false;
 
   static size_t Length(const T& n) {
+    static_assert(exists, "T does not implement Container");
     return Base::Length(n);
   }
 
   static bool IsEmpty(const T& n) {
+    static_assert(exists, "T does not implement Container");
     return Base::IsEmpty(n);
   }
 

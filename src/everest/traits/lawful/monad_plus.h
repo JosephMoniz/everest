@@ -14,6 +14,7 @@ public:
   static constexpr bool exists = false;
 
   static T MPlus(const T& lhs, const T& rhs) noexcept {
+    static_assert(exists, "T does not implement MonadPlus");
     return Base::MPlus(lhs, rhs);
   }
 

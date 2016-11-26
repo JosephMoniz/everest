@@ -1,6 +1,7 @@
 #pragma once
 
 #include <everest/mutable_containers/mutable_sorted_vector_map.h>
+#include <everest/strings/string_joiner.h>
 
 namespace everest {
 
@@ -81,11 +82,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("SortedVectorMap(");
-    ForEach([&](const MutableMapEntry<K, V>& entry) {
-      out = std::move(out) + entry.Show() + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("SortedVectorMap(")
+      .Add(StringJoiner(", ").Join(*this))
+      .Add(")")
+      .Build();
   }
 
   static SortedVectorMap<K, V> Zero() noexcept {

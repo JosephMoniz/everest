@@ -15,11 +15,13 @@ public:
   static constexpr bool exists = false;
 
   static T& DropInPlace(size_t s, T& n) noexcept {
+    static_assert(exists, "T does not implement MutableDrop");
     return Base::DropInPlace(s, n);
   }
 
   template <template <class> class F>
   static F<T>& DropInPlaceWhile(Predicate<const T&> p, F<T>& n) noexcept {
+    static_assert(exists, "T does not implement MutableDrop");
     return Base::DropInPlaceWhile(p, n);
   }
 

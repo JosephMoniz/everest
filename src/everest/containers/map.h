@@ -2,6 +2,7 @@
 
 #include <stddef.h>
 #include <everest/mutable_containers/mutable_map.h>
+#include <everest/strings/string_joiner.h>
 
 namespace everest {
 
@@ -13,6 +14,8 @@ class Map final {
 public:
 
   Map() : _wrapped() { }
+
+  Map(MutableMap<K, V>&& map) noexcept : _wrapped(std::move(map)) { }
 
   bool Contains(const K& key) const noexcept {
     return _wrapped.Contains(key);
@@ -27,11 +30,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("Map(");
-    _wrapped.ForEach([&](const MutableMapEntry<K, V>& entry) {
-      out = out + Shows<MutableMapEntry<K, V>>::Show(entry) + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("Map(")
+      .Add(StringJoiner(", ").Join(*this))
+      .Add(")")
+      .Build();
   }
 
   template <class F>
@@ -44,6 +47,29 @@ public:
   static Map<K, V> Zero() noexcept {
     return Map<K, V>();
   }
+
+  class MapBuilder final {
+
+    MutableMap<K, V> _map;
+
+  public:
+
+    MapBuilder() noexcept : _map() { }
+
+    MapBuilder& Put(K&& key, V&& value) noexcept {
+      _map.PutInPlace(std::move(key), std::move(value));
+      return *this;
+    }
+
+    Map<K, V> Build() noexcept {
+      return Map<K, V>(std::move(_map));
+    };
+
+  };
+
+  static MapBuilder Builder() noexcept {
+    return MapBuilder();
+  };
 
 };
 

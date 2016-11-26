@@ -45,7 +45,7 @@ public:
   Option<const V*> Get(const K& key) const noexcept {
     return _set
       .Find(key)
-      .Map([](MutableMapEntry<K, V>& entry) { return &entry.Value(); });
+      .Map([](const MutableMapEntry<K, V>* entry) { return &entry->ConstValue(); });
   };
 
   bool Contains(const K& key) const noexcept {
@@ -100,33 +100,72 @@ public:
 
   MutableMap<K, V> Add(const MutableMap<K, V>& other) const noexcept {
     auto result = MutableMap<K, V>();
-    ForEach([&](MutableMapEntry<K, V>& entry) {
-      result.PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()));
+    ForEach([&](const MutableMapEntry<K, V>& entry) {
+      result.PutInPlace(Copyable<K>::Copy(entry.ConstKey()), Copyable<V>::Copy(entry.ConstValue()));
     });
-    other.ForEach([&](MutableMapEntry<K, V>& entry) {
-      result.Get(entry.Key()).Match(
+    other.ForEach([&](const MutableMapEntry<K, V>& entry) {
+      result.Get(entry.ConstKey()).Match(
         [&]() {
-          result.PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()));
+          result.PutInPlace(Copyable<K>::Copy(entry.ConstKey()), Copyable<V>::Copy(entry.ConstValue()));
         },
         [&](const V* value) {
-          result.PutInPlace(Copyable<K>::Copy(entry.Key()), *value + entry.Value());
+          result.PutInPlace(Copyable<K>::Copy(entry.ConstKey()), *value + entry.ConstValue());
         }
       );
     });
     return result;
   }
 
-  String Show() const noexcept {
-    auto out = String("MutableMap(");
-    ForEach([&](const MutableMapEntry<K, V>& entry) {
-      out = std::move(out) + entry.Show() + String(", ");
+  // TODO: Make test
+  // TODO: Make trait
+  MutableMap<K, V>& AddInPlace(const MutableMap<K, V>& other) noexcept {
+    other.ForEach([&](const MutableMapEntry<K, V>& entry) {
+      GetInPlace(entry.ConstKey()).Match(
+        [&]() {
+          PutInPlace(Copyable<K>::Copy(entry.ConstKey()), Copyable<V>::Copy(entry.ConstValue()));
+        },
+        [&](V* value) {
+          *value = *value + entry.ConstValue();
+        }
+      );
     });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return *this;
+  }
+
+  String Show() const noexcept {
+    return String::Builder()
+      .Add("MutableMap(")
+      .Add(StringJoiner(", ").Join<MutableMap<K, V>, MutableMapEntry<K, V>>(*this))
+      .Add(")")
+      .Build();
   }
 
   static MutableMap<K, V> Zero() noexcept {
     return MutableMap<K, V>();
   }
+
+  class MutableMapBuilder final {
+
+    MutableMap<K, V> _map;
+
+  public:
+
+    MutableMapBuilder() noexcept : _map() { }
+
+    MutableMapBuilder& Put(K&& key, V&& value) noexcept {
+      _map.PutInPlace(std::move(key), std::move(value));
+      return *this;
+    }
+
+    MutableMap<K, V> Build() noexcept {
+      return MutableMap<K, V>(std::move(_map));
+    };
+
+  };
+
+  static MutableMapBuilder Builder() noexcept {
+    return MutableMapBuilder();
+  };
 
 };
 

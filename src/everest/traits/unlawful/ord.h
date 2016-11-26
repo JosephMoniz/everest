@@ -17,16 +17,19 @@ public:
 
   template <class U>
   static Ordering Compare(const U& lhs, const U& rhs) noexcept {
+    static_assert(exists, "T does not implement Ord");
     return Base::Compare(lhs, rhs);
   }
 
   template <class U>
   static U Min(const U& lhs, const U& rhs) noexcept {
+    static_assert(exists, "T does not implement Ord");
     return Base::Min(lhs, rhs);
   }
 
   template <class U>
   static U Max(const U& lhs, const U& rhs) noexcept {
+    static_assert(exists, "T does not implement Ord");
     return Base::Max(lhs, rhs);
   }
 
@@ -69,13 +72,25 @@ Ordering Compare(const T& lhs, const T& rhs) noexcept {
 }
 
 template <class T>
-T Min(const T& lhs, const T& rhs) noexcept {
+auto Min(const T& lhs, const T& rhs) noexcept -> decltype(Ord<T>::Min(lhs, rhs)) {
   static_assert(Ord<T>::exists, "T does not implement Ord");
   return Ord<T>::Min(lhs, rhs);
 }
 
 template <class T>
-T Max(const T& lhs, const T& rhs) noexcept {
+auto Min(T& lhs, T& rhs) noexcept -> decltype(Ord<T>::Min(lhs, rhs)) {
+  static_assert(Ord<T>::exists, "T does not implement Ord");
+  return Ord<T>::Min(lhs, rhs);
+}
+
+template <class T>
+auto Max(const T& lhs, const T& rhs) noexcept -> decltype(Ord<T>::Max(lhs, rhs)) {
+  static_assert(Ord<T>::exists, "T does not implement Ord");
+  return Ord<T>::Max(lhs, rhs);
+}
+
+template <class T>
+auto Max(T& lhs, T& rhs) noexcept -> decltype(Ord<T>::Max(lhs, rhs)) {
   static_assert(Ord<T>::exists, "T does not implement Ord");
   return Ord<T>::Max(lhs, rhs);
 }
@@ -101,13 +116,13 @@ Ordering Compare(const T& lhs, const U& rhs) noexcept {
 }
 
 template <class T, class U>
-T Min(const T& lhs, const U& rhs) noexcept {
+auto Min(const T& lhs, const U& rhs) noexcept -> decltype(Ord<T>::Min(lhs, rhs)) {
   static_assert(Ord<T>::exists, "T does not implement Ord");
   return Ord<T>::Min(lhs, rhs);
 }
 
 template <class T, class U>
-T Max(const T& lhs, const U& rhs) noexcept {
+auto Max(const T& lhs, U& rhs) noexcept -> decltype(Ord<T>::Max(lhs, rhs)) {
   static_assert(Ord<T>::exists, "T does not implement Ord");
   return Ord<T>::Max(lhs, rhs);
 }

@@ -15,6 +15,7 @@ public:
 
   template <class U>
   static U BinaryXor(const U& lhs, const U& rhs) noexcept {
+    static_assert(exists, "T does not implement BitXor");
     return Base::BinaryXor(lhs, rhs);
   }
 

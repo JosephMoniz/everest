@@ -16,7 +16,7 @@ public:
 
   template <class F>
   static void ForEach(const Array<T, S>& container, const F& function) noexcept {
-    for (auto i = 0; i < S; i++) {
+    for (size_t i = 0; i < S; i++) {
       function(container._array[i]);
     }
   }

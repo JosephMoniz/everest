@@ -16,6 +16,7 @@ public:
   static constexpr bool exists = false;
 
   static String ToHex(const T& n) noexcept {
+    static_assert(exists, "T does not implement Hexable");
     return Base::ToHex(n);
   }
 

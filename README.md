@@ -155,7 +155,7 @@ Traits
   + [`Bounded<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/bounded.h)
   + [`Containable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/containable.h)
   + [`Container<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/container.h)
-  + [`Disjoinable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/disjoinable.h)
+  + [`Differentiable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/disjoinable.h)
   + [`Divide<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/divide.h)
   + [`Droppable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/droppable.h)
   + [`Enumerable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/enumerable.h)
@@ -179,4 +179,105 @@ Traits
   + [`Takeable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/takeable.h)
   + [`Unwrappable<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/unwrappable.h)
   + [`Zero<T>`](https://github.com/JosephMoniz/everest/blob/master/src/everest/traits/unlawful/zero.h)
+
+
+TODO
+----
+
+  + [ ] Language Experiments
+    + [ ] Can we use Concepts in our compilers yet?
+    + [ ] Can we use Modules in our compilers yet?
+    + [ ] Can we use Variant yet?
+  + [x] IO
+    + [x] TCP Client
+      + [x] Verify it's empirically working
+      + [x] Add remote address storage
+      + [x] Tests
+    + [x] TCP Server Listener
+      + [x] Implement
+      + [x] Add remote address storage
+      + [x] Verify it's empirically working
+      + [x] Test
+  + [ ] Services
+    + [ ] Implement `Service`
+    + [ ] Implement `Middleware`
+  + [ ] Testing Changes
+    + [ ] Collect test failures as we execute and report at end of test runs
+  + [ ] Concurrency
+    + [ ] Channels
+      + [ ] Verify it's empirically working
+      + [ ] Test
+    + [ ] Thread pools
+      + [ ] SingleThreadPool
+        + [ ] Implement
+        + [ ] Verify it's empirically working
+        + [ ] Test
+      + [ ] CachedThreadPool
+        + [ ] Implement
+        + [ ] Verify it's empirically working
+        + [ ] Test
+      + [ ] FixedThreadPool
+        + [ ] Implement
+        + [ ] Verify it's empirically working
+        + [ ] Test
+  + [ ] Data Structures
+    + [ ] Circular Buffer
+      + [ ] Test
+    + [ ] Unrolled Linked List
+      + [ ] Implement
+      + [ ] Test
+    + [ ] Implement Cache Data Structures
+      + [ ] FixedCountLRUCache
+        + [ ] Implement
+        + [ ] Test
+      + [ ] FixedSizeLRUCache
+        + [ ] Implement
+        + [ ] Test
+    + [ ] Mutable Sets
+      + [ ] MutableSortedVectorSet
+        + [ ] Add set intersection operation
+          + [x] Implement
+          + [ ] Test
+        + [ ] Add set difference operation
+          + [x] Implement
+          + [ ] Test
+      + [ ] MutableSet
+        + [ ] Add set intersection operation
+          + [x] Implement
+          + [ ] Test
+        + [ ] Add set difference operation
+          + [x] Implement
+          + [ ] Test
+     + [ ] Sets
+       + [ ] SortedVectorSet
+         + [ ] Add set intersection operation
+           + [x] Implement
+           + [ ] Test
+         + [ ] Add set difference operation
+           + [x] Implement
+           + [ ] Test
+       + [ ] Set
+         + [ ] Add set intersection operation
+           + [x] Implement
+           + [ ] Test
+         + [ ] Add set difference operation
+           + [x] Implement
+           + [ ] Test
+  + [ ] Deciders
+    + [ ] Tests
+  + [ ] Feature Flags
+    + [ ] Binary Feature Flags
+      + [ ] Definition DSL
+        + [ ] Implement
+        + [ ] Test
+      + [ ] Override DSL
+        + [ ] Implement
+        + [ ] Test
+    + [ ] Multi-Variant Feature Flags
+      + [ ] Definition DSL
+        + [ ] Implement
+        + [ ] Test
+      + [ ] Override DSL
+        + [ ] Implement
+        + [ ] Test
    

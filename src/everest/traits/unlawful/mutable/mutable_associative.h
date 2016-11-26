@@ -18,15 +18,18 @@ public:
 
   template <class K, class V>
   static T& PutInPlace(const K& key, const V& value, T& container) noexcept {
+    static_assert(exists, "T does not implement MutableAssociative");
     return Base::PutInPlace(key, value, container);
   }
 
   static T& PutInPlace(const T& source, T& container) noexcept {
+    static_assert(exists, "T does not implement MutableAssociative");
     return Base::PutInPlace(source, container);
   }
 
   template <class K, class V>
   static V* GetInPlace(const K& key, T& container) noexcept {
+    static_assert(exists, "T does not implement MutableAssociative");
     return Base::GetInPlace(key, container);
   };
 

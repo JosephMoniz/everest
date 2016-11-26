@@ -44,7 +44,7 @@ public:
   Option<const V*> Get(const K& key) const noexcept {
     return _set
       .Find(key)
-      .Map([](MutableMapEntry<K, V>& entry) { return &entry.Value(); });
+      .Map([](const MutableMapEntry<K, V>* entry) { return &entry->ConstValue(); });
   };
 
   // TODO: Make trait
@@ -131,28 +131,42 @@ public:
 
   MutableSortedVectorMap<K, V> Add(const MutableSortedVectorMap<K, V>& other) const noexcept {
     auto result = MutableSortedVectorMap<K, V>();
-    ForEach([&](MutableMapEntry<K, V>& entry) {
-      result.PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()));
+    ForEach([&](const MutableMapEntry<K, V>& entry) {
+      result.PutInPlace(Copyable<K>::Copy(entry.ConstKey()), Copyable<V>::Copy(entry.ConstValue()));
     });
-    other.ForEach([&](MutableMapEntry<K, V>& entry) {
-      result.Get(entry.Key()).Match(
+    other.ForEach([&](const MutableMapEntry<K, V>& entry) {
+      result.Get(entry.ConstKey()).Match(
         [&]() {
-          result.PutInPlace(Copyable<K>::Copy(entry.Key()), Copyable<V>::Copy(entry.Value()));
+          result.PutInPlace(Copyable<K>::Copy(entry.ConstKey()), Copyable<V>::Copy(entry.ConstValue()));
         },
         [&](const V* value) {
-          result.PutInPlace(Copyable<K>::Copy(entry.Key()), *value + entry.Value());
+          result.PutInPlace(Copyable<K>::Copy(entry.ConstKey()), *value + entry.ConstValue());
         }
       );
     });
     return result;
   }
 
-  String Show() const noexcept {
-    auto out = String("MutableSortedVectorMap(");
-    ForEach([&](const MutableMapEntry<K, V>& entry) {
-      out = std::move(out) + entry.Show() + String(", ");
+  MutableSortedVectorMap<K, V>& AddInPlace(const MutableSortedVectorMap<K, V>& other) noexcept {
+    other.ForEach([&](const MutableMapEntry<K, V>& entry) {
+      GetInPlace(entry.ConstKey()).Match(
+        [&]() {
+          PutInPlace(Copyable<K>::Copy(entry.ConstKey()), Copyable<V>::Copy(entry.ConstValue()));
+        },
+        [&](V* value) {
+          *value = *value + entry.ConstValue();
+        }
+      );
     });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return *this;
+  }
+
+  String Show() const noexcept {
+    return String::Builder()
+      .Add("MutableSortedVectorMap(")
+      .Add(StringJoiner(", ").Join<MutableSortedVectorMap<K, V>, MutableMapEntry<K, V>>(*this))
+      .Add(")")
+      .Build();
   }
 
   static MutableSortedVectorMap<K, V> Zero() noexcept {

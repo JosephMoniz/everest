@@ -114,7 +114,7 @@ public:
     return _wrapped.ToHex();
   }
 
-  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  template<class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 0>>
   Vector<B> FlatMap(F f) const noexcept {
     return Vector<B>(_wrapped.FlatMap(f));
   }
@@ -157,13 +157,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out     = String("Vector(");
-    auto pointer = Pointer();
-    auto length  = Length();
-    for (size_t i = 0; i < length; i++) {
-      out = std::move(out) + Shows<T>::Show(pointer[i]) + String(", ");
-    }
-    return Takeable<String>::Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("Vector(")
+      .Add(StringJoiner(", ").Join<Vector<T>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   Vector<T> Push(const T& item) const noexcept {

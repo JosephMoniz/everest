@@ -15,6 +15,7 @@ public:
 
   template <class U>
   static auto PerformFunnel(U&& item, T& sink) noexcept {
+    static_assert(exists, "T does not implement Fundable");
     return Base::PerformFunnel(std::forward<U>(item), sink);
   }
 

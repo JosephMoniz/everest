@@ -1,10 +1,10 @@
 #pragma once
 
 #include <sys/fcntl.h>
-#include <sys/errno.h>
 #include <everest/strings/string.h>
 #include <everest/containers/option.h>
 #include <everest/containers/checked.h>
+#include <cerrno>
 
 namespace everest {
 

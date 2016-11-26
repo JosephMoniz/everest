@@ -18,6 +18,7 @@ public:
 
   template <class U>
   static T& RemoveAtInPlace(size_t position, T& container) noexcept {
+    static_assert(exists, "T does not implement MutableRemoveAt");
     return Base::RemoveAtInPlace(position, container);
   }
 

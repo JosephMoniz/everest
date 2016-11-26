@@ -48,8 +48,7 @@ void FileSpecification() {
     Describe("has memory mapped files", []() {
       It("Should be able to mmap it", []() {
         auto path     = "./build/fixtures/mappable_file.txt";
-        auto file     = File::Open(path);
-        auto mapped   = MemoryMappedFile::of(file.GetMovable());
+        auto mapped   = MemoryMappedFile::Of(path);
         auto map      = mapped.GetMovable();
         auto expected = "file content here";
         auto pointer  = (char *) Pointer(map);

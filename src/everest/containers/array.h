@@ -1,6 +1,7 @@
 #pragma once
 
 #include <initializer_list>
+#include <everest/strings/string_joiner.h>
 
 namespace everest {
 
@@ -32,12 +33,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out     = String("Array(");
-    auto pointer = Pointer();
-    for (size_t i = 0; i < S; i ++) {
-      out = std::move(out) + Shows<T>::Show(pointer[i]) + String(", ");
-    }
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("Array(")
+      .Add(StringJoiner(", ").Join<Array<T, S>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   bool Equals(const Array<T, S>& other) const noexcept {

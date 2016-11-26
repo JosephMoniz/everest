@@ -18,11 +18,13 @@ public:
   static constexpr bool exists = false;
 
   static T Take(size_t s, T&& n) noexcept {
+    static_assert(exists, "T does not implement Takeable");
     return Base::Take(s, std::forward<T>(n));
   }
 
   template <class F, class N>
   static T TakeWhile(Predicate<const N&> p, F&& n) noexcept {
+    static_assert(exists, "T does not implement Takeable");
     return Base::TakeWhile(p, std::forward<F>(n));
   }
 

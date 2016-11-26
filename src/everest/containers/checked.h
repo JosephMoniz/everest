@@ -169,7 +169,7 @@ public:
       : Hashable<E>::Hash(GetError());
   }
 
-  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 1>>
+  template <class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 1>>
   Checked<E, B> FlatMap(F f) const noexcept {
     return IsOk()
       ? f(Get())
@@ -225,9 +225,17 @@ public:
 
   String Show() const noexcept {
     if (IsOk()) {
-      return String("Ok(") + Shows<T>::Show(Get()) + String(")");
+      return String::Builder()
+        .Add("Ok(")
+        .Add(Shows<T>::Show(Get()))
+        .Add(")")
+        .Build();
     } else {
-      return String("Error(") + Shows<E>::Show(GetError()) + String(")");
+      return String::Builder()
+        .Add("Error(")
+        .Add(Shows<E>::Show(GetError()))
+        .Add(")")
+        .Build();
     }
   }
 
@@ -245,7 +253,7 @@ public:
   }
 
   template <class Ef, class Of>
-  auto Match(Ef error, Of ok) noexcept -> decltype(ok(Get())) {
+  auto Match(Ef error, Of ok) const noexcept -> decltype(ok(Get())) {
     return (IsOk())
       ? ok(Get())
       : error(GetError());

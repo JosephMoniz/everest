@@ -42,7 +42,7 @@ public:
     }
   }
 
-  static Checked<int, MemoryMappedFile> of(File&& file) noexcept {
+  static Checked<int, MemoryMappedFile> Of(File&& file) noexcept {
     auto stat = file::Stat::Of(file);
     if (stat.IsOk()) {
       auto size    = (size_t) stat.Get().Size();
@@ -58,6 +58,13 @@ public:
       return Checked<int, MemoryMappedFile>::Error(stat.GetError());
     }
   }
+
+  static Checked<int, MemoryMappedFile> Of(const char* filePath) noexcept {
+    auto file = File::Open(filePath);
+    return file.IsOk()
+      ? MemoryMappedFile::Of(file.GetMovable())
+      : Checked<int, MemoryMappedFile>::Error(file.GetError());
+  };
 
   size_t Size() const noexcept {
     return _size;

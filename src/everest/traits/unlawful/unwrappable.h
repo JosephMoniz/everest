@@ -17,12 +17,14 @@ public:
 
   template <class F, class D, class U = typename std::result_of<D()>::type>
   static U GetOrElse(D d, const F& f) noexcept {
+    static_assert(exists, "T does not implement Unwrappable");
     return Base::GetOrElse(d, f);
   }
 
 
   template <class F, class U>
   static U GetOrDefault(const U& f, const F& n) noexcept {
+    static_assert(exists, "T does not implement Unwrappable");
     return Base::GetOrDefault(f, n);
   }
 

@@ -21,10 +21,6 @@ class MutableString final {
 
   size_t _occupied;
 
-  static constexpr bool IsLetterByte(char byte) noexcept {
-    return (byte & 0b11000000) != 0b10000000;
-  }
-
 public:
 
   MutableString() noexcept : MutableString("\0") { }
@@ -33,7 +29,7 @@ public:
     size_t length   = 0;
     size_t capacity = 0;
     for (capacity = 0; str[capacity]; capacity++) {
-      if ((str[capacity] & 0b11000000) != 0b10000000) {
+      if (IsLetterByte(str[capacity])) {
         length++;
       }
     }
@@ -68,6 +64,10 @@ public:
     _occupied = other._occupied;
     other._length = 0;
     return *this;
+  }
+
+  static bool IsLetterByte(char byte) noexcept {
+    return (byte & 0b11000000) != 0b10000000;
   }
 
   bool IsByteAligned() const noexcept {
@@ -138,7 +138,7 @@ public:
 
   template <class F>
   void ForEach(F function) const noexcept {
-    auto length  = _occupied;
+    auto length  = _occupied - 1;
     auto pointer = _data.Pointer();
     for (size_t i = 0; i < length; i++) {
       function(pointer[i]);
@@ -175,6 +175,27 @@ public:
     memcpy(destPointer, lPointer, lOccupied);
     memcpy(&destPointer[lOccupied], rPointer, other.Occupied());
     return MutableString(std::move(memory), Length() + other.Length(), occupied);
+  }
+
+  // TODO: Make trait
+  // TODO: Make test
+  MutableString& AddInPlace(const MutableString& other) noexcept {
+    auto lOccupied = Occupied() - 1;
+    auto occupied  = lOccupied + other.Occupied();
+    _data.ReserveAtLeast(occupied);
+    auto lPointer  = _data.MutablePointer();
+    auto rPointer  = other.Pointer();
+    memcpy(&lPointer[lOccupied], rPointer, other.Occupied());
+    _length   = Length() + other.Length();
+    _occupied = occupied;
+    return *this;
+  }
+
+  // TODO: Make trait
+  // TODO: Make test
+  // TODO: Optimize, this is a lame hack
+  MutableString& AddInPlace(const char* other) noexcept {
+    return AddInPlace(MutableString(other));
   }
 
   MutableString Take(size_t size) const noexcept {
@@ -215,9 +236,9 @@ public:
     return MutableString(std::move(memory), length, occupied);
   }
 
-  template <class R, class MutableStringVisitor, class StringVisitor, class ConcatStringVisitor>
-  R VisitString(MutableStringVisitor mutableString, StringVisitor string, ConcatStringVisitor concat) noexcept {
-    return mutableString(*this);
+  template <class F>
+  void VisitByteSlice(F visitor) const noexcept {
+    visitor(Pointer(), Length(), Occupied() - 1, IsByteAligned());
   };
 
 };

@@ -15,11 +15,13 @@ public:
 
   template <class Fn, class B = typename std::result_of<Fn(F)>::type>
   static B FlatMap(Fn f, const F& m) noexcept {
+    static_assert(exists, "T does not implement Monad");
     return Base::FlatMap(f, m);
   }
 
   template <class B>
   static B Then(const F& m, const B& n) noexcept {
+    static_assert(exists, "T does not implement Monad");
     return Base::Then(m, n);
   }
 

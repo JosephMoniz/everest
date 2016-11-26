@@ -10,13 +10,14 @@ namespace everest {
 void MutableMapSpecification() {
   Describe("A MutableMap type", []() {
     Describe("of value {'one': 1, 'two': 2, 'three': 3, 'four': 4}", []() {
-      auto subject = MutableMap<String, int>();
-      PutInPlace(String("one"), 1, subject);
-      PutInPlace(String("two"), 2, subject);
-      PutInPlace(String("three"), 3, subject);
-      PutInPlace(String("four"), 4, subject);
+      auto subject = MutableMap<String, int>::Builder()
+        .Put("one", 1)
+        .Put("two", 2)
+        .Put("three", 3)
+        .Put("four", 4)
+        .Build();
       It("Should render the correct mutable_string when called with Shows()", [&](){
-        auto expected = String("MutableMap(three: 3, four: 4, two: 2, one: 1)");
+        auto expected = String("MutableMap(one: 1, four: 4, three: 3, two: 2)");
         auto result   = Show(subject);
         AssertEquals(expected, result);
       });

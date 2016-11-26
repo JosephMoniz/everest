@@ -23,6 +23,17 @@ public:
   MutableTuple(T&& first, U&& second) noexcept : _first(std::move(first)),
                                                  _second(std::move(second)) { }
 
+  MutableTuple(MutableTuple<T, U>&& other) noexcept : _first(std::move(other._first)),
+                                                      _second(std::move(other._second)) { }
+
+  MutableTuple<T, U>& operator=(const MutableTuple<T, U>& other) = delete;
+
+  MutableTuple<T, U>& operator=(MutableTuple<T, U>&& other) noexcept {
+    _first  = std::move(other._first);
+    _second = std::move(other._second);
+    return *this;
+  }
+
   T& First() noexcept {
     return _first;
   }

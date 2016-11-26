@@ -8,6 +8,7 @@
 #include <everest/types/expressive/hash_value/eq.h>
 #include <everest/types/expressive/hash_value/show.h>
 #include <everest/traits/unlawful/ord/ordering/all_traits.h>
+#include <everest/pointer/traits/all_traits.h>
 
 namespace everest {
 
@@ -15,6 +16,13 @@ void OptionSpecification() {
   Describe("A Option type", []() {
     It("should have a zero value of None()", []() {
       AssertEquals(Option<int>::None(), Option<int>::Zero());
+    });
+    It("should return a None() when passed a nullptr", []() {
+      AssertEquals(Option<int*>::None(), Option<int*>(nullptr));
+    });
+    It("should return a Some() when passed a non nullptr", []() {
+      auto stackRef = 1;
+      AssertEquals(Option<int*>::Some(&stackRef), Option<int*>(&stackRef));
     });
     Describe("in the case of type none", []() {
       It("should return OPTION_NONE when calling get_type()", []() {

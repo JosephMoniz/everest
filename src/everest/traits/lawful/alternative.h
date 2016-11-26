@@ -17,6 +17,7 @@ public:
   static constexpr bool exists = false;
 
   static T Alt(const T& lhs, const T& rhs) noexcept {
+    static_assert(exists, "T does not implement Alternative");
     return Base::Alt(lhs, rhs);
   }
 

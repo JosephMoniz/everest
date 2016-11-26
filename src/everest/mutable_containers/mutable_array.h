@@ -43,11 +43,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("MutableArray(");
-    ForEach([&](const T& item) {
-      out = std::move(out) + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("MutableArray(")
+      .Add(StringJoiner(", ").Join<MutableArray<T, S>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   bool Equals(const MutableArray<T, S>& other) const noexcept {

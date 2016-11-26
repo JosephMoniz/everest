@@ -3,14 +3,14 @@ project(traitorous_og)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-return-type -Wno-unknown-pragmas -ftemplate-backtrace-limit=0")
 
-include_directories(src tests deps/http-parser deps/openssl/include deps/libuv/include)
+include_directories(src tests deps/http-parser deps/openssl/include)
 
 set(SOURCE_FILES
         src/everest/cli/color.h
         src/everest/test/bdd.h
         src/everest/meta/max.h
         src/everest/meta/min.h
-        src/everest/meta/nth_arg.h
+        src/everest/meta/nth_type_arg.h
         src/everest/traits/lawful/alternative.h
         src/everest/traits/unlawful/bit_and.h
         src/everest/traits/unlawful/bit_or.h
@@ -18,7 +18,6 @@ set(SOURCE_FILES
         src/everest/traits/unlawful/bounded.h
         src/everest/traits/unlawful/containable.h
         src/everest/traits/unlawful/container.h
-        src/everest/traits/unlawful/disjoinable.h
         src/everest/traits/unlawful/divide.h
         src/everest/traits/unlawful/droppable.h
         src/everest/traits/unlawful/eq.h
@@ -108,8 +107,8 @@ set(SOURCE_FILES
         src/everest/mutable_containers/mutable_map.h
         src/everest/mutable_containers/mutable_vector.h
         src/everest/io/process.h
-        src/everest/crdt/counters/gcounter.h
-        src/everest/crdt/counters/pncounter.h
+        src/everest/crdt/counters/grow_only_counter.h
+        src/everest/crdt/counters/postivie_negative_counter.h
         src/everest/monoids/max_monoid.h
         src/everest/monoids/min_monoid.h
         src/everest/monoids/average_monoid.h
@@ -223,23 +222,23 @@ set(SOURCE_FILES
         src/everest/mutable_containers/set/mutable_remove.h
         src/everest/mutable_containers/set/mutable_add.h
         src/everest/containers/set.h
-        src/everest/crdt/sets/gset.h
+        src/everest/crdt/sets/grow_only_set.h
         src/everest/traits/unlawful/mutable/mutable_find.h
         tests/everest/mutable_containers/mutable_map_spec.h
         src/everest/traits/unlawful/anyable.h
         src/everest/probabilistic/bloom_filter.h
-        src/everest/crdt/counters/gacounter.h
+        src/everest/crdt/counters/grow_only_actor_counter.h
         src/everest/traits/unlawful/mutable/mutable_associative.h
         src/everest/containers/map.h
         src/everest/traits/unlawful/copyable.h
         tests/everest/containers/set_spec.h.h
         src/everest/traits/unlawful/fundamental.h
         src/everest/traits/unlawful/associative.h
-        src/everest/crdt/counters/pnacounter.h
-        src/everest/crdt/sets/tpset.h
-        src/everest/crdt/sets/mcset.h
-        src/everest/crdt/sets/orset.h
-        src/everest/crdt/sets/lwwset.h
+        src/everest/crdt/counters/positive_negative_actor_counter.h
+        src/everest/crdt/sets/two_phase_set.h
+        src/everest/crdt/sets/max_change_set.h
+        src/everest/crdt/sets/observed_remove_set.h
+        src/everest/crdt/sets/last_write_wins_set.h
         src/everest/mutable_containers/set/eq.h
         src/everest/mutable_containers/set/subtract.h
         src/everest/mutable_containers/set/copyable.h
@@ -448,8 +447,6 @@ set(SOURCE_FILES
         tests/everest/containers/option_spec.h
         src/everest/functions/identity.h
         src/everest/functions/types.h
-        src/everest/meta/last_arg.h
-        src/everest/meta/deepest_arg.h
         src/everest/containers/option/alternative.h
         src/everest/containers/option/containable.h
         src/everest/containers/option/container.h
@@ -689,7 +686,6 @@ set(SOURCE_FILES
         src/everest/memory/mutable/eq.h
         src/everest/memory/mutable/all_traits.h
         src/everest/mutable_containers/set/all_traits.h
-        src/everest/io/event_loop.h
         src/everest/mutable_containers/array/iteration.h
         src/everest/mutable_containers/array/all_traits.h
         src/everest/mutable_containers/vector/all_traits.h
@@ -770,7 +766,40 @@ set(SOURCE_FILES
         src/everest/containers/set/semigroup.h
         src/everest/containers/set/all_traits.h
         src/everest/containers/sorted_vector_map.h
-        src/everest/containers/sorted_vector_set.h src/everest/types/expressive/hash_value/ord.h src/everest/strings/string_concat.h src/everest/concurrency/channel.h src/everest/traits/unlawful/mutable/mutable_queue.h src/everest/concurrency/channel_result.h src/everest/mutable_crdt/counters/mutable_grow_actor_counter.h src/everest/mutable_crdt/counters/mutabe_grow_counter.h src/everest/mutable_crdt/counters/mutable_positive_negative_actor_counter.h src/everest/mutable_crdt/counters/mutable_positive_negative_counter.h src/everest/mutable_crdt/sets/mutable_gset.h src/everest/mutable_crdt/sets/mutable_lwwset.h src/everest/mutable_crdt/sets/mutable_orset.h src/everest/mutable_crdt/sets/mutable_mcset.h src/everest/mutable_crdt/sets/mutable_tpset.h src/everest/mutable_containers/circular_buffer.h)
+        src/everest/containers/sorted_vector_set.h
+        src/everest/types/expressive/hash_value/ord.h
+        src/everest/strings/string_concat.h
+        src/everest/concurrency/channel.h
+        src/everest/traits/unlawful/mutable/mutable_queue.h
+        src/everest/concurrency/channel_result.h
+        src/everest/mutable_containers/circular_buffer.h
+        src/everest/io/tcp_client_socket.h
+        src/everest/strings/string_slice.h
+        src/everest/pointer/traits/show.h
+        src/everest/pointer/traits/all_traits.h
+        src/everest/mutable_crdt/counters/mutable_gcounter.h
+        src/everest/mutable_crdt/counters/mutable_gacounter.h
+        src/everest/mutable_crdt/counters/mutable_pncounter.h
+        src/everest/mutable_crdt/counters/mutable_pnacounter.h
+        src/everest/mutable_crdt/sets/mutable_gset.h
+        src/everest/mutable_crdt/sets/mutable_lwwset.h
+        src/everest/mutable_crdt/sets/mutable_mcset.h
+        src/everest/mutable_crdt/sets/mutable_orset.h
+        src/everest/mutable_crdt/sets/mutable_tpset.h
+        tests/everest/mutable_crdt/counters/mutable_gcounter_spec.h
+        tests/everest/mutable_crdt/counters/mutable_gacounter_spec.h
+        tests/everest/mutable_crdt/counters/mutable_pncounter_spec.h
+        tests/everest/mutable_crdt/counters/mutable_pnacounter_spec.h
+        src/everest/strings/string_joiner.h
+        tests/everest/io/tcp_client_socket_spec.h
+        src/everest/meta/nth_arg.h
+        src/everest/io/tcp_server_socket.h
+        src/everest/io/net/net_address_info.h
+        src/everest/io/net/net_address_hints.h
+        src/everest/io/net/net_address.h
+        tests/everest/io/tcp_client_server_spec.h
+        src/everest/traits/unlawful/mutable/mutable_subtract.h
+        src/everest/traits/unlawful/service.h)
 
 add_executable(everest ${SOURCE_FILES})
 

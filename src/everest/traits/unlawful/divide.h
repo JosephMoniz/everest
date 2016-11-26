@@ -15,6 +15,7 @@ public:
 
   template <class U>
   static U Divide(const U& lhs, const U& rhs) noexcept {
+    static_assert(exists, "T does not implement Dividable");
     return Base::Divide(lhs, rhs);
   }
 

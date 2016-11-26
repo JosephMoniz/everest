@@ -11,14 +11,6 @@ namespace everest {
 
 void MutableVectorSpecification() {
   Describe("A MutableVector type", []() {
-    It("", []() {
-      auto vector = MutableVector<int>(1, 2, 3, 4);
-      auto first  = vector.At(0);
-      auto second = vector.At(1);
-      auto third  = vector.At(2);
-      auto fourth = vector.At(3);
-      auto fifth  = vector.At(4);
-    });
     It("Should render the correct mutable_string when called with Shows()", [](){
       auto expected = String("MutableVector(1, 2, 3)");
       auto result   = Show(MutableVector<int>(1, 2, 3));

@@ -56,7 +56,7 @@ public:
     return _wrapped.ForEach(function);
   }
 
-  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  template<class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 0>>
   Set<B> FlatMap(F f) const noexcept {
     return Set<B>(_wrapped.FlatMap(f));
   }
@@ -70,16 +70,20 @@ public:
     return Set<T>(_wrapped.Add(other._wrapped));
   }
 
+  Set<T> Intersect(const Set<T>& other) const noexcept {
+    return Set<T>(_wrapped.Intersect(other._wrapped));
+  }
+
   Set<T> Subtract(const Set<T>& other) const noexcept {
-    return Set<T>(_wrapped.Subtract(other));
+    return Set<T>(_wrapped.Subtract(other._wrapped));
   }
 
   String Show() const noexcept {
-    auto out = String("Set(");
-    _wrapped.ForEach([&](const T& item) {
-      out = out + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("Set(")
+      .Add(StringJoiner(", ").Join<Set<T>, T>(*this))
+      .Add(")")
+      .Build();
   }
 
   bool Equals(const Set<T>& other) const noexcept {

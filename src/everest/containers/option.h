@@ -4,7 +4,7 @@
 #include <type_traits>
 #include <everest/containers/option/option_type.h>
 #include <everest/traits/unlawful/fundamental.h>
-#include <everest/meta/nth_arg.h>
+#include <everest/meta/nth_type_arg.h>
 
 namespace everest {
 
@@ -20,24 +20,19 @@ public:
   Option() noexcept : _tag(OptionType::NONE), _value() { }
 
   template <class U = T>
-  Option(T value, typename std::enable_if<std::is_pointer<U>::value>::type* = 0) noexcept : _tag(OptionType::SOME) {
-    _value = value == nullptr
-      ? nullptr
-      : value;
-  }
-
-  Option(T&& value) noexcept : _tag(OptionType::SOME), _value(std::move(value)) { }
-
-  ~Option() noexcept {
-    if (_tag == OptionType::SOME) {
-      reinterpret_cast<T*>(&_value)->~T();
+  Option(T pointer, typename std::enable_if<std::is_pointer<U>::value>::type* = 0) noexcept {
+    if (pointer != nullptr) {
+      _tag   = OptionType::SOME;
+      _value = pointer;
+    } else {
+      _tag   = OptionType::NONE;
+      _value = nullptr;
     }
   }
 
   template <class U = T>
-  static Option<T> Some(T option, typename std::enable_if<std::is_pointer<U>::value>::type* = 0) noexcept {
-    return Option<T>(option);
-  }
+  Option(T&& value, typename std::enable_if<!std::is_pointer<U>::value>::type* = 0) noexcept : _tag(OptionType::SOME),
+                                                                                               _value(std::move(value)) { }
 
   static Option<T> Some(T&& option) noexcept {
     return Option<T>(std::forward<T>(option));
@@ -127,7 +122,7 @@ public:
   }
 
   template <class F, class B = typename std::result_of<F(T)>::type>
-  Option<B> Map(F f) const noexcept {
+  auto Map(F f) const noexcept -> decltype(Option<B>::Some(f(Get()))) {
     return IsSome()
       ? Option<B>::Some(f(Get()))
       : Option<B>::None();
@@ -139,7 +134,7 @@ public:
       : HashValue(0u);
   }
 
-  template <class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  template <class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 0>>
   Option<B> FlatMap(F f) const noexcept {
     return IsSome()
       ? f(Get())
@@ -233,9 +228,15 @@ public:
   }
 
   String Show() const noexcept {
-    return IsSome()
-      ? String("Some(") + Shows<T>::Show(Get()) + String(")")
-      : String("None");
+    if (IsSome()) {
+      return String::Builder()
+        . Add("Some(")
+        . Add(Shows<T>::Show(Get()))
+        . Add(")")
+        . Build();
+    } else {
+      return String("None");
+    }
   }
 
   template <class N, class S>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <everest/mutable_containers/mutable_sorted_vector_set.h>
+#include <everest/strings/string_joiner.h>
 
 namespace everest {
 
@@ -42,11 +43,11 @@ public:
   }
 
   String Show() const noexcept {
-    auto out = String("SortedVectorSet(");
-    ForEach([&](const T& item) {
-      out = std::move(out) + Shows<T>::Show(item) + String(", ");
-    });
-    return Take(out.Length() - 2, std::move(out)) + String(")");
+    return String::Builder()
+      .Add("SortedVectorSet(")
+      .Add(StringJoiner(", ").Join(*this))
+      .Add(")")
+      .Build();
   }
 
   bool Equals(const SortedVectorSet<T>& other) const noexcept {
@@ -60,6 +61,14 @@ public:
 
   SortedVectorSet<T> Add(const SortedVectorSet<T>& other) const noexcept {
     return SortedVectorSet<T>(_set.Add(other._set));
+  }
+
+  SortedVectorSet<T> Intersect(const SortedVectorSet<T>& other) const noexcept {
+    return SortedVectorSet<T>(_set.Intersect(other._set));
+  }
+
+  SortedVectorSet<T> Subtract(const SortedVectorSet<T>& other) const noexcept {
+    return SortedVectorSet<T>(_set.Subtract(other._set));
   }
 
   static SortedVectorSet<T> Zero() noexcept {

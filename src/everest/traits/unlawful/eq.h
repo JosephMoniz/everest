@@ -16,6 +16,7 @@ public:
   static constexpr bool exists = false;
 
   static bool Equals(const T& lhs, const T& rhs) noexcept {
+    static_assert(exists, "T does not implement Eq");
     return Base::Equals(lhs, rhs);
   }
 

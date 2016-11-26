@@ -24,9 +24,10 @@ public:
     return _right;
   }
 
-  template <class T, class MutableStringVisitor, class StringVisitor, class ConcatStringVisitor>
-  T VisitString(MutableStringVisitor mutableString, StringVisitor string, ConcatStringVisitor concat) noexcept {
-    return concat(*this);
+  template <class F>
+  void VisitByteSlice(F visitor) const noexcept {
+    _left.VisitByteSlice(visitor);
+    _right.VisitByteSlice(visitor);
   };
 
 };

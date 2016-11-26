@@ -15,6 +15,7 @@ public:
 
   template <class U>
   static U BinaryOr(const U& lhs, const U& rhs) noexcept {
+    static_assert(exists, "T does not implement BitOr");
     return Base::BinaryOr(lhs, rhs);
   }
 

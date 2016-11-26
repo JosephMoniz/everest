@@ -15,6 +15,7 @@ public:
 
   template <class Fn, class B>
   static constexpr B Map(Fn f, const F& n) noexcept {
+    static_assert(exists, "T does not implement Functor");
     return Base::Map(f, n);
   }
 

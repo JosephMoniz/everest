@@ -14,7 +14,7 @@ public:
 
   static constexpr bool exists = true;
 
-  template<class F, class B = nth_arg<typename std::result_of<F(T)>::type, 0>>
+  template<class F, class B = nth_type_arg<typename std::result_of<F(T)>::type, 0>>
   static Vector<B> FlatMap(F f, const Vector<T>& vector) noexcept {
     return vector.FlatMap(f);
   }

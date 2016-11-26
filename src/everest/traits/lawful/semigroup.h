@@ -16,6 +16,7 @@ public:
   static constexpr bool exists = false;
 
   static T Add(const T& lhs, const T& rhs) {
+    static_assert(exists, "T does not implement Semigroup");
     return Base::Add(lhs, rhs);
   }
 

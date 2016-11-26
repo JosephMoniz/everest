@@ -15,6 +15,7 @@ public:
 
   template<class U>
   static bool Contains(const U& n, const T& f) {
+    static_assert(exists, "T does not implement Containable");
     return Base::Contains(n, f);
   }
 

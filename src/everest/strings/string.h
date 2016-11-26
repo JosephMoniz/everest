@@ -44,6 +44,10 @@ public:
     return *this;
   }
 
+  static bool IsLetterByte(char byte) noexcept {
+    return MutableString::IsLetterByte(byte);
+  }
+
   bool IsByteAligned() const noexcept {
     return _wrapped.IsByteAligned();
   }
@@ -113,10 +117,43 @@ public:
     return String(_wrapped.TakeWhile(predicate));
   }
 
-  template <class R, class MutableStringVisitor, class StringVisitor, class ConcatStringVisitor>
-  R VisitString(MutableStringVisitor mutableString, StringVisitor string, ConcatStringVisitor concat) noexcept {
-    return string(*this);
+  template <class F>
+  void VisitByteSlice(F visitor) const noexcept {
+    visitor(Pointer(), Length(), Occupied() - 1, IsByteAligned());
   };
+
+  class StringBuilder final {
+
+    MutableString _string;
+
+  public:
+
+    StringBuilder() noexcept : _string() { }
+
+    StringBuilder& Add(const char* string) noexcept {
+      _string.AddInPlace(string);
+      return *this;
+    }
+
+    StringBuilder& Add(const String& string) noexcept {
+      _string.AddInPlace(string._wrapped);
+      return *this;
+    }
+
+    StringBuilder& Add(const MutableString& string) noexcept {
+      _string.AddInPlace(string);
+      return *this;
+    }
+
+    String Build() noexcept {
+      return String(std::move(_string));
+    }
+
+  };
+
+  static StringBuilder Builder() noexcept {
+    return StringBuilder();
+  }
 
 };
 

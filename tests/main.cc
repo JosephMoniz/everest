@@ -45,6 +45,12 @@
 #include <everest/mutable_containers/mutable_bit_set_spec.h>
 #include <everest/mutable_containers/mutable_sorted_vector_set_spec.h>
 #include <everest/mutable_containers/mutable_sorted_vector_map_spec.h>
+#include <everest/mutable_crdt/counters/mutable_gcounter_spec.h>
+#include <everest/mutable_crdt/counters/mutable_gacounter_spec.h>
+#include <everest/mutable_crdt/counters/mutable_pncounter_spec.h>
+#include <everest/mutable_crdt/counters/mutable_pnacounter_spec.h>
+#include <everest/io/tcp_client_socket_spec.h>
+#include <everest/io/tcp_client_server_spec.h>
 
 
 using namespace everest;
@@ -86,10 +92,6 @@ int main(int argc, char **argv) {
   MaxMonoidSpecification();
   MinMonoidSpecification();
 
-  // IO Specifications
-  //
-  FileSpecification();
-
   // Hash Specifications
   //
   Md5HashSpecification();
@@ -116,6 +118,19 @@ int main(int argc, char **argv) {
   MutableBitSetSpecification();
   MutableSortedVectorSetSpecification();
   MutableSortedVectorMapSpecification();
+
+  // Mutable CRDT specifications
+  //
+  MutableGCounterSpecification();
+  MutableGACounterSpecification();
+  MutablePNCounterSpecification();
+  MutablePNACounterSpecification();
+
+  // IO Specifications
+  //
+  FileSpecification();
+  TcpClientSocketSpecification();
+  //TcpServerSpecification();
 
   // Print and return the final test results
   //

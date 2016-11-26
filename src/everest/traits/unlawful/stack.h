@@ -15,15 +15,18 @@ public:
 
   template <class U>
   static T Push(const U& item, const T& stack) noexcept {
+    static_assert(exists, "T does not implement Stack");
     return Base::Push(item, stack);
   }
 
   static T Pop(const T& stack) noexcept {
+    static_assert(exists, "T does not implement Stack");
     return Base::Pop(stack);
   }
 
   template <class U>
   static Option<const U&> Top(const T& stack) noexcept {
+    static_assert(exists, "T does not implement Stack");
     return Base::Top(stack);
   }
 
