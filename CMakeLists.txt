@@ -768,13 +768,11 @@ set(SOURCE_FILES
         src/everest/containers/sorted_vector_map.h
         src/everest/containers/sorted_vector_set.h
         src/everest/types/expressive/hash_value/ord.h
-        src/everest/strings/string_concat.h
         src/everest/concurrency/channel.h
         src/everest/traits/unlawful/mutable/mutable_queue.h
         src/everest/concurrency/channel_result.h
         src/everest/mutable_containers/circular_buffer.h
         src/everest/io/tcp_client_socket.h
-        src/everest/strings/string_slice.h
         src/everest/pointer/traits/show.h
         src/everest/pointer/traits/all_traits.h
         src/everest/mutable_crdt/counters/mutable_gcounter.h
