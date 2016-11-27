@@ -17,7 +17,6 @@ public:
 
   template <class F, class P>
   static T Filter(P p, const F& n) noexcept {
-    static_assert(exists, "T does not implement Filterable");
     return Base::Filter(p, n);
   }
 

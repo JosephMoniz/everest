@@ -14,7 +14,6 @@ public:
   static constexpr bool exists = false;
 
   static T Zero() noexcept {
-    static_assert(exists, "T does not implement ZeroVal");
     return base::Zero();
   }
 

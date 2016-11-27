@@ -16,25 +16,21 @@ public:
 
   template <class F, class U>
   static F& AddInPlace(const U& item, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableAdd");
     return Base::AddInPlace(item, container);
   }
 
   template <class F, class U>
   static F& AddInPlace(U&& item, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableAdd");
     return Base::AddInPlace(std::move(item), container);
   }
 
   template <class F>
   static F& AddInPlace(const F& source, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableAdd");
     return Base::AddInPlace(source, container);
   }
 
   template <class F>
   static F& AddInPlace(F&& source, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableAdd");
     return Base::AddInPlace(std::move(source), container);
   }
 

@@ -17,13 +17,11 @@ public:
 
   template <class U>
   static U MinValue() noexcept {
-    static_assert(exists, "T does not implement Bounded");
     return Base::MinValue();
   }
 
   template <class U>
   static U MaxValue() noexcept {
-    static_assert(exists, "T does not implement Bounded");
     return Base::MaxValue();
   }
 

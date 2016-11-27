@@ -15,18 +15,15 @@ public:
 
   template <class U>
   static T& PushInPlace(const U& item, T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableStack");
     return Base::PushInPlace(item, stack);
   }
 
   template <class U>
   static T& PushInPlace(U&& item, T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableStack");
     return Base::PushInPlace(std::move(item), stack);
   }
 
   static T& PopInPlace(T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableStack");
     return Base::PopInPlace(stack);
   }
 

@@ -15,25 +15,21 @@ public:
 
   template <class U>
   static T& EnqueueInPlace(const U& item, T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableQueue");
     return Base::EnqueueInPlace(item, stack);
   }
 
   template <class U>
   static T& EnqueueInPlace(U&& item, T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableQueue");
     return Base::EnqueueInPlace(std::move(item), stack);
   }
 
   template <class U>
   static U& DequeueInPlace(T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableQueue");
     return Base::DequeueInPlace(stack);
   }
 
   template <class U>
   static U&& DequeueWithMove(T& stack) noexcept {
-    static_assert(exists, "T does not implement MutableQueue");
     return Base::DequeueWithMove(stack);
   }
 

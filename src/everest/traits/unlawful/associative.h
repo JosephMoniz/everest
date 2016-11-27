@@ -18,18 +18,15 @@ public:
 
   template <class K, class V>
   static T& Put(const K& key, const V& value, T& container) noexcept {
-    static_assert(exists, "T does not implement Associative");
     return Base::Put(key, value, container);
   }
 
   static T& Put(const T& source, T& container) noexcept {
-    static_assert(exists, "T does not implement Associative");
     return Base::Put(source, container);
   }
 
   template <class K, class V>
   static V* Get(const K& key, T& container) noexcept {
-    static_assert(exists, "T does not implement Associative");
     return Base::Get(key, container);
   };
 

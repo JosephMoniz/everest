@@ -14,7 +14,6 @@ public:
   static constexpr bool exists = false;
 
   static T BinaryAnd(const T& lhs, const T& rhs) noexcept {
-    static_assert(exists, "T does not implement BitAnd");
     return Base::BinaryAnd(lhs, rhs);
   }
 

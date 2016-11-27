@@ -17,7 +17,6 @@ public:
   static constexpr bool exists = false;
 
   static auto Show(T& n) noexcept {
-    static_assert(exists, "T does not implement Shows");
     return Base::Show(std::forward<T>(n));
   }
 

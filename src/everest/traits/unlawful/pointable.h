@@ -13,7 +13,6 @@ public:
 
   template <class U, class B>
   static B Pointer(const U& n) noexcept {
-    static_assert(exists, "T does not implement pointable");
     return Base::Pointer(n);
   }
 

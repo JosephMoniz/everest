@@ -15,13 +15,11 @@ public:
 
   template <class U>
   static T& InsertInPlace(const U& item, size_t position, T& container) noexcept {
-    static_assert(exists, "T does not implement MutableInsert");
     return Base::InsertInPlace(item, position, container);
   }
 
   template <class U>
   static T& InsertInPlace(U&& item, size_t position, T& container) noexcept {
-    static_assert(exists, "T does not implement MutableInsert");
     return Base::InsertInPlace(std::move(item), position, container);
   }
 

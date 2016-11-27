@@ -15,7 +15,6 @@ public:
 
   template<class U>
   static U Sqrt(const T& number) noexcept {
-    static_assert(exists, "T does not implement SquareRoot");
     return Base::Sqrt(number);
   }
 

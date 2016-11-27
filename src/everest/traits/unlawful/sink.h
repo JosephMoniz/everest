@@ -15,12 +15,10 @@ public:
 
   template <class U>
   static auto PushThrough(U&& item, T& sink) noexcept {
-    static_assert(exists, "T does not implement Sink");
     return Base::PushThrough(std::forward<U>(item), sink);
   }
 
   static auto CloseSink(T& sink) noexcept {
-    static_assert(exists, "T does not implement Sink");
     return Base::CloseSink(sink);
   }
 

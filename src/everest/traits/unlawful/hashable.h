@@ -17,7 +17,6 @@ public:
   static constexpr bool exists = false;
 
   static HashValue Hash(const T& n) noexcept {
-    static_assert(exists, "T does not implement Hashable");
     return Base::Hash(n);
   }
 

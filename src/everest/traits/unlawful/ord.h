@@ -17,19 +17,16 @@ public:
 
   template <class U>
   static Ordering Compare(const U& lhs, const U& rhs) noexcept {
-    static_assert(exists, "T does not implement Ord");
     return Base::Compare(lhs, rhs);
   }
 
   template <class U>
   static U Min(const U& lhs, const U& rhs) noexcept {
-    static_assert(exists, "T does not implement Ord");
     return Base::Min(lhs, rhs);
   }
 
   template <class U>
   static U Max(const U& lhs, const U& rhs) noexcept {
-    static_assert(exists, "T does not implement Ord");
     return Base::Max(lhs, rhs);
   }
 

@@ -15,18 +15,15 @@ public:
 
   template <class U>
   static T Enqueue(const U& item, const T& queue) noexcept {
-    static_assert(exists, "T does not implement Queue");
     return Base::Enqueue(item, queue);
   }
 
   static T Dequeue(const T& queue) noexcept {
-    static_assert(exists, "T does not implement Queue");
     return Base::Dequeue(queue);
   }
 
   template <class U>
   static Option<U> Front(const T& queue) noexcept {
-    static_assert(exists, "T does not implement Queue");
     return Base::Front(queue);
   }
 

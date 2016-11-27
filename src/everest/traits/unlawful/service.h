@@ -17,7 +17,6 @@ public:
 
   template <class A, class B>
   static constexpr B Call(const F& f, const A& a) noexcept {
-    static_assert(exists, "T does not implement Service");
     return Base::Call(f, a);
   }
 

@@ -17,7 +17,6 @@ public:
   static constexpr bool exists = false;
 
   static T Copy(const T& n) {
-    static_assert(exists, "T does not implement Copyable");
     return Base::Copy(n);
   }
 

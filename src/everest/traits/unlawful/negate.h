@@ -15,7 +15,6 @@ public:
 
   template <class U>
   static U Negate(const U& n) noexcept {
-    static_assert(exists, "T does not implement Negation");
     return Base::Negate(n);
   }
 

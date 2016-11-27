@@ -17,13 +17,11 @@ public:
 
   template <class U>
   static U Multiply(const U& lhs, const U& rhs) noexcept {
-    static_assert(exists, "T does not implement Multipliable");
     return Base::Multiply(lhs, rhs);
   }
 
   template <class U>
   static Function<const U&, U> Multiply(const U& lhs) noexcept {
-    static_assert(exists, "T does not implement Multipliable");
     return [&](const U& rhs) {
       return Base::Multiply(lhs, rhs);
     };

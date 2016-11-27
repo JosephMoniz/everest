@@ -15,7 +15,6 @@ public:
 
   template <class U>
   static U One() noexcept {
-    static_assert(exists, "T does not implement OneVal");
     return Base::One();
   }
 

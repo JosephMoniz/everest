@@ -18,25 +18,21 @@ public:
 
   template <class F, class U>
   static F& SubtractInPlace(const U& item, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableSubtract");
     return Base::SubtractInPlace(item, container);
   }
 
   template <class F, class U>
   static F& SubtractInPlace(U&& item, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableSubtract");
     return Base::SubtractInPlace(std::move(item), container);
   }
 
   template <class F>
   static F& SubtractInPlace(const F& source, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableSubtract");
     return Base::SubtractInPlace(source, container);
   }
 
   template <class F>
   static F& SubtractInPlace(F&& source, F& container) noexcept {
-    static_assert(exists, "T does not implement MutableSubtract");
     return Base::SubtractInPlace(std::move(source), container);
   }
 

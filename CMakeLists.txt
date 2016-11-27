@@ -797,7 +797,7 @@ set(SOURCE_FILES
         src/everest/io/net/net_address.h
         tests/everest/io/tcp_client_server_spec.h
         src/everest/traits/unlawful/mutable/mutable_subtract.h
-        src/everest/traits/unlawful/service.h)
+        src/everest/traits/unlawful/service.h src/everest/strings/boxed_string.h)
 
 add_executable(everest ${SOURCE_FILES})
 

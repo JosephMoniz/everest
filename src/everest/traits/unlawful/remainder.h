@@ -15,7 +15,6 @@ public:
 
   template <class U>
   static U Modulo(const U& lhs, const U& rhs) noexcept {
-    static_assert(exists, "T does not implement Remainder");
     return Base::Modulo(lhs, rhs);
   }
 

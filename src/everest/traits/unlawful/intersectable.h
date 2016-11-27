@@ -15,7 +15,6 @@ public:
 
   template <class T>
   static T Intersect(const T& a, const T& b) noexcept {
-    static_assert(exists, "T does not implement Intersectable");
     return Base::Intersect(a, b);
   }
 

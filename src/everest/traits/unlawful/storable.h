@@ -14,12 +14,10 @@ public:
   static constexpr bool exists = false;
 
   static size_t Capacity(const T& storage) {
-    static_assert(exists, "T does not implement Storable");
     return Base::Capacity(storage);
   }
 
   static size_t Occupied(const T& storage) {
-    static_assert(exists, "T does not implement Storable");
     return Base::Occupied(storage);
   }
 
