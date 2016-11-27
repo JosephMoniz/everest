@@ -117,11 +117,6 @@ public:
     return String(_wrapped.TakeWhile(predicate));
   }
 
-  template <class F>
-  void VisitByteSlice(F visitor) const noexcept {
-    visitor(Pointer(), Length(), Occupied() - 1, IsByteAligned());
-  };
-
   class StringBuilder final {
 
     MutableString _string;

@@ -4,6 +4,3 @@
 [submodule "deps/http-parser"]
 	path = deps/http-parser
 	url = https://github.com/nodejs/http-parser.git
-[submodule "deps/libuv"]
-	path = deps/libuv
-	url = https://github.com/libuv/libuv.git

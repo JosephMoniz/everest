@@ -5,7 +5,7 @@
 #include <everest/traits/lawful/semigroup.h>
 #include <everest/traits/unlawful/show.h>
 #include <everest/traits/unlawful/takeable.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 

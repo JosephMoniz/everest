@@ -2,7 +2,7 @@
 
 #include <everest/strings/mutable_string.h>
 #include <everest/traits/unlawful/eq.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 

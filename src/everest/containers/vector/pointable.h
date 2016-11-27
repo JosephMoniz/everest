@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/containers/vector.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 

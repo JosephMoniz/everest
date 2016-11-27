@@ -9,7 +9,7 @@ template <class T>
 class MutableMemory;
 
 template<class T>
-class Pointable<MutableMemory<T>> final {
+class pointable<MutableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;

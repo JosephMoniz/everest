@@ -2,14 +2,14 @@
 
 #include <utility>
 #include <everest/memory/shared/shared_container.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 
 template<class T>
 class Shared final {
 
-  friend class Pointable<Shared<T>>;
+  friend class pointable<Shared<T>>;
 
   SharedContainer<T>* _container;
 
@@ -83,7 +83,7 @@ Shared<T> MakeShared(As&&... args) {
 }
 
 template <class T>
-class Pointable<Shared<T>> final {
+class pointable<Shared<T>> final {
 public:
 
   static constexpr bool exists = true;

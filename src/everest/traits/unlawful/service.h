@@ -24,7 +24,7 @@ public:
 };
 
 template <class Fn, class A>
-auto Map(Fn f, A&& n) noexcept -> decltype(Service<A>::Call(f, std::forward<A>(n))) {
+auto Call(Fn f, A&& n) noexcept -> decltype(Service<A>::Call(f, std::forward<A>(n))) {
   static_assert(Service<A>::exists, "T does not implement Service");
   return Service<Fn>::Call(f, std::forward<A>(n));
 }

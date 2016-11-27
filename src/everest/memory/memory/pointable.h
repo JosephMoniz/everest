@@ -8,7 +8,7 @@ namespace everest {
 class Memory;
 
 template <class T>
-class Pointable<Memory<T>> final {
+class pointable<Memory<T>> final {
 public:
 
   static constexpr bool exists = true;

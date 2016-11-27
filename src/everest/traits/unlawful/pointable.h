@@ -13,7 +13,7 @@ public:
 
   template <class U, class B>
   static B Pointer(const U& n) noexcept {
-    static_assert(exists, "T does not implement Pointable");
+    static_assert(exists, "T does not implement pointable");
     return Base::Pointer(n);
   }
 
@@ -21,7 +21,7 @@ public:
 
 template <class T>
 auto Pointer(const T& n) noexcept -> decltype(Pointable<T>::Pointer(n)) {
-  static_assert(Pointable<T>::exists, "T does not implement Pointable");
+  static_assert(Pointable<T>::exists, "T does not implement pointable");
   return Pointable<T>::Pointer(n);
 }
 

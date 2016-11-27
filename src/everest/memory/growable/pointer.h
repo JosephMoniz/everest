@@ -9,7 +9,7 @@ template <class T>
 class GrowableMemory;
 
 template <class T>
-class Pointable<GrowableMemory<T>> final {
+class pointable<GrowableMemory<T>> final {
 public:
 
   static constexpr bool exists = true;

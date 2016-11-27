@@ -1,14 +1,14 @@
 #pragma once
 
 #include <utility>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 
 template<class T>
 class Unique {
 
-  friend class Pointable<Unique<T>>;
+  friend class pointable<Unique<T>>;
 
   T* _pointer;
 
@@ -46,7 +46,7 @@ Unique<T> MakeUnique(const As&... args) {
 }
 
  template <class T>
-class Pointable<Unique<T>> final {
+class pointable<Unique<T>> final {
 public:
 
   static constexpr bool exists = true;

@@ -4,7 +4,7 @@
 #include <everest/io/file.h>
 #include <everest/io/file/stat.h>
 #include <everest/containers/checked.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 

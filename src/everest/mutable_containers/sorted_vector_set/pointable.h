@@ -1,7 +1,7 @@
 #pragma once
 
 #include <everest/mutable_containers/mutable_sorted_vector_set.h>
-#include <everest/traits/unlawful/Pointable.h>
+#include <everest/traits/unlawful/pointable.h>
 
 namespace everest {
 
