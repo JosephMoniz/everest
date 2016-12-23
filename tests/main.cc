@@ -11,7 +11,6 @@
 #include <everest/containers/array_spec.h>
 #include <everest/containers/option_spec.h>
 #include <everest/containers/checked_spec.h>
-//#include <everest/concurrency/box_spec.h>
 #include <everest/containers/vector_spec.h>
 #include <everest/containers/monoids/max_monoid_spec.h>
 #include <everest/containers/monoids/min_monoid_spec.h>
@@ -51,6 +50,8 @@
 #include <everest/mutable_crdt/counters/mutable_pnacounter_spec.h>
 #include <everest/io/tcp_client_socket_spec.h>
 #include <everest/io/tcp_client_server_spec.h>
+#include <everest/mutable_containers/mutable_circular_buffer_spec.h>
+#include <everest/concurrency/worker_pools/fixed_worker_pool.h>
 
 
 using namespace everest;
@@ -109,16 +110,6 @@ int main(int argc, char **argv) {
   HmacSha384HashSpecification();
   HmacSha512HashSpecification();
 
-  // Mutable container specifications
-  //
-  MutableArraySpecification();
-  MutableVectorSpecification();
-  MutableSetSpecification();
-  MutableMapSpecification();
-  MutableBitSetSpecification();
-  MutableSortedVectorSetSpecification();
-  MutableSortedVectorMapSpecification();
-
   // Mutable CRDT specifications
   //
   MutableGCounterSpecification();
@@ -132,7 +123,55 @@ int main(int argc, char **argv) {
   TcpClientSocketSpecification();
   //TcpServerSpecification();
 
+  // Mutable container specifications
+  //
+  MutableArraySpecification();
+  MutableVectorSpecification();
+  MutableSetSpecification();
+  MutableMapSpecification();
+  MutableBitSetSpecification();
+  MutableSortedVectorSetSpecification();
+  MutableSortedVectorMapSpecification();
+  MutableCircularBufferSpecification();
+
+  TcpServerSocket::Listen("8080").MatchWithMove(
+    [](int error) {
+      PrintLn("Hmmmm, some error");
+    },
+    [](TcpServerSocket&& server) {
+      PrintLn("Listening on port 8080");
+      auto channel = server.AcceptStream(1024);
+      auto pool = FixedWorkerPool::Builder<TcpServerSocket::AcceptResult>()
+        .SetStream(channel.GetStream())
+        .SetWorkerCount(4)
+        .SetRunnable([](TcpServerSocket::AcceptResult&& acceptResult) {
+          acceptResult.MatchWithMove(
+            [](int error) {
+              Print("Something went wrong accepting the connection\n");
+            },
+            [](TcpClientSocket&& client) {
+              Print("Yay, accepted socket connection\n");
+              auto read = client.Read(1024 * 16);
+              Print(Show(client._socket).Add("\n"));
+              read.MatchWithMove(
+                [](int error) {
+                  Print("Something went wrong reading from the connection\n");
+                },
+                [](MutableVector<char>&& data) {
+                  Print("Read from socket\n");
+                }
+              );
+            }
+          );
+        })
+        .Build();
+      channel.Join();
+      pool.Join();
+    }
+  );
+
   // Print and return the final test results
   //
   return PrintFinalResultsForTraitorousTest();
+  
 }

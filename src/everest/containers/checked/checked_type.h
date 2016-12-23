@@ -6,7 +6,8 @@ namespace everest {
 
 enum class CheckedType {
   OK,
-  ERROR
+  ERROR,
+  UNINITIALIZED
 };
 
 template<>
@@ -17,8 +18,9 @@ public:
 
   static String Show(CheckedType n) noexcept {
     switch (n) {
-      case CheckedType::OK:    return String("OK");
-      case CheckedType::ERROR: return String("ERROR");
+      case CheckedType::OK:            return String("OK");
+      case CheckedType::ERROR:         return String("ERROR");
+      case CheckedType::UNINITIALIZED: return String("UNINITIALIZED");
     }
   }
 

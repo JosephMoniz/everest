@@ -54,7 +54,7 @@ public:
     return _value;
   }
 
-  T&& GetMovable() const noexcept {
+  T&& GetMovable() noexcept {
     return std::move(_value);
   }
 
@@ -230,10 +230,10 @@ public:
   String Show() const noexcept {
     if (IsSome()) {
       return String::Builder()
-        . Add("Some(")
-        . Add(Shows<T>::Show(Get()))
-        . Add(")")
-        . Build();
+        .Add("Some(")
+        .Add(Shows<T>::Show(Get()))
+        .Add(")")
+        .Build();
     } else {
       return String("None");
     }

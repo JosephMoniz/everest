@@ -23,6 +23,8 @@ class Checked final {
 
 public:
 
+  Checked() noexcept : _tag(CheckedType::UNINITIALIZED), _value() { }
+
   template <class U = T>
   Checked(const CheckedType& tag,
           const T value,
@@ -47,6 +49,25 @@ public:
     new (&_value) E(std::move(value));
   }
 
+  /*
+
+  Checked(const Checked<E, T>& other) = delete;
+
+  Checked(Checked<E, T>&& other) noexcept : _tag(other._tag) {
+    other._tag = CheckedType::UNINITIALIZED;
+    switch (other._tag) {
+      case CheckedType::OK:
+        other._value = std::move(*reinterpret_cast<T*>((data_t*)&_value));
+        break;
+      case CheckedType::ERROR:
+        other._value = std::move(*reinterpret_cast<E*>((data_t*)&_value));
+        break;
+      case CheckedType::UNINITIALIZED:
+        break;
+    }
+  }
+   */
+
   ~Checked() noexcept {
     if (_tag == CheckedType::OK) {
       reinterpret_cast<T*>(&_value)->~T();
@@ -67,6 +88,7 @@ public:
   static Checked<E, T> Ok(const T& ok) noexcept {
     return Checked<E, T>(CheckedType::OK, ok);
   }
+
   static Checked<E, T> Ok(T&& ok) noexcept {
     return Checked<E, T>(CheckedType::OK, std::forward<T>(ok));
   }
@@ -257,6 +279,13 @@ public:
     return (IsOk())
       ? ok(Get())
       : error(GetError());
+  }
+
+  template <class Ef, class Of>
+  auto MatchWithMove(Ef error, Of ok) const noexcept -> decltype(ok(GetMovable())) {
+    return (IsOk())
+      ? ok(GetMovable())
+      : error(GetMovableError());
   }
 
   static Checked<E, T> Zero() {

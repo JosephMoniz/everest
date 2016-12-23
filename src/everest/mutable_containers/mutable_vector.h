@@ -116,7 +116,7 @@ public:
   }
 
   template <class F>
-  void ForEach(F function) const noexcept {
+  void ForEach(const F& function) const noexcept {
     auto bucketSize    = _length;
     auto bucketPointer = Pointer();
     for (size_t i = 0; i < bucketSize; i++) {

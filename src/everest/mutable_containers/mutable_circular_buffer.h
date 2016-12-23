@@ -6,7 +6,7 @@
 namespace everest {
 
 template <class T>
-class CircularBuffer final {
+class MutableCircularBuffer final {
 
   MutableMemory<T> _memory;
 
@@ -20,11 +20,11 @@ class CircularBuffer final {
 
 public:
 
-  CircularBuffer(size_t size) noexcept : _memory(size),
-                                         _maxSize(size),
-                                         _size(0),
-                                         _start(0),
-                                         _end(0) { }
+  MutableCircularBuffer(size_t size) noexcept : _memory(size),
+                                                _maxSize(size),
+                                                _size(0),
+                                                _start(0),
+                                                _end(0) { }
 
   size_t Length() const noexcept {
     return _size;
@@ -32,6 +32,7 @@ public:
 
   bool IsEmpty() const noexcept {
     return _size == 0;
+
   }
 
   bool IsFull() const noexcept {
@@ -40,8 +41,8 @@ public:
 
   bool Enqueue(T&& item) {
     if (_size != _maxSize) {
-      auto pointer = _memory.MutablePointer();
-      pointer[_end] = std::move(item);
+      auto pointer  = _memory.MutablePointer();
+      pointer[_end] = std::move(item); // TODO: i dont't think this move is working
       _end = (_end + 1) % _maxSize;
       _size++;
       return true;
@@ -50,7 +51,7 @@ public:
     }
   }
 
-  T* Dequeue() {
+  T* Dequeue() noexcept {
     if (_size > 0) {
       auto pointer = _memory.MutablePointer();
       auto offset  = _start;

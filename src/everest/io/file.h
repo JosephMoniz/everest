@@ -58,10 +58,7 @@ public:
     }
   }
 
-  static Checked<int, File> OpenWithMode(const char* filePath,
-                                                  int flags,
-                                                  int mode) noexcept
-  {
+  static Checked<int, File> OpenWithMode(const char* filePath, int flags, int mode) noexcept {
     int fd = open(filePath, flags, mode);
     if (fd != -1) {
       return Checked<int, File>::Ok(File(fd, flags));

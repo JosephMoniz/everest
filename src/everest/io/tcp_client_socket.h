@@ -18,10 +18,6 @@ namespace everest {
 
 class TcpClientSocket final {
 
-  int _socket;
-
-  NetAddress _address;
-
   TcpClientSocket& SetReadTimeout(long seconds) noexcept {
     struct timeval time { .tv_sec = seconds, .tv_usec = 0 };
     setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, (char *)&time, sizeof(struct timeval));
@@ -39,6 +35,12 @@ class TcpClientSocket final {
   using SocketBuffer = MutableVector<char>;
 
 public:
+
+  int _socket;
+
+  NetAddress _address;
+
+  TcpClientSocket() noexcept : _socket(-1), _address() { }
 
   TcpClientSocket(int socket, const NetAddress& address) noexcept : _socket(socket), _address(address) { }
 
@@ -93,9 +95,9 @@ public:
   Checked<Error, SocketBuffer> Read(size_t bytes) noexcept {
     auto memory = MutableMemory<char>(bytes);
     auto result = read(_socket, memory.MutablePointer(), bytes);
-    return result != 1
-      ? Checked<int, MutableVector<char>>::Ok(MutableVector<char>(std::move(memory), (size_t)result))
-      : Checked<int, MutableVector<char>>::Error(errno);
+    return result != -1
+      ? Checked<Error, SocketBuffer>::Ok(MutableVector<char>(std::move(memory), (size_t)result))
+      : Checked<Error, SocketBuffer>::Error(errno);
   }
 
   Checked<Error, SocketBuffer> Read(size_t bytes, long timeout) noexcept {

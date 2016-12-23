@@ -1,38 +1,35 @@
 #pragma once
 
 #include <mutex>
-#include <everest/mutable_containers/mutable_vector.h>
+#include <everest/concurrency/channel_state.h>
 #include <everest/concurrency/channel_result.h>
-#include <everest/mutable_containers/circular_buffer.h>
+#include <everest/mutable_containers/mutable_vector.h>
+#include <everest/mutable_containers/mutable_circular_buffer.h>
 
 namespace everest {
 
 template <class T>
 class Channel final {
 
-  std::mutex _mutex;
-
-  std::condition_variable _fullConditionVariable;
-
-  std::condition_variable _emptyConditionVariable;
-
-  bool closed;
-
-  CircularBuffer<T> _circularBuffer;
+  std::shared_ptr<ChannelState<T>> _state;
 
   Channel<T>& PushThrough(T&& item) noexcept {
-    std::unique_lock<std::mutex> lock(_mutex);
-    if (_circularBuffer.IsFull()) {
-      _fullConditionVariable.wait(lock, []() { return closed || !_circularBuffer.IsFull(); });
-    }
-    _circularBuffer.Enqueue(std::move(item));
-    _emptyConditionVariable.notify_one();
+    auto lock = _state->ScopedLock();
+    _state->WaitForSpace(lock);
+    _state->CircularBuffer().Enqueue(std::move(item));
+    _state->NotifyReader();
+    return *this;
   }
 
   void CloseSink() noexcept {
-    std::unique_lock<std::mutex> lock(_mutex);
-    closed = true;
-    _emptyConditionVariable.notify_all();
+    auto lock = _state->ScopedLock();
+    _state->Close();
+    _state->NotifyAllReaders();
+    _state->NotifyAllWriters();
+  }
+
+  void Close() noexcept {
+    CloseSink();
   }
 
   Channel<T>& EnqueueInPlace(T&& item) {
@@ -40,65 +37,121 @@ class Channel final {
   }
 
   ChannelResult<T> DequeueWithMove() {
-    std::unique_lock<std::mutex> lock(_mutex);
-    _emptyConditionVariable.wait(lock, [&](){ return closed || !_circularBuffer.IsEmpty(); });
-    auto item = std::move(_circularBuffer.Dequeue());
-    _fullConditionVariable.notify_one();
-    return _circularBuffer.IsEmpty()
-      ? ChannelResult<T>::Done()
-      : ChannelResult<T>::More(std::move(item));
+    auto lock = _state->ScopedLock();
+    _state->WaitForItem(lock);
+    if(!_state->CircularBuffer().IsEmpty()) {
+      T item = std::move(_state->CircularBuffer().Dequeue()[0]);
+      _state->NotifyWriter();
+      return ChannelResult<T>::More(std::move(item));
+    } else {
+      ChannelResult<T>::Done();
+    }
   }
 
 public:
 
-  Channel(size_t size) noexcept : closed(false), _circularBuffer(size) { }
+  Channel() noexcept : _state(nullptr) { }
 
-  class ChannelSink final {
+  Channel(size_t size) noexcept : _state(std::make_shared<ChannelState<T>>(size)) { }
 
-    Channel& _channel;
+  Channel(std::shared_ptr<ChannelState<T>>& state) noexcept : _state(state) { }
+
+  Channel(const Channel<T>& other) noexcept : _state(other._state) { }
+
+  Channel(Channel<T>&& other) noexcept : _state(std::move(other._state)) { }
+
+  Channel& operator=(Channel<T>&& other) noexcept {
+    _state = std::move(other._state);
+    return *this;
+  }
+
+  bool IsOpen() const noexcept {
+    return _state->IsOpen();
+  }
+
+  bool IsClosed() const noexcept {
+    return _state->IsClosed();
+  }
+
+  class Sink final {
+
+    Channel<T> _channel;
 
   public:
 
-    ChannelSink(Channel& channel) noexcept : _channel(channel) { }
+    Sink(std::shared_ptr<ChannelState<T>>& state) noexcept : _channel(state) { }
 
     Channel<T>& PushThrough(T&& item) noexcept {
       return _channel.PushThrough(std::move(item));
     }
 
-    void CloseSink(T& sink) noexcept {
+    void CloseSink() noexcept {
       _channel.CloseSink();
     }
 
+    bool IsOpen() const noexcept {
+      return _channel.IsOpen();
+    }
+
+    bool IsClosed() const noexcept {
+      return _channel.IsClosed();
+    }
+
   };
 
-  class ChannelStream final {
+  class Stream final {
 
-    Channel& _channel;
+    Channel<T> _channel;
 
   public:
 
-    ChannelStream(Channel& channel) noexcept : _channel(channel) { }
+    Stream() noexcept : _channel() { }
 
-    ChannelResult<T> DequeueWithMove() {
+    Stream(std::shared_ptr<ChannelState<T>>& state) noexcept : _channel(state) { }
+
+    Stream(const Channel<T>::Stream& other) noexcept : _channel(other._channel) { }
+
+    Stream(Channel<T>&& other) noexcept : _channel(std::move(other)) { }
+
+    Stream(Channel<T>::Stream&& other) noexcept : _channel(std::move(other._channel)) { }
+
+    Stream& operator=(Channel<T>::Stream&& other) noexcept {
+      _channel = std::move(other._channel);
+      return *this;
+    }
+
+    ChannelResult<T> DequeueWithMove() noexcept {
       return _channel.DequeueWithMove();
     }
 
+    void Close() noexcept {
+      _channel.Close();
+    }
+
     template <class F>
-    void ForEach(F function) const noexcept {
+    void ForEach(F function) noexcept {
       ChannelResult<T> result;
       while ((result = _channel.DequeueWithMove()).IsMore()) {
-        function(result.Get());
+        function(result.GetMovable());
       }
+    }
+
+    bool IsOpen() const noexcept {
+      return _channel.IsOpen();
+    }
+
+    bool IsClosed() const noexcept {
+      return _channel.IsClosed();
     }
 
   };
 
-  ChannelSink GetSink() noexcept {
-    return ChannelSink(*this);
+  Sink GetSink() noexcept {
+    return Sink(this->_state);
   }
 
-  ChannelStream GetStream() noexcept {
-    return ChannelStream(*this);
+  Stream GetStream() noexcept {
+    return Stream(this->_state);
   }
 
 };

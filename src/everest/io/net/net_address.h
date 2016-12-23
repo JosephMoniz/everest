@@ -8,7 +8,8 @@ namespace everest {
 
 enum class AddressType {
   IPV4 = 0,
-  IPV6
+  IPV6,
+  UNINITIALIZED
 };
 
 class NetAddress final {
@@ -23,6 +24,8 @@ class NetAddress final {
   data_t _value;
 
 public:
+
+  NetAddress() noexcept : _tag(AddressType::UNINITIALIZED), _value() { }
 
   NetAddress(struct sockaddr_storage* address) noexcept : NetAddress((struct sockaddr *)address) { }
 

@@ -35,7 +35,7 @@ public:
     return _option.Get();
   }
 
-  T&& GetMovable() const noexcept {
+  T&& GetMovable() noexcept {
     return _option.GetMovable();
   }
 

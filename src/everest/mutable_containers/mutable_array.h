@@ -145,7 +145,7 @@ public:
     unsigned int result = 37;
     auto pointer = Pointer();
     for (size_t i = 0; i < S; i++) {
-      result = 37 * result + Hashable<T>::Hash(pointer[i]);
+      result = 37 * result + Hashable<T>::Hash(pointer[i]).Value();
     }
     return HashValue(result);
   }

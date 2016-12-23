@@ -63,7 +63,6 @@ set(SOURCE_FILES
         src/everest/containers/option/monad_plus.h
         src/everest/containers/option/unwrappable.h
         src/everest/containers/option/shows.h
-        src/everest/memory/shared.h
         src/everest/containers/option.h
         src/everest/mutable_containers/mutable_array.h
         tests/everest/containers/checked_spec.h
@@ -145,8 +144,6 @@ set(SOURCE_FILES
         src/everest/memory/memory.h
         src/everest/containers/array.h
         src/everest/containers/vector.h
-        src/everest/memory/shared/shared_container.h
-        src/everest/memory/unique.h
         tests/everest/containers/vector_spec.h
         src/everest/containers/vector/containable.h
         src/everest/containers/vector/container.h
@@ -771,7 +768,7 @@ set(SOURCE_FILES
         src/everest/concurrency/channel.h
         src/everest/traits/unlawful/mutable/mutable_queue.h
         src/everest/concurrency/channel_result.h
-        src/everest/mutable_containers/circular_buffer.h
+        src/everest/mutable_containers/mutable_circular_buffer.h
         src/everest/io/tcp_client_socket.h
         src/everest/pointer/traits/show.h
         src/everest/pointer/traits/all_traits.h
@@ -797,7 +794,15 @@ set(SOURCE_FILES
         src/everest/io/net/net_address.h
         tests/everest/io/tcp_client_server_spec.h
         src/everest/traits/unlawful/mutable/mutable_subtract.h
-        src/everest/traits/unlawful/service.h src/everest/strings/boxed_string.h)
+        src/everest/traits/unlawful/service.h
+        src/everest/flags/binary_feature_flag.h
+        tests/everest/mutable_containers/mutable_circular_buffer_spec.h
+        src/everest/concurrency/worker_pools/single_worker.h
+        src/everest/concurrency/worker_pools/fixed_worker_pool.h
+        src/everest/flags/override/feature_flag_override.h
+        src/everest/flags/override/object_matcher.h
+        src/everest/flags/multi_variant_feature_flag.h
+        src/everest/concurrency/channel_state.h)
 
 add_executable(everest ${SOURCE_FILES})
 

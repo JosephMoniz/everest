@@ -40,6 +40,10 @@ public:
 
   Vector(MutableMemory<T>&& memory) noexcept : _wrapped(std::move(memory)) { }
 
+  Vector<T>& operator=(Vector<T>&& other) noexcept {
+    _wrapped = std::move(other._wrapped);
+  }
+
   Option<const T&> At(size_t offset) const noexcept {
     if (offset < Length(_wrapped)) {
       return Option<const T&>::Some(Pointer(_wrapped)[offset]);

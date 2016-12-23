@@ -10,6 +10,8 @@
 #include <everest/io/net/net_address_info.h>
 #include <everest/io/tcp_client_socket.h>
 #include <everest/io/net/net_address.h>
+#include <everest/concurrency/channel.h>
+#include <thread>
 
 namespace everest {
 
@@ -20,6 +22,8 @@ class TcpServerSocket final {
   using Error = int;
 
 public:
+
+  using AcceptResult = Checked<Error, TcpClientSocket>;
 
   TcpServerSocket(int socket) noexcept : _socket(socket) { }
 
@@ -65,7 +69,7 @@ public:
     );
   }
 
-  Checked<Error, TcpClientSocket> Accept() noexcept {
+  AcceptResult Accept() noexcept {
     socklen_t sin_size;
     struct sockaddr_storage their_addr;
     auto remoteSocket = accept(_socket, (struct sockaddr *)&their_addr, &sin_size);
@@ -75,6 +79,42 @@ public:
     } else {
       return Checked<Error, TcpClientSocket>::Error(errno);
     }
+  }
+
+  class AcceptStreamContainer {
+
+    Channel<AcceptResult> _channel;
+
+    std::thread _thread;
+
+  public:
+
+    AcceptStreamContainer(Channel<AcceptResult>& channel,
+                          std::thread&& thread) noexcept : _channel(std::move(channel)),
+                                                           _thread(std::move(thread))
+    { }
+
+    Channel<AcceptResult>::Stream GetStream() noexcept {
+      return _channel.GetStream();
+    }
+
+    void Join() noexcept {
+      _thread.join();
+    }
+
+  };
+
+  AcceptStreamContainer AcceptStream(size_t queueSize) noexcept {
+    Channel<AcceptResult> channel(queueSize);
+    auto socketFd = _socket;
+    auto thread   = std::thread([channel, socketFd]() mutable {
+      TcpServerSocket socket(socketFd);
+      auto sink   = channel.GetSink();
+      while(sink.IsOpen()) {
+        sink.PushThrough(socket.Accept());
+      }
+    });
+    return AcceptStreamContainer(channel, std::move(thread));
   }
 
 };
